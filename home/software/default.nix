@@ -4,5 +4,7 @@
     ./vesktop
     ./obs
     ./spotify
+    ./vscode
+    ./helix
   ];
 }

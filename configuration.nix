@@ -4,11 +4,13 @@
 {
   config,
   lib,
+  inputs,
   pkgs,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
+    ./greetd.nix
   ];
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -64,7 +66,7 @@
   # Enable the GNOME Desktop Environment.
   #  services.xserver.displayManager.gdm.enable = true;
   #  services.xserver.desktopManager.gnome.enable = true;
-  services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -125,6 +127,8 @@
       (nerdfonts.override {fonts = ["UbuntuSans" "SpaceMono" "Mononoki" "NerdFontsSymbolsOnly"];})
     ];
   };
+
+  nixpkgs.overlays = [inputs.catppuccin-vsc.overlays.default];
 
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;

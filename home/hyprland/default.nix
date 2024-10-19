@@ -6,8 +6,9 @@
   imports = [
     ./services/ags
     ./services/wallpapers
-    #./services/hypridle.nix
-    #./services/hyprlock.nix
+    ./services/pfp
+    ./services/hypridle.nix
+    ./services/hyprlock.nix
     #./services/wlogout.nix
     ./services/gnome-keyring.nix
 

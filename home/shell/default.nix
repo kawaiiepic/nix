@@ -3,7 +3,7 @@
     ./starship.nix
   ];
 
-  home.packages = with pkgs; [eza fzf fd bat];
+  home.packages = with pkgs; [eza fzf fd bat btop];
 
   programs = {
     direnv = {

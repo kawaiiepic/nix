@@ -14,6 +14,8 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
   };
 
   outputs = inputs:
