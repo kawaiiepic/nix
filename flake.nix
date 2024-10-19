@@ -39,7 +39,7 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs;};
 
-            home-manager.users.mia = import ./home.nix;
+            home-manager.users.mia = import ./home;
           }
           ./configuration.nix
         ];
