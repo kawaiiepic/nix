@@ -1,0 +1,131 @@
+@use "../color";
+
+.launcher {
+  padding-left: 5pt;
+  padding-top: 4pt;
+  padding-bottom: 4pt;
+  font-size: 14pt;
+}
+
+.workspaces {
+  padding-left: 15px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+
+  label {
+    font-size: 0;
+    min-width: 7pt;
+    min-height: 7pt;
+    border-radius: 7pt;
+    box-shadow: inset 0 0 0 20pt color.$surface0;
+    margin: 0 2.5pt;
+    transition: min-width 0.5s ease-out;
+
+    &.occupied {
+      box-shadow: inset 0 0 0 20pt color.$text;
+    }
+
+    &.active {
+      box-shadow: inset 0 0 0 20pt color.$text;
+      min-width: 28pt;
+      min-height: 10pt;
+    }
+  }
+}
+
+.client-title {
+  padding: 0 10pt 0 10pt;
+  font-size: 10pt;
+}
+
+.date {
+  label {
+    font-size: 12pt;
+    font-weight: bold;
+  }
+
+  & .date {
+    font-size: 8pt;
+    font-style: italic;
+    color: color.$overlay1;
+  }
+}
+
+.media-icon {
+  font-size: 13pt;
+  color: color.$subtext0;
+  // padding-right: 10px;
+}
+
+.media-name {
+  font-size: 11pt;
+  color: color.$subtext0;
+  font-style: italic;
+}
+
+.media-buttons {
+  label {
+    font-size: 11pt;
+    color: color.$subtext0;
+    // padding-left: 5pt;
+    // padding-right: 5pt;
+  }
+}
+
+.systray {
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0px 0px;
+  font-size: 1.2em;
+}
+
+.icons {
+  font-size: 1.5em;
+}
+
+.profile-pic {
+  min-width: 25px;
+  min-height: 25px;
+  margin: 5px;
+}
+
+.profile-pic box {
+  min-width: 25px;
+  min-height: 25px;
+  border-radius: 100%;
+}
+
+.right-side {
+  padding: 20px;
+}
+
+.small-icon {
+  min-width: 48px;
+  min-height: 48px;
+  margin-right: 1em;
+}
+
+.small-icon image {
+  font-size: 58px;
+  /* to center the icon */
+  margin: 5px;
+  color: color.$text;
+}
+
+.small-icon box {
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 7px;
+}
+
+.small-box {
+  background-color: transparent;
+}
+
+.microphone-muted {
+  color: color.$overlay1;
+}
+
+.microphone-open {
+  color: color.$red;
+}

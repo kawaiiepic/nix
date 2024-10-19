@@ -5,6 +5,7 @@
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
     nur = {url = "github:nix-community/NUR";};
     jovian-nixos = {url = "github:Jovian-Experiments/Jovian-NixOS";};
+    home-manager = {url = "github:nix-community/home-manager";};
   };
 
   outputs = inputs:
@@ -27,6 +28,7 @@
         system = "x86_64-linux";
         modules = [
           inputs.jovian-nixos.nixosModules.default
+          inputs.home-manager.nixosModules.default
           ./configuration.nix
         ];
         specialArgs = {inherit inputs;};

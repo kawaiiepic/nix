@@ -1,0 +1,12 @@
+@use "color";
+
+@use "bar/bar";
+@use "clock/clock";
+@use "profile/profile";
+@use "notification/notification";
+
+window.bar {
+  background-color: color.$base;
+  color: color.$text;
+}
+
