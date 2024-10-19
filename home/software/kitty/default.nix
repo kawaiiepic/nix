@@ -34,7 +34,7 @@
       strip_trailing_spaces = "smart";
       confirm_os_window_close = 0;
       cursor_shape = "underline";
-      background_opacity = "0.98";
+      background_opacity = "0.92";
       # background_opacity = lib.mkForce "0.50";
       # background_blur = 10;
       # background_tint = "0.5";
