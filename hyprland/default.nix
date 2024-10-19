@@ -26,6 +26,7 @@
       nautilus
       file-roller
 
+      kitty
       grimblast # Screenshot utility
       libcanberra-gtk3 # Sound utility
       wtype # Auto-typing

@@ -127,8 +127,6 @@
     ];
   };
 
-  home-manager.users.mia = ./home.nix;
-
   programs.fish.enable = true;
 
   programs.nh = {
