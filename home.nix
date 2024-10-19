@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./hyprland
+    ./software
   ];
   #   home.packages = [ pkgs.atool pkgs.httpie ];
   programs.fish.enable = true;

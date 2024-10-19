@@ -1,0 +1,84 @@
+@use "../color";
+
+window.profile {
+  background-color: transparent;
+}
+
+.profile {
+  background-color: color.$base;
+  min-width: 300px;
+  min-height: 300px;
+  border-radius: 11px;
+  padding: 0.8em;
+  margin: 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-pfp {
+  min-width: 36px;
+  min-height: 36px;
+  // margin: 5px;
+}
+
+.profile-pfp box {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 100%;
+}
+
+.battery {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.battery-icon {
+  font-size: 1em;
+}
+
+.battery-text {
+  font-size: 8px;
+}
+
+.profile-small-button {
+  min-width: 25px;
+  min-height: 25px;
+}
+
+.profile-small-button-icon {
+  font-size: 10pt;
+}
+
+.profile-normal-button {
+  min-width: 48px;
+  min-height: 48px;
+
+  &:checked {
+    background-color: rgba(color.$sapphire, 0.5);
+  }
+}
+
+.indicator {
+  min-width: 48px;
+  min-height: 48px;
+
+  &:checked {
+    background-color: rgba(color.$red, 0.5);
+  }
+}
+
+.profile-normal-button-icon {
+  color: color.$text;
+  font-size: 18pt;
+}
+
+.profile-normal-button-label {
+  color: color.$text;
+  font-size: 15pt;
+}
+
+.profile-progressbar {
+  progressbar > trough > progress {
+    color: pink;
+    background-color: pink;
+  }
+}
