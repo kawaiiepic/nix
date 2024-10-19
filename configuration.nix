@@ -101,9 +101,56 @@
     jq
     zenity
     mangohud
+    rclone
+    toybox
   ];
 
+  fonts = {
+    enableDefaultPackages = true;
+
+    fontconfig = {
+      defaultFonts = {
+        sansSerif = ["UbuntuSans Nerd Font"];
+        monospace = ["UbuntuSansMono Nerd Font"];
+      };
+    };
+    packages = with pkgs; [
+      # icon fonts
+      material-symbols
+      # normal fonts
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+
+      # nerdfonts
+      (nerdfonts.override {fonts = ["UbuntuSans" "SpaceMono" "Mononoki" "NerdFontsSymbolsOnly"];})
+    ];
+  };
+
+  home-manager.users.mia = ./home.nix;
+
+  programs.nh = {
+    enable = true;
+    # weekly cleanup
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 4d --keep 3";
+    };
+  };
+
+  programs.hyprland = {
+    enable = true;
+  };
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
+  services.blueman.enable = true;
+
   programs.gnupg.agent.enable = true;
+
+  jovian.decky-loader.enable = true;
+  jovian.steam.desktopSession = "plasma";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

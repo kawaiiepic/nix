@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
     nur = {url = "github:nix-community/NUR";};
+    jovian-nixos = {url = "github:Jovian-Experiments/Jovian-NixOS";};
   };
 
   outputs = inputs:
@@ -25,15 +26,8 @@
       dreamhouse = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          inputs.jovian-nixos.nixosModules.default
           ./configuration.nix
-        ];
-        specialArgs = {inherit inputs;};
-      };
-
-      deck = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./deck.nix
         ];
         specialArgs = {inherit inputs;};
       };
