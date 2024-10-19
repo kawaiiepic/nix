@@ -3,10 +3,6 @@
   lib,
   ...
 }: {
-  imports = [
-    ./qt.nix
-  ];
-
   home.packages = with pkgs; [flat-remix-icon-theme];
 
   gtk = {
