@@ -19,6 +19,11 @@
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
           "${pkgs.blueman}/bin/blueman-applet"
         ];
+        
+        master = {
+            mfact = "0.60";
+            orientation = "right";
+        };
 
         general = {
           gaps_in = 2;
@@ -26,11 +31,11 @@
           border_size = 2;
           "col.active_border" = "rgba(1e1e2eff) rgba(3a3144ff) 10deg";
           "col.inactive_border" = "rgba(1e1e2eff) rgba(314444ff) 10deg";
-          layout = "dwindle";
+          layout = "master";
           resize_on_border = true;
-          allow_tearing = false;
+          allow_tearing = true;
           monitor = [
-            "DP-1,highrr,0x0,1.5,vrr,1"
+            "DP-1,highrr,0x0,1.25,vrr,1"
             "HDMI-A-1,highrr,2048x0,auto,vrr,0"
             "DP-2,highres,3968x0,2,vrr,0,transform,2"
           ];
@@ -82,7 +87,7 @@
           #vfr = 0;
           key_press_enables_dpms = true;
           disable_autoreload = true;
-          enable_swallow = true;
+          enable_swallow = false;
           swallow_regex = "kitty";
           focus_on_activate = true;
           new_window_takes_over_fullscreen = 2;
@@ -141,7 +146,7 @@
           "$MOD, F, fullscreen,2"
           "$MODSHIFT, F, fullscreen, 1"
           "$MOD, Escape, exec, wlogout -p layer-shell"
-          "$MOD, L, exec, loginctl lock-session"
+          "$MOD, L, exec, pidof hyprlock || hyprlock"
           "$MOD, Space, togglefloating"
           # "$MOD, R,  overview:toggle, all"
           "$MODSHIFT, R, hyprexpo:expo, toggle"
@@ -155,7 +160,7 @@
           "$MODSHIFT, A, movetoworkspace, special"
           "$MOD, K, movefocus, u"
           "$MOD, J, movefocus, d"
-          "$MOD, L, movefocus, r"
+          "$MODSHIFT, L, movefocus, r"
           "$MOD, H, movefocus, l"
 
           "$MOD, J, togglegroup"
@@ -256,8 +261,8 @@
           # "bordercolor rgba(aa336a80) rgba(aa336a80),floating:1" # noborder
           # "bordersize 0,floating:1"
 
-          # "immediate, class:^(.*steam_app.*)$"
-          "immediate, class:^(steam_app_252950)$"
+          "immediate, class:^(.*steam_app.*)$"
+          # "immediate, class:^(steam_app_252950)$"
         ];
 
         plugin = {

@@ -71,10 +71,13 @@
   dependencies = with pkgs; [
     dart-sass
     esbuild
+    bun
     pinfo
     jq
     pipewire
     swayosd
+    # ags-wrap
+    pywal
 
     toybox
     amdgpu_top
@@ -82,6 +85,7 @@
   ];
 in {
   services.xembed-sni-proxy.enable = true;
+  
 
   systemd.user.services = {
     ags = {

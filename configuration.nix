@@ -12,14 +12,33 @@
     ./hardware-configuration.nix
     ./greetd.nix
   ];
+
   # Use the systemd-boot EFI boot loader.
+  boot.kernelPackages = pkgs.linuxPackages_cachyos;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  chaotic.scx = {
+        enable = true;
+        scheduler = "scx_lavd"; # Default: scx_rustland
+      };
+
+  networking.firewall.enable = false;
+
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
+
+  chaotic.mesa-git = {
+      # TODO: Move to Gaming.
+      enable = true;
+      #fallbackSpecialisation = false;
+
+      extraPackages = with pkgs; [mesa_git.opencl];
+    };
 
   programs.steam = {
     enable = true;
@@ -63,6 +82,12 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  hardware.wooting.enable = true;
+  
+  services.gvfs = {
+    enable = true;
+  };
+
   # Enable the GNOME Desktop Environment.
   #  services.xserver.displayManager.gdm.enable = true;
   #  services.xserver.desktopManager.gnome.enable = true;
@@ -85,7 +110,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mia = {
     isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "input"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       helix
     ];
@@ -104,7 +129,18 @@
     mangohud
     rclone
     toybox
+    playerctl
+    (zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib]))
+    clang-tools
+    nixd
+    scx
+    firedragon
+    latencyflex-vulkan
+    openssl_3
+    tessen
   ];
+  
+  security.sudo.wheelNeedsPassword = false;
 
   fonts = {
     enableDefaultPackages = true;
@@ -120,7 +156,7 @@
       material-symbols
       # normal fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
 
       # nerdfonts
@@ -128,7 +164,13 @@
     ];
   };
 
-  nixpkgs.overlays = [inputs.catppuccin-vsc.overlays.default];
+  services.ananicy = {
+  enable = true;
+  package = pkgs.ananicy-cpp;
+  rulesProvider = pkgs.ananicy-rules-cachyos;
+  };
+
+  nixpkgs.overlays = [inputs.catppuccin-vsc.overlays.default inputs.hyprpanel.overlay];
 
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;

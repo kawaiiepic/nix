@@ -15,14 +15,8 @@
 
       listener = [
         {
-          timeout = 150;
-          onTimeout = "dimmer"; ## Brightness Dim.
-          onResume = "pkill dimmer; dimmer -r"; ## Brightness restore.
-        }
-
-        {
           timeout = 300;
-          onTimeout = "loginctl lock-session";
+          onTimeout = "pidof hyprlock || hyprlock";
         }
 
         {

@@ -16,28 +16,63 @@
     enable = true;
     settings = {
       logo = {
-        source = "~/.face"; ## ${toString ../../../services/pfp/face.jpg}
+        source = "nixos_small";
         padding = {
           right = 1;
         };
       };
       display = {
-        size.binaryPrefix = "si";
+        size = {
+          binaryPrefix = "si";
+        };
         color = "blue";
         separator = "  ";
       };
       modules = [
         {
-          type = "datetime";
-          key = "Date";
-          format = "{1}-{3}-{11}";
+            type = "colors";
+            symbol = "circle";
         }
         {
-          type = "datetime";
-          key = "Time";
-          format = "{14}:{17}:{20}";
+            type = "os";
         }
-        "break"
+        {
+            type = "kernel";
+        }
+        {
+            type = "packages";
+        }
+        {
+            type = "shell";
+        }
+        "separator"
+        {
+            type = "wm";
+        }
+        {
+            type = "theme";
+        }
+        {
+            type = "font";
+        }
+        {
+            type = "terminal";
+        }
+        "separator"
+        {
+            type = "cpu";
+        }
+        {
+            type = "gpu";
+        }
+        {
+            type = "memory";
+        }
+        "separator"
+        {
+            type = "uptime";
+        }
+        "separator"
         "player"
         "media"
       ];

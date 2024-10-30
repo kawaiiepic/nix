@@ -11,7 +11,7 @@ App.config({
   },
   windows: () => [
     Bar(),
-    // Clock(),
+    Clock(),
     // Profile(),
     NotificationPopups(),
     breadcrumb(),

@@ -6,6 +6,7 @@
     nur = {url = "github:nix-community/NUR";};
     jovian-nixos = {url = "github:Jovian-Experiments/Jovian-NixOS";};
     home-manager = {url = "github:nix-community/home-manager";};
+    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +17,11 @@
     };
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    lix-module = {
+          url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
+          inputs.nixpkgs.follows = "nixpkgs";
+        };
   };
 
   outputs = inputs:
@@ -37,7 +43,9 @@
       dreamhouse = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+        inputs.chaotic.nixosModules.default
           inputs.jovian-nixos.nixosModules.default
+          inputs.lix-module.nixosModules.default
           # inputs.home-manager.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
