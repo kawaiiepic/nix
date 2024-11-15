@@ -65,7 +65,7 @@
 
   ags-wrap = pkgs.writeShellScript "ags-wrap" ''
     export PATH=$PATH:${addBins dependencies}
-    ${ags}/bin/ags -c ${toString ./config/config.js} $@
+    ${ags}/bin/ags run ${toString ./config/config.js} $@
   '';
 
   dependencies = with pkgs; [
@@ -85,7 +85,7 @@
   ];
 in {
   services.xembed-sni-proxy.enable = true;
-  
+
 
   systemd.user.services = {
     ags = {

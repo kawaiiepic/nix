@@ -187,9 +187,9 @@
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPrev, exec, playerctl previous"
 
-          "$MOD,G,pass,^(com\.obsproject\.Studio)$"
-          "$MOD,G,exec,notify-send 'Clip Saved'"
-          "$MODSHIFT,G,pass,^(com\.obsproject\.Studio)$"
+          "CTRL+SHIFT,G,pass,^(com\.obsproject\.Studio)$"
+          "CTRL+SHIFT,G,exec,notify-send 'Clip Saved'"
+          # "$MODSHIFT,G,pass,^(com\.obsproject\.Studio)$"
         ];
 
         bindel = [
@@ -261,7 +261,8 @@
           # "bordercolor rgba(aa336a80) rgba(aa336a80),floating:1" # noborder
           # "bordersize 0,floating:1"
 
-          "immediate, class:^(.*steam_app.*)$"
+          "immediate, class:^(steam_app.*)$"
+          "immediate, class:^(rocketleague.exe)$"
           # "immediate, class:^(steam_app_252950)$"
         ];
 

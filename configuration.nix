@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+ # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
@@ -18,10 +18,20 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  chaotic.scx = {
-        enable = true;
-        scheduler = "scx_lavd"; # Default: scx_rustland
-      };
+  security.rtkit.enable = true;
+   services.pipewire = {
+     enable = true;
+     alsa.enable = true;
+     alsa.support32Bit = true;
+     pulse.enable = true;
+     # If you want to use JACK applications, uncomment this
+     #jack.enable = true;
+   };
+
+  # chaotic.scx = {
+  #       enable = true;
+  #       scheduler = "scx_lavd"; # Default: scx_rustland
+  #     };
 
   networking.firewall.enable = false;
 
@@ -83,7 +93,7 @@
   services.xserver.enable = true;
 
   hardware.wooting.enable = true;
-  
+
   services.gvfs = {
     enable = true;
   };
@@ -130,16 +140,18 @@
     rclone
     toybox
     playerctl
-    (zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib]))
+    (zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib openssl_3]))
     clang-tools
     nixd
-    scx
-    firedragon
+    # scx
     latencyflex-vulkan
     openssl_3
     tessen
+    gthumb
+    inputs.ags.packages.${pkgs.system}.default
+
   ];
-  
+
   security.sudo.wheelNeedsPassword = false;
 
   fonts = {
