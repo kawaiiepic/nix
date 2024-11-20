@@ -8,12 +8,14 @@
   home.packages = with pkgs; [
     (inputs.ags.lib.bundle {
           inherit pkgs;
-          src = ./.;
+          src = ./config;
           name = "my-shell"; # name of executable
           entry = "app.ts";
 
           # additional libraries and executables to add to gjs' runtime
           extraPackages = [
+             ags.packages.${system}.hyprland
+             ags.packages.${system}.notifd
             # ags.packages.${system}.battery
             # pkgs.fzf
           ];
