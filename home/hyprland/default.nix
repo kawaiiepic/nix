@@ -4,8 +4,8 @@
   ...
 }: {
   imports = [
-    ./services/ags
-    ./services/wallpapers
+    ./services/ags/config
+    # ./services/wallpapers
     ./services/pfp
     ./services/hypridle.nix
     ./services/hyprlock.nix
@@ -43,27 +43,27 @@
       XDG_SESSION_TYPE = "wayland";
       HYPRCURSOR_THEME = "GoogleDot-Violet";
       HYPRCURSOR_SIZE = 24;
-      WLR_DRM_DEVICES = "/home/mia/.config/hypr/card";
+      # WLR_DRM_DEVICES = "/home/mia/.config/hypr/card";
       NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = "1";
     };
   };
 
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      ipc = "on";
-      splash = false;
-      splash_offset = 2.0;
-    };
-  };
-
-  # services.gammastep = {
-  #   enable = true;
-  #   provider = "manual";
-  #   latitude = 42.2;
-  #   longitude = -83.3;
+  # services.hyprpaper = {
+  #   enable = false;
+  #   settings = {
+  #     ipc = "on";
+  #     splash = false;
+  #     splash_offset = 2.0;
+  #   };
   # };
+
+  services.gammastep = {
+    enable = true;
+    provider = "manual";
+    latitude = 42.2;
+    longitude = -83.3;
+  };
 
   # enable hyprland
   wayland.windowManager.hyprland = {

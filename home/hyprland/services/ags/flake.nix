@@ -17,9 +17,10 @@
         # includes astal3 astal4 astal-io by default
         (ags.packages.${system}.default.overrideAttrs {
           extraPackages = [
-            # cherry pick packages
+            ags.packages.${system}.notifd
           ];
         })
+        ags.packages.${system}.notifd
       ];
     };
   };

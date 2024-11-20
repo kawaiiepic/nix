@@ -28,10 +28,10 @@
      #jack.enable = true;
    };
 
-  # chaotic.scx = {
-  #       enable = true;
-  #       scheduler = "scx_lavd"; # Default: scx_rustland
-  #     };
+  chaotic.scx = {
+        enable = true;
+        scheduler = "scx_lavd"; # Default: scx_rustland
+      };
 
   networking.firewall.enable = false;
 
@@ -92,7 +92,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  hardware.wooting.enable = true;
+  # hardware.wooting.enable = true;
 
   services.gvfs = {
     enable = true;
@@ -142,14 +142,11 @@
     playerctl
     (zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib openssl_3]))
     clang-tools
-    nixd
     # scx
     latencyflex-vulkan
     openssl_3
     tessen
     gthumb
-    inputs.ags.packages.${pkgs.system}.default
-
   ];
 
   security.sudo.wheelNeedsPassword = false;
@@ -182,7 +179,7 @@
   rulesProvider = pkgs.ananicy-rules-cachyos;
   };
 
-  nixpkgs.overlays = [inputs.catppuccin-vsc.overlays.default inputs.hyprpanel.overlay];
+  nixpkgs.overlays = [inputs.catppuccin-vsc.overlays.default];
 
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;

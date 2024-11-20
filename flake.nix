@@ -3,10 +3,8 @@
 
   inputs = {
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
-    nur = {url = "github:nix-community/NUR";};
     jovian-nixos = {url = "github:Jovian-Experiments/Jovian-NixOS";};
-    home-manager = {url = "github:nix-community/home-manager";};
-    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
+    home-manager = {url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "nixpkgs";};
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,7 +44,6 @@
           inputs.chaotic.nixosModules.default
           inputs.jovian-nixos.nixosModules.default
           inputs.lix-module.nixosModules.default
-          # inputs.home-manager.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

@@ -10,8 +10,8 @@
     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
   in {
     enable = true;
-    theme = spicePkgs.themes.catppuccin;
-    colorScheme = "mocha";
+    theme = spicePkgs.themes.text;
+    colorScheme = "CatppuccinMocha";
 
     enabledExtensions = with spicePkgs.extensions; [
       shuffle # shuffle+ (special characters are sanitized out of ext names)
