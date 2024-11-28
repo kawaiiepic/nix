@@ -1,7 +1,8 @@
 {
   imports = [
     ./kitty
-    ./vesktop
+    # ./vesktop
+    ./discord
     ./obs
     ./spotify
     ./vscode

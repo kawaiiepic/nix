@@ -26,7 +26,7 @@
           binaryPrefix = "si";
         };
         color = "blue";
-        separator = "  ";
+        separator = " 5";
       };
       modules = [
         {

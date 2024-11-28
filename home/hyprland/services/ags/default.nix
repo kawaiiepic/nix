@@ -13,26 +13,43 @@
           entry = "app.ts";
 
           # additional libraries and executables to add to gjs' runtime
-          extraPackages = [
-             ags.packages.${system}.hyprland
-             ags.packages.${system}.notifd
-            # ags.packages.${system}.battery
-            # pkgs.fzf
+          extraPackages = with inputs.ags.packages.${system}; [
+             hyprland
+             notifd
+             mpris
+             wireplumber
+             network
+             tray
           ];
         })
   ];
 
-  # systemd.user.services = {
-  #   ags = {
-  #     Unit = {
-  #       Description = "ags service";
-  #     };
+  systemd.user.services = {
+    ags = {
+      Unit = {
+        Description = "ags service";
+      };
 
-  #     Install.WantedBy = ["hyprland-session.target"];
+      Install.WantedBy = ["hyprland-session.target"];
 
-  #     Service = {
-  #       ExecStart = ''${ags-wrap}'';
-  #     };
-  #   };
-  # };
+      Service = {
+        ExecStart = ''${(inputs.ags.lib.bundle {
+              inherit pkgs;
+              src = ./config;
+              name = "my-shell"; # name of executable
+              entry = "app.ts";
+    
+              # additional libraries and executables to add to gjs' runtime
+              extraPackages = with inputs.ags.packages.${pkgs.system}; [
+                 hyprland
+                 notifd
+                 mpris
+                 wireplumber
+                 network
+                 tray
+              ];
+            })}/bin/my-shell'';
+      };
+    };
+  };
 }

@@ -16,10 +16,14 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    zen-browser.url = "github:matthewpi/nixpkgs/zen-browser";
     lix-module = {
           url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
           inputs.nixpkgs.follows = "nixpkgs";
         };
+        inputs.nixcord = {
+            url = "github:kaylorben/nixcord";
+          };
   };
 
   outputs = inputs:

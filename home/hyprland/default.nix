@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ./services/ags/config
+    ./services/ags
     # ./services/wallpapers
     ./services/pfp
     ./services/hypridle.nix

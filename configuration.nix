@@ -28,9 +28,9 @@
      #jack.enable = true;
    };
 
-  chaotic.scx = {
+  services.scx = {
         enable = true;
-        scheduler = "scx_lavd"; # Default: scx_rustland
+        scheduler = "scx_rustland";
       };
 
   networking.firewall.enable = false;
@@ -140,13 +140,14 @@
     rclone
     toybox
     playerctl
-    (zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib openssl_3]))
+    (zed-editor.fhsWithPackages (pkgs: [ zlib openssl_3]))
     clang-tools
     # scx
     latencyflex-vulkan
     openssl_3
     tessen
     gthumb
+    # inputs.zen-browser.legacyPackages.${system}.zen-browser
   ];
 
   security.sudo.wheelNeedsPassword = false;
@@ -207,6 +208,11 @@
 
   jovian.decky-loader.enable = true;
   jovian.steam.desktopSession = "plasma";
+
+  nix.settings = {
+      substituters = [ "https://ezkea.cachix.org" ];
+      trusted-public-keys = [ "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI=" ];
+    };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

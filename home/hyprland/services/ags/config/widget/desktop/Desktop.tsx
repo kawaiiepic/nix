@@ -1,13 +1,5 @@
 import GObject from "gi://GObject";
-import {
-  App,
-  Astal,
-  Gtk,
-  Gdk,
-  Widget,
-  astalify,
-  type ConstructProps,
-} from "astal/gtk3";
+import { App, Astal, Gtk, Gdk, Widget, astalify, type ConstructProps } from "astal/gtk3";
 import { Variable } from "astal";
 
 import Launcher from "./launcher/launcher";
@@ -59,24 +51,12 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
       className="desktop"
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.IGNORE}
-      anchor={
-        Astal.WindowAnchor.TOP |
-        Astal.WindowAnchor.LEFT |
-        Astal.WindowAnchor.RIGHT |
-        Astal.WindowAnchor.BOTTOM
-      }
+      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.BOTTOM}
       layer="BACKGROUND"
     >
       <eventbox onClick={yes}>
-        <box css="background-image: url('https://images.alphacoders.com/131/thumb-1920-1311951.jpg');">
-          <label
-            yalign="0.9"
-            valign="END"
-            halign="CENTER"
-            hexpand="true"
-            vexpand="true"
-            label="Splash message"
-          ></label>
+        <box css="background-image: url('/home/mia/Nextcloud/Photos/Wallpapers/background.png');">
+          <label yalign="0.9" valign="END" halign="CENTER" hexpand="true" vexpand="true" label="Splash message"></label>
         </box>
       </eventbox>
     </window>
@@ -93,7 +73,7 @@ class Menu extends astalify(Gtk.Menu) {
       Menu,
       Gtk.Menu.ConstructorProps,
       { onColorSet: [] } // signals of Gtk.ColorButton have to be manually typed
-    >
+    >,
   ) {
     super(props as any);
   }
@@ -109,7 +89,7 @@ class MenuItem extends astalify(Gtk.MenuItem) {
       MenuItem,
       Gtk.MenuItem.ConstructorProps,
       { onColorSet: [] } // signals of Gtk.ColorButton have to be manually typed
-    >
+    >,
   ) {
     super(props as any);
   }
@@ -125,7 +105,7 @@ class SeparatorMenuItem extends astalify(Gtk.SeparatorMenuItem) {
       MenuItem,
       Gtk.SeparatorMenuItem.ConstructorProps,
       { onColorSet: [] } // signals of Gtk.ColorButton have to be manually typed
-    >
+    >,
   ) {
     super(props as any);
   }
