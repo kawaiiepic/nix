@@ -9,6 +9,7 @@
   ...
 }: {
   imports = [
+    inputs.aagl.nixosModules.default
     ./hardware-configuration.nix
     ./greetd.nix
   ];
@@ -28,10 +29,10 @@
      #jack.enable = true;
    };
 
-  services.scx = {
-        enable = true;
-        scheduler = "scx_rustland";
-      };
+  # services.scx = {
+  #       enable = true;
+  #       scheduler = "scx_rustland";
+  #     };
 
   networking.firewall.enable = false;
 
@@ -64,6 +65,10 @@
       capSysNice = true;
     };
   };
+  
+  programs.honkers-railway-launcher.enable = true;
+    programs.wavey-launcher.enable = true;
+    programs.sleepy-launcher.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -147,8 +152,11 @@
     openssl_3
     tessen
     gthumb
+    nexusmods-app-unfree
     # inputs.zen-browser.legacyPackages.${system}.zen-browser
   ];
+
+   zramSwap.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
 
@@ -170,7 +178,8 @@
       noto-fonts-emoji
 
       # nerdfonts
-      (nerdfonts.override {fonts = ["UbuntuSans" "SpaceMono" "Mononoki" "NerdFontsSymbolsOnly"];})
+      # nerd-fonts.spacemono
+      # (nerd-fonts.override {fonts = ["UbuntuSans" "SpaceMono" "Mononoki" "NerdFontsSymbolsOnly"];})
     ];
   };
 

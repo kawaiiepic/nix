@@ -3,8 +3,10 @@
 
   inputs = {
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
+    nix-master = {url = "github:nixos/nixpkgs/master";};
     jovian-nixos = {url = "github:Jovian-Experiments/Jovian-NixOS";};
     home-manager = {url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "nixpkgs";};
+    aagl = {url = "github:ezKEa/aagl-gtk-on-nix"; inputs.nixpkgs.follows = "nixpkgs";};
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,7 +23,7 @@
           url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
           inputs.nixpkgs.follows = "nixpkgs";
         };
-        inputs.nixcord = {
+        nixcord = {
             url = "github:kaylorben/nixcord";
           };
   };
@@ -43,6 +45,8 @@
   in {
     nixosConfigurations = {
       dreamhouse = inputs.nixpkgs.lib.nixosSystem {
+        # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
+        # nixpkgs.config = {allowUnfree=true;};
         system = "x86_64-linux";
         modules = [
           inputs.chaotic.nixosModules.default

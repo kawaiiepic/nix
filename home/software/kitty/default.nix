@@ -9,7 +9,8 @@
 
     font = {
       name = "SpaceMono Nerd Font Mono";
-      package = pkgs.nerdfonts.override {fonts = ["SpaceMono"];};
+      # package = pkgs.nerd-fonts.spacemono;
+      # package = pkgs.nerdfonts.override {fonts = ["SpaceMono"];};
       size = 11;
     };
 
