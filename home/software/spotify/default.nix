@@ -10,7 +10,7 @@
     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
   in {
     enable = true;
-    theme = spicePkgs.themes.text;
+    # theme = spicePkgs.themes.text;
     colorScheme = "CatppuccinMocha";
 
     enabledExtensions = with spicePkgs.extensions; [

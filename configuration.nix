@@ -1,4 +1,4 @@
- # Edit this configuration file to define what should be installed on
+# Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
@@ -7,7 +7,8 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.aagl.nixosModules.default
     ./hardware-configuration.nix
@@ -19,15 +20,18 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # virtualisation.docker.enable = true;
+  # virtualisation.docker.storageDriver = "btrfs";
+
   security.rtkit.enable = true;
-   services.pipewire = {
-     enable = true;
-     alsa.enable = true;
-     alsa.support32Bit = true;
-     pulse.enable = true;
-     # If you want to use JACK applications, uncomment this
-     #jack.enable = true;
-   };
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # services.scx = {
   #       enable = true;
@@ -44,34 +48,38 @@
   };
 
   chaotic.mesa-git = {
-      # TODO: Move to Gaming.
-      enable = true;
-      #fallbackSpecialisation = false;
-
-      extraPackages = with pkgs; [mesa_git.opencl];
-    };
-
-  programs.steam = {
+    # TODO: Move to Gaming.
     enable = true;
-    gamescopeSession.enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    #fallbackSpecialisation = false;
+
+    extraPackages = with pkgs; [ mesa_git.opencl ];
   };
 
-  programs = {
-    gamescope = {
-      enable = true;
-      capSysNice = true;
-    };
-  };
-  
+  # programs.steam = {
+  #   enable = true;
+  #   gamescopeSession.enable = true;
+  #   remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+  #   dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  #   localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  # };
+
+  # programs = {
+  #   gamescope = {
+  #     enable = true;
+  #     capSysNice = true;
+  #     args = ["-"];
+  #   };
+  # };
+
   programs.honkers-railway-launcher.enable = true;
-    programs.wavey-launcher.enable = true;
-    programs.sleepy-launcher.enable = true;
+  programs.wavey-launcher.enable = true;
+  programs.sleepy-launcher.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   networking.hostName = "dreamhouse"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -125,7 +133,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mia = {
     isNormalUser = true;
-    extraGroups = ["wheel" "input"]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "input"
+      "docker"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       helix
     ];
@@ -145,7 +157,6 @@
     rclone
     toybox
     playerctl
-    (zed-editor.fhsWithPackages (pkgs: [ zlib openssl_3]))
     clang-tools
     # scx
     latencyflex-vulkan
@@ -156,7 +167,7 @@
     # inputs.zen-browser.legacyPackages.${system}.zen-browser
   ];
 
-   zramSwap.enable = true;
+  zramSwap.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
 
@@ -165,8 +176,8 @@
 
     fontconfig = {
       defaultFonts = {
-        sansSerif = ["UbuntuSans Nerd Font"];
-        monospace = ["UbuntuSansMono Nerd Font"];
+        sansSerif = [ "UbuntuSans Nerd Font" ];
+        monospace = [ "UbuntuSansMono Nerd Font" ];
       };
     };
     packages = with pkgs; [
@@ -178,18 +189,20 @@
       noto-fonts-emoji
 
       # nerdfonts
-      # nerd-fonts.spacemono
+      nerd-fonts.ubuntu-sans
+      nerd-fonts.space-mono
+      nerd-fonts.mononoki
       # (nerd-fonts.override {fonts = ["UbuntuSans" "SpaceMono" "Mononoki" "NerdFontsSymbolsOnly"];})
     ];
   };
 
   services.ananicy = {
-  enable = true;
-  package = pkgs.ananicy-cpp;
-  rulesProvider = pkgs.ananicy-rules-cachyos;
+    enable = true;
+    package = pkgs.ananicy-cpp;
+    rulesProvider = pkgs.ananicy-rules-cachyos;
   };
 
-  nixpkgs.overlays = [inputs.catppuccin-vsc.overlays.default];
+  nixpkgs.overlays = [ inputs.catppuccin-vsc.overlays.default ];
 
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;
@@ -216,12 +229,20 @@
   programs.gnupg.agent.enable = true;
 
   jovian.decky-loader.enable = true;
-  jovian.steam.desktopSession = "plasma";
+
+  jovian.steam = {
+    enable = true;
+    user = "mia";
+    desktopSession = "hyprland";
+  };
+
+  jovian.hardware.has.amd.gpu = true;
+  jovian.steam.updater.splash = "jovian";
 
   nix.settings = {
-      substituters = [ "https://ezkea.cachix.org" ];
-      trusted-public-keys = [ "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI=" ];
-    };
+    substituters = [ "https://ezkea.cachix.org" ];
+    trusted-public-keys = [ "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI=" ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

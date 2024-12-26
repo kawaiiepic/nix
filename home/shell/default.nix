@@ -1,9 +1,16 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ./starship.nix
   ];
 
-  home.packages = with pkgs; [eza fzf fd bat btop];
+  home.packages = with pkgs; [
+    eza
+    fzf
+    fd
+    bat
+    btop
+  ];
 
   programs = {
     direnv = {
@@ -11,14 +18,20 @@
       nix-direnv.enable = true;
     };
   };
+  
+  home.file.".config/fastfetch".source = ./42willow.gif;
 
   programs.fastfetch = {
     enable = true;
     settings = {
       logo = {
-        source = "nixos_small";
+        type = "kitty-direct";
+        source = "$HOME/.config/fastfetch/42willow.gif";
+        width = 42;
+        height = 18;
         padding = {
-          right = 1;
+          top = 1;
+          left = 2;
         };
       };
       display = {
@@ -30,47 +43,47 @@
       };
       modules = [
         {
-            type = "colors";
-            symbol = "circle";
+          type = "colors";
+          symbol = "circle";
         }
         {
-            type = "os";
+          type = "os";
         }
         {
-            type = "kernel";
+          type = "kernel";
         }
         {
-            type = "packages";
+          type = "packages";
         }
         {
-            type = "shell";
-        }
-        "separator"
-        {
-            type = "wm";
-        }
-        {
-            type = "theme";
-        }
-        {
-            type = "font";
-        }
-        {
-            type = "terminal";
+          type = "shell";
         }
         "separator"
         {
-            type = "cpu";
+          type = "wm";
         }
         {
-            type = "gpu";
+          type = "theme";
         }
         {
-            type = "memory";
+          type = "font";
+        }
+        {
+          type = "terminal";
         }
         "separator"
         {
-            type = "uptime";
+          type = "cpu";
+        }
+        {
+          type = "gpu";
+        }
+        {
+          type = "memory";
+        }
+        "separator"
+        {
+          type = "uptime";
         }
         "separator"
         "player"

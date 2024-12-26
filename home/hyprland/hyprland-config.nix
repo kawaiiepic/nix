@@ -19,7 +19,7 @@
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
           "${pkgs.blueman}/bin/blueman-applet"
         ];
-        
+
         master = {
             mfact = "0.60";
             orientation = "right";
@@ -74,10 +74,6 @@
             "workspaces, 1, 5, easeOutBounce, slide" # styles: slide, slidevert, fade, slidefade, slidefadevert
             "specialWorkspace, 1, 3, easeOutBounce, slidevert"
           ];
-        };
-
-        binds = {
-          workspace_back_and_forth = true;
         };
 
         misc = {
@@ -149,7 +145,7 @@
           "$MOD, L, exec, pidof hyprlock || hyprlock"
           "$MOD, Space, togglefloating"
           # "$MOD, R,  overview:toggle, all"
-          "$MODSHIFT, R, hyprexpo:expo, toggle"
+         # "$MODSHIFT, R, hyprexpo:expo, toggle"
           "$MOD, T, exec, tessen -p gopass -d wofi"
           "$MOD, P, pin"
           "$MOD, S, togglesplit"
@@ -315,9 +311,9 @@
     ];
 
     plugins = with pkgs; [
-      hyprlandPlugins.hyprtrails
-      hyprlandPlugins.hyprexpo
-      hyprlandPlugins.hyprfocus
+      #hyprlandPlugins.hyprtrails
+      #hyprlandPlugins.hyprexpo
+      #hyprlandPlugins.hyprfocus
       #hyprlandPlugins.hyprspace
     ];
   };
