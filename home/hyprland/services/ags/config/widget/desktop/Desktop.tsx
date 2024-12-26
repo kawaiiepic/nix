@@ -10,6 +10,16 @@ function setup(menu: Menu) {
   menu.popup_at_pointer(null);
 }
 
+function Background() {
+  return (
+    <box css="background-image: url('/home/mia/Nextcloud/Photos/Wallpapers/__belfast_azur_lane_drawn_by_xiehou_nangong__4a15db77e5efec118e396b634afe9fe2.jpg');">
+      <label yalign="0.9" valign="END" halign="CENTER" hexpand="true" vexpand="true" label="Splash message"></label>
+    </box>
+  );
+
+  // return "background-image: url('/home/mia/Nextcloud/Photos/Wallpapers/__belfast_azur_lane_drawn_by_xiehou_nangong__4a15db77e5efec118e396b634afe9fe2.jpg');";
+}
+
 function yes(_, event) {
   if (event.button == 3) {
     return (
@@ -55,9 +65,7 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
       layer="BACKGROUND"
     >
       <eventbox onClick={yes}>
-        <box css="background-image: url('/home/mia/Nextcloud/Photos/Wallpapers/background.png');">
-          <label yalign="0.9" valign="END" halign="CENTER" hexpand="true" vexpand="true" label="Splash message"></label>
-        </box>
+        <Background />
       </eventbox>
     </window>
   );
