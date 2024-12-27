@@ -18,77 +18,148 @@
       nix-direnv.enable = true;
     };
   };
-  
-  home.file.".config/fastfetch".source = ./42willow.gif;
+
+  # home.file.".config/fastfetch".source = ./42willow.gif;
 
   programs.fastfetch = {
     enable = true;
     settings = {
       logo = {
-        type = "kitty-direct";
-        source = "$HOME/.config/fastfetch/42willow.gif";
-        width = 42;
-        height = 18;
-        padding = {
-          top = 1;
-          left = 2;
+        source = ./42willow.gif;
+        "width" = 42;
+        "height" = 18;
+        "padding" = {
+          "top" = 1;
+          "left" = 2;
         };
       };
       display = {
-        size = {
-          binaryPrefix = "si";
-        };
-        color = "blue";
-        separator = " 5";
+        separator = "";
       };
       modules = [
         {
-          type = "colors";
-          symbol = "circle";
+          "type" = "custom";
+          "format" = "╔══════════════════════════════════════════════════════╗";
         }
         {
-          type = "os";
+          "type" = "os";
+          "key" = "  󱄅  OS        ║";
+          "format" = " {3}";
         }
         {
-          type = "kernel";
+          "type" = "kernel";
+          "key" = "    Kernel    ║ ";
+          "format" = "{1} {2}";
         }
         {
-          type = "packages";
+          "type" = "uptime";
+          "key" = "    Uptime    ║ ";
+          "format" = "{2} hours; {3} mins";
+        }
+
+        {
+          "type" = "packages";
+          "key" = "  󰏗  Packages  ║ ";
+          "format" = "{2} (pacman){?3}[{3}]{?}";
         }
         {
-          type = "shell";
-        }
-        "separator"
-        {
-          type = "wm";
+          "type" = "shell";
+          "key" = "    Shell     ║ ";
+          "format" = "{6}";
         }
         {
-          type = "theme";
+          "type" = "terminal";
+          "key" = "    Terminal  ║ ";
+          "format" = "{5}";
         }
         {
-          type = "font";
+          "type" = "custom";
+          "format" = "╚══════════════════════════════════════════════════════╝";
+        }
+        "break"
+        {
+          "type" = "colors";
+          # "paddingLeft" = 20;
+          "symbol" = "circle";
+        }
+        "break"
+        {
+          "type" = "custom";
+          "format" = "╔══════════════════════════════════════════════════════╗";
         }
         {
-          type = "terminal";
-        }
-        "separator"
-        {
-          type = "cpu";
+          "type" = "display";
+          "key" = "  󰍹  Display   ║ ";
+          "format" = "{1}x{2}";
         }
         {
-          type = "gpu";
+          "type" = "cpu";
+          "key" = "    CPU       ║ ";
+          "format" = "{1}";
         }
         {
-          type = "memory";
+          "type" = "gpu";
+          "key" = "  󰊴  GPU       ║ ";
+          "format" = "{2}";
         }
-        "separator"
         {
-          type = "uptime";
+          "type" = "memory";
+          "key" = "    Memory    ║ ";
+          "format" = "{1} / {2} ({3})";
         }
-        "separator"
-        "player"
-        "media"
+        {
+          "type" = "custom";
+          "format" = "╚══════════════════════════════════════════════════════╝";
+        }
       ];
+      # modules = [
+      #   {
+      #     type = "colors";
+      #     symbol = "circle";
+      #   }
+      #   {
+      #     type = "os";
+      #   }
+      #   {
+      #     type = "kernel";
+      #   }
+      #   {
+      #     type = "packages";
+      #   }
+      #   {
+      #     type = "shell";
+      #   }
+      #   "separator"
+      #   {
+      #     type = "wm";
+      #   }
+      #   {
+      #     type = "theme";
+      #   }
+      #   {
+      #     type = "font";
+      #   }
+      #   {
+      #     type = "terminal";
+      #   }
+      #   "separator"
+      #   {
+      #     type = "cpu";
+      #   }
+      #   {
+      #     type = "gpu";
+      #   }
+      #   {
+      #     type = "memory";
+      #   }
+      #   "separator"
+      #   {
+      #     type = "uptime";
+      #   }
+      #   "separator"
+      #   "player"
+      #   "media"
+      # ];
     };
   };
 

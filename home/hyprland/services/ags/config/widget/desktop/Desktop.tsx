@@ -2,8 +2,6 @@ import GObject from "gi://GObject";
 import { App, Astal, Gtk, Gdk, Widget, astalify, type ConstructProps } from "astal/gtk3";
 import { Variable } from "astal";
 
-import Launcher from "./launcher/launcher";
-
 const time = Variable("").poll(1000, "date");
 
 function setup(menu: Menu) {

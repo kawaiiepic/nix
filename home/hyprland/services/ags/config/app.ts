@@ -5,8 +5,6 @@ import Desktop from "./widget/desktop/Desktop";
 import { exec } from "astal/process";
 import NotificationPopups from "./notifications/NotificationPopups";
 
-// sexec("sass", "./style/css/style.scss", "./style.css");
-
 App.start({
   icons: `${SRC}/style/assets`,
   css: style,
