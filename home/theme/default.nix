@@ -4,6 +4,13 @@
   ...
 }:
 {
+  
+  home.file = {
+     ".icons/GoogleDot-Violet" = {
+       source = files/GoogleDot-Violet;
+     };
+   };
+   
   gtk = {
     enable = true;
 

@@ -136,16 +136,16 @@ function Workspaces() {
 
 function UserProfile() {
   return (
+    <eventbox onClick={ () => { App.toggle_window("profile") } }>
     <box
       halign={Gtk.Align.CENTER}
       hexpand={false}
       vexpand={false}
       valign={Gtk.Align.CENTER}
-    
-        onButtonPressEvent={() => { profileInstance.show() }}
       className="profile-pic"
       css="background-image: url('/home/mia/.face');"
     ></box>
+    </eventbox>
   );
 }
 
@@ -241,7 +241,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <AudioSlider></AudioSlider>
           <SysTray></SysTray>
           <Time></Time>
-          <Profile></Profile>
+          <UserProfile></UserProfile>
         </box>
       </centerbox>
     </window>

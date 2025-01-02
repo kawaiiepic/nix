@@ -15,7 +15,7 @@ App.start({
     print(`source dir is ${SRC}`);
     App.get_monitors().map(Desktop);
     App.get_monitors().map(Bar);
-    // App.get_monitors().map(Profile);
+    App.get_monitors().map(Profile);
     NotificationPopups(App.get_monitors()[0]);
   },
 });

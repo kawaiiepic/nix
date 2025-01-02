@@ -97,3 +97,9 @@ window.bar {
     background-repeat: no-repeat;
     margin: 5px;
 }
+
+window.profile {
+    background-color: color.$base;
+    color: color.$text;
+    font-weight: bold;
+}
