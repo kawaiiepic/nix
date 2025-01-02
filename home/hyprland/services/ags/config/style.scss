@@ -7,65 +7,93 @@ $theme_bg_color: "@theme_bg_color";
 @use "./notifications/Notification.scss";
 
 window.bar {
-  background-color: color.$base;
-  color: color.$text;
-  font-weight: bold;
+    background-color: color.$base;
+    color: color.$text;
+    font-weight: bold;
 }
 
 .launcher {
-  padding-left: 5pt;
-  padding-top: 4pt;
-  padding-bottom: 4pt;
-  font-size: 14pt;
+    color: #f5a9b8;
+    padding-left: 5pt;
+    padding-top: 4pt;
+    padding-bottom: 4pt;
+    font-size: 14pt;
 }
 
 .workspaces {
-  padding-left: 15px;
-  padding-bottom: 3px;
-  padding-top: 3px;
+    padding-left: 15px;
+    padding-bottom: 3px;
+    padding-top: 3px;
 
-  label {
-    font-size: 0;
-    min-width: 7pt;
-    min-height: 7pt;
-    border-radius: 7pt;
-    box-shadow: inset 0 0 0 20pt color.$surface0;
-    margin: 0 2.5pt;
-    transition: min-width 0.5s ease-out;
+    label {
+        font-size: 0;
+        min-width: 7pt;
+        min-height: 7pt;
+        border-radius: 7pt;
+        box-shadow: inset 0 0 0 20pt color.$surface0;
+        margin: 0 2.5pt;
+        transition: min-width 0.5s ease-out;
 
-    &.occupied {
-      box-shadow: inset 0 0 0 20pt color.$text;
+        &.occupied {
+            box-shadow: inset 0 0 0 20pt color.$text;
+        }
+
+        &.focused {
+            box-shadow: inset 0 0 0 20pt color.$text;
+            min-width: 28pt;
+            min-height: 10pt;
+        }
     }
+}
 
-    &.active {
-      box-shadow: inset 0 0 0 20pt color.$text;
-      min-width: 28pt;
-      min-height: 10pt;
+.media {
+    &.cover {
+        min-width: 20px;
+        min-height: 20px;
+        border-radius: 50%;
+        background-size: contain;
+        background-position: center;
     }
-  }
 }
 
 .time {
-  margin: 0 5px;
+    margin: 0 5px;
 }
 
 .client-title {
-  padding: 0 10pt 0 10pt;
-  font-size: 10pt;
+    padding: 0 10pt 0 10pt;
+    font-size: 10pt;
+    font-family: "SpaceMono Nerd Font";
+}
+
+.client-icon {
+    font-size: 20px;
 }
 
 .systray {
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0px 0px;
-  font-size: 1.2em;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0px 0px;
+    font-size: 1.1em;
 }
 
-window.desktop {
-  box {
+.wallpaper {
     margin-top: 25px;
-    border-radius: 25px 25px 0px 0px;
+    border-radius: 20px 20px 0px 0px;
     background-size: cover;
     transition: 250ms background-image;
-  }
+}
+
+.desktop {
+    background-color: color.$base;
+}
+
+.profile-pic {
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 5px;
 }

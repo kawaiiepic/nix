@@ -4,7 +4,8 @@
   osConfig,
   lib,
   ...
-}: {
+}:
+{
   wayland.windowManager.hyprland = {
     settings = lib.mkMerge [
       {
@@ -21,13 +22,13 @@
         ];
 
         master = {
-            mfact = "0.60";
-            orientation = "right";
+          mfact = "0.60";
+          orientation = "right";
         };
 
         general = {
-          gaps_in = 2;
-          gaps_out = 4;
+          gaps_in = 5;
+          gaps_out = 10;
           border_size = 2;
           "col.active_border" = "rgba(1e1e2eff) rgba(3a3144ff) 10deg";
           "col.inactive_border" = "rgba(1e1e2eff) rgba(314444ff) 10deg";
@@ -41,11 +42,11 @@
           ];
 
           workspace = [
-            "1,monitor:DP-1,default:true"
-            "2,monitor:DP-1"
-            "3,monitor:DP-1"
-            "4,monitor:DP-1"
-            "5,monitor:DP-1"
+            "1,monitor:DP-1,persistent:true,default:true"
+            "2,monitor:DP-1,persistent:true"
+            "3,monitor:DP-1,persistent:true"
+            "4,monitor:DP-1,persistent:true"
+            "5,monitor:DP-1,persistent:true"
             "6,monitor:HDMI-A-1,gapsin:0,gapsout:0,rounding:false,border:false,default:true"
           ];
         };
@@ -121,18 +122,29 @@
           # "dimaround,logout_dialog"
         ];
 
-        "$SC_FULL" = "grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h string:hint:screenshot -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
-        "$SC_AREA" = "grimblast --freeze save area - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot Area' 'Copied to clipboard.' -h string:hint:screenshot -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
+        "$SC_FULL" =
+          "grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h string:hint:screenshot -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
+        "$SC_AREA" =
+          "grimblast --freeze save area - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot Area' 'Copied to clipboard.' -h string:hint:screenshot -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
 
         bind = [
-          "${builtins.concatStringsSep "\n" (builtins.genList (x: let
-              ws = let c = (x + 1) / 10; in builtins.toString (x + 1 - (c * 10));
-            in ''
-              bind = $MOD, ${ws}, workspace, ${toString (x + 1)}
-              bind = $MODSHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
-              bind = $MOD+CTRL, ${ws}, focusworkspaceoncurrentmonitor, ${toString (x + 1)}
-            '')
-            10)}"
+          "${builtins.concatStringsSep "\n" (
+            builtins.genList (
+              x:
+              let
+                ws =
+                  let
+                    c = (x + 1) / 10;
+                  in
+                  builtins.toString (x + 1 - (c * 10));
+              in
+              ''
+                bind = $MOD, ${ws}, workspace, ${toString (x + 1)}
+                bind = $MODSHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                bind = $MOD+CTRL, ${ws}, focusworkspaceoncurrentmonitor, ${toString (x + 1)}
+              ''
+            ) 10
+          )}"
 
           "$MOD, mouse_down, workspace, e-1"
           "$MOD, mouse_up, workspace, e+1"
@@ -145,7 +157,7 @@
           "$MOD, L, exec, pidof hyprlock || hyprlock"
           "$MOD, Space, togglefloating"
           # "$MOD, R,  overview:toggle, all"
-         # "$MODSHIFT, R, hyprexpo:expo, toggle"
+          # "$MODSHIFT, R, hyprexpo:expo, toggle"
           "$MOD, T, exec, tessen -p gopass -d wofi"
           "$MOD, P, pin"
           "$MOD, S, togglesplit"
@@ -204,7 +216,10 @@
           "Caps_Lock, Caps_Lock, exec, swayosd-client --caps-lock"
         ];
 
-        bindm = ["$MOD, mouse:272, movewindow" "$MOD, mouse:273, resizewindow"];
+        bindm = [
+          "$MOD, mouse:272, movewindow"
+          "$MOD, mouse:273, resizewindow"
+        ];
 
         windowrulev2 = [
           "opacity 0.98 0.98,class:^(firefox)$"

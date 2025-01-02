@@ -101,6 +101,7 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
     <window
       className="NotificationPopups"
       gdkmonitor={gdkmonitor}
+      layer={Astal.Layer.OVERLAY}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
       anchor={TOP | RIGHT}
     >

@@ -37,6 +37,7 @@
     extensions = [
       "nix"
       "discord-presence"
+      "scss"
     ];
     userSettings = {
       autosave = {

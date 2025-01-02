@@ -2,24 +2,19 @@
   pkgs,
   lib,
   ...
-}: {
-  home.packages = with pkgs; [flat-remix-icon-theme];
-
+}:
+{
   gtk = {
     enable = true;
 
     theme = {
-      name = "Fluent-pink-Dark";
-      package = pkgs.fluent-gtk-theme.override {
-        themeVariants = ["pink"];
-        colorVariants = ["dark"];
-        sizeVariants = ["standard"];
-      };
+      name = "Catppuccin-GTK-Dark";
+      package = pkgs.magnetic-catppuccin-gtk;
     };
 
     iconTheme = {
-      name = "Fluent-dark";
-      package = pkgs.fluent-icon-theme;
+      name = "rose-pine";
+      package = pkgs.rose-pine-icon-theme;
     };
   };
 }

@@ -22,6 +22,7 @@
 
   # virtualisation.docker.enable = true;
   # virtualisation.docker.storageDriver = "btrfs";
+  services.gnome.sushi.enable = true;
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -164,6 +165,7 @@
     tessen
     gthumb
     nexusmods-app-unfree
+    lutris
     # inputs.zen-browser.legacyPackages.${system}.zen-browser
   ];
 

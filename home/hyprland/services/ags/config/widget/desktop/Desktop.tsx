@@ -1,8 +1,22 @@
 import GObject from "gi://GObject";
-import { App, Astal, Gtk, Gdk, Widget, astalify, type ConstructProps } from "astal/gtk3";
-import { Variable } from "astal";
+import {
+  App,
+  Astal,
+  Gtk,
+  Gdk,
+  Widget,
+  astalify,
+  type ConstructProps,
+} from "astal/gtk3";
+import { exec, interval, Variable } from "astal";
 
 const time = Variable("").poll(1000, "date");
+
+const background = Variable("Boop").poll(30 * 60 * 1000, [
+  "bash",
+  "-c",
+  "find $HOME/Nextcloud/Photos/Wallpapers/ -type f | shuf -n 1",
+]);
 
 function setup(menu: Menu) {
   menu.popup_at_pointer(null);
@@ -10,13 +24,23 @@ function setup(menu: Menu) {
 
 function Background() {
   return (
-    <box css="background-image: url('/home/mia/Nextcloud/Photos/Wallpapers/__belfast_azur_lane_drawn_by_xiehou_nangong__4a15db77e5efec118e396b634afe9fe2.jpg');">
-      <label yalign="0.9" valign="END" halign="CENTER" hexpand="true" vexpand="true" label="Splash message"></label>
+    <box
+      className="wallpaper"
+      css={background((value) => `background-image: url('${value}')`)}
+    >
+      <label
+        yalign="0.9"
+        valign="END"
+        halign="CENTER"
+        hexpand="true"
+        vexpand="true"
+        label="Splash Message"
+      ></label>
     </box>
   );
-
-  // return "background-image: url('/home/mia/Nextcloud/Photos/Wallpapers/__belfast_azur_lane_drawn_by_xiehou_nangong__4a15db77e5efec118e396b634afe9fe2.jpg');";
 }
+
+
 
 function yes(_, event) {
   if (event.button == 3) {
@@ -59,7 +83,12 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
       className="desktop"
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.IGNORE}
-      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.BOTTOM}
+      anchor={
+        Astal.WindowAnchor.TOP |
+        Astal.WindowAnchor.LEFT |
+        Astal.WindowAnchor.RIGHT |
+        Astal.WindowAnchor.BOTTOM
+      }
       layer="BACKGROUND"
     >
       <eventbox onClick={yes}>

@@ -18,9 +18,11 @@
         (ags.packages.${system}.default.overrideAttrs {
           extraPackages = [
             ags.packages.${system}.notifd
+            ags.packages.${system}.apps
           ];
         })
         ags.packages.${system}.notifd
+        ags.packages.${system}.apps
       ];
     };
   };

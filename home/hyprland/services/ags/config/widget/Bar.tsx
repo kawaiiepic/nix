@@ -1,39 +1,52 @@
-import { App, Astal, Gtk, Gdk } from "astal/gtk3";
+import GObject from "gi://GObject";
+import {
+  App,
+  Astal,
+  Gtk,
+  Gdk,
+  Widget,
+  astalify,
+  type ConstructProps,
+} from "astal/gtk3";
 import { Variable, GLib, bind, Process } from "astal";
 import Hyprland from "gi://AstalHyprland";
 import Mpris from "gi://AstalMpris";
 import Wp from "gi://AstalWp";
 import Network from "gi://AstalNetwork";
 import Tray from "gi://AstalTray";
+import Apps from "gi://AstalApps";
 
 import Launcher from "./launcher/launcher";
+import Profile from "./profile/Profile";
 
 const time = Variable("").poll(1000, "date");
+
+const profileInstance = Profile(App.get_monitors()[0]);
 
 function Media() {
   const mpris = Mpris.get_default();
 
   return (
-    <box className="Media">
+    <box className="media">
       {bind(mpris, "players").as((ps) =>
         ps[0] ? (
-          <box>
+          <box spacing="6">
             <box
-              className="Cover"
+              className="media cover"
               valign={Gtk.Align.CENTER}
-              css={bind(ps[0], "coverArt").as(
-                (cover) => `background-image: url('${cover}');`
+              css={bind(ps[0], "cover_art").as(
+                (cover) => `background-image: url('${cover}');`,
               )}
             />
             <label
               label={bind(ps[0], "title").as(
-                () => `${ps[0].title} - ${ps[0].artist}`
+                () => `${ps[0].title} - ${ps[0].artist}`,
               )}
             />
           </box>
         ) : (
           "Nothing Playing"
-        )
+        ),
       )}
     </box>
   );
@@ -43,31 +56,22 @@ function SysTray() {
   const tray = Tray.get_default();
 
   return (
-    <box spacing="6">
+    <box className="systray" spacing={6}>
       {bind(tray, "items").as((items) =>
-        items.map((item) => {
-          if (item.iconThemePath) App.add_icons(item.iconThemePath);
-
-          const menu = item.create_menu();
-
-          return (
-            <button
-              className="systray"
-              tooltipMarkup={bind(item, "tooltipMarkup")}
-              onDestroy={() => menu?.destroy()}
-              onClickRelease={(self) => {
-                menu?.popup_at_widget(
-                  self,
-                  Gdk.Gravity.SOUTH,
-                  Gdk.Gravity.NORTH,
-                  null
-                );
-              }}
-            >
-              <icon gIcon={bind(item, "gicon")} />
-            </button>
-          );
-        })
+        items.map((item) => (
+          <menubutton
+            className="systray"
+            tooltipMarkup={bind(item, "tooltipMarkup")}
+            usePopover={false}
+            actionGroup={bind(item, "action-group").as((ag) => [
+              "dbusmenu",
+              ag,
+            ])}
+            menuModel={bind(item, "menu-model")}
+          >
+            <icon gicon={bind(item, "gicon")} />
+          </menubutton>
+        )),
       )}
     </box>
   );
@@ -89,7 +93,7 @@ function AudioSlider() {
   const speaker = Wp.get_default()?.audio.defaultSpeaker!;
 
   return (
-    <box className="AudioSlider" css="min-width: 140px">
+    <box className="AudioSlider" css="min-width: 100px">
       <icon icon={bind(speaker, "volumeIcon")} />
       <slider
         hexpand
@@ -102,48 +106,88 @@ function AudioSlider() {
 
 function Workspaces() {
   const hypr = Hyprland.get_default();
+  const focused = bind(hypr, "focusedWorkspace");
 
-  return (
-    <box className="workspaces">
-      {bind(hypr, "workspaces").as((wss) =>
-        wss
-          .sort((a, b) => a.id - b.id)
-          .map((ws) => (
-            <eventbox>
-              <label
-                className={bind(hypr, "focusedWorkspace").as((fw) =>
-                  ws === fw ? "active" : ""
-                )}
-                label="1"
-                valign="3"
-                vpack="center"
-                hpack="center"
-              ></label>
-            </eventbox>
-          ))
-      )}
-    </box>
-  );
+  const listItems: JSX.Element[] = [];
+
+  for (let i = 1; i <= 5; i++) {
+    const workspace = hypr.get_workspace(i);
+    listItems.push(
+      <eventbox>
+        <label
+          className={focused.as((fw) =>
+            workspace == fw
+              ? "focused"
+              : workspace.clients.length > 0
+                ? "occupied"
+                : "",
+          )}
+          label="1"
+          valign="3"
+          vpack="center"
+          hpack="center"
+        ></label>
+      </eventbox>,
+    );
+  }
+
+  return <box className="workspaces">{listItems}</box>;
 }
 
-// (
-//   <button
-
-//     className={"workspace" + bind(hypr, "focusedWorkspace").as((fw) =>
-//       ws === fw ? "focused" : ""
-//     )}
-//     onClicked={() => ws.focus()}
-//   >
-//     {ws.id}
-//   </button>
-// )
+function UserProfile() {
+  return (
+    <box
+      halign={Gtk.Align.CENTER}
+      hexpand={false}
+      vexpand={false}
+      valign={Gtk.Align.CENTER}
+    
+        onButtonPressEvent={() => { profileInstance.show() }}
+      className="profile-pic"
+      css="background-image: url('/home/mia/.face');"
+    ></box>
+  );
+}
 
 function FocusedClient() {
   const hypr = Hyprland.get_default();
   const focused = bind(hypr, "focusedClient");
 
+  const apps = new Apps.Apps({
+    nameMultiplier: 2,
+    entryMultiplier: 0,
+    executableMultiplier: 2,
+  });
+
   return (
-    <box className="client-title" visible={focused.as(Boolean)}>
+    <box spacing={6} className="client-title" visible={focused.as(Boolean)}>
+      {focused.as(
+        (client) =>
+          client && (
+            <icon
+              className="client-icon"
+              icon={bind(client, "class").as((title) => {
+                switch (title) {
+                  case "dev.zed.Zed":
+                    title = "Zed";
+                }
+                const title_query = apps.fuzzy_query(client.initial_title);
+                const class_query = apps.fuzzy_query(title);
+
+                print(title);
+                print(client.title);
+
+                if (class_query.length > 0) {
+                  return class_query[0].iconName;
+                } else if (title_query.length > 0) {
+                  return title_query[0].iconName;
+                } else {
+                  return client.class;
+                }
+              })}
+            />
+          ),
+      )}
       {focused.as(
         (client) =>
           client && (
@@ -154,16 +198,16 @@ function FocusedClient() {
                   : title.substring(0, 40) + "…";
               })}
             />
-          )
+          ),
       )}
     </box>
   );
 }
 
-function Time({ format = "%H:%M — %A %x" }) {
+function Time({ format = "%H:%M — %a %d %b" }) {
   const time = Variable<string>("").poll(
     1000,
-    () => GLib.DateTime.new_now_local().format(format)!
+    () => GLib.DateTime.new_now_local().format(format)!,
   );
 
   return (
@@ -197,6 +241,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <AudioSlider></AudioSlider>
           <SysTray></SysTray>
           <Time></Time>
+          <Profile></Profile>
         </box>
       </centerbox>
     </window>
