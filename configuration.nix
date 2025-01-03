@@ -166,7 +166,9 @@
     gthumb
     nexusmods-app-unfree
     lutris
-    # inputs.zen-browser.legacyPackages.${system}.zen-browser
+    
+    aseprite
+    godot_4
   ];
 
   zramSwap.enable = true;

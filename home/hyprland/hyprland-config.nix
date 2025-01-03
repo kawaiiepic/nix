@@ -15,10 +15,8 @@
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
           "swayosd-server"
           "nextcloud"
-          # "${pkgs.kwallet-pam}/libexec/pam_kwallet_init"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
-          "${pkgs.blueman}/bin/blueman-applet"
         ];
 
         master = {

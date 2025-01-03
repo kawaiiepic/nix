@@ -16,11 +16,15 @@ export default function Profile(gdkmonitor: Gdk.Monitor) {
       visible={false}
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      anchor={
-        Astal.WindowAnchor.TOP |
-        Astal.WindowAnchor.RIGHT
-      }
+      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}
       application={App}
+      setup={(self) => {
+        self.connect("delete-event", () => {
+          self.hide();
+          return true;
+        });
+        self.set_default_size(200, 300);
+      }}
     >
       <centerbox>
         <label label="Cutie" />

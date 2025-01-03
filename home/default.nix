@@ -73,7 +73,7 @@
 
       ui_font_size = 16;
       buffer_font_size = 16;
-      buffer_font_family = "SpaceMono Nerd Font Mono";
+      buffer_font_family = "UbuntuSansMono Nerd Font";
     };
   };
 

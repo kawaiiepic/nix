@@ -2,7 +2,7 @@
   inputs,
   pkgs,
   ...
-}:
+} :
 {
   services.xembed-sni-proxy.enable = true;
 
@@ -21,6 +21,7 @@
             src = ./config;
             name = "my-shell"; # name of executable
             entry = "app.ts";
+            gtk4 = true;
 
             # additional libraries and executables to add to gjs' runtime
             extraPackages = with inputs.ags.packages.${pkgs.system}; [
@@ -32,6 +33,7 @@
               network
               tray
             ];
+            
           })
         }/bin/my-shell'';
       };

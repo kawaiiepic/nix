@@ -1,6 +1,6 @@
-import { Variable, GLib, bind, Process } from "astal";
+import { Process } from "astal";
 
-export default function Launcher(): JSX.Element {
+export default () => {
   return (
     <icon
       className="launcher"
