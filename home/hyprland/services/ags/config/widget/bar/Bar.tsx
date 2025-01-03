@@ -8,6 +8,8 @@ import Audio from "./Audio";
 import SysTray from "./SysTray";
 import Time from "./Time";
 import UserProfile from "./UserProfile";
+import Bluetooth from "./Bluetooth";
+import Wallpaper from "./Wallpaper";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
@@ -32,7 +34,9 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Media></Media>
         </box>
         <box spacing={8} hexpand halign={Gtk.Align.END}>
+          <Wallpaper />
           <Audio></Audio>
+          <Bluetooth/>
           <SysTray></SysTray>
           <Time></Time>
           <UserProfile></UserProfile>

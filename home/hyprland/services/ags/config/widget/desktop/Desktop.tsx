@@ -12,7 +12,7 @@ import { exec, interval, Variable } from "astal";
 
 const time = Variable("").poll(1000, "date");
 
-const background = Variable("Boop").poll(30 * 60 * 1000, [
+export const background = Variable("Boop").poll(30 * 60 * 1000, [
   "bash",
   "-c",
   "find $HOME/Nextcloud/Photos/Wallpapers/ -type f | shuf -n 1",
@@ -29,6 +29,7 @@ function Background() {
       css={background((value) => `background-image: url('${value}')`)}
     >
       <label
+        className="wallpaper-label"
         yalign="0.9"
         valign="END"
         halign="CENTER"
@@ -39,8 +40,6 @@ function Background() {
     </box>
   );
 }
-
-
 
 function yes(_, event) {
   if (event.button == 3) {
@@ -82,7 +81,6 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
     <window
       className="desktop"
       gdkmonitor={gdkmonitor}
-      exclusivity={Astal.Exclusivity.IGNORE}
       anchor={
         Astal.WindowAnchor.TOP |
         Astal.WindowAnchor.LEFT |

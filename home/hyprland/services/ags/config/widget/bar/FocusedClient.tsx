@@ -13,7 +13,12 @@ export default () => {
   });
 
   return (
-    <box tooltipText={focused.as((client) => client.title)} spacing={6} className="client-title" visible={focused.as(Boolean)}>
+    <box
+      tooltipText={focused.as((client) => client.title)}
+      spacing={6}
+      className="client-title"
+      visible={focused.as(Boolean)}
+    >
       {focused.as(
         (client) =>
           client && (
@@ -43,13 +48,13 @@ export default () => {
           client && (
             <label
               label={bind(client, "title").as((title) => {
-                return title.length <= 40
+                return title.length <= 20
                   ? title
-                  : title.substring(0, 40) + "…";
+                  : title.substring(0, 20) + "…";
               })}
             />
           ),
       )}
     </box>
   );
-}
+};

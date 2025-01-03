@@ -4,18 +4,20 @@ import Bluetooth from "gi://AstalBluetooth";
 export default () => {
   const bluetooth = Bluetooth.get_default();
 
-  function setup(box: Widget.Box) {
-    box.hook(bluetooth, "notify::devices", (self) => {
-      self.children = bluetooth.devices.map(({ icon, alias }) => {
-        return (
-          <box
-            tooltipText={alias}
-            children={[<icon icon={`${icon}-symbolic`} />]}
-          />
+  return new Widget.Box({
+    className: "bluetooth",
+    setup: (self) =>
+      self.hook(bluetooth, "notify::connected-devices", (self) => {
+        self.children = bluetooth.devices.map(
+          ({ icon, name }) =>
+            new Widget.Box({
+              tooltip_text: name,
+              children: [new Widget.Icon({ icon: icon + "-symbolic" })],
+            }),
         );
-      });
-    });
-  }
 
-  return <box className="bluetooth" setup={setup}></box>;
+        print(bluetooth.devices.length);
+        self.visible = bluetooth.devices.length > 0;
+      }),
+  });
 };

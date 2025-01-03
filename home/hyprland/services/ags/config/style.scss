@@ -13,7 +13,6 @@ window.bar {
 }
 
 .launcher {
-    color: #f5a9b8;
     padding-left: 5pt;
     padding-top: 4pt;
     padding-bottom: 4pt;
@@ -78,10 +77,14 @@ window.bar {
 }
 
 .wallpaper {
-    margin-top: 25px;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 25px 25px 0px 0px;
     background-size: cover;
     transition: 250ms background-image;
+}
+
+.wallpaper-label {
+    font-size: 10pt;
+    font-family: "SpaceMono Nerd Font";
 }
 
 .desktop {

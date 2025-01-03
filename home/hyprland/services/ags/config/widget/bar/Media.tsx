@@ -1,4 +1,4 @@
-import { Variable, GLib, bind, Process } from "astal";
+import { Variable, GLib, bind, Process, timeout } from "astal";
 import {
   App,
   Astal,
@@ -12,35 +12,75 @@ import Mpris from "gi://AstalMpris";
 
 export default () => {
   const mpris = Mpris.get_default();
-  
-  return (
-    <box className="media">
-      {bind(mpris, "players").as((ps) =>
-        ps[0] ? (
-          <box spacing={6}>
-            <box
-              tooltipText={bind(ps[0], "title").as(
-                () => `${ps[0].title} - ${ps[0].artist}`,
-              )}
-              className="media cover"
-              valign={Gtk.Align.CENTER}
-              css={bind(ps[0], "cover_art").as(
-                (cover) => `background-image: url('${cover}');`,
-              )}
-            />
-            <label
-              tooltipText={bind(ps[0], "title").as(
-                () => `${ps[0].title} - ${ps[0].artist}`,
-              )}
-              label={bind(ps[0], "title").as(
-                () => `${ps[0].title} - ${ps[0].artist}`,
-              )}
-            />
-          </box>
-        ) : (
-          "Nothing Playing"
-        ),
-      )}
-    </box>
-  );
-}
+
+  const revealer = new Widget.Revealer({
+    transitionDuration: 1000,
+    transitionType: Gtk.RevealerTransitionType.SLIDE_RIGHT,
+    child: bind(mpris, "players").as(
+      (players) =>
+        new Widget.Box({
+          children: [
+            new Widget.EventBox({
+              className: "media-buttons",
+              child: new Widget.Label({
+                label: "",
+                tooltipText: "Previous",
+              }),
+            }),
+            new Widget.EventBox({
+              className: "media-buttons",
+              child: new Widget.Label({
+                label: bind(players[0], "playbackStatus").as((status) =>
+                  status == Mpris.PlaybackStatus.PLAYING ? "" : "",
+                ),
+
+                tooltipText: bind(players[0], "playbackStatus").as((status) =>
+                  status == Mpris.PlaybackStatus.PLAYING ? "Play" : "Pause",
+                ),
+              }),
+            }),
+            new Widget.EventBox({
+              className: "media-buttons",
+              child: new Widget.Label({
+                label: "",
+                tooltipText: "Next",
+              }),
+            }),
+          ],
+        }),
+    ),
+  });
+
+  return new Widget.EventBox({
+    onHover: () => {
+      if (mpris.players[0]) {
+        revealer.reveal_child = true;
+        timeout(6000, () => {
+          revealer.reveal_child = false;
+        });
+      }
+    },
+    child: bind(mpris, "players").as((players) => {
+      if (players[0]) {
+        return new Widget.Box({
+          className: "media",
+          spacing: 6,
+          tooltipText: `${players[0]?.title} - ${players[0]?.artist}`,
+          children: [
+            new Widget.Box({
+              className: "media cover",
+              valign: Gtk.Align.CENTER,
+              css: `background-image: url('${players[0]?.coverArt}')`,
+            }),
+            new Widget.Label({
+              label: players[0]?.title,
+            }),
+            revealer,
+          ],
+        });
+      } else {
+        return new Widget.Label({ label: "Nothing Playing" });
+      }
+    }),
+  });
+};
