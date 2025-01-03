@@ -104,5 +104,21 @@ window.bar {
 window.profile {
     background-color: color.$base;
     color: color.$text;
-    font-weight: bold;
+}
+
+.profile {
+    border-radius: 11px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 100px;
+    min-height: 300px;
+}
+
+.profile-small-button {
+    min-width: 25px;
+    min-height: 25px;
+}
+
+.profile-small-button-icon {
+    font-size: 10pt;
 }
