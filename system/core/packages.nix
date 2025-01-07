@@ -5,6 +5,8 @@
   environment.systemPackages = with pkgs; [
     wget
     git
+    unrar
+    wineWowPackages.staging
     # alejandra
     # unrar
     # wineWowPackages.staging

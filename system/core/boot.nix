@@ -28,4 +28,8 @@
   # services.blueman.enable = true;
 
   programs.gnupg.agent.enable = true;
+
+  services = {
+    fstrim.enable = true;
+  };
 }
