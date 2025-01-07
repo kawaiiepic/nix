@@ -30,7 +30,7 @@
     };
   };
   jovian.steam.autoStart = true;
-  jovian.steam.desktopSession = "gnome";
+  jovian.steam.desktopSession = "hyprland";
   users.users.mia = {
     isNormalUser = true;
     extraGroups = [
@@ -38,11 +38,15 @@
       "input"
     ]; # Enable ‘sudo’ for the user.
   };
-  
+
+  programs.hyprland = {
+    enable = true;
+  };
+
   environment.systemPackages = with pkgs; [
     wget
     git
-    
+
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [
