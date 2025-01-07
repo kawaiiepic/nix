@@ -114,6 +114,14 @@
             inputs.chaotic.nixosModules.default
             inputs.jovian-nixos.nixosModules.default
             inputs.lix-module.nixosModules.default
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+
+              home-manager.users.mia = import ./home;
+            }
             ./steamdeck.nix
           ];
           specialArgs = { inherit inputs; };
