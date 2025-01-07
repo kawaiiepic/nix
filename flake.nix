@@ -90,7 +90,6 @@
           # nixpkgs.config = {allowUnfree=true;};
           system = "x86_64-linux";
           modules = [
-            inputs.nixos-hardware.nixosModules
             inputs.chaotic.nixosModules.default
             inputs.jovian-nixos.nixosModules.default
             inputs.lix-module.nixosModules.default

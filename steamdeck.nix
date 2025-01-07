@@ -28,7 +28,8 @@
       autoUpdate = true;
     };
   };
-  
+  jovian.steam.autoStart = true;
+  jovian.steam.desktopSession = "gnome";
   users.users.mia = {
     isNormalUser = true;
     extraGroups = [

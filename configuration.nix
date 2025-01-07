@@ -38,6 +38,10 @@
   #       enable = true;
   #       scheduler = "scx_rustland";
   #     };
+  # 
+  services.openssh = {
+    enable = true;
+  };
 
   networking.firewall.enable = false;
 
