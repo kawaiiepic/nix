@@ -101,7 +101,7 @@
 
               home-manager.users.mia = import ./home;
             }
-            ./configuration.nix
+            ./systems/dreamhouse/config.nix
           ];
           specialArgs = { inherit inputs; };
         };
@@ -122,7 +122,7 @@
 
               home-manager.users.mia = import ./home;
             }
-            ./steamdeck.nix
+            ./systems/steamdeck/config.nix
           ];
           specialArgs = { inherit inputs; };
         };
