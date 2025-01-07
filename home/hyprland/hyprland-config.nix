@@ -267,6 +267,8 @@
           "stayfocused, class:^(com.nextcloud.desktopclient.nextcloud)$"
           "move 100%-w-20 100%-w-20, class:^(com.nextcloud.desktopclient.nextcloud)$"
 
+          "plugin:hyprbars:nobar, floating:0"
+
           # "bordercolor rgba(aa336a80) rgba(aa336a80),floating:1" # noborder
           # "bordersize 0,floating:1"
 
@@ -289,6 +291,21 @@
             enable_gesture = true; # laptop touchpad, 4 fingers
             gesture_distance = 300; # how far is the "max"
             gesture_positive = true; # positive = swipe down. Negative = swipe up.
+          };
+
+          hyprbars = {
+            # bar_text_size = 10;
+            bar_text_font = "UbuntuSans Nerd Font";
+            bar_height = 25;
+            bar_part_of_window = true;
+            bar_precedence_over_border = true;
+            bar_color = "rgba(1e1e2eff)";
+            bar_button_padding = 10;
+
+            hyprbars-button = [
+              "rgb(F5A9B8), 14, , hyprctl dispatch killactive"
+              "rgb(5BCEFA), 14, , hyprctl dispatch fullscreen 1"
+            ];
           };
         };
       }
@@ -324,6 +341,7 @@
     ];
 
     plugins = with pkgs; [
+      hyprlandPlugins.hyprbars
       #hyprlandPlugins.hyprtrails
       #hyprlandPlugins.hyprexpo
       #hyprlandPlugins.hyprfocus

@@ -2,7 +2,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ./services/ags
     # ./services/wallpapers
@@ -39,8 +40,8 @@
     ];
 
     sessionVariables = {
-      QT_QPA_PLATFORM = "wayland";
-      XDG_SESSION_TYPE = "wayland";
+      # QT_QPA_PLATFORM = "wayland";
+      # XDG_SESSION_TYPE = "wayland";
       HYPRCURSOR_THEME = "GoogleDot-Violet";
       HYPRCURSOR_SIZE = 24;
       NIXOS_OZONE_WL = "1";
@@ -60,7 +61,7 @@
     enable = true;
 
     systemd = {
-      variables = ["--all"];
+      variables = [ "--all" ];
       extraCommands = [
         "systemctl --user stop graphical-session.target"
         "systemctl --user start hyprland-session.target"
