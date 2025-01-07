@@ -8,5 +8,5 @@ export default () =>
   new ToggleButton({
     className: "profile-normal-button circular",
     active: true,
-    child: new Widget.Icon({ icon: bind(wifi, "iconName") }),
+    child: new Widget.Icon({className: "profile-normal-button-icon", icon: bind(wifi, "iconName") }),
   });

@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
-    nix-master = {url = "github:nixos/nixpkgs/master";};
     jovian-nixos = {url = "github:Jovian-Experiments/Jovian-NixOS";};
     home-manager = {url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "nixpkgs";};
     aagl = {url = "github:ezKEa/aagl-gtk-on-nix"; inputs.nixpkgs.follows = "nixpkgs";};

@@ -37,6 +37,7 @@ function Background() {
         vexpand="true"
         label="Splash Message"
       ></label>
+      
     </box>
   );
 }

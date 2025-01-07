@@ -48,29 +48,29 @@
     enable32Bit = true;
   };
 
-  chaotic.mesa-git = {
-    # TODO: Move to Gaming.
-    enable = true;
-    #fallbackSpecialisation = false;
+  # chaotic.mesa-git = {
+  #   # TODO: Move to Gaming.
+  #   enable = true;
+  #   #fallbackSpecialisation = false;
 
-    extraPackages = with pkgs; [ mesa_git.opencl ];
+  #   extraPackages = with pkgs; [ mesa_git.opencl ];
+  # };
+
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  # programs.steam = {
-  #   enable = true;
-  #   gamescopeSession.enable = true;
-  #   remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-  #   dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  #   localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  # };
-
-  # programs = {
-  #   gamescope = {
-  #     enable = true;
-  #     capSysNice = true;
-  #     args = ["-"];
-  #   };
-  # };
+  programs = {
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+      args = ["-"];
+    };
+  };
 
   programs.honkers-railway-launcher.enable = true;
   programs.wavey-launcher.enable = true;
@@ -232,16 +232,16 @@
 
   programs.gnupg.agent.enable = true;
 
-  jovian.decky-loader.enable = true;
+  # jovian.decky-loader.enable = true;
 
-  jovian.steam = {
-    enable = true;
-    user = "mia";
-    desktopSession = "hyprland";
-  };
+  # jovian.steam = {
+  #   enable = true;
+  #   user = "mia";
+  #   desktopSession = "hyprland";
+  # };
 
-  jovian.hardware.has.amd.gpu = true;
-  jovian.steam.updater.splash = "jovian";
+  # jovian.hardware.has.amd.gpu = true;
+  # jovian.steam.updater.splash = "jovian";
 
   nix.settings = {
     substituters = [ "https://ezkea.cachix.org" ];

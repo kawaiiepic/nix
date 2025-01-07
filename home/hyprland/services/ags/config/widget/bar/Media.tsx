@@ -16,9 +16,9 @@ export default () => {
   const revealer = new Widget.Revealer({
     transitionDuration: 1000,
     transitionType: Gtk.RevealerTransitionType.SLIDE_RIGHT,
-    child: bind(mpris, "players").as(
-      (players) =>
-        new Widget.Box({
+    child: bind(mpris, "players").as((players) => {
+      if (players[0]) {
+        return new Widget.Box({
           children: [
             new Widget.EventBox({
               className: "media-buttons",
@@ -47,8 +47,9 @@ export default () => {
               }),
             }),
           ],
-        }),
-    ),
+        });
+      }
+    }),
   });
 
   return new Widget.EventBox({
@@ -61,6 +62,7 @@ export default () => {
       }
     },
     child: bind(mpris, "players").as((players) => {
+      print(players.length);
       if (players[0]) {
         return new Widget.Box({
           className: "media",

@@ -6,7 +6,7 @@
   java = pkgs.jdk21;
   gradle = pkgs.gradle;
 in {
-  home.packages = with pkgs; [alejandra gradle java nil nodePackages.prettier nodejs flutter rustup];
+  # home.packages = with pkgs; [alejandra gradle java nil nodePackages.prettier nodejs flutter rustup];
 
   programs.vscode = {
     enable = true;

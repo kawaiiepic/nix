@@ -35,29 +35,20 @@ export default (gdkmonitor: Gdk.Monitor) =>
     child: new Widget.Box({
       className: "profile",
       vertical: true,
+      spacing: 12,
       children: [
         new Widget.CenterBox({
           start_widget: new Widget.Box({
             spacing: 5,
             children: [
               new Widget.Box({
-                className: "profile-pic",
+                className: "profile-pfp",
                 hexpand: false,
                 halign: Gtk.Align.CENTER,
                 vexpand: false,
                 valign: Gtk.Align.CENTER,
+                tooltipText: "mia@dreamhouse",
                 css: "background-image: url('/home/mia/.face');",
-              }),
-              new Widget.CenterBox({
-                child: new Widget.Label({ label: "Cutie" }),
-              }),
-
-              new Widget.CenterBox({
-                child: new Widget.Label({ label: "Cutie" }),
-              }),
-
-              new Widget.CenterBox({
-                child: new Widget.Label({ label: "Cutie" }),
               }),
             ],
           }),
@@ -68,15 +59,58 @@ export default (gdkmonitor: Gdk.Monitor) =>
             children: [RefreshButton(), LockButton(), ShutdownButton()],
           }),
         }),
+
+        new Widget.Box({
+          spacing: 30,
+          halign: Gtk.Align.CENTER,
+          vexpand: false,
+          children: [
+            InternetButton(),
+            BluetoothButton(),
+            DoNotDisturbButton(),
+            NightLightButton(),
+          ],
+        }),
+
+        new Widget.Box({
+          spacing: 30,
+          halign: Gtk.Align.CENTER,
+          vexpand: false,
+          children: [
+            InternetButton(),
+            BluetoothButton(),
+            DoNotDisturbButton(),
+            NightLightButton(),
+          ],
+        }),
+
+        new Widget.Box({
+          className: "profile-progressbar",
+          spacing: 25,
+          children: [
+            new Widget.Label({halign: Gtk.Align.CENTER, label: "" }),
+            new Widget.LevelBar({
+              valign: Gtk.Align.CENTER,
+              hexpand: true,
+              value: 0.5,
+            }),
+          ],
+        }),
         
         new Widget.Box({
-                 spacing: 30,
-                 halign: Gtk.Align.CENTER,
-                 vexpand: false,
-                 children: [InternetButton(), BluetoothButton(), DoNotDisturbButton(), NightLightButton()],
-               }),
+          className: "profile-progressbar",
+          spacing: 25,
+          children: [
+            new Widget.Label({halign: Gtk.Align.CENTER, label: "󰃠" }),
+            new Widget.LevelBar({
+              valign: Gtk.Align.CENTER,
+              hexpand: true,
+              value: 0.8,
+            }),
+          ],
+        }),
 
-        new Widget.Label({ label: "This is to test how it looks. This is to test how it looks. This is to test how it looks. This is to test how it looks." }),
+        new Widget.Label({ label: "Uptime: 23 hrs" }),
       ],
     }),
   });

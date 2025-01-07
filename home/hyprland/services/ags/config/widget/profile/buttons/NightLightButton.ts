@@ -8,6 +8,7 @@ export default () =>
     tooltip_text: "Toggle Night Light",
     active: true,
     child: new Widget.Label({
+      className: "profile-normal-button-icon",
       label: "",
     }),
   });

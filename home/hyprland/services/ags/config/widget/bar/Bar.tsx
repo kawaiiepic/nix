@@ -10,6 +10,7 @@ import Time from "./Time";
 import UserProfile from "./UserProfile";
 import Bluetooth from "./Bluetooth";
 import Wallpaper from "./Wallpaper";
+import ShowDesktop from "./ShowDesktop";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
@@ -39,6 +40,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Bluetooth/>
           <SysTray></SysTray>
           <Time></Time>
+          <ShowDesktop/>
           <UserProfile></UserProfile>
         </box>
       </centerbox>
