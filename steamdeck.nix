@@ -28,4 +28,12 @@
       autoUpdate = true;
     };
   };
+  
+  users.users.mia = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "input"
+    ]; # Enable ‘sudo’ for the user.
+  };
 }
