@@ -10,6 +10,9 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.rocmSupport = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "freeimage-unstable-2021-11-01"
+  ];
   programs.nh = {
     enable = true;
     # weekly cleanup
