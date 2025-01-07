@@ -18,11 +18,13 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   networking.networkmanager.enable = true;
-
+  programs.gnupg.agent.enable = true;
   jovian = {
     hardware.has.amd.gpu = true;
     steam.enable = true;
     steam.user = "mia";
+    
+    decky-loader.enable = true;
 
     devices.steamdeck = {
       enable = true;
