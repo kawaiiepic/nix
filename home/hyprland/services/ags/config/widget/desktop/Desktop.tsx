@@ -15,7 +15,7 @@ const time = Variable("").poll(1000, "date");
 export const background = Variable("Boop").poll(30 * 60 * 1000, [
   "bash",
   "-c",
-  "find $HOME/Nextcloud/Photos/Wallpapers/ -type f | shuf -n 1",
+  `find ${SRC}/style/wallpapers -type f | shuf -n 1`,
 ]);
 
 function setup(menu: Menu) {
