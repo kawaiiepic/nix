@@ -98,6 +98,7 @@
         cursor = {
           inactive_timeout = 15;
           hide_on_key_press = true;
+          no_hardware_cursors = 1;
         };
 
         decoration = {
