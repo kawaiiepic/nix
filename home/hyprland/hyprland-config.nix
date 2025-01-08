@@ -37,6 +37,7 @@
             "DP-1,highrr,0x0,1.25,vrr,1"
             "HDMI-A-1,highrr,2048x0,auto,vrr,0"
             "DP-2,highres,3968x0,2,vrr,0,transform,2"
+            "eDP-1,highrr,0x0,1.25,transform,3"
           ];
 
           workspace = [

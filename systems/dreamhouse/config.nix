@@ -10,11 +10,12 @@
 }:
 {
   imports = [
+    ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
   ];
 
   networking.hostName = "dreamhouse";
-  
+
   system.stateVersion = "23.11"; # Did you read the comment?
 }

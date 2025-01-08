@@ -11,6 +11,8 @@
     ../default.nix
   ];
 
+  networking.hostName = "steamdeck";
+
   jovian = {
     hardware.has.amd.gpu = true;
     steam.enable = true;

@@ -8,12 +8,12 @@
     ../system/core/packages.nix
     ../system/core/shell.nix
     ../system/core/users.nix
-    
-    ../system/desktop/greetd.nix
+
+    #../system/desktop/greetd.nix
     ../system/desktop/hyprland.nix
-    
+
     ../system/games
-    
+
     ../system/nix
   ];
 }
