@@ -17,6 +17,11 @@
           "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
+          
+          "[workspace 1 silent] io.github.zen_browser.zen"
+          "[workspace 3 silent] discordcanary"
+          "[workspace 5 silent] steam"
+          
         ];
 
         master = {
@@ -313,6 +318,11 @@
         gestures = {
           workspace_swipe = true;
           workspace_swipe_create_new = true;
+          workspace_swipe_touch = true;
+        };
+        
+        render = {
+          direct_scanout = true;
         };
       }
       

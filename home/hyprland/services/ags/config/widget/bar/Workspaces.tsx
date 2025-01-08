@@ -11,7 +11,7 @@ export default () =>
       (i) =>
         new Widget.EventBox({
           onClick: (event) => {
-            hypr.message_async("dispatch workspace 5", null);
+            hypr.message_async(`dispatch workspace ${i}`, null);
           },
           child: new Widget.Label({
             // attribute: i,
