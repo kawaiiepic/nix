@@ -5,10 +5,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  services.scx = {
-    enable = true;
-    scheduler = "scx_rustland";
-  };
+  # services.scx = {
+  #   enable = true;
+  #   scheduler = "scx_rustland";
+  # };
 
   time.timeZone = "America/Detroit";
 

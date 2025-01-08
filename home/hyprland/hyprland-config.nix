@@ -148,7 +148,7 @@
           "$MOD, mouse_down, workspace, e-1"
           "$MOD, mouse_up, workspace, e+1"
 
-          "$MODSHIFT, Q, exit"
+          "$MODSHIFT, Q, hyprexit"
           "$MOD, Q, killactive"
           "$MOD, F, fullscreen,2"
           "$MODSHIFT, F, fullscreen, 1"
