@@ -309,7 +309,14 @@
             ];
           };
         };
+        
+        gestures = {
+          workspace_swipe = true;
+          workspace_swipe_create_new = true;
+        };
       }
+      
+      
 
       (lib.mkIf (osConfig.networking.hostName == "dreamhouse") {
         input = {

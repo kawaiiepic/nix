@@ -19,6 +19,7 @@
     steam.user = "mia";
 
     decky-loader.enable = true;
+    decky-loader.user = "mia";
 
     devices.steamdeck = {
       enable = true;

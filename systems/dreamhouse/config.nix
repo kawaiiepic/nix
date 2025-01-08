@@ -20,6 +20,10 @@
   jovian = {
     hardware.has.amd.gpu = true;
     steam.enable = true;
+    steam.user = "mia";
+
+    decky-loader.enable = true;
+    decky-loader.user = "mia";
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?
