@@ -13,6 +13,10 @@
 
   networking.hostName = "steamdeck";
 
+  hardware.steam-hardware.enable = true;
+
+  services.desktopManager.plasma6.enable = true;
+
   jovian = {
     hardware.has.amd.gpu = true;
     steam.enable = true;
@@ -27,5 +31,5 @@
     };
   };
   jovian.steam.autoStart = true;
-  jovian.steam.desktopSession = "hyprland";
+  jovian.steam.desktopSession = "plasma6";
 }
