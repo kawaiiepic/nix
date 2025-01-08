@@ -39,7 +39,7 @@
       wl-clipboard
       (pkgs.writeShellScriptBin "hyprexit" ''
         ${hyprland}/bin/hyprctl dispatch exit
-        ${systemd}/bin/loginctl terminate-user ${user}
+        ${systemd}/bin/loginctl terminate-user mia
       '')
     ];
 
