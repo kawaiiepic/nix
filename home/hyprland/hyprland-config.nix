@@ -17,11 +17,11 @@
           "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
-          
+
           "[workspace 1 silent] io.github.zen_browser.zen"
           "[workspace 3 silent] discordcanary"
           "[workspace 5 silent] steam"
-          
+
         ];
 
         master = {
@@ -42,7 +42,7 @@
             "DP-1,highrr,0x0,1.25,vrr,1"
             "HDMI-A-1,highrr,2048x0,auto,vrr,0"
             "DP-2,highres,3968x0,2,vrr,0,transform,2"
-            "eDP-1,highrr,0x0,1.25,transform,3"
+            "eDP-1,highrr,0x0,1,transform,3"
           ];
 
           workspace = [
@@ -315,19 +315,27 @@
             ];
           };
         };
-        
+
         gestures = {
           workspace_swipe = true;
           workspace_swipe_create_new = true;
           workspace_swipe_touch = true;
         };
-        
+
         render = {
           direct_scanout = true;
         };
+
+        input = {
+          kb_layout = "us";
+          accel_profile = "flat";
+
+          touchdevice = {
+            transform = 3;
+            output = "eDP-1";
+          };
+        };
       }
-      
-      
 
       (lib.mkIf (osConfig.networking.hostName == "dreamhouse") {
         input = {

@@ -2,11 +2,13 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   java = pkgs.jdk21;
   gradle = pkgs.gradle;
-in {
-  # home.packages = with pkgs; [alejandra gradle java nil nodePackages.prettier nodejs flutter rustup];
+in
+{
+  home.packages = with pkgs; [ nil ];
 
   programs.vscode = {
     enable = true;
@@ -14,7 +16,13 @@ in {
     enableUpdateCheck = false;
     mutableExtensionsDir = true;
 
-    package = pkgs.vscodium;
+    package = pkgs.vscodium.fhsWithPackages (
+      ps: with ps; [
+        nil
+        rustup
+        zlib
+      ]
+    );
     userTasks = {
       version = "2.0.0";
       tasks = [
@@ -67,12 +75,14 @@ in {
         extraBordersEnabled = false;
         workbenchMode = "default";
         bracketMode = "rainbow";
-        colorOverrides = {};
-        customUIColors = {};
+        colorOverrides = { };
+        customUIColors = { };
       })
     ];
 
     userSettings = {
+      "editor.fontFamily" = "'SpaceMono Nerd Font Mono', 'monospace', monospace";
+
       "workbench.iconTheme" = "catppuccin-mocha";
       "workbench.list.smoothScrolling" = true;
       "workbench.sideBar.location" = "right";
@@ -132,8 +142,8 @@ in {
       "dart.devToolsBrowser" = "default";
       "dart.lineLength" = 160;
 
-      "java.jdt.ls.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
-      "kotlin.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
+      # "java.jdt.ls.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
+      # "kotlin.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
 
       "redhat.telemetry.enabled" = true;
     };

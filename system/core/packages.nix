@@ -14,7 +14,7 @@
     # zenity
     # mangohud
     # rclone
-    # toybox
+    toybox
     # playerctl
     # clang-tools
     # # scx

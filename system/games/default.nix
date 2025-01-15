@@ -11,7 +11,7 @@
     heroic
     emulationstation-de
     ryujinx
-    xivlauncher
+    (pkgs.callPackage ./vita3k.nix { })
   ];
   
   programs.honkers-railway-launcher.enable = true;
