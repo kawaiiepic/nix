@@ -1,6 +1,7 @@
 {
   imports = [
     ../system/core/boot/plymouth.nix
+    ../system/core/boot/cachyos.nix
     
     ../system/core/audio.nix
     ../system/core/boot.nix
