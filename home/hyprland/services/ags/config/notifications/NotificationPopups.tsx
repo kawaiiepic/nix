@@ -3,9 +3,10 @@ import Notifd from "gi://AstalNotifd";
 import Notification from "./Notification";
 import { type Subscribable } from "astal/binding";
 import { GLib, Variable, bind, timeout } from "astal";
+import { Revealer } from "astal/gtk3/widget";
 
 // see comment below in constructor
-const TIMEOUT_DELAY = 5000;
+const TIMEOUT_DELAY = 8000;
 
 // The purpose if this class is to replace Variable<Array<Widget>>
 // with a Map<number, Widget> type in order to track notification widgets
@@ -32,7 +33,7 @@ class NotifiationMap implements Subscribable {
      * note that if the notification has any actions
      * they might not work, since the sender already treats them as resolved
      */
-    // notifd.ignoreTimeout = true
+    notifd.ignoreTimeout = true;
 
     notifd.connect("notified", (_, id) => {
       this.set(
@@ -56,7 +57,8 @@ class NotifiationMap implements Subscribable {
                * uncomment this if you want to "hide" the notifications
                * after TIMEOUT_DELAY
                */
-              this.delete(id);
+              (this.map.get(id) as Revealer).revealChild = false;
+              timeout(200, () => this.delete(id));
             }),
         })
       );
@@ -102,10 +104,10 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
       className="NotificationPopups"
       gdkmonitor={gdkmonitor}
       layer={Astal.Layer.OVERLAY}
-      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      exclusivity={Astal.Exclusivity.IGNORE}
       anchor={TOP | RIGHT}
     >
-      <box vertical>{bind(notifs)}</box>
+      <box vertical noImplicitDestroy>{bind(notifs)}</box>
     </window>
   );
 }

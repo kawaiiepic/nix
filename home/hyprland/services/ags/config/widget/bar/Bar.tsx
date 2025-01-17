@@ -11,6 +11,7 @@ import UserProfile from "./UserProfile";
 import Bluetooth from "./Bluetooth";
 import Wallpaper from "./Wallpaper";
 import ShowDesktop from "./ShowDesktop";
+import DefaultApplication from "./DefaultApplication";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
@@ -30,6 +31,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Launcher></Launcher>
           <Workspaces></Workspaces>
           <FocusedClient></FocusedClient>
+          <DefaultApplication/>
         </box>
         <box spacing={8}>
           <Media></Media>

@@ -11,6 +11,7 @@
     heroic
     emulationstation-de
     ryujinx
+    shadps4
     (pkgs.callPackage ./vita3k.nix { })
   ];
   

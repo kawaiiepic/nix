@@ -33,8 +33,11 @@ type Props = {
 export default function Notification(props: Props) {
   const { notification: n, onHoverLost, setup } = props;
   const { START, CENTER, END } = Gtk.Align;
+  
+  print(n.image);
 
   return (
+    <revealer reveal_child={true}>
     <eventbox
       className={`Notification ${urgency(n)}`}
       setup={setup}
@@ -108,5 +111,6 @@ export default function Notification(props: Props) {
         )}
       </box>
     </eventbox>
+    </revealer>
   );
 }

@@ -26,14 +26,14 @@ clangStdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "Vita3K";
     repo = "Vita3K";
-    rev = "4abf877d43e08b35ff4a0a89f51338c3d1754b67";
+    rev = "81b5daf2af91f2ff85c736c71db83440ab9e7d5c";
     fetchSubmodules = true;
-    hash = "sha256-Ey5J0WM5R0l6su1711hMa6ab6RWEX6ww7ZMbVeJa4uI=";
+    hash = "sha256-jnHW3+qyZlNaQS4YpoNBjPx3EZlsD3/LAPckrVu2G6o=";
   };
 
   ffmpeg-src = fetchurl {
-    url = "https://github.com/Vita3K/ffmpeg-core/releases/download/e30b7d7/ffmpeg-linux-x64.zip";
-    hash = "sha256-SZCYB+SxO6OfmhCdgjyXjV1JGK0LSkaeQXmPW7WzijM=";
+    url = "https://github.com/Vita3K/ffmpeg-core/releases/download/434b71f/ffmpeg-linux-x64.zip";
+    hash = "sha256-0az7TO1iIMMsCWW5Jotb32AlLGp0URG6L7pKZKh3sVY=";
   };
 
   postPatch = "

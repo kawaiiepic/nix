@@ -7,6 +7,7 @@
     git
     unrar
     wineWowPackages.staging
+    gtk3
     # alejandra
     # unrar
     # wineWowPackages.staging

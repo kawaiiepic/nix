@@ -4,6 +4,7 @@
   ...
 }:
 {
+  
   services.xembed-sni-proxy.enable = true;
 
   systemd.user.services = {

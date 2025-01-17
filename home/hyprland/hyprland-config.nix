@@ -128,9 +128,9 @@
         ];
 
         "$SC_FULL" =
-          "grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h string:hint:screenshot -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
+          "grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h 'string:image-path:/home/mia/.cache/sc.png' -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
         "$SC_AREA" =
-          "grimblast --freeze save area - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot Area' 'Copied to clipboard.' -h string:hint:screenshot -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
+          "grimblast --freeze save area - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot Area' 'Copied to clipboard.' -h 'string:image-path:/home/mia/.cache/sc.png' -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
 
         bind = [
           "${builtins.concatStringsSep "\n" (

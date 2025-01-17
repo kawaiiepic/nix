@@ -14,9 +14,14 @@ import InternetButton from "./buttons/InternetButton";
 import BluetoothButton from "./buttons/BluetoothButton";
 import NightLightButton from "./buttons/NightLightButton";
 import DoNotDisturbButton from "./buttons/DoNotDisturbButton";
+import { bind, GObject } from "astal";
+import Wp from "gi://AstalWp";
 
-export default (gdkmonitor: Gdk.Monitor) =>
-  new Widget.Window({
+export default (gdkmonitor: Gdk.Monitor) => {
+  const speaker = Wp.get_default()?.audio.defaultSpeaker!;
+  
+  
+  return new Widget.Window({
     name: "profile",
     className: "profile",
     visible: false,
@@ -50,67 +55,127 @@ export default (gdkmonitor: Gdk.Monitor) =>
                 tooltipText: "mia@dreamhouse",
                 css: "background-image: url('/home/mia/.face');",
               }),
+
+              new Widget.Box({
+                className: "profile-pill-button",
+                child: new Widget.Label({ label: "2h 15m" }),
+              }),
             ],
           }),
 
           end_widget: new Widget.Box({
             spacing: 5,
             halign: Gtk.Align.END,
-            children: [RefreshButton(), LockButton(), ShutdownButton()],
+            children: [LockButton(), ShutdownButton()],
           }),
         }),
 
-        new Widget.Box({
-          spacing: 30,
-          halign: Gtk.Align.CENTER,
-          vexpand: false,
-          children: [
-            InternetButton(),
-            BluetoothButton(),
-            DoNotDisturbButton(),
-            NightLightButton(),
-          ],
-        }),
+        new Separator({className: "sep"}),
 
         new Widget.Box({
-          spacing: 30,
-          halign: Gtk.Align.CENTER,
-          vexpand: false,
+          className: "pill",
+          vertical: true,
+          spacing: 12,
           children: [
-            InternetButton(),
-            BluetoothButton(),
-            DoNotDisturbButton(),
-            NightLightButton(),
-          ],
-        }),
-
-        new Widget.Box({
-          className: "profile-progressbar",
-          spacing: 25,
-          children: [
-            new Widget.Label({halign: Gtk.Align.CENTER, label: "" }),
-            new Widget.LevelBar({
-              valign: Gtk.Align.CENTER,
-              hexpand: true,
-              value: 0.5,
+            new Widget.Box({
+              className: "pill",
+              spacing: 30,
+              halign: Gtk.Align.CENTER,
+              hexpand: false,
+              vexpand: false,
+              children: [
+                InternetButton(),
+                BluetoothButton(),
+                DoNotDisturbButton(),
+                NightLightButton(),
+              ],
             }),
-          ],
-        }),
-        
-        new Widget.Box({
-          className: "profile-progressbar",
-          spacing: 25,
-          children: [
-            new Widget.Label({halign: Gtk.Align.CENTER, label: "󰃠" }),
-            new Widget.LevelBar({
-              valign: Gtk.Align.CENTER,
-              hexpand: true,
-              value: 0.8,
+
+            new Widget.Box({
+              className: "pill",
+              spacing: 30,
+              halign: Gtk.Align.CENTER,
+              hexpand: false,
+              vexpand: false,
+              children: [
+                InternetButton(),
+                BluetoothButton(),
+                DoNotDisturbButton(),
+                NightLightButton(),
+              ],
             }),
           ],
         }),
 
-        new Widget.Label({ label: "Uptime: 23 hrs" }),
+        new Widget.Box({
+          className: "pill",
+          child: new Widget.Box({
+            className: "pill",
+            vertical: true,
+            spacing: 12,
+            children: [
+              new Widget.Box({
+                className: "profile-progressbar",
+                spacing: 15,
+                children: [
+                  new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+                  new Widget.Slider({
+                    className: "slider",
+                    hexpand: true,
+                    onDragged: ({ value }) => (speaker.volume = value),
+                    value: bind(speaker, "volume"),
+                  }),
+                ],
+              }),
+
+              new Widget.Box({
+                className: "profile-progressbar",
+                spacing: 15,
+                children: [
+                  new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+                  new Widget.Slider({
+                    className: "slider",
+                    hexpand: true,
+                    onDragged: ({ value }) => (speaker.volume = value),
+                    value: bind(speaker, "volume"),
+                  }),
+                ],
+              }),
+            ],
+          }),
+        }),
+
+        new Separator({className: "sep"}),
+
+        new Widget.Box({
+          className: "calendar",
+          child: new Calendar({
+            hexpand: true,
+          }),
+        }),
       ],
     }),
   });
+}
+
+export class Calendar extends astalify(Gtk.Calendar) {
+  static {
+    GObject.registerClass(this);
+  }
+
+  constructor(props: ConstructProps<Calendar, Gtk.Calendar.ConstructorProps>) {
+    super(props as any);
+  }
+}
+
+export class Separator extends astalify(Gtk.Separator) {
+  static {
+    GObject.registerClass(this);
+  }
+
+  constructor(
+    props: ConstructProps<Separator, Gtk.Separator.ConstructorProps>,
+  ) {
+    super(props as any);
+  }
+}
