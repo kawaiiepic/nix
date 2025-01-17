@@ -47,4 +47,6 @@
 
   jovian.steam.autoStart = true;
   jovian.steam.desktopSession = "hyprland";
+  
+  programs.steam.extest.enable = true;
 }

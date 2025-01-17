@@ -1,4 +1,4 @@
-{
+{pkgs,... }:{
   imports = [
     ./kitty
     ./vesktop
@@ -7,6 +7,11 @@
     ./spotify
     ./vscode
     ./helix
+  ];
+
+  home.packages = [
+    (pkgs.callPackage ./wvkbd.nix { })
+    
   ];
 
 }
