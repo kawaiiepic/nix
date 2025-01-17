@@ -1,5 +1,7 @@
 {
   imports = [
+    ../system/core/boot/plymouth.nix
+    
     ../system/core/audio.nix
     ../system/core/boot.nix
     ../system/core/fonts.nix

@@ -19,12 +19,8 @@
   home = {
     packages = with pkgs; [
       libnotify
-      # pinentry-gnome3
       pinentry-gnome3
-      # gcr_4
-      # jaq
       swayosd
-      # xdg-utils
 
       nautilus
       file-roller
@@ -35,6 +31,7 @@
       wtype # Auto-typing
       wlr-randr # Randr Wayland
       seahorse # Password manager
+      gthumb
 
       wl-clipboard
       (pkgs.writeShellScriptBin "launcher" ''
@@ -44,11 +41,14 @@
         ${hyprland}/bin/hyprctl dispatch exit
         ${systemd}/bin/loginctl terminate-user mia
       '')
+      (pkgs.writeShellScriptBin "start" ''
+       hyprctl dispatch exec "[workspace 1] kitty"
+       hyprctl dispatch exec "[workspace 3] discord"
+       hyprctl dispatch exec "[workspace 5] steam"
+      '')
     ];
 
     sessionVariables = {
-      # QT_QPA_PLATFORM = "wayland";
-      # XDG_SESSION_TYPE = "wayland";
       HYPRCURSOR_THEME = "GoogleDot-Violet";
       HYPRCURSOR_SIZE = 24;
       NIXOS_OZONE_WL = "1";

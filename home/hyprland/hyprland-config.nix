@@ -14,14 +14,10 @@
         exec-once = [
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
           "swayosd-server"
-          "nextcloud"
+          # "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
-
-          "[workspace 1 silent] io.github.zen_browser.zen"
-          "[workspace 3 silent] discordcanary"
-          "[workspace 5 silent] steam"
-
+          "sleep 5 && start"
         ];
 
         master = {
@@ -92,24 +88,19 @@
           swallow_regex = "kitty";
           focus_on_activate = true;
           new_window_takes_over_fullscreen = 2;
-          # initial_workspace_tracking = 1;
         };
 
         cursor = {
           inactive_timeout = 15;
           hide_on_key_press = true;
-          no_hardware_cursors = 1;
         };
 
         decoration = {
           rounding = 8;
-          # shadow_offset = "0 8";
-          # shadow_range = 50;
 
           blur = {
             size = 3;
             passes = 2;
-            #xray = true;
           };
         };
 
@@ -193,7 +184,7 @@
           "$MOD, X, exec, hyprpicker"
           "$MOD, Return, exec, kitty"
           "$MODSHIFT, Return, exec, [float] kitty "
-          "$MOD, D, exec, pkill wofi || wofi"
+          "$MOD, D, exec, launcher"
           ", XF86LaunchB, exec,  pkill wofi || wofi"
           "$MOD, E, exec, nautilus --new-window"
           ", XF86AudioPlay, exec, playerctl play-pause"
@@ -202,7 +193,6 @@
 
           "CTRL+SHIFT,G,pass,^(com\.obsproject\.Studio)$"
           "CTRL+SHIFT,G,exec,notify-send 'Clip Saved'"
-          # "$MODSHIFT,G,pass,^(com\.obsproject\.Studio)$"
         ];
 
         bindel = [
@@ -323,7 +313,7 @@
         };
 
         render = {
-          direct_scanout = true;
+          direct_scanout = false;
         };
 
         input = {

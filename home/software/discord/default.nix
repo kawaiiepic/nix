@@ -49,20 +49,12 @@ in {
 
     programs.nixcord = {
         enable = true;  # enable Nixcord. Also installs discord package
-        # discord.package = inputs.nix-master.legacyPackages.${pkgs.system}.discord-canary;
-        discord.package = pkgs.discord-canary;
-        # quickCss = "some CSS";  # quickCSS file
         config = {
           useQuickCss = false;   # use out quickCSS
-          # themeLinks = [];
           frameless = true; # set some Vencord options
           plugins = {
              # Enable a Vencord plugin
           };
         };
-        # extraConfig = {
-        #   # Some extra JSON config here
-        #   # ...
-        # };
       };
 }

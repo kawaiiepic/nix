@@ -4,6 +4,8 @@
     inputs.aagl.nixosModules.default
   ];
   
+  
+  
   environment.systemPackages = with pkgs; [
     
     nexusmods-app-unfree

@@ -22,7 +22,7 @@
     steam.enable = true;
     steam.user = "mia";
 
-    decky-loader.enable = true;
+    decky-loader.enable = false;
     decky-loader.user = "mia";
   };
 

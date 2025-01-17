@@ -1,3 +1,4 @@
+import { bind } from "astal";
 import { Widget } from "astal/gtk3";
 import Bluetooth from "gi://AstalBluetooth";
 
@@ -19,5 +20,7 @@ export default () => {
         print(bluetooth.devices.length);
         self.visible = bluetooth.devices.length > 0;
       }),
+
+    visible: bind(bluetooth, "devices").as((devices) => devices.length > 0),
   });
 };

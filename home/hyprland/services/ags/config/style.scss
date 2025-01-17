@@ -160,8 +160,8 @@ window.profile {
 }
 
 .profile-pfp {
-    min-width: 25px;
-    min-height: 25px;
+    min-width: 30px;
+    min-height: 30px;
     border-radius: 50%;
     background-size: cover;
     background-position: center;
@@ -189,9 +189,10 @@ window.profile {
 .profile-normal-button {
     min-width: 40px;
     min-height: 40px;
+ 
 
     &:checked {
-        background-color: rgba(color.$pink, 0.5);
+        background-color: rgba(color.$pink, 0.4);
     }
 }
 

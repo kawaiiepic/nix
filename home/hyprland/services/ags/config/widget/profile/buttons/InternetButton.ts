@@ -1,18 +1,19 @@
 import { bind } from "astal";
-import { Widget } from "astal/gtk3";
+import { Gtk, Widget } from "astal/gtk3";
 import Network from "gi://AstalNetwork";
 import { ToggleButton } from "../../customWidget/ToggleButton";
 
 const { wifi } = Network.get_default();
 export default () =>
   new Widget.Box({
+    css: "max-width: 5px;",
     vertical: true,
-    hexpand: false,
     children: [
       new ToggleButton({
-        vexpand: false,
-        hexpand: false,
         className: "profile-normal-button circular",
+        hexpand: false,
+        halign: Gtk.Align.CENTER,
+        
         active: true,
         child: new Widget.Icon({
           className: "profile-normal-button-icon",
@@ -20,10 +21,8 @@ export default () =>
         }),
       }),
       new Widget.Box({
-        hexpand: false,
         children: [
           new Widget.Label({
-            hexpand: false,
             label: bind(wifi, "ssid"),
           }),
           new Widget.Label({ label: "" }),
