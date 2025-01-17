@@ -9,7 +9,9 @@
   imports = [
     ./hardware.nix
     # ../default.nix
-    
+
+    ../system/core/boot/plymouth.nix
+
     ../system/core/audio.nix
     ../system/core/boot.nix
     ../system/core/fonts.nix
@@ -19,7 +21,7 @@
     ../system/core/shell.nix
     ../system/core/users.nix
 
-    #../system/desktop/greetd.nix
+    ../system/desktop/greetd.nix
     ../system/desktop/hyprland.nix
 
     ../system/games
@@ -28,10 +30,6 @@
   ];
 
   networking.hostName = "steamdeck";
-
-  hardware.steam-hardware.enable = true;
-
-  services.desktopManager.plasma6.enable = true;
 
   jovian = {
     hardware.has.amd.gpu = true;
@@ -46,6 +44,7 @@
       autoUpdate = true;
     };
   };
+
   jovian.steam.autoStart = true;
   jovian.steam.desktopSession = "hyprland";
 }
