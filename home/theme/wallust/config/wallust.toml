@@ -44,4 +44,4 @@ palette = "dark"
 # target: Absolute path in which to place a file with generated templated values.
 # If one is a directory, the other one NEEDS to also be one, one line example below
 # zathura = { template = 'zathura', target = '~/.config/zathura/zathurarc' }
-pywal = { src = "templates/", dst = '~/.cache/wal/', pywal = true }
+hypr = { src = "hyprland-colors.conf", dst = "~/.config/hypr/colors.conf" }
