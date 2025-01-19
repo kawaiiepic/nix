@@ -11,7 +11,7 @@
     nexusmods-app-unfree
     lutris
     heroic
-    emulationstation-de
+    #emulationstation-de
     steam-rom-manager
     ryujinx
     shadps4
