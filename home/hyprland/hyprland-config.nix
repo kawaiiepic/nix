@@ -155,7 +155,7 @@
           "$MODSHIFT, F, fullscreen, 1"
           "$MOD, Escape, exec, wlogout -p layer-shell"
           "$MOD, L, exec, pidof hyprlock || hyprlock"
-          "$MOD, K, exec, pkill -RTMIN wvkbd"
+          "$MOD, O, exec, pkill -RTMIN wvkbd"
           "$MOD, Space, togglefloating"
           # "$MOD, R,  overview:toggle, all"
           # "$MODSHIFT, R, hyprexpo:expo, toggle"
