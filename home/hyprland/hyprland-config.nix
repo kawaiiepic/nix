@@ -114,6 +114,7 @@
 
         layerrule = [
           "blur,logout_dialog"
+          "order 100,gtk-layer-shell"
           # "blurpopups,logout_dialog"
           # "dimaround,logout_dialog"
         ];

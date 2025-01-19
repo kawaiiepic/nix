@@ -2,9 +2,13 @@
   pkgs,
   lib,
   config,
+  osConfig,
   inputs,
   ...
-}: {
+}:
+{
+
+  home.packages = with pkgs; [ brightnessctl ];
   # screen idle
   services.hypridle = {
     enable = true;
@@ -13,29 +17,48 @@
       after_sleep_cmd = "hyprctl dispatch dpms on";
       lock_cmd = "pidof hyprlock || hyprlock";
 
-      listener = [
-        {
-          timeout = 300;
-          on-timeout = "pidof hyprlock || hyprlock";
-        }
+      listener =
+        if osConfig.networking.hostName == "steamdeck" then
+          [
+            {
+              timeout = 150;
+              on-timeout = "brightnessctl -s set 10";
+              on-resume = "brightnessctl -r";
+            }
+            {
+              timeout = 330;
+              on-timeout = "hyprctl dispatch dpms off"; # # Turn off display
+              on-resume = "hyprctl dispatch dpms on";
+            }
 
-        {
-          timeout = 330;
-          onTimeout = "notify-send 'Hypridle' 'Display turned off.'"; ## Turn off display
-          onResume = "notify-send 'Hypridle' 'Display turned back on.'";
-        }
+            {
+              timeout = 400; # 30min
+              on-timeout = "systemctl suspend"; # suspend pc
+            }
+          ]
+        else
+          [
+            {
+              timeout = 150;
+              on-timeout = "brightnessctl -s set 10";
+              on-resume = "brightnessctl -r";
+            }
+            {
+              timeout = 300;
+              on-timeout = "hyprlock";
+            }
 
-        {
-          timeout = 1800; # 30min
-          on-timeout = "systemctl suspend"; # suspend pc
-        }
+            {
+              timeout = 330;
+              on-timeout = "hyprctl dispatch dpms off"; # # Turn off display
+              on-resume = "hyprctl dispatch dpms on";
+            }
 
-        # {
-        #   timeout = 380;
-        #   onTimeout = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-        #   onResume = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-        # }
-      ];
+            {
+              timeout = 1800; # 30min
+              on-timeout = "systemctl suspend"; # suspend pc
+            }
+          ];
     };
   };
 }

@@ -48,5 +48,9 @@
   jovian.steam.autoStart = true;
   jovian.steam.desktopSession = "hyprland";
   
+  programs.hyprlock = {
+    enable = true;
+  };
+  
   programs.steam.extest.enable = true;
 }

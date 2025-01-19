@@ -1,4 +1,5 @@
-{pkgs,... }:{
+{ pkgs, inputs, ... }:
+{
   imports = [
     ./kitty
     ./vesktop
@@ -10,8 +11,8 @@
   ];
 
   home.packages = [
+    inputs.zen-browser.packages.${pkgs.system}.default
     (pkgs.callPackage ./wvkbd.nix { })
-    
   ];
 
 }

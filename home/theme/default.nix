@@ -4,6 +4,10 @@
   ...
 }:
 {
+  
+  imports = [
+    ./wallust
+  ];
 
   home.file = {
     ".icons/GoogleDot-Violet" = {

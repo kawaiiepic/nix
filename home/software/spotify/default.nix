@@ -17,6 +17,7 @@
       shuffle # shuffle+ (special characters are sanitized out of ext names)
       playlistIcons
       lastfm
+      adblock
     ];
   };
 }
