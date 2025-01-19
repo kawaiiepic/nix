@@ -12,6 +12,7 @@
     lutris
     heroic
     emulationstation-de
+    steam-rom-manager
     ryujinx
     shadps4
     (pkgs.callPackage ./vita3k.nix { })
