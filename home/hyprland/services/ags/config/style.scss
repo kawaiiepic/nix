@@ -2,7 +2,7 @@
 $theme_fg_color: "@theme_fg_color";
 $theme_bg_color: "@theme_bg_color";
 
-@use "./style/color";
+/* @use "./style/color"; */
 @use "sass:string";
 
 @use "./notifications/Notification.scss";
@@ -47,13 +47,13 @@ $theme_bg_color: "@theme_bg_color";
 }
 
 window.bar {
-    background-color: color.$base;
-    color: color.$text;
+    background-color: @background;
+    color: @background;
     font-weight: bold;
 
     eventbox {
         &:hover {
-            color: color.$pink;
+            color: @background;
         }
     }
 }
@@ -82,16 +82,16 @@ window.bar {
         min-width: 7pt;
         min-height: 7pt;
         border-radius: 7pt;
-        box-shadow: inset 0 0 0 20pt color.$surface0;
+        box-shadow: inset 0 0 0 20pt @background;
         margin: 0 2.5pt;
         transition: min-width 0.5s ease-out;
 
         &.occupied {
-            box-shadow: inset 0 0 0 20pt color.$text;
+            box-shadow: inset 0 0 0 20pt @background;
         }
 
         &.focused {
-            box-shadow: inset 0 0 0 20pt color.$text;
+            box-shadow: inset 0 0 0 20pt @background;
             min-width: 28pt;
             min-height: 10pt;
         }
@@ -141,7 +141,7 @@ window.bar {
 }
 
 .desktop {
-    background-color: color.$base;
+    background-color: @background;
 }
 
 .profile-pic {
@@ -155,8 +155,8 @@ window.bar {
 }
 
 window.profile {
-    background-color: color.$base;
-    color: color.$text;
+    background-color: @background;
+    color: @background;
 }
 
 .profile-pfp {
@@ -189,45 +189,44 @@ window.profile {
 .profile-normal-button {
     min-width: 40px;
     min-height: 40px;
- 
 
     &:checked {
-        background-color: rgba(color.$pink, 0.4);
+        background-color: rgba(@background, 0.4);
     }
 }
 
 .profile-normal-button-icon {
-    color: color.$text;
+    color: @background;
     font-size: 18pt;
 }
 
 .profile-normal-button-label {
-    color: color.$text;
+    color: @background;
     font-size: 15pt;
 }
 
 .profile-pill-button {
     font-size: 8pt;
     border-radius: 15px;
-    background-color: color.$surface0;
+    background-color: @background;
     padding-left: 8pt;
     padding-right: 8pt;
 }
 
 .pill {
-    background-color: color.$surface0;
+    background-color: @background;
     border-radius: 11px;
     padding: 4px;
 }
 
 .pill2 {
-    background-color: color.$surface1;
+    background-color: @background;
     border-radius: 11px;
     padding: 4px;
 }
 
 .sep {
-    background-color: color.$mantle;
+    background-color: @background;
 }
 
 .calendar {
@@ -268,7 +267,7 @@ window#launcher {
     }
 
     box.Applauncher {
-        background-color: color.$base;
+        background-color: @background;
         border-radius: 11px;
         margin: 1rem;
         padding: 0.8rem;
@@ -295,7 +294,7 @@ window#launcher {
             }
 
             label.description {
-                color: gtkalpha(color.$text, 0.8);
+                color: gtkalpha(@background, 0.8);
             }
         }
 
@@ -304,11 +303,11 @@ window#launcher {
 
             icon {
                 font-size: 6em;
-                color: gtkalpha(color.$text, 0.7);
+                color: gtkalpha(@background, 0.7);
             }
 
             label {
-                color: gtkalpha(color.$text, 0.9);
+                color: gtkalpha(@background, 0.9);
                 font-size: 1.2em;
             }
         }

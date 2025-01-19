@@ -6,7 +6,7 @@ import Profile from "./widget/profile/Profile";
 import Bar from "./widget/bar/Bar";
 import Applauncher from "./widget/appLauncher/Applauncher";
 
-App.apply_css("/home/mia/ags/colors.css");
+App.apply_css("/home/mia/.config/colors.css");
 
 App.start({
   icons: `${SRC}/style/assets`,

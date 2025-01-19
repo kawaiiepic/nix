@@ -45,3 +45,5 @@ palette = "dark"
 # If one is a directory, the other one NEEDS to also be one, one line example below
 # zathura = { template = 'zathura', target = '~/.config/zathura/zathurarc' }
 hypr = { src = "hyprland-colors.conf", dst = "~/.config/hypr/colors.conf" }
+ags-css = { src = "ags-colors.css", dst = "~/.config/ags/colors.css" }
+css = { src = "colors.css", dst = "~/.config/colors.css" }
