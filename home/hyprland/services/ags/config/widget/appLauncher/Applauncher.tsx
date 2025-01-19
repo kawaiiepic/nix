@@ -55,7 +55,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
 
   new Widget.Window({
     name: "launcher",
-    visible: true,
+    visible: false,
     gdkmonitor: gdkmonitor,
     application: App,
     exclusivity: Astal.Exclusivity.IGNORE,
