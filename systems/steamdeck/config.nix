@@ -51,6 +51,4 @@
   programs.hyprlock = {
     enable = true;
   };
-  
-  programs.steam.extest.enable = true;
 }

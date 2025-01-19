@@ -15,6 +15,7 @@
         exec-once = [
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
           "swayosd-server"
+          "wvkbd-mobintl --hidden --alpha 50 -L 200"
           # "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
@@ -153,6 +154,7 @@
           "$MODSHIFT, F, fullscreen, 1"
           "$MOD, Escape, exec, wlogout -p layer-shell"
           "$MOD, L, exec, pidof hyprlock || hyprlock"
+          "$MOD, K, exec, pkill -RTMIN wvkbd"
           "$MOD, Space, togglefloating"
           # "$MOD, R,  overview:toggle, all"
           # "$MODSHIFT, R, hyprexpo:expo, toggle"

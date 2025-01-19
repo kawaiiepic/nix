@@ -7,7 +7,7 @@ export default () =>
       background.poll(30 * 60 * 1000, [
         "bash",
         "-c",
-        `find ${SRC}/style/wallpapers -type f | shuf -n 1`,
+        `WALL="$(find ${SRC}/style/wallpapers -type f | shuf -n 1)" && ln -sf $WALL $HOME/.cache/background && echo $WALL`,
       ]);
     },
     child: new Widget.Label({

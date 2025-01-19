@@ -1,12 +1,14 @@
 // https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$theme_fg_color: "@theme_fg_color";
-$theme_bg_color: "@theme_bg_color";
+$theme_fg_color: "$theme_fg_color";
+$theme_bg_color: "$theme_bg_color";
 
-/* @use "./style/color"; */
+@use "./style/color";
 @use "sass:string";
 
 @use "./notifications/Notification.scss";
-/* @import url("colors.css"); */
+/* @use "/home/mia/.config/colors.scss"; */
+/* @use "./colors"; */
+/* $import url("colors.css"); */
 
 @function gtkalpha($c, $a) {
     @return string.unquote("alpha(#{$c},#{$a})");
@@ -19,7 +21,7 @@ $theme_bg_color: "@theme_bg_color";
         all: unset;
 
         &.button {
-            /* @include button($flat: true); */
+            /* $include button($flat: true); */
             margin: 1em;
         }
 
@@ -48,13 +50,13 @@ $theme_bg_color: "@theme_bg_color";
 }
 
 window.bar {
-    background-color: @background;
-    color: @background;
+    background-color: color.$base;
+    color: color.$text;
     font-weight: bold;
 
     eventbox {
         &:hover {
-            color: @background;
+            color: color.$pink;
         }
     }
 }
@@ -83,16 +85,16 @@ window.bar {
         min-width: 7pt;
         min-height: 7pt;
         border-radius: 7pt;
-        box-shadow: inset 0 0 0 20pt @background;
+        box-shadow: inset 0 0 0 20pt color.$surface0;
         margin: 0 2.5pt;
         transition: min-width 0.5s ease-out;
 
         &.occupied {
-            box-shadow: inset 0 0 0 20pt @background;
+            box-shadow: inset 0 0 0 20pt color.$text;
         }
 
         &.focused {
-            box-shadow: inset 0 0 0 20pt @background;
+            box-shadow: inset 0 0 0 20pt color.$text;
             min-width: 28pt;
             min-height: 10pt;
         }
@@ -142,7 +144,7 @@ window.bar {
 }
 
 .desktop {
-    background-color: @background;
+    background-color: color.$base;
 }
 
 .profile-pic {
@@ -156,8 +158,8 @@ window.bar {
 }
 
 window.profile {
-    background-color: @background;
-    color: @background;
+    background-color: color.$base;
+    color: color.$text;
 }
 
 .profile-pfp {
@@ -192,42 +194,42 @@ window.profile {
     min-height: 40px;
 
     &:checked {
-        background-color: rgba(@background, 0.4);
+        background-color: rgba(color.$pink, 0.4);
     }
 }
 
 .profile-normal-button-icon {
-    color: @background;
+    color: color.$text;
     font-size: 18pt;
 }
 
 .profile-normal-button-label {
-    color: @background;
+    color: color.$text;
     font-size: 15pt;
 }
 
 .profile-pill-button {
     font-size: 8pt;
     border-radius: 15px;
-    background-color: @background;
+    background-color: color.$surface0;
     padding-left: 8pt;
     padding-right: 8pt;
 }
 
 .pill {
-    background-color: @background;
+    background-color: color.$surface0;
     border-radius: 11px;
     padding: 4px;
 }
 
 .pill2 {
-    background-color: @background;
+    background-color: color.$surface1;
     border-radius: 11px;
     padding: 4px;
 }
 
 .sep {
-    background-color: @background;
+    background-color: color.$mantle;
 }
 
 .calendar {
@@ -268,7 +270,7 @@ window#launcher {
     }
 
     box.Applauncher {
-        background-color: @background;
+        background-color: color.$base;
         border-radius: 11px;
         margin: 1rem;
         padding: 0.8rem;
@@ -295,7 +297,7 @@ window#launcher {
             }
 
             label.description {
-                color: gtkalpha(@background, 0.8);
+                color: gtkalpha(color.$text, 0.8);
             }
         }
 
@@ -304,11 +306,11 @@ window#launcher {
 
             icon {
                 font-size: 6em;
-                color: gtkalpha(@background, 0.7);
+                color: gtkalpha(color.$text, 0.7);
             }
 
             label {
-                color: gtkalpha(@background, 0.9);
+                color: gtkalpha(color.$text, 0.9);
                 font-size: 1.2em;
             }
         }
