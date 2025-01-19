@@ -9,7 +9,6 @@
   wayland.windowManager.hyprland = {
     settings = lib.mkMerge [
       {
-        "source" = "~/.config/hypr/colors.conf";
         "$MOD" = "SUPER";
 
         exec-once = [
