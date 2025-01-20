@@ -12,6 +12,7 @@
     heroic
     #emulationstation-de
     steam-rom-manager
+    mangohud
     prismlauncher
     ryujinx
     shadps4

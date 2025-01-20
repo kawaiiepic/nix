@@ -6,7 +6,6 @@ const MAX_ITEMS = 8;
 
 function hide() {
   App.get_window("launcher")!.hide();
-  1;
 }
 
 function AppButton({ app }: { app: Apps.Application }) {
@@ -36,15 +35,36 @@ function AppButton({ app }: { app: Apps.Application }) {
   );
 }
 
+function onHover(self: Widget.EventBox, ...args) {
+  self.toggleClassName("hover", true);
+}
+
+function onHoverLost(self: Widget.EventBox, ...args) {
+  self.toggleClassName("hover", false);
+}
+
 function AppIcon({ app }: { app: Apps.Application }) {
   return (
-    <button
+    <eventbox
+      vexpand={false}
+      hexpand={false}
+      expand={false}
       className="AppIcon"
+      halign={Gtk.Align.CENTER}
+      onHover={onHover}
+      onHoverLost={onHoverLost}
+      onClick={() => {
+        hide();
+        app.launch();
+      }}
     >
-      <box>
-        <icon icon={app.iconName} />
-      </box>
-    </button>
+      <icon
+        tooltipText={app.name}
+        halign={Gtk.Align.CENTER}
+        className="icon"
+        icon={app.iconName}
+      />
+    </eventbox>
   );
 }
 
@@ -54,7 +74,14 @@ export default (gdkmonitor: Gdk.Monitor) => {
   const { CENTER } = Gtk.Align;
 
   const text = Variable("");
-  const default_apps = [apps.fuzzy_query("zen")[0]];
+  const default_apps = [
+    apps.fuzzy_query("zen")[0],
+    apps.fuzzy_query("spotify")[0],
+    apps.fuzzy_query("files")[0],
+    apps.fuzzy_query("kitty")[0],
+    apps.fuzzy_query("zed")[0],
+    apps.fuzzy_query("steam")[0],
+  ];
   const list = text((text) =>
     apps
       .fuzzy_query(text)
@@ -66,7 +93,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
         return true;
       }),
   );
-  
+
   const onEnter = () => {
     apps.fuzzy_query(text.get())?.[0].launch();
     text.set("");
@@ -85,6 +112,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
     onKeyPressEvent: (self, event) => {
       if (event.get_keyval()[1] === Gdk.KEY_Escape) {
         App.toggle_window("launcher");
+        text.set("");
       }
     },
 
@@ -93,11 +121,12 @@ export default (gdkmonitor: Gdk.Monitor) => {
       vertical: true,
       spacing: 12,
       children: [
-        <label label="Gay..."/>,
-        <box halign={Gtk.Align.CENTER} spacing={6}>
-          {default_apps.map((app) => <AppIcon app={app} />)}
+        <box className="default-apps" halign={Gtk.Align.CENTER} spacing={6}>
+          {default_apps.map((app) => (
+            <AppIcon app={app} />
+          ))}
         </box>,
-        
+
         <box>
           <eventbox expand onClick={hide} />
           <box hexpand={false} vertical>

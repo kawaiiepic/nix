@@ -90,7 +90,7 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
       }
       layer="BACKGROUND"
     >
-      <eventbox onClick={yes}>
+      <eventbox className="macchiato" onClick={yes}>
         <Background />
       </eventbox>
     </window>

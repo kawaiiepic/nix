@@ -10,8 +10,15 @@ window.bar {
         padding-right: 10px;
         margin: 5px;
         border-radius: 12px;
-        border: 1px solid transparent;
-        /* background-clip: content-box; */
+        border: 1px solid white;
+    }
+    
+    .surface1 {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 8px;
+        border-radius: 12px;
+        border: 1px solid white;
     }
 
     .workspaces {

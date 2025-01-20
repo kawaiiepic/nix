@@ -1,0 +1,14 @@
+@use "../themes/theme" as *;
+
+window.desktop {
+    .wallpaper {
+        border-radius: 0px 0px 25px 25px;
+        background-size: cover;
+        border-bottom: 1px solid white;
+        transition: 250ms background-image;
+    }
+
+    @include theme() {
+        background-color: theme-get("base");
+    }
+}

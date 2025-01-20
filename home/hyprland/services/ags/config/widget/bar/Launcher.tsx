@@ -14,6 +14,7 @@ export default () => {
         vexpand={false}
         valign={Gtk.Align.CENTER}
         className="launcher"
+        tooltip_text={"NixOS " + Process.exec("uname -r")}
         css="background-image: url('/home/mia/.face');"
       />
     </eventbox>

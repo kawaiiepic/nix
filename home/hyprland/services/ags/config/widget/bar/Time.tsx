@@ -1,6 +1,6 @@
 import { Variable, GLib, bind, Process } from "astal";
 
-export default ({ format = "%H:%M — %a %d %b" }) => {
+export default ({ format = "%H:%M" }) => { //  — %a %d %b
   const time = Variable<string>("").poll(
     1000,
     () => GLib.DateTime.new_now_local().format(format)!,

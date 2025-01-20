@@ -6,13 +6,36 @@ window.launcher {
         background-color: transparent;
         border: none;
     }
-    
+
+    .icon {
+        font-size: 3em;
+    }
+
+    .default-apps {
+        padding: 10px;
+        box-shadow: 2px 3px 8px 0 util.gtkalpha(black, 0.4);
+        min-height: 50px;
+        min-width: 50px;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+    }
+
+    .hover {
+        font-size: 1.1em;
+    }
+
     box.AppIcon {
-        min-width: 35px;
-        min-height: 35px;
-        icon {
-            min-width: 35px;
-            min-height: 35px;
+        
+        
+        button {
+            icon {
+                font-size: 3em;
+            }
         }
     }
 
@@ -57,6 +80,15 @@ window.launcher {
     }
 
     @include theme() {
+        .default-apps {
+            background-color: theme-get("base");
+        }
+        
+        .hover {
+            background-color: theme-get("surface0");
+            border-radius: 12px;
+        }
+
         box.Applauncher {
             background-color: theme-get("base");
         }
