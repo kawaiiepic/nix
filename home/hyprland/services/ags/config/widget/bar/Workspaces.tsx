@@ -7,6 +7,7 @@ const hypr = Hyprland.get_default();
 export default () =>
   new Widget.Box({
     className: "workspaces",
+    vexpand: false,
     children: Array.from({ length: 5 }, (_, i) => i + 1).map(
       (i) =>
         new Widget.EventBox({

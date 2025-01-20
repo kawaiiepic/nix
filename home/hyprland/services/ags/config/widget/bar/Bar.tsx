@@ -16,18 +16,34 @@ import DefaultApplication from "./DefaultApplication";
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
     <window
-      className="bar"
+      name="bar"
+      className="bar macchiato"
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
       anchor={
-        Astal.WindowAnchor.TOP |
+        Astal.WindowAnchor.BOTTOM |
         Astal.WindowAnchor.LEFT |
         Astal.WindowAnchor.RIGHT
       }
       application={App}
     >
-      <centerbox>
-        <box hexpand halign={Gtk.Align.START}>
+      <centerbox className="macchiato">
+        <box css="padding-left: 2px;" hexpand halign={Gtk.Align.START}>
+          <Launcher />
+        </box>
+        <box className="surface" spacing={8}>
+          <Workspaces />
+        </box>
+        <box className="gay" spacing={8} hexpand halign={Gtk.Align.END}>
+          <label label="Gay" />
+          {/* <SysTray></SysTray> */}
+          {/* <Wallpaper /> */}
+          {/* <Audio></Audio> */}
+          {/* <Bluetooth/> */}
+          {/* <Time></Time> */}
+          {/* <ShowDesktop/> */}
+        </box>
+        {/* <box hexpand halign={Gtk.Align.START}>
           <Launcher></Launcher>
           <Workspaces></Workspaces>
           <FocusedClient></FocusedClient>
@@ -44,7 +60,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Time></Time>
           <ShowDesktop/>
           <UserProfile></UserProfile>
-        </box>
+        </box> */}
       </centerbox>
     </window>
   );

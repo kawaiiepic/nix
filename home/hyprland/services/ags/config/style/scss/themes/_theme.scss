@@ -1,0 +1,67 @@
+@use "sass:map";
+
+$themes: (
+    macchiato: (
+        text: #cad3f5,
+        subtext1: #b8c0e0,
+        subtext0: #a5adcb,
+        overlay2: #939ab7,
+        overlay1: #8087a2,
+        overlay0: #6e738d,
+        surface2: #5b6078,
+        surface1: #494d64,
+        surface0: #363a4f,
+        base: #24273a,
+        mantle: #1e2030,
+        crust: #181926,
+        color0: #f4dbd6,
+        color1: #f0c6c6,
+        color2: #f5bde6,
+        color3: #c6a0f6,
+        color4: #ed8796,
+        color5: #ee99a0,
+        color6: #f5a97f,
+        color7: #eed49f,
+        color8: #a6da95,
+        color9: #8bd5ca,
+        color10: #91d7e3,
+        color11: #7dc4e4,
+        color12: #8aadf4,
+        color13: #b7bdf8,
+    ),
+    dark: (
+        text: #333333,
+        bg: #ffffff,
+        brand: #567567,
+    ),
+    light: (
+        text: #ffffff,
+        bg: #333333,
+        brand: #abcabc,
+    ),
+);
+
+$theme-map: null;
+
+@mixin theme() {
+    @each $theme, $map in $themes {
+        // $theme: darkTheme, lightTheme
+        // $map: ('text-color': ..., 'bg-color': ...)
+
+        // make the $map globally accessible, so that theme-get() can access it
+        $theme-map: $map !global;
+
+        // make a class for each theme using interpolation -> #{}
+        // use & for making the theme class ancestor of the class
+        // from which you use @include theme() {...}
+        & .#{$theme} {
+            @content; // the content inside @include theme() {...}
+        }
+    }
+    // no use of the variable $theme-map now
+    $theme-map: null !global;
+}
+
+@function theme-get($key) {
+    @return map.get($theme-map, $key);
+}

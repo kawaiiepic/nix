@@ -1,19 +1,21 @@
 import { Process } from "astal";
-import { App } from "astal/gtk3";
+import { App, Gtk } from "astal/gtk3";
 
 export default () => {
   return (
     <eventbox
       onClick={() => {
-        
         App.toggle_window("launcher");
       }}
     >
-      <icon
+      <box
+        halign={Gtk.Align.CENTER}
+        hexpand={false}
+        vexpand={false}
+        valign={Gtk.Align.CENTER}
         className="launcher"
-        icon="nixos-symbolic"
-        tooltip_text={"NixOS " + Process.exec("uname -r")}
-      ></icon>
+        css="background-image: url('/home/mia/.face');"
+      />
     </eventbox>
   );
 };

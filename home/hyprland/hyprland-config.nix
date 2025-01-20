@@ -30,8 +30,8 @@
           gaps_in = 5;
           gaps_out = 10;
           border_size = 2;
-          # "col.active_border" = "rgba(1e1e2eff) rgba(3a3144ff) 10deg";
-          # "col.inactive_border" = "rgba(1e1e2eff) rgba(314444ff) 10deg";
+          "col.active_border" = "rgba(1e1e2eff) rgba(3a3144ff) 10deg";
+          "col.inactive_border" = "rgba(1e1e2eff) rgba(314444ff) 10deg";
           layout = "master";
           resize_on_border = true;
           allow_tearing = true;

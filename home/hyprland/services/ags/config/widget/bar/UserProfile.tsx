@@ -23,7 +23,7 @@ export default () => {
         valign={Gtk.Align.CENTER}
         className="profile-pic"
         css="background-image: url('/home/mia/.face');"
-      ></box>
+        />
     </eventbox>
   );
 }

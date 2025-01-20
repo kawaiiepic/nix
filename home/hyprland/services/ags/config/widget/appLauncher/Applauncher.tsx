@@ -36,31 +36,52 @@ function AppButton({ app }: { app: Apps.Application }) {
   );
 }
 
+function AppIcon({ app }: { app: Apps.Application }) {
+  return (
+    <button
+      className="AppIcon"
+    >
+      <box>
+        <icon icon={app.iconName} />
+      </box>
+    </button>
+  );
+}
+
 export default (gdkmonitor: Gdk.Monitor) => {
   const apps = new Apps.Apps();
 
   const { CENTER } = Gtk.Align;
 
   const text = Variable("");
-  const list = text((text) => apps.fuzzy_query(text).slice(0, MAX_ITEMS).filter((app) => {
-    if(app.executable.includes("steam://rungameid")){
-      return false;
-    }
-    return true;
-  }));
+  const default_apps = [apps.fuzzy_query("zen")[0]];
+  const list = text((text) =>
+    apps
+      .fuzzy_query(text)
+      .slice(0, MAX_ITEMS)
+      .filter((app) => {
+        if (app.executable.includes("steam://rungameid")) {
+          return false;
+        }
+        return true;
+      }),
+  );
+  
   const onEnter = () => {
     apps.fuzzy_query(text.get())?.[0].launch();
+    text.set("");
     hide();
   };
 
   new Widget.Window({
     name: "launcher",
+    className: "launcher",
     visible: false,
     gdkmonitor: gdkmonitor,
     application: App,
     exclusivity: Astal.Exclusivity.IGNORE,
     keymode: Astal.Keymode.EXCLUSIVE,
-     anchor: Astal.WindowAnchor.TOP,
+    anchor: Astal.WindowAnchor.TOP,
     onKeyPressEvent: (self, event) => {
       if (event.get_keyval()[1] === Gdk.KEY_Escape) {
         App.toggle_window("launcher");
@@ -68,9 +89,15 @@ export default (gdkmonitor: Gdk.Monitor) => {
     },
 
     child: new Widget.Box({
+      className: "macchiato",
       vertical: true,
       spacing: 12,
-      child: (
+      children: [
+        <label label="Gay..."/>,
+        <box halign={Gtk.Align.CENTER} spacing={6}>
+          {default_apps.map((app) => <AppIcon app={app} />)}
+        </box>,
+        
         <box>
           <eventbox expand onClick={hide} />
           <box hexpand={false} vertical>
@@ -82,11 +109,9 @@ export default (gdkmonitor: Gdk.Monitor) => {
                 onChanged={(self) => text.set(self.text)}
                 onActivate={onEnter}
               />
-                <box spacing={6} vertical>
-                  {list.as((list) =>
-                    list.map((app) => <AppButton app={app} />),
-                  )}
-                </box>
+              <box spacing={6} vertical>
+                {list.as((list) => list.map((app) => <AppButton app={app} />))}
+              </box>
               <box
                 halign={CENTER}
                 className="not-found"
@@ -100,8 +125,8 @@ export default (gdkmonitor: Gdk.Monitor) => {
             <eventbox expand onClick={hide} />
           </box>
           <eventbox expand onClick={hide} />
-        </box>
-      ),
+        </box>,
+      ],
     }),
   });
 };

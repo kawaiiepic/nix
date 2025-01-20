@@ -7,12 +7,12 @@
   programs.steam.extest.enable = true;
 
   environment.systemPackages = with pkgs; [
-
     nexusmods-app-unfree
     lutris
     heroic
     #emulationstation-de
     steam-rom-manager
+    prismlauncher
     ryujinx
     shadps4
     (pkgs.callPackage ./vita3k.nix { })

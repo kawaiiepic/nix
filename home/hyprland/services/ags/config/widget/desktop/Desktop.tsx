@@ -28,7 +28,7 @@ function Background() {
       className="wallpaper"
       css={background((value) => `background-image: url('${value}')`)}
     >
-      <label
+      {/* <label
         className="wallpaper-label"
         yalign="0.9"
         valign="END"
@@ -36,7 +36,7 @@ function Background() {
         hexpand="true"
         vexpand="true"
         label="Splash Message"
-      ></label>
+      ></label> */}
       
     </box>
   );

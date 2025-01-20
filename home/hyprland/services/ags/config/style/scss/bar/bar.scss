@@ -1,0 +1,37 @@
+@use "../themes/theme" as *;
+@use "./workspaces.scss";
+@use "./launcher.scss";
+
+window.bar {
+    font-weight: bold;
+
+    .surface {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 5px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        /* background-clip: content-box; */
+    }
+
+    .workspaces {
+        @include workspaces.default;
+    }
+
+    .launcher {
+        @include launcher.default;
+    }
+
+    @include theme() {
+        background-color: theme-get("base");
+        color: theme-get("text");
+
+        .surface {
+            background-color: theme-get("surface0");
+        }
+
+        .workspaces {
+            @include workspaces.themed;
+        }
+    }
+}

@@ -6,7 +6,6 @@ import { ToggleButton } from "../../customWidget/ToggleButton";
 const { wifi } = Network.get_default();
 export default () =>
   new Widget.Box({
-    css: "max-width: 5px;",
     vertical: true,
     children: [
       new ToggleButton({

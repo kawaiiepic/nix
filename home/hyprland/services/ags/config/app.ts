@@ -1,11 +1,10 @@
 import { App } from "astal/gtk3";
-import style from "./style.scss";
+import style from "./style/scss/style.scss";
 import Desktop from "./widget/desktop/Desktop";
 import NotificationPopups from "./notifications/NotificationPopups";
 import Profile from "./widget/profile/Profile";
 import Bar from "./widget/bar/Bar";
 import Applauncher from "./widget/appLauncher/Applauncher";
-
 
 App.start({
   icons: `${SRC}/style/assets`,
