@@ -1,6 +1,7 @@
 @use "../themes/theme" as *;
 @use "./workspaces.scss";
 @use "./launcher.scss";
+@use "./time.scss";
 
 window.bar {
     font-weight: bold;
@@ -27,6 +28,10 @@ window.bar {
 
     .launcher {
         @include launcher.default;
+    }
+    
+    .time {
+        @include time.default;
     }
 
     @include theme() {

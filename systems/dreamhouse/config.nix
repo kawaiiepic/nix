@@ -17,13 +17,11 @@
 
   networking.hostName = "dreamhouse";
   
-  jovian = {
-    hardware.has.amd.gpu = true;
-    steam.enable = true;
-    steam.user = "mia";
-
-    decky-loader.enable = false;
-    decky-loader.user = "mia";
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?

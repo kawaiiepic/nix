@@ -1,0 +1,8 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    font-size: 15px;
+}
+
+@mixin themed {
+}

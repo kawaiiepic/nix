@@ -7,26 +7,7 @@
     git
     unrar
     wineWowPackages.staging
-    gtk3
-    # alejandra
-    # unrar
-    # wineWowPackages.staging
-    # jq
-    # zenity
-    # mangohud
-    # rclone
+    electrum-ltc
     toybox
-    # playerctl
-    # clang-tools
-    # # scx
-    # latencyflex-vulkan
-    # openssl_3
-    # tessen
-    # gthumb
-    # nexusmods-app-unfree
-    # lutris
-
-    # aseprite
-    # godot_4
   ];
 }
