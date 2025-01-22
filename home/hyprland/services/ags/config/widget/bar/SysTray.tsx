@@ -5,7 +5,7 @@ export default () => {
   const tray = Tray.get_default();
 
   return (
-    <box className="systray" spacing={6}>
+    <box className="surface1" spacing={6}>
       {bind(tray, "items").as((items) =>
         items.map((item) => (
           <menubutton

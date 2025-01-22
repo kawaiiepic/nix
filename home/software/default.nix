@@ -10,9 +10,10 @@
     ./helix
   ];
 
-  home.packages = [
-    inputs.zen-browser.packages.${pkgs.system}.default
-    (pkgs.callPackage ./wvkbd.nix { })
+  home.packages = with pkgs; [
+    inputs.zen-browser.packages.${system}.default
+    (callPackage ./wvkbd.nix { })
+    stremio
   ];
 
 }

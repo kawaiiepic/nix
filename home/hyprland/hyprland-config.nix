@@ -27,11 +27,11 @@
         };
 
         general = {
-          gaps_in = 5;
-          gaps_out = 10;
+          gaps_in = 3;
+          gaps_out = 5;
           border_size = 2;
-          "col.active_border" = "rgba(1e1e2eff) rgba(3a3144ff) 10deg";
-          "col.inactive_border" = "rgba(1e1e2eff) rgba(314444ff) 10deg";
+          "col.active_border" = "rgb(181926)";
+          "col.inactive_border" = "rgb(181926)";
           layout = "master";
           resize_on_border = true;
           allow_tearing = true;
@@ -99,7 +99,7 @@
         };
 
         decoration = {
-          rounding = 8;
+          rounding = 12;
 
           blur = {
             size = 3;

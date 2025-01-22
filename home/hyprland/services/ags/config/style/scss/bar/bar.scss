@@ -2,6 +2,7 @@
 @use "./workspaces.scss";
 @use "./launcher.scss";
 @use "./time.scss";
+@use "./systray.scss";
 
 window.bar {
     font-weight: bold;
@@ -11,15 +12,13 @@ window.bar {
         padding-right: 10px;
         margin: 5px;
         border-radius: 12px;
-        border: 1px solid white;
     }
-    
+
     .surface1 {
         padding-left: 10px;
         padding-right: 10px;
         margin: 8px;
         border-radius: 12px;
-        border: 1px solid white;
     }
 
     .workspaces {
@@ -29,9 +28,13 @@ window.bar {
     .launcher {
         @include launcher.default;
     }
-    
+
     .time {
         @include time.default;
+    }
+
+    .systray {
+        @include systray.default;
     }
 
     @include theme() {
@@ -40,10 +43,26 @@ window.bar {
 
         .surface {
             background-color: theme-get("surface0");
+            border: 0.5px solid theme-get("crust");
+        }
+
+        .surface1 {
+            background-color: theme-get("surface0");
+            border: 0.5px solid theme-get("crust");
         }
 
         .workspaces {
             @include workspaces.themed;
+        }
+
+        .systray {
+            @include systray.themed;
+        }
+
+        eventbox {
+            &:hover {
+                color: theme-get("overlay0");
+            }
         }
     }
 }

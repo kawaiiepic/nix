@@ -9,8 +9,6 @@
 
     font = {
       name = "SpaceMono Nerd Font Mono";
-      # package = pkgs.nerd-fonts.spacemono;
-      # package = pkgs.nerdfonts.override {fonts = ["SpaceMono"];};
       size = 11;
     };
 
@@ -35,11 +33,11 @@
       strip_trailing_spaces = "smart";
       confirm_os_window_close = 0;
       cursor_shape = "underline";
-      # background_opacity = "";
+      background_opacity = "0.9";
       # background_opacity = lib.mkForce "0.50";
       # background_blur = 10;
       # background_tint = "0.5";
-      tab_bar_min_tabs = 1;
+      tab_bar_min_tabs = 2;
       tab_bar_edge = "bottom";
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";

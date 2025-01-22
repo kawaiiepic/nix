@@ -35,12 +35,16 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Workspaces />
         </box>
         <box spacing={8} hexpand halign={Gtk.Align.END}>
-          {/* <SysTray></SysTray> */}
-          {/* <Wallpaper /> */}
           {/* <Audio></Audio> */}
           {/* <Bluetooth/> */}
-          <box className="surface1"><Time></Time></box>
-          {/* <ShowDesktop/> */}
+          <SysTray></SysTray>
+          <box className="surface1">
+            <Time />
+          </box>
+          <Wallpaper />
+          <box css="padding-right: 10px;">
+            <ShowDesktop />
+          </box>
         </box>
         {/* <box hexpand halign={Gtk.Align.START}>
           <Launcher></Launcher>
