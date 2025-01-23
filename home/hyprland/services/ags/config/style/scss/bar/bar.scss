@@ -3,6 +3,7 @@
 @use "./launcher.scss";
 @use "./time.scss";
 @use "./systray.scss";
+@use "./quick.scss";
 
 window.bar {
     font-weight: bold;
@@ -36,6 +37,10 @@ window.bar {
     .systray {
         @include systray.default;
     }
+    
+    .quick {
+        @include quick.default;
+    }
 
     @include theme() {
         background-color: theme-get("base");
@@ -57,6 +62,10 @@ window.bar {
 
         .systray {
             @include systray.themed;
+        }
+        
+        .quick {
+            @include quick.themed;
         }
 
         eventbox {

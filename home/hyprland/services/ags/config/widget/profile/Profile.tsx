@@ -16,11 +16,18 @@ import NightLightButton from "./buttons/NightLightButton";
 import DoNotDisturbButton from "./buttons/DoNotDisturbButton";
 import { bind, GObject } from "astal";
 import Wp from "gi://AstalWp";
+import Theme from "./buttons/Theme";
+import Caffeine from "./buttons/Caffeine";
+import Microphone from "./indicators/Microphone";
+import Screenshare from "./indicators/Screenshare";
+import Screenshot from "./buttons/Screenshot";
+import Record from "./buttons/Record";
+import Battery from "./Battery";
+import Uptime from "./Uptime";
 
 export default (gdkmonitor: Gdk.Monitor) => {
   const speaker = Wp.get_default()?.audio.defaultSpeaker!;
-  
-  
+
   return new Widget.Window({
     name: "profile",
     className: "profile",
@@ -28,19 +35,20 @@ export default (gdkmonitor: Gdk.Monitor) => {
     gdkmonitor: gdkmonitor,
     application: App,
     exclusivity: Astal.Exclusivity.EXCLUSIVE,
-    margin: 5,
+    marginRight: 50,
+    marginBottom: 2,
     keymode: Astal.Keymode.EXCLUSIVE,
     onKeyPressEvent: (self, event) => {
       if (event.get_keyval()[1] === Gdk.KEY_Escape) {
         App.toggle_window("profile");
       }
     },
-    anchor: Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT,
+    anchor: Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT,
 
     child: new Widget.Box({
-      className: "profile",
+      className: "profile macchiato",
       vertical: true,
-      spacing: 12,
+      spacing: 20,
       children: [
         new Widget.CenterBox({
           start_widget: new Widget.Box({
@@ -56,99 +64,93 @@ export default (gdkmonitor: Gdk.Monitor) => {
                 css: "background-image: url('/home/mia/.face');",
               }),
 
-              new Widget.Box({
-                className: "profile-pill-button",
-                child: new Widget.Label({ label: "2h 15m" }),
-              }),
+              Uptime(),
+              Battery(),
             ],
           }),
 
           end_widget: new Widget.Box({
             spacing: 5,
             halign: Gtk.Align.END,
-            children: [LockButton(), ShutdownButton()],
+            children: [Screenshot(), ShutdownButton()],
           }),
         }),
 
-        new Separator({className: "sep"}),
+        new Separator({}),
 
         new Widget.Box({
-          className: "pill",
+          className: "surface1",
           vertical: true,
-          spacing: 12,
+          spacing: 6,
           children: [
             new Widget.Box({
-              className: "pill",
-              spacing: 30,
+              className: "surface1",
+              spacing: 12,
               halign: Gtk.Align.CENTER,
               hexpand: false,
               vexpand: false,
               children: [
                 InternetButton(),
                 BluetoothButton(),
-                DoNotDisturbButton(),
                 NightLightButton(),
+                Theme(),
               ],
             }),
 
             new Widget.Box({
-              className: "pill",
-              spacing: 30,
+              className: "surface1",
+              spacing: 35,
               halign: Gtk.Align.CENTER,
               hexpand: false,
               vexpand: false,
               children: [
-                InternetButton(),
-                BluetoothButton(),
+                Caffeine(),
                 DoNotDisturbButton(),
-                NightLightButton(),
+                Microphone(),
+                Screenshare(),
               ],
             }),
           ],
         }),
 
         new Widget.Box({
-          className: "pill",
-          child: new Widget.Box({
-            className: "pill",
-            vertical: true,
-            spacing: 12,
-            children: [
-              new Widget.Box({
-                className: "profile-progressbar",
-                spacing: 15,
-                children: [
-                  new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
-                  new Widget.Slider({
-                    className: "slider",
-                    hexpand: true,
-                    onDragged: ({ value }) => (speaker.volume = value),
-                    value: bind(speaker, "volume"),
-                  }),
-                ],
-              }),
+          className: "surface1",
+          vertical: true,
+          spacing: 12,
+          children: [
+            new Widget.Box({
+              spacing: 15,
+              children: [
+                new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+                new Widget.Slider({
+                  className: "slider",
+                  hexpand: true,
+                  onDragged: ({ value }) => (speaker.volume = value),
+                  value: bind(speaker, "volume"),
+                }),
+              ],
+            }),
 
-              new Widget.Box({
-                className: "profile-progressbar",
-                spacing: 15,
-                children: [
-                  new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
-                  new Widget.Slider({
-                    className: "slider",
-                    hexpand: true,
-                    onDragged: ({ value }) => (speaker.volume = value),
-                    value: bind(speaker, "volume"),
-                  }),
-                ],
-              }),
-            ],
-          }),
+            new Widget.Box({
+              className: "profile-progressbar",
+              spacing: 15,
+              children: [
+                new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+                new Widget.Slider({
+                  className: "slider",
+                  hexpand: true,
+                  onDragged: ({ value }) => (speaker.volume = value),
+                  value: bind(speaker, "volume"),
+                }),
+              ],
+            }),
+          ],
         }),
 
-        new Separator({className: "sep"}),
+        new Separator({}),
 
         new Widget.Box({
-          className: "calendar",
+          className: "calendar surface0",
           child: new Calendar({
             hexpand: true,
           }),
@@ -156,7 +158,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
       ],
     }),
   });
-}
+};
 
 export class Calendar extends astalify(Gtk.Calendar) {
   static {

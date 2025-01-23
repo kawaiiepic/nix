@@ -16,7 +16,7 @@ export default () => {
     <box
       tooltipText={focused.as((client) => client && (client.title))}
       spacing={6}
-      className="client-title"
+      className="client-title surface1"
       visible={focused.as(Boolean)}
     >
       {focused.as(

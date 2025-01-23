@@ -12,6 +12,9 @@ import Bluetooth from "./Bluetooth";
 import Wallpaper from "./Wallpaper";
 import ShowDesktop from "./ShowDesktop";
 import DefaultApplication from "./DefaultApplication";
+import Wifi from "./Wifi";
+import Battery from "../profile/Battery";
+import Notifications from "./Notifications";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   return (
@@ -30,14 +33,29 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       <centerbox className="macchiato">
         <box css="padding-left: 2px;" hexpand halign={Gtk.Align.START}>
           <Launcher />
+          <FocusedClient></FocusedClient>
         </box>
+
         <box className="surface" spacing={8}>
           <Workspaces />
         </box>
+
         <box spacing={8} hexpand halign={Gtk.Align.END}>
-          {/* <Audio></Audio> */}
-          {/* <Bluetooth/> */}
+          <Media></Media>
           <SysTray></SysTray>
+          <eventbox
+            onClick={() => {
+              App.toggle_window("profile");
+            }}
+          >
+            <box className="surface1" spacing={6}>
+              <Wifi/>
+              <Audio/>
+              {/* <Bluetooth/> */}
+              <Battery/>
+              <Notifications/>
+            </box>
+          </eventbox>
           <box className="surface1">
             <Time />
           </box>
@@ -46,24 +64,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <ShowDesktop />
           </box>
         </box>
-        {/* <box hexpand halign={Gtk.Align.START}>
-          <Launcher></Launcher>
-          <Workspaces></Workspaces>
-          <FocusedClient></FocusedClient>
-          <DefaultApplication/>
-        </box>
-        <box spacing={8}>
-          <Media></Media>
-        </box>
-        <box spacing={8} hexpand halign={Gtk.Align.END}>
-          <Wallpaper />
-          <Audio></Audio>
-          <Bluetooth/>
-          <SysTray></SysTray>
-          <Time></Time>
-          <ShowDesktop/>
-          <UserProfile></UserProfile>
-        </box> */}
       </centerbox>
     </window>
   );

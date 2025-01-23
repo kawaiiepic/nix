@@ -15,14 +15,14 @@ export default () =>
         active: true,
         child: new Widget.Label({
           className: "profile-normal-button-icon",
-          label: "",
+          label: "",
         }),
       }),
       
       new Widget.Box({
         child: new Widget.Label({
           className: "small-font",
-          label: "Night Light",
+          label: "Caffeine",
         }),
       }),
     ]

@@ -9,22 +9,21 @@ export default () =>
     vertical: true,
     spacing: 6,
     children: [
-      new ToggleButton({
+      new Widget.Button({
         className: "profile-normal-button circular",
         hexpand: false,
         halign: Gtk.Align.CENTER,
         
-        active: bind(wifi, "enabled"),
-        child: new Widget.Icon({
-          className: "profile-normal-button-icon",
-          icon: bind(wifi, "iconName"),
+        child: new Widget.Label({
+          className: "profile-normal-button-label",
+          label: "󰔎",
         }),
       }),
       new Widget.Box({
         children: [
           new Widget.Label({
             className: "small-font",
-            label: bind(wifi, "ssid"),
+            label: "Theme",
           }),
           new Widget.Label({ className: "small-font", label: " " }),
         ],

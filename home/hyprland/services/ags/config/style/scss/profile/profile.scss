@@ -1,0 +1,134 @@
+@use "../themes/theme" as *;
+@use "../util.scss";
+
+window.profile {
+    .profile {
+        border-radius: 11px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px;
+        /* border: 1px solid rgba(255, 255, 255, 0.1); */
+        min-width: 100px;
+        min-height: 300px;
+    }
+
+    .profile-pfp {
+        min-width: 40px;
+        min-height: 40px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 5px;
+    }
+
+    .small-font {
+        font-size: 12px;
+    }
+
+    .surface0 {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 8px;
+        border-radius: 15px;
+    }
+
+    .surface1 {
+        border-radius: 11px;
+        padding: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .slider {
+        /* min-width: 100px;
+        min-height: 150px; */
+        border-radius: 12px;
+        /* background: color.$pink; */
+
+        trough {
+            /* background: color.$pink; */
+            min-height: 10px;
+            border-radius: 12px;
+
+            highlight,
+            progress {
+                border-radius: 12px;
+            }
+        }
+
+        slider {
+            box-shadow: none;
+            background-color: transparent;
+            border: 2px solid transparent;
+            border-radius: 12px;
+        }
+    }
+
+    .calendar {
+        padding: 2;
+
+        calendar {
+            all: unset;
+
+            &.button {
+                /* $include button($flat: true); */
+                margin: 1em;
+            }
+
+            &:selected {
+                background-color: red;
+                border-radius: 10px;
+                /* background-color: color.adjust($accent, $alpha: -0.5);
+              border-radius: calc($radii / 2); */
+            }
+
+            &.header {
+                background-color: transparent;
+                border: none;
+                color: pink;
+                /* color: $fg; */
+            }
+
+            &.highlight {
+                background-color: transparent;
+                color: purple;
+                /* color: $accent; */
+            }
+            
+            &:indeterminate {
+                color: orange;
+            }
+
+            /* &:indeterminate {
+              color: color.adjust($fg, $alpha: -0.7);
+            } */
+            font-size: 1.1em;
+            padding: 0.2em;
+        }
+    }
+
+    @include theme() {
+        background-color: theme-get("base");
+        color: theme-get("text");
+
+        .profile {
+            border: 0.5px solid theme-get("crust");
+        }
+
+        .surface0 {
+            background-color: theme-get("surface0");
+        }
+
+        .surface1 {
+            background-color: theme-get("surface0");
+        }
+
+        .surface2 {
+            background-color: theme-get("surface1");
+        }
+
+        separator {
+            background-color: theme-get("mantle");
+        }
+    }
+}

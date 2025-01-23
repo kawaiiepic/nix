@@ -9,7 +9,7 @@
   services.xserver.excludePackages = with pkgs; [ xterm ];
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.rocmSupport = true;
+  # nixpkgs.config.rocmSupport = true;
   nixpkgs.config.permittedInsecurePackages = [
     "freeimage-unstable-2021-11-01"
   ];

@@ -8,6 +8,7 @@
     ./spotify
     ./vscode
     ./helix
+    ./nextcloud.nix
   ];
 
   home.packages = with pkgs; [
