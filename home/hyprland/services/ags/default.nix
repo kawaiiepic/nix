@@ -33,6 +33,7 @@
               network
               tray
               bluetooth
+              battery
             ];
 
           })
