@@ -1,0 +1,28 @@
+@use "../themes/theme" as *;
+@use "../util.scss";
+
+window.logout {
+    .logout {
+        padding: 10px;
+        /* box-shadow: 2px 3px 8px 0 util.gtkalpha(black, 0.4); */
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+    }
+
+    button {
+        font-size: 25px;
+        min-height: 80px;
+        min-width: 80px;
+    }
+
+    @include theme() {
+        .logout {
+            background-color: theme-get("base");
+        }
+    }
+}

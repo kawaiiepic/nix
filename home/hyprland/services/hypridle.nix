@@ -9,6 +9,7 @@
 {
 
   home.packages = with pkgs; [ brightnessctl ];
+
   # screen idle
   services.hypridle = {
     enable = true;
@@ -32,8 +33,8 @@
             }
 
             {
-              timeout = 400; # 30min
-              on-timeout = "systemctl suspend"; # suspend pc
+              timeout = 400;
+              on-timeout = "systemctl suspend";
             }
           ]
         else

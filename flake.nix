@@ -58,33 +58,6 @@
     in
     {
       nixosConfigurations = {
-        exampleIso = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            (
-              { pkgs, modulesPath, ... }:
-              {
-                imports = [
-                  (modulesPath + "/installer/cd-dvd/installation-cd-graphical-gnome.nix")
-                  inputs.jovian-nixos.nixosModules.default
-                ];
-
-                jovian = {
-                  hardware.has.amd.gpu = true;
-                  steam.enable = false;
-
-                  devices.steamdeck = {
-                    enable = true;
-                    autoUpdate = true;
-                  };
-                };
-
-                # jovian.steam.autoStart = true;
-
-              }
-            )
-          ];
-        };
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
           # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
           # nixpkgs.config = {allowUnfree=true;};
@@ -105,7 +78,7 @@
           ];
           specialArgs = { inherit inputs; };
         };
-        
+
         steamdeck = inputs.nixpkgs.lib.nixosSystem {
           # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
           # nixpkgs.config = {allowUnfree=true;};

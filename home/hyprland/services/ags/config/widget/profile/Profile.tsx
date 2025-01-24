@@ -24,6 +24,98 @@ import Screenshot from "./buttons/Screenshot";
 import Record from "./buttons/Record";
 import Battery from "./Battery";
 import Uptime from "./Uptime";
+import Mpris from "gi://AstalMpris";
+
+const mpris = Mpris.get_default();
+
+function lengthStr(length: number) {
+  const min = Math.floor(length / 60);
+  const sec = Math.floor(length % 60);
+  const sec0 = sec < 10 ? "0" : "";
+  return `${min}:${sec0}${sec}`;
+}
+
+function MediaPlayer({ player }: { player: Mpris.Player }) {
+  const { START, END } = Gtk.Align;
+
+  const title = bind(player, "title").as((t) => t || "Unknown Track");
+
+  const artist = bind(player, "artist").as((a) => a || "Unknown Artist");
+
+  const coverArt = bind(player, "coverArt").as(
+    (c) => `background-image: url('${c}')`,
+  );
+
+  const playerIcon = bind(player, "entry").as((e) =>
+    Astal.Icon.lookup_icon(e) ? e : "audio-x-generic-symbolic",
+  );
+
+  const position = bind(player, "position").as((p) =>
+    player.length > 0 ? p / player.length : 0,
+  );
+
+  const playIcon = bind(player, "playbackStatus").as((s) =>
+    s === Mpris.PlaybackStatus.PLAYING
+      ? "media-playback-pause-symbolic"
+      : "media-playback-start-symbolic",
+  );
+
+  return (
+    <box className="MediaPlayer">
+      <box className="cover-art" css={coverArt} />
+      <box vertical>
+        <box className="title">
+          <label truncate hexpand halign={START} label={title} />
+          <icon icon={playerIcon} />
+        </box>
+        <label halign={START} valign={START} vexpand wrap label={artist} />
+        <slider
+          visible={bind(player, "length").as((l) => l > 0)}
+          onDragged={({ value }) => (player.position = value * player.length)}
+          value={position}
+        />
+        <centerbox className="actions">
+          <label
+            hexpand
+            className="position"
+            halign={START}
+            visible={bind(player, "length").as((l) => l > 0)}
+            label={bind(player, "position").as(lengthStr)}
+          />
+          <box>
+            <button
+              onClicked={() => player.previous()}
+              visible={bind(player, "canGoPrevious")}
+            >
+              <icon icon="media-skip-backward-symbolic" />
+            </button>
+            <button
+              onClicked={() => player.play_pause()}
+              visible={bind(player, "canControl")}
+            >
+              <icon icon={playIcon} />
+            </button>
+            <button
+              onClicked={() => player.next()}
+              visible={bind(player, "canGoNext")}
+            >
+              <icon icon="media-skip-forward-symbolic" />
+            </button>
+          </box>
+          <label
+            className="length"
+            hexpand
+            halign={END}
+            visible={bind(player, "length").as((l) => l > 0)}
+            label={bind(player, "length").as((l) =>
+              l > 0 ? lengthStr(l) : "0:00",
+            )}
+          />
+        </centerbox>
+      </box>
+    </box>
+  );
+}
 
 export default (gdkmonitor: Gdk.Monitor) => {
   const speaker = Wp.get_default()?.audio.defaultSpeaker!;
@@ -48,11 +140,10 @@ export default (gdkmonitor: Gdk.Monitor) => {
     child: new Widget.Box({
       className: "profile macchiato",
       vertical: true,
-      spacing: 20,
+      spacing: 6,
       children: [
         new Widget.CenterBox({
           start_widget: new Widget.Box({
-            spacing: 5,
             children: [
               new Widget.Box({
                 className: "profile-pfp",
@@ -70,7 +161,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
           }),
 
           end_widget: new Widget.Box({
-            spacing: 5,
+            spacing: 6,
             halign: Gtk.Align.END,
             children: [Screenshot(), ShutdownButton()],
           }),
@@ -131,30 +222,36 @@ export default (gdkmonitor: Gdk.Monitor) => {
               ],
             }),
 
-            new Widget.Box({
-              className: "profile-progressbar",
-              spacing: 15,
-              children: [
-                new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
-                new Widget.Slider({
-                  className: "slider",
-                  hexpand: true,
-                  onDragged: ({ value }) => (speaker.volume = value),
-                  value: bind(speaker, "volume"),
-                }),
-              ],
-            }),
+            // new Widget.Box({
+            //   className: "profile-progressbar",
+            //   spacing: 15,
+            //   children: [
+            //     new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+            //     new Widget.Slider({
+            //       className: "slider",
+            //       hexpand: true,
+            //       onDragged: ({ value }) => (speaker.volume = value),
+            //       value: bind(speaker, "volume"),
+            //     }),
+            //   ],
+            // }),
           ],
         }),
 
         new Separator({}),
 
-        new Widget.Box({
-          className: "calendar surface0",
-          child: new Calendar({
-            hexpand: true,
-          }),
-        }),
+        <box className="surface1" vertical>
+          {bind(mpris, "players").as((arr) =>
+            arr.map((player) => <MediaPlayer player={player} />),
+          )}
+        </box>,
+
+        // new Widget.Box({
+        //   className: "calendar surface0",
+        //   child: new Calendar({
+        //     hexpand: true,
+        //   }),
+        // }),
       ],
     }),
   });

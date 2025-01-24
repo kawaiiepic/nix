@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   osConfig,
   lib,
   ...
@@ -18,7 +17,7 @@
           # "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
-          "sleep 5 && start"
+          # "sleep 5 && start"
         ];
 
         master = {
@@ -116,8 +115,7 @@
         };
 
         layerrule = [
-          "blur,logout_dialog"
-          "order 100,gtk-layer-shell"
+          # "blur,logout_dialog"
           # "blurpopups,logout_dialog"
           # "dimaround,logout_dialog"
         ];
@@ -182,10 +180,8 @@
           "$MOD, S, movetoworkspace, special:magic"
           "$MOD, S, togglespecialworkspace, magic"
 
-          "$MOD, P, exec, $SC_FULL"
-          "$MODSHIFT, P, exec, $SC_AREA"
-          ", XF86LaunchA, exec, $SC_FULL"
-          "$MOD, XF86LaunchA, exec, $SC_FULL"
+          "$MOD, P, exec, screenshot"
+          "$MODSHIFT, P, exec, screenshot-area"
           "$MOD, X, exec, hyprpicker"
           "$MOD, Return, exec, kitty"
           "$MODSHIFT, Return, exec, [float] kitty "
@@ -269,7 +265,7 @@
           "stayfocused, class:^(com.nextcloud.desktopclient.nextcloud)$"
           "move 100%-w-20 100%-w-20, class:^(com.nextcloud.desktopclient.nextcloud)$"
 
-          "plugin:hyprbars:nobar, floating:0"
+          # "plugin:hyprbars:nobar, floating:0"
 
           # "bordercolor rgba(aa336a80) rgba(aa336a80),floating:1" # noborder
           # "bordersize 0,floating:1"
@@ -295,20 +291,20 @@
             gesture_positive = true; # positive = swipe down. Negative = swipe up.
           };
 
-          hyprbars = {
-            # bar_text_size = 10;
-            bar_text_font = "UbuntuSans Nerd Font";
-            bar_height = 25;
-            bar_part_of_window = true;
-            bar_precedence_over_border = true;
-            bar_color = "rgba(1e1e2eff)";
-            bar_button_padding = 10;
+          # hyprbars = {
+          #   # bar_text_size = 10;
+          #   bar_text_font = "UbuntuSans Nerd Font";
+          #   bar_height = 25;
+          #   bar_part_of_window = true;
+          #   bar_precedence_over_border = true;
+          #   bar_color = "rgba(1e1e2eff)";
+          #   bar_button_padding = 10;
 
-            hyprbars-button = [
-              "rgb(F5A9B8), 14, , hyprctl dispatch killactive"
-              "rgb(5BCEFA), 14, , hyprctl dispatch fullscreen 1"
-            ];
-          };
+          #   hyprbars-button = [
+          #     "rgb(F5A9B8), 14, , hyprctl dispatch killactive"
+          #     "rgb(5BCEFA), 14, , hyprctl dispatch fullscreen 1"
+          #   ];
+          # };
         };
 
         gestures = {
@@ -363,7 +359,7 @@
     ];
 
     plugins = with pkgs; [
-      hyprlandPlugins.hyprbars
+      # hyprlandPlugins.hyprbars
       #hyprlandPlugins.hyprtrails
       #hyprlandPlugins.hyprexpo
       #hyprlandPlugins.hyprfocus

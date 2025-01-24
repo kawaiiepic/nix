@@ -5,6 +5,7 @@ import NotificationPopups from "./notifications/NotificationPopups";
 import Profile from "./widget/profile/Profile";
 import Bar from "./widget/bar/Bar";
 import Applauncher from "./widget/appLauncher/Applauncher";
+import Logout from "./widget/logout/Logout";
 
 App.start({
   icons: `${SRC}/style/assets`,
@@ -14,6 +15,7 @@ App.start({
     App.get_monitors().map(Desktop);
     App.get_monitors().map(Bar);
     Profile(App.get_monitors()[0]);
+    Logout(App.get_monitors()[0]);
     Applauncher(App.get_monitors()[0]);
     NotificationPopups(App.get_monitors()[0]);
   },

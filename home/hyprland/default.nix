@@ -46,6 +46,12 @@
        hyprctl dispatch exec "[workspace 3] discord"
        hyprctl dispatch exec "[workspace 5] steam"
       '')
+      (pkgs.writeShellScriptBin "screenshot" ''
+        grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h 'string:image-path:/home/mia/.cache/sc.png' -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture
+      '')
+      (pkgs.writeShellScriptBin "screenshot-area" ''
+        grimblast --freeze save area - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot Area' 'Copied to clipboard.' -h 'string:image-path:/home/mia/.cache/sc.png' -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture
+      '')
     ];
 
     sessionVariables = {
