@@ -25,8 +25,10 @@ import Record from "./buttons/Record";
 import Battery from "./Battery";
 import Uptime from "./Uptime";
 import Mpris from "gi://AstalMpris";
+import Notifd from "gi://AstalNotifd"
 
 const mpris = Mpris.get_default();
+const notifd = Notifd.get_default();
 
 function lengthStr(length: number) {
   const min = Math.floor(length / 60);
@@ -240,10 +242,15 @@ export default (gdkmonitor: Gdk.Monitor) => {
 
         new Separator({}),
 
+        new Widget.Scrollable({
+          child: new Widget.Box({ children: notifd.notifications.map((not) => (<box><label label={not.body} /></box>))}),
+          vexpand: true,
+        }),
+
         <box className="surface1" vertical>
-          {bind(mpris, "players").as((arr) =>
-            arr.map((player) => <MediaPlayer player={player} />),
-          )}
+          {bind(mpris, "players").as((arr) => (
+            <MediaPlayer player={arr[0]} />
+          ))}
         </box>,
 
         // new Widget.Box({
