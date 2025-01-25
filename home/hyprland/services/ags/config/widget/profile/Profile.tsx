@@ -25,7 +25,11 @@ import Record from "./buttons/Record";
 import Battery from "./Battery";
 import Uptime from "./Uptime";
 import Mpris from "gi://AstalMpris";
-import Notifd from "gi://AstalNotifd"
+import Notifd from "gi://AstalNotifd";
+import Notification, {
+  fileExists,
+  isIcon,
+} from "../notifications/Notification";
 
 const mpris = Mpris.get_default();
 const notifd = Notifd.get_default();
@@ -243,15 +247,80 @@ export default (gdkmonitor: Gdk.Monitor) => {
         new Separator({}),
 
         new Widget.Scrollable({
-          child: new Widget.Box({ children: notifd.notifications.map((not) => (<box><label label={not.body} /></box>))}),
-          vexpand: true,
+          hscroll: Gtk.PolicyType.NEVER,
+          vscroll: Gtk.PolicyType.AUTOMATIC,
+          child: new Widget.Box({
+            vertical: true,
+            children: notifd.notifications.map((n) => (
+              <box className="Notification normal">
+                <box className="content">
+                  {n.image && fileExists(n.image) && (
+                    <box
+                      valign={Gtk.Align.START}
+                      className="image"
+                      css={`
+                        background-image: url("${n.image}");
+                      `}
+                    />
+                  )}
+                  {n.image && isIcon(n.image) && (
+                    <box
+                      expand={false}
+                      valign={Gtk.Align.START}
+                      className="icon-image"
+                    >
+                      <icon
+                        icon={n.image}
+                        expand
+                        halign={Gtk.Align.CENTER}
+                        valign={Gtk.Align.CENTER}
+                      />
+                    </box>
+                  )}
+                  <box vertical>
+                    <label
+                      className="summary"
+                      halign={Gtk.Align.START}
+                      xalign={0}
+                      label={n.summary}
+                      truncate
+                    />
+                    {n.body && (
+                      <label
+                        className="body"
+                        wrap
+                        useMarkup
+                        halign={Gtk.Align.START}
+                        xalign={0}
+                        justifyFill
+                        label={n.body}
+                      />
+                    )}
+                  </box>
+                </box>
+                {n.get_actions().length > 0 && (
+                  <box className="actions">
+                    {n.get_actions().map(({ label, id }) => (
+                      <button hexpand onClicked={() => n.invoke(id)}>
+                        <label
+                          label={label}
+                          halign={Gtk.Align.CENTER}
+                          hexpand
+                        />
+                      </button>
+                    ))}
+                  </box>
+                )}
+              </box>
+            )),
+          }),
         }),
 
-        <box className="surface1" vertical>
-          {bind(mpris, "players").as((arr) => (
-            <MediaPlayer player={arr[0]} />
-          ))}
-        </box>,
+        // <box className="surface1" vertical>
+        //   {bind(mpris, "players").as((arr) => (
+        //     <MediaPlayer player={arr[0]} />
+        //   ))}
+        // </box>,
 
         // new Widget.Box({
         //   className: "calendar surface0",
