@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.kitty = {
     enable = true;
     shellIntegration.enableFishIntegration = true;
@@ -33,7 +34,7 @@
       strip_trailing_spaces = "smart";
       confirm_os_window_close = 0;
       cursor_shape = "underline";
-      background_opacity = "0.9";
+      background_opacity = "0.85";
       # background_opacity = lib.mkForce "0.50";
       # background_blur = 10;
       # background_tint = "0.5";
@@ -42,7 +43,6 @@
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
       tab_title_template = "{title}{' :{}:'.format(num_windows) if num_windows > 1 else ''}";
-
 
       notify_on_cmd_finish = "invisible";
       "enabled_layouts tall:bias=50;full_size=1;mirrored=false" = "";

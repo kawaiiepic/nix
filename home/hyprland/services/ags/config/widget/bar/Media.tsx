@@ -62,7 +62,6 @@ export default () => {
       }
     },
     child: bind(mpris, "players").as((players) => {
-      print(players.length);
       if (players[0]) {
         return new Widget.Box({
           className: "media",

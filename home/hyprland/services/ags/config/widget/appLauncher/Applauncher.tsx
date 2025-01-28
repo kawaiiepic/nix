@@ -1,6 +1,6 @@
 import Apps from "gi://AstalApps";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
-import { Variable } from "astal";
+import { exec, execAsync, Variable } from "astal";
 
 const MAX_ITEMS = 8;
 

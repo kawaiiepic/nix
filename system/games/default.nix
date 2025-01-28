@@ -7,6 +7,7 @@
   programs.steam.extest.enable = true;
 
   environment.systemPackages = with pkgs; [
+    protontricks
     nexusmods-app-unfree
     lutris
     heroic

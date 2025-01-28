@@ -87,9 +87,8 @@
           enable_swallow = false;
           swallow_regex = "kitty";
           focus_on_activate = true;
-          new_window_takes_over_fullscreen = 2;
-          initial_workspace_tracking = 2;
-          exit_window_retains_fullscreen = true;
+          # new_window_takes_over_fullscreen = 2;
+          # exit_window_retains_fullscreen = true;
         };
 
         cursor = {
@@ -101,8 +100,8 @@
           rounding = 12;
 
           blur = {
-            size = 3;
-            passes = 2;
+            size = 2;
+            passes = 3;
           };
         };
 

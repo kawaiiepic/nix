@@ -24,6 +24,7 @@
 
       nautilus
       file-roller
+      joystickwake
 
       kitty
       grimblast # Screenshot utility

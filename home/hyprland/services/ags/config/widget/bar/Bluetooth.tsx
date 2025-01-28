@@ -17,7 +17,6 @@ export default () => {
             }),
         );
 
-        print(bluetooth.devices.length);
         self.visible = bluetooth.devices.length > 0;
       }),
 

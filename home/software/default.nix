@@ -9,6 +9,7 @@
     ./vscode
     ./helix
     ./nextcloud.nix
+    ./gopass.nix
   ];
 
   home.packages = with pkgs; [

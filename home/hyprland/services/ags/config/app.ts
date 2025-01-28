@@ -11,7 +11,6 @@ App.start({
   icons: `${SRC}/style/assets`,
   css: style,
   main() {
-    print(`source dir is ${SRC}`);
     App.get_monitors().map(Desktop);
     App.get_monitors().map(Bar);
     Profile(App.get_monitors()[0]);

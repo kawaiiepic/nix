@@ -246,13 +246,18 @@ export default (gdkmonitor: Gdk.Monitor) => {
 
         new Separator({}),
 
+        new Widget.Label({label: "Notifications"}),
+        
         new Widget.Scrollable({
           hscroll: Gtk.PolicyType.NEVER,
           vscroll: Gtk.PolicyType.AUTOMATIC,
+          css: "min-height: 300px",
           child: new Widget.Box({
             vertical: true,
+            // spacing: 2,
             children: notifd.notifications.map((n) => (
-              <box className="Notification normal">
+              <eventbox className="Notification">
+              <box>
                 <box className="content">
                   {n.image && fileExists(n.image) && (
                     <box
@@ -293,25 +298,13 @@ export default (gdkmonitor: Gdk.Monitor) => {
                         halign={Gtk.Align.START}
                         xalign={0}
                         justifyFill
-                        label={n.body}
+                        label={n.body.replaceAll('&', 'and')}
                       />
                     )}
                   </box>
                 </box>
-                {n.get_actions().length > 0 && (
-                  <box className="actions">
-                    {n.get_actions().map(({ label, id }) => (
-                      <button hexpand onClicked={() => n.invoke(id)}>
-                        <label
-                          label={label}
-                          halign={Gtk.Align.CENTER}
-                          hexpand
-                        />
-                      </button>
-                    ))}
-                  </box>
-                )}
               </box>
+              </eventbox>
             )),
           }),
         }),
