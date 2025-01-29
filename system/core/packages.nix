@@ -6,7 +6,6 @@
     wget
     unrar
     wineWowPackages.staging
-    electrum-ltc
     toybox
   ];
 }

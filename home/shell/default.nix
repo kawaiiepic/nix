@@ -25,141 +25,31 @@
     enable = true;
     settings = {
       logo = {
-        source = ./42willow.gif;
-        "width" = 42;
-        "height" = 18;
-        "padding" = {
-          "top" = 1;
-          "left" = 2;
+        source = "~/.face"; # # ${toString ../../../services/pfp/face.jpg}
+        padding = {
+          right = 1;
         };
       };
       display = {
-        separator = "";
+        size.binaryPrefix = "si";
+        color = "blue";
+        separator = "  ";
       };
       modules = [
         {
-          "type" = "custom";
-          "format" = "╔══════════════════════════════════════════════════════╗";
+          type = "datetime";
+          key = "Date";
+          format = "{1}-{3}-{11}";
         }
         {
-          "type" = "os";
-          "key" = "  󱄅  OS        ║";
-          "format" = " {3}";
-        }
-        {
-          "type" = "kernel";
-          "key" = "    Kernel    ║ ";
-          "format" = "{1} {2}";
-        }
-        {
-          "type" = "uptime";
-          "key" = "    Uptime    ║ ";
-          "format" = "{2} hours; {3} mins";
-        }
-
-        {
-          "type" = "packages";
-          "key" = "  󰏗  Packages  ║ ";
-          "format" = "{2} (pacman){?3}[{3}]{?}";
-        }
-        {
-          "type" = "shell";
-          "key" = "    Shell     ║ ";
-          "format" = "{6}";
-        }
-        {
-          "type" = "terminal";
-          "key" = "    Terminal  ║ ";
-          "format" = "{5}";
-        }
-        {
-          "type" = "custom";
-          "format" = "╚══════════════════════════════════════════════════════╝";
+          type = "datetime";
+          key = "Time";
+          format = "{14}:{17}:{20}";
         }
         "break"
-        {
-          "type" = "colors";
-          # "paddingLeft" = 20;
-          "symbol" = "circle";
-        }
-        "break"
-        {
-          "type" = "custom";
-          "format" = "╔══════════════════════════════════════════════════════╗";
-        }
-        {
-          "type" = "display";
-          "key" = "  󰍹  Display   ║ ";
-          "format" = "{1}x{2}";
-        }
-        {
-          "type" = "cpu";
-          "key" = "    CPU       ║ ";
-          "format" = "{1}";
-        }
-        {
-          "type" = "gpu";
-          "key" = "  󰊴  GPU       ║ ";
-          "format" = "{2}";
-        }
-        {
-          "type" = "memory";
-          "key" = "    Memory    ║ ";
-          "format" = "{1} / {2} ({3})";
-        }
-        {
-          "type" = "custom";
-          "format" = "╚══════════════════════════════════════════════════════╝";
-        }
+        "player"
+        "media"
       ];
-      # modules = [
-      #   {
-      #     type = "colors";
-      #     symbol = "circle";
-      #   }
-      #   {
-      #     type = "os";
-      #   }
-      #   {
-      #     type = "kernel";
-      #   }
-      #   {
-      #     type = "packages";
-      #   }
-      #   {
-      #     type = "shell";
-      #   }
-      #   "separator"
-      #   {
-      #     type = "wm";
-      #   }
-      #   {
-      #     type = "theme";
-      #   }
-      #   {
-      #     type = "font";
-      #   }
-      #   {
-      #     type = "terminal";
-      #   }
-      #   "separator"
-      #   {
-      #     type = "cpu";
-      #   }
-      #   {
-      #     type = "gpu";
-      #   }
-      #   {
-      #     type = "memory";
-      #   }
-      #   "separator"
-      #   {
-      #     type = "uptime";
-      #   }
-      #   "separator"
-      #   "player"
-      #   "media"
-      # ];
     };
   };
 

@@ -15,6 +15,7 @@
   home.packages = with pkgs; [
     inputs.zen-browser.packages.${system}.default
     (callPackage ./wvkbd.nix { })
+    (callPackage ./electrum-ltc.nix { })
     stremio
   ];
 

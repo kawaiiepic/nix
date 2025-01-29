@@ -17,6 +17,7 @@
           # "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
+          "${pkgs.joystickwake}/bin/joystickwake"
           # "sleep 5 && start"
         ];
 
@@ -80,15 +81,11 @@
         misc = {
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
-          #vrr = 0;
-          #vfr = 0;
           key_press_enables_dpms = true;
           disable_autoreload = true;
           enable_swallow = false;
           swallow_regex = "kitty";
           focus_on_activate = true;
-          # new_window_takes_over_fullscreen = 2;
-          # exit_window_retains_fullscreen = true;
         };
 
         cursor = {
@@ -118,11 +115,6 @@
           # "blurpopups,logout_dialog"
           # "dimaround,logout_dialog"
         ];
-
-        "$SC_FULL" =
-          "grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h 'string:image-path:/home/mia/.cache/sc.png' -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
-        "$SC_AREA" =
-          "grimblast --freeze save area - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot Area' 'Copied to clipboard.' -h 'string:image-path:/home/mia/.cache/sc.png' -i ~/.cache/sc.png && canberra-gtk-play -i screen-capture";
 
         bind = [
           "${builtins.concatStringsSep "\n" (
@@ -217,9 +209,9 @@
         ];
 
         windowrulev2 = [
-          "opacity 0.98 0.98,class:^(firefox)$"
-          "opacity 0.98 0.98,class:^(steam)$"
-          "opacity 0.98 0.98,class:^(steamwebhelper)$"
+          "opacity 0.98 0.98,class:^(zen)$"
+          "opacity 0.95 0.95,class:^(steam)$"
+          "opacity 0.95 0.95,class:^(steamwebhelper)$"
           "opacity 0.95 0.95,title:^(Spotify Premium)$"
 
           "float,class:^(file_progress)$"

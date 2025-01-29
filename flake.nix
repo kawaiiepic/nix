@@ -1,5 +1,5 @@
 {
-  description = "An example NixOS configuration";
+  description = "Mia's Ultimate Setup";
 
   inputs = {
     nixos-hardware = {
@@ -42,7 +42,6 @@
 
   outputs =
     inputs:
-    # ignore::
     let
       ignoreme =
         {
