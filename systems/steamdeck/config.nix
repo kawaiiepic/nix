@@ -7,6 +7,11 @@
 }:
 {
   imports = [
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.common-gpu-amd
+    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
+    inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
+
     ./hardware.nix
     # ../default.nix
 
@@ -47,7 +52,7 @@
 
   jovian.steam.autoStart = true;
   jovian.steam.desktopSession = "hyprland";
-  
+
   programs.hyprlock = {
     enable = true;
   };

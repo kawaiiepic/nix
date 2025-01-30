@@ -40,21 +40,28 @@ in {
       inputs.nixcord.homeManagerModules.nixcord
     ];
 
-    xdg.configFile = {
-      "Vencord/themes/cat-girls.theme.css".source = "${cat-girls}/cat-girls.theme.css";
-      "Vencord/themes/system24.theme.css".source = "${system24}/theme/flavors/catppuccin-mocha.theme.css";
-    };
+    # xdg.configFile = {
+    #   "Vencord/themes/cat-girls.theme.css".source = "${cat-girls}/cat-girls.theme.css";
+    #   "Vencord/themes/system24.theme.css".source = "${system24}/theme/flavors/catppuccin-mocha.theme.css";
+    # };
 
     home.packages = [krisp-patcher];
 
     programs.nixcord = {
         enable = true;  # enable Nixcord. Also installs discord package
         config = {
-          useQuickCss = false;   # use out quickCSS
-          frameless = true; # set some Vencord options
+          themeLinks = [
+            "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
+            "https://raw.githubusercontent.com/refact0r/system24/refs/heads/main/theme/flavors/catppuccin-macchiato.theme.css"
+          ];
+          enabledThemes = [
+            "cat-girls.theme.css"
+            "catppuccin-mocha.theme.css"
+          ];
           plugins = {
              # Enable a Vencord plugin
           };
+          
         };
       };
 }
