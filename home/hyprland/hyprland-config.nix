@@ -239,6 +239,7 @@
           "float,class:^(steam)$"
           "float,class:^(nyaa_shows)$"
           "float,class:^(org.gnome.TextEditor)$"
+          "float,class:^(electrum-ltc)$"
 
           "tile,class:^(steam)$,title:^(Steam)$"
           "tile,class:^(steam)$,title:^(Steam)$"

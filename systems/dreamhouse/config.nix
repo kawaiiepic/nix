@@ -13,6 +13,7 @@
     ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
+    ./storage.nix
   ];
 
   networking.hostName = "dreamhouse";
