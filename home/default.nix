@@ -38,6 +38,9 @@
       "nix"
       "discord-presence"
       "scss"
+      "dart"
+      "wakatime"
+      "catppuccin"
     ];
     userSettings = {
       autosave = {
@@ -58,6 +61,17 @@
             formatting = {
               command = [ "nixfmt" ];
             };
+          };
+        };
+
+        discord_presence = {
+          initialization_options = {
+            idle = {
+              timeout = 600;
+              action = "clear_activity";
+            };
+
+            git_integration = true;
           };
         };
       };
