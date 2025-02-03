@@ -76,7 +76,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
   const text = Variable("");
   const default_apps = [
     apps.fuzzy_query("zen")[0],
-    apps.fuzzy_query("spotify")[0],
+    // apps.fuzzy_query("spotify")[0],
     apps.fuzzy_query("files")[0],
     apps.fuzzy_query("kitty")[0],
     apps.fuzzy_query("zed")[0],

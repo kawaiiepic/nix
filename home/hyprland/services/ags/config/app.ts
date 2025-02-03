@@ -12,7 +12,7 @@ App.start({
   css: style,
   main() {
     App.get_monitors().map(Desktop);
-    App.get_monitors().map(Bar);
+    Bar(App.get_monitors()[0])
     Profile(App.get_monitors()[0]);
     Logout(App.get_monitors()[0]);
     Applauncher(App.get_monitors()[0]);
