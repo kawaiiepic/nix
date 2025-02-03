@@ -9,7 +9,7 @@
     session = {
       command = "Hyprland";
       
-      user = if osConfig.networking.hostName == "blossom" then "wyntor" else "mia";
+      user = if config.networking.hostName == "blossom" then "wyntor" else "mia";
     };
   in {
     enable = lib.mkDefault true;
