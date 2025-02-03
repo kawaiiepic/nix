@@ -123,207 +123,410 @@ function MediaPlayer({ player }: { player: Mpris.Player }) {
   );
 }
 
-export default (gdkmonitor: Gdk.Monitor) => {
+export default (gdkmonitor: Gdk.Monitor, hostname: String) => {
   const speaker = Wp.get_default()?.audio.defaultSpeaker!;
-
-  return new Widget.Window({
-    name: "profile",
-    className: "profile",
-    visible: false,
-    gdkmonitor: gdkmonitor,
-    application: App,
-    exclusivity: Astal.Exclusivity.EXCLUSIVE,
-    marginRight: 50,
-    marginBottom: 2,
-    keymode: Astal.Keymode.EXCLUSIVE,
-    onKeyPressEvent: (self, event) => {
-      if (event.get_keyval()[1] === Gdk.KEY_Escape) {
-        App.toggle_window("profile");
-      }
-    },
-    anchor: Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT,
-
-    child: new Widget.Box({
-      className: "profile macchiato",
-      vertical: true,
-      spacing: 6,
-      children: [
-        new Widget.CenterBox({
-          start_widget: new Widget.Box({
+  
+  if(hostname == "wyntor"){
+    return new Widget.Window({
+      name: "profile",
+      className: "profile",
+      visible: false,
+      gdkmonitor: gdkmonitor,
+      application: App,
+      exclusivity: Astal.Exclusivity.EXCLUSIVE,
+      marginRight: 50,
+      marginBottom: 2,
+      keymode: Astal.Keymode.EXCLUSIVE,
+      onKeyPressEvent: (self, event) => {
+        if (event.get_keyval()[1] === Gdk.KEY_Escape) {
+          App.toggle_window("profile");
+        }
+      },
+      anchor: Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT,
+  
+      child: new Widget.Box({
+        className: "profile macchiato",
+        vertical: true,
+        spacing: 6,
+        children: [
+          new Widget.CenterBox({
+            start_widget: new Widget.Box({
+              children: [
+                new Widget.Box({
+                  className: "profile-pfp",
+                  hexpand: false,
+                  halign: Gtk.Align.CENTER,
+                  vexpand: false,
+                  valign: Gtk.Align.CENTER,
+                  tooltipText: "mia@dreamhouse",
+                  css: "background-image: url('/home/mia/.face');",
+                }),
+  
+                Uptime(),
+                Battery(),
+              ],
+            }),
+  
+            end_widget: new Widget.Box({
+              spacing: 6,
+              halign: Gtk.Align.END,
+              children: [Screenshot(), ShutdownButton()],
+            }),
+          }),
+  
+          new Separator({}),
+  
+          new Widget.Box({
+            className: "surface1",
+            vertical: true,
+            spacing: 6,
             children: [
               new Widget.Box({
-                className: "profile-pfp",
-                hexpand: false,
+                className: "surface1",
+                spacing: 12,
                 halign: Gtk.Align.CENTER,
+                hexpand: false,
                 vexpand: false,
-                valign: Gtk.Align.CENTER,
-                tooltipText: "mia@dreamhouse",
-                css: "background-image: url('/home/mia/.face');",
+                children: [
+                  // InternetButton(),
+                  // BluetoothButton(),
+                  NightLightButton(),
+                  Theme(),
+                ],
               }),
-
-              Uptime(),
-              Battery(),
+  
+              new Widget.Box({
+                className: "surface1",
+                spacing: 35,
+                halign: Gtk.Align.CENTER,
+                hexpand: false,
+                vexpand: false,
+                children: [
+                  Caffeine(),
+                  DoNotDisturbButton(),
+                  Microphone(),
+                  Screenshare(),
+                ],
+              }),
             ],
           }),
-
-          end_widget: new Widget.Box({
-            spacing: 6,
-            halign: Gtk.Align.END,
-            children: [Screenshot(), ShutdownButton()],
-          }),
-        }),
-
-        new Separator({}),
-
-        new Widget.Box({
-          className: "surface1",
-          vertical: true,
-          spacing: 6,
-          children: [
-            new Widget.Box({
-              className: "surface1",
-              spacing: 12,
-              halign: Gtk.Align.CENTER,
-              hexpand: false,
-              vexpand: false,
-              children: [
-                // InternetButton(),
-                // BluetoothButton(),
-                NightLightButton(),
-                Theme(),
-              ],
-            }),
-
-            new Widget.Box({
-              className: "surface1",
-              spacing: 35,
-              halign: Gtk.Align.CENTER,
-              hexpand: false,
-              vexpand: false,
-              children: [
-                Caffeine(),
-                DoNotDisturbButton(),
-                Microphone(),
-                Screenshare(),
-              ],
-            }),
-          ],
-        }),
-
-        new Widget.Box({
-          className: "surface1",
-          vertical: true,
-          spacing: 12,
-          children: [
-            new Widget.Box({
-              spacing: 15,
-              children: [
-                new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
-                new Widget.Slider({
-                  className: "slider",
-                  hexpand: true,
-                  onDragged: ({ value }) => (speaker.volume = value),
-                  value: bind(speaker, "volume"),
-                }),
-              ],
-            }),
-
-            // new Widget.Box({
-            //   className: "profile-progressbar",
-            //   spacing: 15,
-            //   children: [
-            //     new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
-            //     new Widget.Slider({
-            //       className: "slider",
-            //       hexpand: true,
-            //       onDragged: ({ value }) => (speaker.volume = value),
-            //       value: bind(speaker, "volume"),
-            //     }),
-            //   ],
-            // }),
-          ],
-        }),
-
-        new Separator({}),
-
-        new Widget.Label({label: "Notifications"}),
-        
-        new Widget.Scrollable({
-          hscroll: Gtk.PolicyType.NEVER,
-          vscroll: Gtk.PolicyType.AUTOMATIC,
-          css: "min-height: 300px",
-          child: new Widget.Box({
+  
+          new Widget.Box({
+            className: "surface1",
             vertical: true,
-            // spacing: 2,
-            children: notifd.notifications.map((n) => (
-              <eventbox className="Notification">
-              <box>
-                <box className="content">
-                  {n.image && fileExists(n.image) && (
-                    <box
-                      valign={Gtk.Align.START}
-                      className="image"
-                      css={`
-                        background-image: url("${n.image}");
-                      `}
-                    />
-                  )}
-                  {n.image && isIcon(n.image) && (
-                    <box
-                      expand={false}
-                      valign={Gtk.Align.START}
-                      className="icon-image"
-                    >
-                      <icon
-                        icon={n.image}
-                        expand
-                        halign={Gtk.Align.CENTER}
-                        valign={Gtk.Align.CENTER}
-                      />
-                    </box>
-                  )}
-                  <box vertical>
-                    <label
-                      className="summary"
-                      halign={Gtk.Align.START}
-                      xalign={0}
-                      label={n.summary}
-                      truncate
-                    />
-                    {n.body && (
-                      <label
-                        className="body"
-                        wrap
-                        useMarkup
-                        halign={Gtk.Align.START}
-                        xalign={0}
-                        justifyFill
-                        label={n.body.replaceAll('&', 'and')}
+            spacing: 12,
+            children: [
+              new Widget.Box({
+                spacing: 15,
+                children: [
+                  new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+                  new Widget.Slider({
+                    className: "slider",
+                    hexpand: true,
+                    onDragged: ({ value }) => (speaker.volume = value),
+                    value: bind(speaker, "volume"),
+                  }),
+                ],
+              }),
+  
+              // new Widget.Box({
+              //   className: "profile-progressbar",
+              //   spacing: 15,
+              //   children: [
+              //     new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+              //     new Widget.Slider({
+              //       className: "slider",
+              //       hexpand: true,
+              //       onDragged: ({ value }) => (speaker.volume = value),
+              //       value: bind(speaker, "volume"),
+              //     }),
+              //   ],
+              // }),
+            ],
+          }),
+  
+          new Separator({}),
+  
+          new Widget.Label({label: "Notifications"}),
+          
+          new Widget.Scrollable({
+            hscroll: Gtk.PolicyType.NEVER,
+            vscroll: Gtk.PolicyType.AUTOMATIC,
+            css: "min-height: 300px",
+            child: new Widget.Box({
+              vertical: true,
+              // spacing: 2,
+              children: notifd.notifications.map((n) => (
+                <eventbox className="Notification">
+                <box>
+                  <box className="content">
+                    {n.image && fileExists(n.image) && (
+                      <box
+                        valign={Gtk.Align.START}
+                        className="image"
+                        css={`
+                          background-image: url("${n.image}");
+                        `}
                       />
                     )}
+                    {n.image && isIcon(n.image) && (
+                      <box
+                        expand={false}
+                        valign={Gtk.Align.START}
+                        className="icon-image"
+                      >
+                        <icon
+                          icon={n.image}
+                          expand
+                          halign={Gtk.Align.CENTER}
+                          valign={Gtk.Align.CENTER}
+                        />
+                      </box>
+                    )}
+                    <box vertical>
+                      <label
+                        className="summary"
+                        halign={Gtk.Align.START}
+                        xalign={0}
+                        label={n.summary}
+                        truncate
+                      />
+                      {n.body && (
+                        <label
+                          className="body"
+                          wrap
+                          useMarkup
+                          halign={Gtk.Align.START}
+                          xalign={0}
+                          justifyFill
+                          label={n.body.replaceAll('&', 'and')}
+                        />
+                      )}
+                    </box>
                   </box>
                 </box>
-              </box>
-              </eventbox>
-            )),
+                </eventbox>
+              )),
+            }),
           }),
-        }),
+  
+          // <box className="surface1" vertical>
+          //   {bind(mpris, "players").as((arr) => (
+          //     <MediaPlayer player={arr[0]} />
+          //   ))}
+          // </box>,
+  
+          // new Widget.Box({
+          //   className: "calendar surface0",
+          //   child: new Calendar({
+          //     hexpand: true,
+          //   }),
+          // }),
+        ],
+      }),
+    });
+  } else {
+    return new Widget.Window({
+      name: "profile",
+      className: "profile",
+      visible: false,
+      gdkmonitor: gdkmonitor,
+      application: App,
+      exclusivity: Astal.Exclusivity.EXCLUSIVE,
+      marginRight: 50,
+      marginBottom: 2,
+      keymode: Astal.Keymode.EXCLUSIVE,
+      onKeyPressEvent: (self, event) => {
+        if (event.get_keyval()[1] === Gdk.KEY_Escape) {
+          App.toggle_window("profile");
+        }
+      },
+      anchor: Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT,
+  
+      child: new Widget.Box({
+        className: "profile macchiato",
+        vertical: true,
+        spacing: 6,
+        children: [
+          new Widget.CenterBox({
+            start_widget: new Widget.Box({
+              children: [
+                new Widget.Box({
+                  className: "profile-pfp",
+                  hexpand: false,
+                  halign: Gtk.Align.CENTER,
+                  vexpand: false,
+                  valign: Gtk.Align.CENTER,
+                  tooltipText: "mia@dreamhouse",
+                  css: "background-image: url('/home/mia/.face');",
+                }),
+  
+                Uptime(),
+                Battery(),
+              ],
+            }),
+  
+            end_widget: new Widget.Box({
+              spacing: 6,
+              halign: Gtk.Align.END,
+              children: [Screenshot(), ShutdownButton()],
+            }),
+          }),
+  
+          new Separator({}),
+  
+          new Widget.Box({
+            className: "surface1",
+            vertical: true,
+            spacing: 6,
+            children: [
+              new Widget.Box({
+                className: "surface1",
+                spacing: 12,
+                halign: Gtk.Align.CENTER,
+                hexpand: false,
+                vexpand: false,
+                children: [
+                  // InternetButton(),
+                  // BluetoothButton(),
+                  NightLightButton(),
+                  Theme(),
+                ],
+              }),
+  
+              new Widget.Box({
+                className: "surface1",
+                spacing: 35,
+                halign: Gtk.Align.CENTER,
+                hexpand: false,
+                vexpand: false,
+                children: [
+                  Caffeine(),
+                  DoNotDisturbButton(),
+                  Microphone(),
+                  Screenshare(),
+                ],
+              }),
+            ],
+          }),
+  
+          new Widget.Box({
+            className: "surface1",
+            vertical: true,
+            spacing: 12,
+            children: [
+              new Widget.Box({
+                spacing: 15,
+                children: [
+                  new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+                  new Widget.Slider({
+                    className: "slider",
+                    hexpand: true,
+                    onDragged: ({ value }) => (speaker.volume = value),
+                    value: bind(speaker, "volume"),
+                  }),
+                ],
+              }),
+  
+              // new Widget.Box({
+              //   className: "profile-progressbar",
+              //   spacing: 15,
+              //   children: [
+              //     new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
+              //     new Widget.Slider({
+              //       className: "slider",
+              //       hexpand: true,
+              //       onDragged: ({ value }) => (speaker.volume = value),
+              //       value: bind(speaker, "volume"),
+              //     }),
+              //   ],
+              // }),
+            ],
+          }),
+  
+          new Separator({}),
+  
+          new Widget.Label({label: "Notifications"}),
+          
+          new Widget.Scrollable({
+            hscroll: Gtk.PolicyType.NEVER,
+            vscroll: Gtk.PolicyType.AUTOMATIC,
+            css: "min-height: 300px",
+            child: new Widget.Box({
+              vertical: true,
+              // spacing: 2,
+              children: notifd.notifications.map((n) => (
+                <eventbox className="Notification">
+                <box>
+                  <box className="content">
+                    {n.image && fileExists(n.image) && (
+                      <box
+                        valign={Gtk.Align.START}
+                        className="image"
+                        css={`
+                          background-image: url("${n.image}");
+                        `}
+                      />
+                    )}
+                    {n.image && isIcon(n.image) && (
+                      <box
+                        expand={false}
+                        valign={Gtk.Align.START}
+                        className="icon-image"
+                      >
+                        <icon
+                          icon={n.image}
+                          expand
+                          halign={Gtk.Align.CENTER}
+                          valign={Gtk.Align.CENTER}
+                        />
+                      </box>
+                    )}
+                    <box vertical>
+                      <label
+                        className="summary"
+                        halign={Gtk.Align.START}
+                        xalign={0}
+                        label={n.summary}
+                        truncate
+                      />
+                      {n.body && (
+                        <label
+                          className="body"
+                          wrap
+                          useMarkup
+                          halign={Gtk.Align.START}
+                          xalign={0}
+                          justifyFill
+                          label={n.body.replaceAll('&', 'and')}
+                        />
+                      )}
+                    </box>
+                  </box>
+                </box>
+                </eventbox>
+              )),
+            }),
+          }),
+  
+          // <box className="surface1" vertical>
+          //   {bind(mpris, "players").as((arr) => (
+          //     <MediaPlayer player={arr[0]} />
+          //   ))}
+          // </box>,
+  
+          // new Widget.Box({
+          //   className: "calendar surface0",
+          //   child: new Calendar({
+          //     hexpand: true,
+          //   }),
+          // }),
+        ],
+      }),
+    });
+  }
 
-        // <box className="surface1" vertical>
-        //   {bind(mpris, "players").as((arr) => (
-        //     <MediaPlayer player={arr[0]} />
-        //   ))}
-        // </box>,
-
-        // new Widget.Box({
-        //   className: "calendar surface0",
-        //   child: new Calendar({
-        //     hexpand: true,
-        //   }),
-        // }),
-      ],
-    }),
-  });
+  
 };
 
 export class Calendar extends astalify(Gtk.Calendar) {

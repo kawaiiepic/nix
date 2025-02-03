@@ -7,15 +7,23 @@ import Bar from "./widget/bar/Bar";
 import Applauncher from "./widget/appLauncher/Applauncher";
 import Logout from "./widget/logout/Logout";
 
-App.start({
-  icons: `${SRC}/style/assets`,
-  css: style,
-  main() {
-    App.get_monitors().map(Desktop);
-    Bar(App.get_monitors()[0])
-    Profile(App.get_monitors()[0]);
-    Logout(App.get_monitors()[0]);
-    Applauncher(App.get_monitors()[0]);
-    NotificationPopups(App.get_monitors()[0]);
-  },
-});
+import GLib from "gi://GLib"
+
+const USER = GLib.getenv("USER")
+
+print(USER);
+
+if (USER != null) {
+  App.start({
+    icons: `${SRC}/style/assets`,
+    css: style,
+    main() {
+      App.get_monitors().map(Desktop);
+      Bar(App.get_monitors()[0], USER)
+      Profile(App.get_monitors()[0], USER);
+      Logout(App.get_monitors()[0]);
+      Applauncher(App.get_monitors()[0]);
+      NotificationPopups(App.get_monitors()[0]);
+    },
+  });
+}
