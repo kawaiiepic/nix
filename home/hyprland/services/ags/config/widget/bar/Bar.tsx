@@ -49,7 +49,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             }}
           >
             <box className="surface1" spacing={6}>
-              <Wifi/>
+              {/* <Wifi/> */}
               <Audio/>
               {/* <Bluetooth/> */}
               <Battery/>

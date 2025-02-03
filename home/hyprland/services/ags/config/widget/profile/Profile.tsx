@@ -187,8 +187,8 @@ export default (gdkmonitor: Gdk.Monitor) => {
               hexpand: false,
               vexpand: false,
               children: [
-                InternetButton(),
-                BluetoothButton(),
+                // InternetButton(),
+                // BluetoothButton(),
                 NightLightButton(),
                 Theme(),
               ],
