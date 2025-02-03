@@ -49,11 +49,11 @@
               on-timeout = "hyprlock";
             }
 
-            {
-              timeout = 330;
-              on-timeout = "hyprctl dispatch dpms off"; # # Turn off display
-              on-resume = "hyprctl dispatch dpms on";
-            }
+            # {
+            #   timeout = 330;
+            #   on-timeout = "hyprctl dispatch dpms off"; # # Turn off display
+            #   on-resume = "hyprctl dispatch dpms on";
+            # }
 
             {
               timeout = 1800; # 30min
