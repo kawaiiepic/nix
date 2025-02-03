@@ -6,7 +6,7 @@
     ../system/core/audio.nix
     ../system/core/boot.nix
     ../system/core/fonts.nix
-    ../system/core/graphics.nix
+    # ../system/core/graphics.nix
     ../system/core/network.nix
     ../system/core/packages.nix
     ../system/core/shell.nix

@@ -321,10 +321,33 @@
       }
 
       (lib.mkIf (osConfig.networking.hostName == "dreamhouse") {
-        input = {
-          kb_layout = "us";
-          accel_profile = "flat";
+        general = {
+          monitor = [
+            "DP-1,2560x1440@143.97Hz,0x0,1.25,vrr,1"
+            "HDMI-A-2,1920x1080@74.97Hz,2048x0,auto,vrr,0"
+            "HDMI-A-1,highres,3968x0,2,vrr,0,transform,2"
+            "eDP-1,highrr,0x0,1,transform,3"
+          ];
         };
+      })
+
+      (lib.mkIf (osConfig.networking.hostName == "blossom") {
+        general = {
+          monitor = [
+            "HDMI-A-1,1920x1080@180Hz,0x0,1,vrr,1"
+            "DP-1,1920x1080@60Hz,1920x0,1,vrr,0"
+          ];
+        };
+
+      })
+
+      (lib.mkIf (osConfig.networking.hostName == "steamdeck") {
+        general = {
+          monitor = [
+            "eDP-1,highrr,0x0,1,transform,3"
+          ];
+        };
+
       })
 
       (lib.mkIf (osConfig.networking.hostName == "ken") {
