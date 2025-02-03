@@ -9,6 +9,7 @@ export default () => {
       tooltipText={bind(wifi, "ssid").as(String)}
       className="Wifi"
       icon={bind(wifi, "iconName")}
+      visible={bind(wifi, "enabled")}
     />
   );
 }

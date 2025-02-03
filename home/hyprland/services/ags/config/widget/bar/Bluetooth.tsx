@@ -20,6 +20,6 @@ export default () => {
         self.visible = bluetooth.devices.length > 0;
       }),
 
-    visible: bluetooth != null,
+    visible: bind(bluetooth, "devices").as((devices) => devices.length > 0),
   });
 };
