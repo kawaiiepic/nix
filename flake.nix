@@ -94,7 +94,7 @@
 
               home-manager.users.wyntor = import ./home;
             }
-            ./systems/dreamhouse/config.nix
+            ./systems/blossom/config.nix
           ];
           specialArgs = { inherit inputs; };
         };
