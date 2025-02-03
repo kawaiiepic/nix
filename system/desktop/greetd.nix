@@ -1,13 +1,15 @@
 {
   config,
   lib,
+  osConfig,
   ...
 }: {
   # greetd display manager
   services.greetd = let
     session = {
       command = "Hyprland";
-      user = "mia";
+      
+      user = if osConfig.networking.hostName == "blossom" then "wyntor" else "mia";
     };
   in {
     enable = lib.mkDefault true;

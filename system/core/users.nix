@@ -6,4 +6,12 @@
       "input"
     ];
   };
+  
+  users.users.wyntor = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "input"
+    ];
+  };
 }

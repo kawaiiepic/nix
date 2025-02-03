@@ -1,10 +1,10 @@
 {
-  buildFlutterApplication,
+  flutter,
   fetchFromGithub,
   lib
 }:
 
-buildFlutterApplication rec {
+flutter.buildFlutterApplication rec {
   pname = "nyaashows";
   version = "0.1.0";
 
@@ -14,6 +14,8 @@ buildFlutterApplication rec {
     rev = "727b1260db10f58ae99e06fc30ab3112d2123161";
     sha256 = "";
   };
+  
+   pubspecLock = lib.importJSON ./pubspec.lock.json;
 
   meta = with lib; {
     homepage = "https://github.com/kawaiiepic/NyaaShows";

@@ -77,6 +77,27 @@
           ];
           specialArgs = { inherit inputs; };
         };
+        
+        blossom = inputs.nixpkgs.lib.nixosSystem {
+          # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
+          # nixpkgs.config = {allowUnfree=true;};
+          system = "x86_64-linux";
+          modules = [
+            inputs.chaotic.nixosModules.default
+            inputs.jovian-nixos.nixosModules.default
+            inputs.lix-module.nixosModules.default
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+
+              home-manager.users.wyntor = import ./home;
+            }
+            ./systems/dreamhouse/config.nix
+          ];
+          specialArgs = { inherit inputs; };
+        };
 
         steamdeck = inputs.nixpkgs.lib.nixosSystem {
           # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
