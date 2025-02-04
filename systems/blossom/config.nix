@@ -10,7 +10,7 @@
 }:
 {
   imports = [
-    ../../system/desktop/greetd.nix
+    # ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
 
@@ -18,6 +18,10 @@
   ];
 
   networking.hostName = "blossom";
+  
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Enable OpenGL
   hardware.graphics = {

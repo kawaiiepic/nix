@@ -10,11 +10,11 @@
 }:
 {
   imports = [
-    ../../system/desktop/greetd.nix
+    # ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
     ./storage.nix
-    
+
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     inputs.nixos-hardware.nixosModules.common-gpu-amd
     inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
@@ -22,7 +22,7 @@
   ];
 
   networking.hostName = "dreamhouse";
-  
+
   hardware = {
     graphics = {
       enable = true;
@@ -38,11 +38,15 @@
       support32Bit.enable = true;
     };
   };
-  
+
   environment.systemPackages = with pkgs; [ lact ];
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
-  
+
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
