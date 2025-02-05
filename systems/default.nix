@@ -13,8 +13,9 @@
     ../system/core/users.nix
 
     #../system/desktop/greetd.nix
-    ../system/desktop/cosmic-greeter.nix
-    ../system/desktop/cosmic.nix
+    # ../system/desktop/cosmic-greeter.nix
+    # ../system/desktop/cosmic.nix
+    ../system/desktop/gdm.nix
     ../system/desktop/gnome.nix
     ../system/desktop/hyprland.nix
 

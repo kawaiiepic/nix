@@ -17,7 +17,7 @@
     prismlauncher
     ryujinx
     xivlauncher
-    # shadps4
+    shadps4
     (pkgs.callPackage ./vita3k.nix { })
   ];
 

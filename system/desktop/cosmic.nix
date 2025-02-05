@@ -4,7 +4,7 @@
     inputs.nixos-cosmic.nixosModules.default
   ];
 
-  # services.desktopManager.cosmic.enable = true;
+  services.desktopManager.cosmic.enable = true;
 
   nix.settings = {
     substituters = [ "https://cosmic.cachix.org/" ];

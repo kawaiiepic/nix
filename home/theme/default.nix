@@ -5,9 +5,9 @@
 }:
 {
   
-  imports = [
-    ./wallust
-  ];
+  # imports = [
+  #   ./wallust
+  # ];
 
   home.file = {
     ".icons/GoogleDot-Violet" = {
@@ -29,14 +29,14 @@
       package = pkgs.google-cursor;
     };
     
-    theme = {
-      name = "Catppuccin-GTK-Dark";
-      package = pkgs.magnetic-catppuccin-gtk;
-    };
+    # theme = {
+    #   name = "Catppuccin-GTK-Dark";
+    #   package = pkgs.magnetic-catppuccin-gtk;
+    # };
 
-    iconTheme = {
-      name = "rose-pine";
-      package = pkgs.rose-pine-icon-theme;
-    };
+    # iconTheme = {
+    #   name = "rose-pine";
+    #   package = pkgs.rose-pine-icon-theme;
+    # };
   };
 }
