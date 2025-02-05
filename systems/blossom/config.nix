@@ -18,21 +18,13 @@
   ];
 
   networking.hostName = "blossom";
-  
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      libvdpau-va-gl
-      # rocmPackages.clr.icd
-    ];
   };
- 
+
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
 

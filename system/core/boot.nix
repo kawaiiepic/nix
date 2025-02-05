@@ -9,7 +9,7 @@
   #   scheduler = "scx_rustland";
   # };
 
-  time.timeZone = "America/Detroit";
+  time.timeZone = "America/Chicago";
 
   zramSwap.enable = true;
 

@@ -16,6 +16,7 @@
     mangohud
     prismlauncher
     ryujinx
+    xivlauncher
     # shadps4
     (pkgs.callPackage ./vita3k.nix { })
   ];

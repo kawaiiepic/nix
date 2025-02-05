@@ -1,17 +1,27 @@
+{ lib, config, ... }:
 {
-  users.users.mia = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "input"
-    ];
-  };
-  
-  users.users.wyntor = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "input"
-    ];
-  };
+
+  users.users = lib.mkMerge [
+    (lib.mkIf (config.networking.hostName == "dreamhouse" || config.networking.hostName == "steamdeck")
+      {
+        mia = {
+          isNormalUser = true;
+          extraGroups = [
+            "wheel"
+            "input"
+          ];
+        };
+      }
+    )
+
+    (lib.mkIf (config.networking.hostName == "blossom") {
+      wyntor = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel"
+          "input"
+        ];
+      };
+    })
+  ];
 }

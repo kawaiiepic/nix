@@ -13,6 +13,8 @@
     ../system/core/users.nix
 
     #../system/desktop/greetd.nix
+    ../system/desktop/cosmic-greeter.nix
+    ../system/desktop/cosmic.nix
     ../system/desktop/hyprland.nix
 
     ../system/games
