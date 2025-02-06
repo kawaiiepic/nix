@@ -1,10 +1,27 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     inputs.aagl.nixosModules.default
   ];
 
   programs.steam.extest.enable = true;
+
+  boot.kernelPatches = lib.mkIf (config.network.hostname == "dreamhouse") [
+    {
+      name = "amdgpu-ignore-ctx-privileges";
+      patch = pkgs.fetchpatch {
+        name = "cap_sys_nice_begone.patch";
+        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+      };
+    }
+  ];
 
   environment.systemPackages = with pkgs; [
     protontricks
@@ -18,8 +35,10 @@
     ryujinx
     xivlauncher
     shadps4
+    alvr
+    sidequest
     (pkgs.callPackage ./vita3k.nix { })
-    (pkgs.steamtinkerlaunch.overrideAttrs  {
+    (pkgs.steamtinkerlaunch.overrideAttrs {
       src = fetchFromGitHub {
         owner = "sonic2kk";
         repo = "steamtinkerlaunch";
@@ -28,6 +47,13 @@
       };
     })
   ];
+
+  programs.adb.enable = true;
+
+  programs.envision = {
+    enable = true;
+    openFirewall = true; # This is set true by default
+  };
 
   programs.honkers-railway-launcher.enable = true;
   programs.wavey-launcher.enable = true;

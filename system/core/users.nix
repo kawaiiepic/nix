@@ -9,6 +9,7 @@
           extraGroups = [
             "wheel"
             "input"
+            "adbusers"
           ];
         };
       }

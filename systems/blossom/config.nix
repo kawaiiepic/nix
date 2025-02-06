@@ -33,12 +33,6 @@
     # Modesetting is required.
     modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-    # of just the bare essentials.
-    powerManagement.enable = true;
-
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
     # Support is limited to the Turing and later architectures. Full list of
@@ -50,6 +44,15 @@
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
+    
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+       version = "560.35.03";
+       sha256_64bit = "";
+       sha256_aarch64 = "";
+       openSha256 = "";
+       settingsSha256 = "";
+       persistencedSha256 = lib.fakeSha256;
+     };
   };
 
   programs.steam = {
