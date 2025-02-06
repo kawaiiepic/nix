@@ -12,7 +12,7 @@
 
   programs.steam.extest.enable = true;
 
-  boot.kernelPatches = lib.mkIf (config.network.hostname == "dreamhouse") [
+  boot.kernelPatches = lib.mkIf (config.networking.hostname == "dreamhouse") [
     {
       name = "amdgpu-ignore-ctx-privileges";
       patch = pkgs.fetchpatch {
