@@ -16,6 +16,7 @@
     # ../system/desktop/cosmic-greeter.nix
     # ../system/desktop/cosmic.nix
     ../system/desktop/gdm.nix
+    ../system/desktop/plasma.nix
     ../system/desktop/gnome.nix
     ../system/desktop/hyprland.nix
 
