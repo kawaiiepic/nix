@@ -5,7 +5,7 @@
     ./vesktop
     ./discord
     ./obs
-    # ./spotify
+    ./spotify
     ./vscode
     ./helix
     ./nextcloud.nix
