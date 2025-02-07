@@ -27,6 +27,8 @@
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
+  
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_xanmod_latest;
 
   hardware.nvidia = {
 
@@ -43,16 +45,8 @@
 
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-    
-    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-       version = "560.35.03";
-       sha256_64bit = "";
-       sha256_aarch64 = "";
-       openSha256 = "";
-       settingsSha256 = "";
-       persistencedSha256 = lib.fakeSha256;
-     };
+    nvidiaSettings = false;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   programs.steam = {
