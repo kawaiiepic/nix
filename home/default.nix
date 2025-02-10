@@ -50,7 +50,7 @@
       };
 
       theme = {
-        mode = "system";
+        mode = "dark";
         light = "One Light";
         dark = "Catppuccin Macchiato";
       };

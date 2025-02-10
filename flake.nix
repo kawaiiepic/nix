@@ -64,7 +64,6 @@
           system = "x86_64-linux";
           modules = [
             inputs.chaotic.nixosModules.default
-            inputs.jovian-nixos.nixosModules.default
             inputs.lix-module.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
@@ -85,7 +84,6 @@
           system = "x86_64-linux";
           modules = [
             inputs.chaotic.nixosModules.default
-            inputs.jovian-nixos.nixosModules.default
             inputs.lix-module.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
