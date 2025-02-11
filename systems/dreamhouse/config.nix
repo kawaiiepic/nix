@@ -23,6 +23,8 @@
 
   networking.hostName = "dreamhouse";
 
+  hardware.opentabletdriver.enable = true;
+  
   hardware = {
     graphics = {
       enable = true;
