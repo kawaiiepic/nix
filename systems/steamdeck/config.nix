@@ -17,7 +17,7 @@
 
     ../../system/core/boot/plymouth.nix
 
-    ../../system/core/audio.nix
+    ../../system/core/audio.nix 
     ../../system/core/boot.nix
     ../../system/core/fonts.nix
     #../../system/core/graphics.nix
@@ -30,7 +30,7 @@
     ../../system/desktop/hyprland.nix
 
     ../../system/games
-
+    
     ../../system/nix
   ];
 
