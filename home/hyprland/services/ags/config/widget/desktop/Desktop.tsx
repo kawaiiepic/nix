@@ -15,7 +15,7 @@ const time = Variable("").poll(1000, "date");
 export const background = Variable("Boop").poll(30 * 60 * 1000, [
   "bash",
   "-c",
-  `WALL="$(find ${SRC}/style/wallpapers -type f | shuf -n 1)" && ln -sf $WALL $HOME/.cache/background && echo $WALL`,
+  `WALL="$(find $HOME/.wallpapers/ -type f | shuf -n 1)" && ln -sf $WALL $HOME/.cache/background && echo $WALL`,
 ]);
 
 function setup(menu: Menu) {

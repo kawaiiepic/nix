@@ -9,6 +9,7 @@
     ./software
     ./shell
     ./theme
+    ./wallpapers
   ];
 
 
