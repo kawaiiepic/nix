@@ -13,6 +13,7 @@
     # ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
+    ../../system/desktop/plasma.nix
 
     inputs.nixos-hardware.nixosModules.common-pc-ssd
   ];
@@ -27,7 +28,7 @@
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
-  
+
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_xanmod_latest;
 
   hardware.nvidia = {

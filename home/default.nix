@@ -11,21 +11,7 @@
     ./theme
   ];
 
-  xdg.enable = true;
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
 
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
-    configPackages = with pkgs; [ xdg-desktop-portal-hyprland xdg-desktop-portal-gtk ];
-  };
-
-  xdg.userDirs = {
-    enable = true;
-  };
 
   programs.zed-editor = {
     enable = true;

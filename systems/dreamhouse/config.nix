@@ -14,6 +14,8 @@
     ./hardware.nix
     ../default.nix
     ./storage.nix
+    ../../system/desktop/gdm.nix
+    ../../system/desktop/hyprland.nix
 
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     inputs.nixos-hardware.nixosModules.common-gpu-amd
@@ -31,7 +33,6 @@
       enable32Bit = true;
       extraPackages = with pkgs; [
         libvdpau-va-gl
-        # rocmPackages.clr.icd
       ];
     };
 
