@@ -11,8 +11,8 @@
     ./theme
     ./wallpapers
   ];
-
-
+  
+  
 
   programs.zed-editor = {
     enable = true;

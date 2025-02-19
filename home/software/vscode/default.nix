@@ -38,47 +38,47 @@ in
       ];
     };
 
-    extensions = with inputs.nix-vscode-extensions.extensions.x86_64-linux; [
-      ## Language Support
-      open-vsx.jnoortheen.nix-ide # https://marketplace.visualstudio.com/items?itemName=jnoortheen.nix-ide
-      # open-vsx.christian-kohler.path-intellisense # https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense
-      #open-vsx.rust-lang.rust-analyzer # https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
-      # open-vsx.vscjava.vscode-maven # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven
-      # open-vsx.vscjava.vscode-java-debug # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug
-      # open-vsx.redhat.java # https://marketplace.visualstudio.com/items?itemName=redhat.java
-      # open-vsx.vscjava.vscode-gradle # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle
-      # open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
-      # open-vsx.arrterian.nix-env-selector
-      # vscode-marketplace.visualstudioexptteam.vscodeintellicode # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
-      vscode-marketplace.dart-code.flutter # https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
-      vscode-marketplace.dart-code.dart-code
+    # extensions = with inputs.nix-vscode-extensions.extensions.x86_64-linux; [
+    #   ## Language Support
+    #   open-vsx.jnoortheen.nix-ide # https://marketplace.visualstudio.com/items?itemName=jnoortheen.nix-ide
+    #   # open-vsx.christian-kohler.path-intellisense # https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense
+    #   #open-vsx.rust-lang.rust-analyzer # https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
+    #   # open-vsx.vscjava.vscode-maven # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven
+    #   # open-vsx.vscjava.vscode-java-debug # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug
+    #   # open-vsx.redhat.java # https://marketplace.visualstudio.com/items?itemName=redhat.java
+    #   # open-vsx.vscjava.vscode-gradle # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle
+    #   # open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
+    #   # open-vsx.arrterian.nix-env-selector
+    #   # vscode-marketplace.visualstudioexptteam.vscodeintellicode # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
+    #   vscode-marketplace.dart-code.flutter # https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
+    #   vscode-marketplace.dart-code.dart-code
 
-      ## Pretty
-      open-vsx.kamadorueda.alejandra # https://marketplace.visualstudio.com/items?itemName=kamadorueda.alejandra
-      vscode-marketplace.esbenp.prettier-vscode
+    #   ## Pretty
+    #   open-vsx.kamadorueda.alejandra # https://marketplace.visualstudio.com/items?itemName=kamadorueda.alejandra
+    #   vscode-marketplace.esbenp.prettier-vscode
 
-      ## Misc
-      open-vsx.naumovs.color-highlight # https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
-      # open-vsx.usernamehw.errorlens # https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens
-      open-vsx.eamodio.gitlens # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-      open-vsx.mohammadbaqer.better-folding # https://marketplace.visualstudio.com/items?itemName=MohammadBaqer.better-folding
-      open-vsx.catppuccin.catppuccin-vsc-icons # https://marketplace.visualstudio.com/items?itemName=Catppuccin.catppuccin-vsc-icons
-      # open-vsx.jasonlhy.hungry-delete # https://marketplace.visualstudio.com/items?itemName=jasonlhy.hungry-delete
-      open-vsx.wakatime.vscode-wakatime # https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime
-      # open-vsx.bmalehorn.vscode-fish # https://open-vsx.org/extension/bmalehorn/vscode-fish
+    #   ## Misc
+    #   open-vsx.naumovs.color-highlight # https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+    #   # open-vsx.usernamehw.errorlens # https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens
+    #   open-vsx.eamodio.gitlens # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
+    #   open-vsx.mohammadbaqer.better-folding # https://marketplace.visualstudio.com/items?itemName=MohammadBaqer.better-folding
+    #   open-vsx.catppuccin.catppuccin-vsc-icons # https://marketplace.visualstudio.com/items?itemName=Catppuccin.catppuccin-vsc-icons
+    #   # open-vsx.jasonlhy.hungry-delete # https://marketplace.visualstudio.com/items?itemName=jasonlhy.hungry-delete
+    #   open-vsx.wakatime.vscode-wakatime # https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime
+    #   # open-vsx.bmalehorn.vscode-fish # https://open-vsx.org/extension/bmalehorn/vscode-fish
 
-      (inputs.catppuccin-vsc.packages.x86_64-linux.default.override {
-        accent = "mauve";
-        boldKeywords = true;
-        italicComments = true;
-        italicKeywords = true;
-        extraBordersEnabled = false;
-        workbenchMode = "default";
-        bracketMode = "rainbow";
-        colorOverrides = { };
-        customUIColors = { };
-      })
-    ];
+    #   (inputs.catppuccin-vsc.packages.x86_64-linux.default.override {
+    #     accent = "mauve";
+    #     boldKeywords = true;
+    #     italicComments = true;
+    #     italicKeywords = true;
+    #     extraBordersEnabled = false;
+    #     workbenchMode = "default";
+    #     bracketMode = "rainbow";
+    #     colorOverrides = { };
+    #     customUIColors = { };
+    #   })
+    # ];
 
     userSettings = {
       "editor.fontFamily" = "'SpaceMono Nerd Font Mono', 'monospace', monospace";
