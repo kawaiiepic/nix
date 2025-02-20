@@ -8,6 +8,7 @@
     ./spotify
     ./vscode
     ./helix
+    ./nautilus
     ./nextcloud.nix
     ./gopass.nix
   ];

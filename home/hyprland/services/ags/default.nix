@@ -13,7 +13,7 @@
         Description = "ags service";
       };
 
-      Install.WantedBy = [ "hyprland-session.target" ];
+      Install.WantedBy = [ "wayland-session@hyprland.desktop.target" ];
 
       Service = {
         ExecStart = ''${

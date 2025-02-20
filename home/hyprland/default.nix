@@ -45,9 +45,8 @@
         }
       '')
       (pkgs.writeShellScriptBin "start" ''
-        hyprctl dispatch exec "[workspace 1] kitty"
-        hyprctl dispatch exec "[workspace 3] discord"
-        hyprctl dispatch exec "[workspace 5] steam"
+        hyprctl dispatch exec "[workspace 3] uwsm app -- discord"
+        hyprctl dispatch exec "[workspace 5] uwsm app -- steam"
       '')
       (pkgs.writeShellScriptBin "screenshot" ''
         grimblast save output - > ~/.cache/sc.png && cat ~/.cache/sc.png | wl-copy && notify-send -u low -a 'screenshot' 'Screenshot' 'Copied to clipboard.' -h 'string:image-path:/home/${
@@ -95,16 +94,22 @@
     enable = true;
   };
 
+  programs.nautilus-open-any-terminal = {
+    enable = true;
+    terminal = "kitty";
+  };
+
   # enable hyprland
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = false;
 
-    systemd = {
-      variables = [ "--all" ];
-      extraCommands = [
-        "systemctl --user stop graphical-session.target"
-        "systemctl --user start hyprland-session.target"
-      ];
-    };
+    # systemd = {
+    #   variables = [ "--all" ];
+    #   extraCommands = [
+    #     "systemctl --user stop graphical-session.target"
+    #     "systemctl --user start hyprland-session.target"
+    #   ];
+    # };
   };
 }
