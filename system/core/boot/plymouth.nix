@@ -3,11 +3,11 @@
 
     plymouth = {
       enable = true;
-      theme = "rings";
+      theme = "colorful_loop";
       themePackages = with pkgs; [
         # By default we would install all themes
         (adi1090x-plymouth-themes.override {
-          selected_themes = [ "rings" ];
+          selected_themes = [ "colorful_loop" ];
         })
       ];
     };
@@ -23,6 +23,7 @@
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"
+      "clearcpuid=514"
     ];
     # Hide the OS choice for bootloaders.
     # It's still possible to open the bootloader list by pressing any key

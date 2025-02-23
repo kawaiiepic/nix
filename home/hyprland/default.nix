@@ -94,11 +94,6 @@
     enable = true;
   };
 
-  programs.nautilus-open-any-terminal = {
-    enable = true;
-    terminal = "kitty";
-  };
-
   # enable hyprland
   wayland.windowManager.hyprland = {
     enable = true;

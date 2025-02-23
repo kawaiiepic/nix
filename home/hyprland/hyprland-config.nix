@@ -14,11 +14,10 @@
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
           "swayosd-server"
           "wvkbd-mobintl --hidden --alpha 50 -L 200"
-          # "nextcloud"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
           "${pkgs.joystickwake}/bin/joystickwake"
-          # "sleep 5 && start"
+          "sleep 5 && start"
         ];
 
         master = {
