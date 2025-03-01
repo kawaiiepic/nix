@@ -15,8 +15,8 @@
     ./services/gnome-keyring.nix
 
     ./hyprland-config.nix
-    
-    ./scripts/keybinds.nix
+
+    ./scripts
   ];
 
   home = {
