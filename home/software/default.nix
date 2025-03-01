@@ -16,12 +16,8 @@
     inputs.zen-browser.packages.${system}.default
     (callPackage ./wvkbd.nix { })
     (callPackage ./nyaashows { })
-    # (pkgs.electrum-ltc.overrideAttrs (
-    #   finalAttrs: previousAttrs: {
-    #     propagatedBuildInputs = previousAttrs.propagatedBuildInputs ++ [ python3.pkgs.distutils ];
-    #   }
-    # ))
     stremio
+    mpv
   ];
 
 }

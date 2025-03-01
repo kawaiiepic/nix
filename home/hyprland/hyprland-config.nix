@@ -1,6 +1,7 @@
 {
   pkgs,
   osConfig,
+  inputs,
   lib,
   ...
 }:
@@ -12,11 +13,12 @@
 
         exec-once = [
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
-          "swayosd-server"
-          "wvkbd-mobintl --hidden --alpha 50 -L 200"
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-          "${pkgs.networkmanagerapplet}/bin/nm-applet"
-          "${pkgs.joystickwake}/bin/joystickwake"
+          "uwsm app -- swayosd-server"
+          "uwsm app -- wvkbd-mobintl --hidden --alpha 50 -L 200"
+          "uwsm app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          "uwsm app -- ${pkgs.networkmanagerapplet}/bin/nm-applet"
+          "uwsm app -- ${pkgs.joystickwake}/bin/joystickwake"
+          "uwsm app -- my-shell"
           "sleep 5 && start"
         ];
 
@@ -141,17 +143,16 @@
           "$MOD, Q, killactive"
           "$MOD, F, fullscreen,2"
           "$MODSHIFT, F, fullscreen, 1"
-          "$MOD, Escape, exec, wlogout -p layer-shell"
-          "$MOD, L, exec, pidof hyprlock || hyprlock"
+          "$MOD, L, exec, pidof hyprlock || uwsm app -- hyprlock"
           "$MOD, O, exec, pkill -RTMIN wvkbd"
           "$MOD, Space, togglefloating"
           # "$MOD, R,  overview:toggle, all"
           # "$MODSHIFT, R, hyprexpo:expo, toggle"
-          "$MOD, T, exec, tessen -p gopass -d wofi"
+          "$MOD, T, exec, uwsm app -- tessen -p gopass -d wofi"
           "$MOD, P, pin"
           "$MOD, S, togglesplit"
 
-          "$MOD, Tab, cyclenext"
+          "$MOD, Tab, focusCurrentOrLast"
           "$MOD, Tab, bringactivetotop"
           "$MOD, A, togglespecialworkspace"
           "$MODSHIFT, A, movetoworkspace, special"
@@ -170,20 +171,17 @@
           "$MOD, S, movetoworkspace, special:magic"
           "$MOD, S, togglespecialworkspace, magic"
 
-          "$MOD, P, exec, screenshot"
-          "$MODSHIFT, P, exec, screenshot-area"
-          "$MOD, X, exec, hyprpicker"
-          "$MOD, Return, exec, kitty"
-          "$MODSHIFT, Return, exec, [float] kitty "
-          "$MOD, D, exec, launcher"
-          ", XF86LaunchB, exec,  pkill wofi || wofi"
-          "$MOD, E, exec, nautilus --new-window"
+          "$MOD, P, exec, uwsm app -- screenshot"
+          "$MODSHIFT, P, exec, uwsm app -- screenshot-area"
+          "$MOD, Return, exec, uwsm app -- kitty"
+          "$MODSHIFT, Return, exec, [float] uwsm app -- kitty "
+          "$MOD, D, exec, uwsm app -- launcher"
+          "$MOD, E, exec, uwsm app -- nautilus --new-window"
           ", XF86AudioPlay, exec, playerctl play-pause"
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPrev, exec, playerctl previous"
 
           "CTRL+SHIFT,G,pass,^(com\.obsproject\.Studio)$"
-          "CTRL+SHIFT,G,exec,notify-send 'Clip Saved'"
         ];
 
         bindel = [
@@ -243,7 +241,7 @@
           "tile,class:^(steam)$,title:^(Steam)$"
           "tile,class:^(steam)$,title:^(Steam)$"
 
-          "size 1298 797,class:^(mpv)$" # I don't think mpv cares what I say.
+          "size 1298 797,class:^(mpv)$"
           "size 1298 797,class:^(gthumb)$"
 
           "float, title:^(Picture-in-Picture)$"
@@ -253,17 +251,12 @@
 
           "opacity 1,class:^(kitty)$"
 
-          "stayfocused, class:^(com.nextcloud.desktopclient.nextcloud)$"
+          # "stayfocused, class:^(com.nextcloud.desktopclient.nextcloud)$"
           "move 100%-w-20 100%-w-20, class:^(com.nextcloud.desktopclient.nextcloud)$"
 
-          # "plugin:hyprbars:nobar, floating:0"
-
-          # "bordercolor rgba(aa336a80) rgba(aa336a80),floating:1" # noborder
-          # "bordersize 0,floating:1"
-
+          "workspace 5 silent,class:(steam)"
           "immediate, class:^(steam_app.*)$"
           "immediate, class:^(rocketleague.exe)$"
-          # "immediate, class:^(steam_app_252950)$"
         ];
 
         plugin = {
@@ -304,9 +297,9 @@
           workspace_swipe_touch = true;
         };
 
-        render = {
-          direct_scanout = true;
-        };
+        # render = {
+        #   direct_scanout = true;
+        # };
 
         input = {
           kb_layout = "us";
@@ -374,10 +367,11 @@
 
     plugins = with pkgs; [
       # hyprlandPlugins.hyprbars
-      #hyprlandPlugins.hyprtrails
-      #hyprlandPlugins.hyprexpo
-      #hyprlandPlugins.hyprfocus
-      #hyprlandPlugins.hyprspace
+      hyprlandPlugins.hyprtrails
+      hyprlandPlugins.hyprexpo
+      # hyprlandPlugins.hyprfocus
+      # inputs.hyprfocus.packages.${system}.default
+      hyprlandPlugins.hyprspace
     ];
   };
 }

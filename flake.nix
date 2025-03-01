@@ -27,6 +27,10 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprfocus = {
+      url = "github:avih7531/hyprfocus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";

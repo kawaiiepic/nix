@@ -16,7 +16,7 @@
 
   programs.zed-editor = {
     enable = true;
-    package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
+    # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
       nixfmt-rfc-style
       nil
