@@ -31,6 +31,10 @@
       url = "github:avih7531/hyprfocus";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
@@ -69,6 +73,7 @@
           modules = [
             inputs.chaotic.nixosModules.default
             inputs.lix-module.nixosModules.default
+            inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -81,7 +86,7 @@
           ];
           specialArgs = { inherit inputs; };
         };
-        
+
         blossom = inputs.nixpkgs.lib.nixosSystem {
           # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
           # nixpkgs.config = {allowUnfree=true;};
@@ -89,6 +94,7 @@
           modules = [
             inputs.chaotic.nixosModules.default
             inputs.lix-module.nixosModules.default
+            inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

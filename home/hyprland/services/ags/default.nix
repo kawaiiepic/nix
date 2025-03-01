@@ -4,9 +4,9 @@
   ...
 }:
 {
-  
-  services.xembed-sni-proxy.enable = true;
-  
+
+  # services.xembed-sni-proxy.enable = true;
+
   home.packages = [
     (inputs.ags.lib.bundle {
       inherit pkgs;
