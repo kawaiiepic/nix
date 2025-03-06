@@ -96,6 +96,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
 
   const onEnter = () => {
     apps.fuzzy_query(text.get())?.[0].launch();
+    // exec(`bash -c '${apps.fuzzy_query(text.get())?.[0].executable}'`);
     text.set("");
     hide();
   };

@@ -33,7 +33,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor, hostname: string) {
       >
         <centerbox className="macchiato">
           <box css="padding-left: 2px;" hexpand halign={Gtk.Align.START}>
-            <Launcher hostname={hostname}/>
+            <Launcher hostname={hostname} />
             <FocusedClient></FocusedClient>
           </box>
 
@@ -103,7 +103,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor, hostname: string) {
               <box className="surface1" spacing={6}>
                 {/* <Wifi/> */}
                 <Audio />
-                {/* <Bluetooth/> */}
+                <Bluetooth />
                 <Battery />
                 <Notifications />
               </box>

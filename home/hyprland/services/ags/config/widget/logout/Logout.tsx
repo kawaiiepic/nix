@@ -1,7 +1,7 @@
 import { exec } from "astal";
 import { App, Astal, Gdk, Widget } from "astal/gtk3";
 
-export default (gdkmonitor: Gdk.Monitor) =>
+export default (gdkmonitor: Gdk.Monitor, hostname: String) =>
   new Widget.Window({
     name: "logout",
     className: "logout",
@@ -26,6 +26,7 @@ export default (gdkmonitor: Gdk.Monitor) =>
         children: [
           new Widget.Button({
             className: "circular",
+            tooltipText: "Shutdown",
             onClick: () => {
               exec(["bash", "-c", "shutdown"]);
             },
@@ -33,6 +34,7 @@ export default (gdkmonitor: Gdk.Monitor) =>
           }),
           new Widget.Button({
             className: "circular",
+            tooltipText: "Reboot",
             onClick: () => {
               exec(["bash", "-c", "reboot"]);
             },
@@ -40,6 +42,7 @@ export default (gdkmonitor: Gdk.Monitor) =>
           }),
           new Widget.Button({
             className: "circular",
+            tooltipText: "Lock",
             onClick: () => {
               exec(["bash", "-c", "loginctl lock-session"]);
             },
@@ -48,6 +51,7 @@ export default (gdkmonitor: Gdk.Monitor) =>
 
           new Widget.Button({
             className: "circular",
+            tooltipText: "Sleep",
             onClick: () => {
               exec(["bash", "-c", "systemctl suspend"]);
             },
@@ -55,13 +59,16 @@ export default (gdkmonitor: Gdk.Monitor) =>
           }),
           new Widget.Button({
             className: "circular",
+            tooltipText: hostname == "dreamhouse" || hostname == "blossom" ? "Logout" : "Return to Steam",
             onClick: () => {
               exec(["bash", "-c", "hyprexit"]);
             },
-            child: new Widget.Label({ label: "󰍃" }),
+            
+            child: new Widget.Label({ label: hostname == "dreamhouse" || hostname == "blossom" ? "󰍃" : "" }),
           }),
           new Widget.Button({
             className: "circular",
+            tooltipText: "Cancel",
             child: new Widget.Label({ label: "" }),
             onClick: () => {
               App.toggle_window("logout");

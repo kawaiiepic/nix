@@ -10,8 +10,9 @@ import Logout from "./widget/logout/Logout";
 import GLib from "gi://GLib"
 
 const USER = GLib.getenv("USER")
+const HOSTNAME = GLib.get_host_name();
 
-print(USER);
+print(HOSTNAME);
 
 if (USER != null) {
   App.start({
@@ -21,7 +22,7 @@ if (USER != null) {
       App.get_monitors().map(Desktop);
       Bar(App.get_monitors()[0], USER)
       Profile(App.get_monitors()[0], USER);
-      Logout(App.get_monitors()[0]);
+      Logout(App.get_monitors()[0], HOSTNAME);
       Applauncher(App.get_monitors()[0]);
       NotificationPopups(App.get_monitors()[0]);
     },

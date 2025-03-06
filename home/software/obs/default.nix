@@ -6,7 +6,7 @@
         obs-pipewire-audio-capture
         wlrobs
         obs-vaapi
-        obs-tuna
+        # obs-tuna
       ];
     };
   };
