@@ -50,7 +50,6 @@ function yes(_, event) {
         <MenuItem label="File Manager"></MenuItem>
         <SeparatorMenuItem></SeparatorMenuItem>
         <MenuItem label="Wallpaper"></MenuItem>
-        <MenuItem label="Colour Picker"></MenuItem>
         <MenuItem
           label="Screenshot"
           submenu={
@@ -61,6 +60,7 @@ function yes(_, event) {
         ></MenuItem>
         <MenuItem label="Edit NixOS"></MenuItem>
         <SeparatorMenuItem></SeparatorMenuItem>
+        <MenuItem label="Reboot to Windows"></MenuItem>
         <MenuItem
           label="Exit"
           submenu={

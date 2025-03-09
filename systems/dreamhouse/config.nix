@@ -14,7 +14,7 @@
     ./hardware.nix
     ../default.nix
     ./storage.nix
-    ../../system/desktop/gdm.nix
+    ../../system/desktop/greetd.nix
     ../../system/desktop/hyprland.nix
 
     inputs.nixos-hardware.nixosModules.common-pc-ssd
@@ -26,7 +26,15 @@
   networking.hostName = "dreamhouse";
 
   hardware.opentabletdriver.enable = true;
-  
+
+  hardware.i2c.enable = true;
+
+  boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
+  boot.kernelModules = [
+    "i2c-dev"
+    "ddcci_backlight"
+  ];
+
   hardware = {
     graphics = {
       enable = true;
@@ -42,7 +50,10 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ lact ];
+  environment.systemPackages = with pkgs; [
+    lact
+    ddcutil
+  ];
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
 

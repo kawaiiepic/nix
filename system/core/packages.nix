@@ -7,6 +7,7 @@
     unrar
     wineWowPackages.staging
     toybox
+    efibootmgr
   ];
 
   programs.nautilus-open-any-terminal = {

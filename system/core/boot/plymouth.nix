@@ -3,11 +3,11 @@
 
     plymouth = {
       enable = true;
-      theme = "colorful_loop";
+      theme = "spinner_alt";
       themePackages = with pkgs; [
         # By default we would install all themes
         (adi1090x-plymouth-themes.override {
-          selected_themes = [ "colorful_loop" ];
+          selected_themes = [ "spinner_alt" ];
         })
       ];
     };

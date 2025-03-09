@@ -13,13 +13,15 @@
 
         exec-once = [
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
+          "uwsm app -- my-shell"
           "uwsm app -- hyprlock --immediate"
           "uwsm app -- swayosd-server"
           "uwsm app -- wvkbd-mobintl --hidden --alpha 50 -L 200"
           "uwsm app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "uwsm app -- ${pkgs.networkmanagerapplet}/bin/nm-applet"
           "uwsm app -- ${pkgs.joystickwake}/bin/joystickwake"
-          "uwsm app -- my-shell"
+          "uwsm app -- ${pkgs.hyprsunset}/bin/hyprsunset"
+          "uwsm app -- ${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
           "sleep 5 && start"
         ];
 

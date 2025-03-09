@@ -16,7 +16,7 @@
     settings = {
       before_sleep_cmd = "loginctl lock-session";
       after_sleep_cmd = "hyprctl dispatch dpms on";
-      lock_cmd = "pidof hyprlock || hyprlock";
+      lock_cmd = "notify-send Locking... && pidof hyprlock || hyprlock";
 
       listener =
         if osConfig.networking.hostName == "steamdeck" then

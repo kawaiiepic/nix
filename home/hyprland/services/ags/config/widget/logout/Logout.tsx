@@ -32,6 +32,7 @@ export default (gdkmonitor: Gdk.Monitor, hostname: String) =>
             },
             child: new Widget.Label({ label: "󰐥" }),
           }),
+          
           new Widget.Button({
             className: "circular",
             tooltipText: "Reboot",
@@ -40,32 +41,50 @@ export default (gdkmonitor: Gdk.Monitor, hostname: String) =>
             },
             child: new Widget.Label({ label: "󰜉" }),
           }),
+          
+          // new Widget.Button({
+          //   className: "circular",
+          //   tooltipText: "Lock",
+          //   onClick: () => {
+          //     exec(["bash", "-c", "loginctl lock-session"]);
+          //   },
+          //   child: new Widget.Label({ label: "" }),
+          // }),
+
+          // new Widget.Button({
+          //   className: "circular",
+          //   tooltipText: "Sleep",
+          //   onClick: () => {
+          //     exec(["bash", "-c", "systemctl suspend"]);
+          //   },
+          //   child: new Widget.Label({ label: "󰤄" }),
+          // }),
+          
           new Widget.Button({
             className: "circular",
-            tooltipText: "Lock",
+            tooltipText:
+              hostname == "dreamhouse" || hostname == "blossom"
+                ? "Logout"
+                : "Return to Steam",
             onClick: () => {
-              exec(["bash", "-c", "loginctl lock-session"]);
+              exec(["bash", "-c", "hyprexit"]);
             },
-            child: new Widget.Label({ label: "" }),
+
+            child: new Widget.Label({
+              label:
+                hostname == "dreamhouse" || hostname == "blossom" ? "󰍃" : "",
+            }),
           }),
 
           new Widget.Button({
             className: "circular",
-            tooltipText: "Sleep",
+            tooltipText: "Reboot to Windows",
             onClick: () => {
-              exec(["bash", "-c", "systemctl suspend"]);
+              exec(["bash", "-c", "reboot-to-windows"]);
             },
-            child: new Widget.Label({ label: "󰤄" }),
+            child: new Widget.Label({ label: "" }),
           }),
-          new Widget.Button({
-            className: "circular",
-            tooltipText: hostname == "dreamhouse" || hostname == "blossom" ? "Logout" : "Return to Steam",
-            onClick: () => {
-              exec(["bash", "-c", "hyprexit"]);
-            },
-            
-            child: new Widget.Label({ label: hostname == "dreamhouse" || hostname == "blossom" ? "󰍃" : "" }),
-          }),
+
           new Widget.Button({
             className: "circular",
             tooltipText: "Cancel",

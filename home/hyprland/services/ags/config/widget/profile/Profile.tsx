@@ -243,101 +243,100 @@ export default (gdkmonitor: Gdk.Monitor, hostname: String) => {
           })}
         </box>,
 
-        new Separator({}),
+        // new Separator({}),
 
-        // new Widget.Label({ label: "Notifications" }),
-        new Widget.CenterBox({
-          spacing: 6,
-          centerWidget: new Widget.Label({ label: "Notifications" }),
-          endWidget: new Widget.EventBox({
-            onClick: () => {
-              notifd.notifications.forEach((not) => {
-                print(not.appName);
-                not.dismiss();
-              });
-            },
-            className: "dismiss-notifications",
-            halign: Gtk.Align.END,
-            child: new Widget.Label({
-              className: "dismiss-notifications-label",
-              tooltipText: "Clear Notifications",
-              label: "󰎟",
-            }),
-          }),
-        }),
+        // new Widget.CenterBox({
+        //   spacing: 6,
+        //   centerWidget: new Widget.Label({ label: "Notifications" }),
+        //   endWidget: new Widget.EventBox({
+        //     onClick: () => {
+        //       notifd.notifications.forEach((not) => {
+        //         print(not.appName);
+        //         not.dismiss();
+        //       });
+        //     },
+        //     className: "dismiss-notifications",
+        //     halign: Gtk.Align.END,
+        //     child: new Widget.Label({ 
+        //       className: "dismiss-notifications-label",
+        //       tooltipText: "Clear Notifications",
+        //       label: "󰎟",
+        //     }),
+        //   }),
+        // }),
 
-        new Widget.Scrollable({
-          hscroll: Gtk.PolicyType.NEVER,
-          vscroll: Gtk.PolicyType.AUTOMATIC,
-          css: "min-height: 200px; ",
-          child: new Widget.Box({
-            vertical: true,
-            children: bind(notifd, "notifications").as((notifications) => {
-              if (notifications.length == 0) {
-                return [
-                  new Widget.Label({
-                    valign: Gtk.Align.CENTER,
-                    label: "No Notifications :)",
-                  }),
-                ];
-              }
+        // new Widget.Scrollable({
+        //   hscroll: Gtk.PolicyType.NEVER,
+        //   vscroll: Gtk.PolicyType.AUTOMATIC,
+        //   css: "min-height: 200px; ",
+        //   child: new Widget.Box({
+        //     vertical: true,
+        //     children: bind(notifd, "notifications").as((notifications) => {
+        //       if (notifications.length == 0) {
+        //         return [
+        //           new Widget.Label({
+        //             valign: Gtk.Align.CENTER,
+        //             label: "No Notifications :)",
+        //           }),
+        //         ];
+        //       }
 
-              return notifications.map((n) => (
-                <eventbox className="Not">
-                  <box>
-                    <box className="content">
-                      {n.image && fileExists(n.image) && (
-                        <box
-                          valign={Gtk.Align.START}
-                          className="image"
-                          css={`
-                            background-image: url("${n.image}");
-                          `}
-                        />
-                      )}
-                      {n.image && isIcon(n.image) && (
-                        <box
-                          expand={false}
-                          valign={Gtk.Align.START}
-                          className="icon-image"
-                        >
-                          <icon
-                            icon={n.image}
-                            expand
-                            halign={Gtk.Align.CENTER}
-                            valign={Gtk.Align.CENTER}
-                          />
-                        </box>
-                      )}
-                      <box vertical hexpand={true}>
-                        <CenterBox endWidget={<label halign={Gtk.Align.END} label={n.get_time().toString()}/>}>
-                          <label
-                            className="summary"
-                            halign={Gtk.Align.START}
-                            xalign={0}
-                            label={n.summary}
-                            truncate
-                          />
-                        </CenterBox>
-                        {n.body && (
-                          <label
-                            className="body"
-                            wrap
-                            useMarkup
-                            halign={Gtk.Align.START}
-                            xalign={0}
-                            justifyFill
-                            label={n.body.replaceAll("&", "and")}
-                          />
-                        )}
-                      </box>
-                    </box>
-                  </box>
-                </eventbox>
-              ));
-            }),
-          }),
-        }),
+        //       return notifications.map((n) => (
+        //         <eventbox className="Not">
+        //           <box>
+        //             <box className="content">
+        //               {n.image && fileExists(n.image) && (
+        //                 <box
+        //                   valign={Gtk.Align.START}
+        //                   className="image"
+        //                   css={`
+        //                     background-image: url("${n.image}");
+        //                   `}
+        //                 />
+        //               )}
+        //               {n.image && isIcon(n.image) && (
+        //                 <box
+        //                   expand={false}
+        //                   valign={Gtk.Align.START}
+        //                   className="icon-image"
+        //                 >
+        //                   <icon
+        //                     icon={n.image}
+        //                     expand
+        //                     halign={Gtk.Align.CENTER}
+        //                     valign={Gtk.Align.CENTER}
+        //                   />
+        //                 </box>
+        //               )}
+        //               <box vertical hexpand={true}>
+        //                 <CenterBox endWidget={<label halign={Gtk.Align.END} label={n.get_time().toString()}/>}>
+        //                   <label
+        //                     className="summary"
+        //                     halign={Gtk.Align.START}
+        //                     xalign={0}
+        //                     label={n.summary}
+        //                     truncate
+        //                   />
+        //                 </CenterBox>
+        //                 {n.body && (
+        //                   <label
+        //                     className="body"
+        //                     wrap
+        //                     useMarkup
+        //                     halign={Gtk.Align.START}
+        //                     xalign={0}
+        //                     justifyFill
+        //                     label={n.body.replaceAll("&", "and")}
+        //                   />
+        //                 )}
+        //               </box>
+        //             </box>
+        //           </box>
+        //         </eventbox>
+        //       ));
+        //     }),
+        //   }),
+        // }),
 
         // new Widget.Box({
         //   className: "calendar surface0",

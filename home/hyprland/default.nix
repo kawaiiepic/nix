@@ -70,13 +70,6 @@
     };
   };
 
-  services.gammastep = {
-    enable = true;
-    provider = "manual";
-    latitude = 42.2;
-    longitude = -83.3;
-  };
-
   xdg.enable = true;
   xdg.portal = {
     enable = true;
