@@ -51,7 +51,7 @@
   };
 
   jovian.steam.autoStart = true;
-  jovian.steam.desktopSession = "hyprland";
+  jovian.steam.desktopSession = "hyprland-uwsm";
 
   programs.hyprlock = {
     enable = true;
