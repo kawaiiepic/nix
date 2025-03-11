@@ -12,9 +12,95 @@ in
 
   programs.vscode = {
     enable = true;
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
     mutableExtensionsDir = true;
+
+    profiles.default = {
+      enableExtensionUpdateCheck = false;
+      enableUpdateCheck = false;
+
+      userTasks = {
+        version = "2.0.0";
+        tasks = [
+          {
+            "label" = "Nix Switch";
+            "type" = "shell";
+            "command" = "nh os switch .";
+            "group" = {
+              "kind" = "build";
+              "isDefault" = true;
+            };
+          }
+        ];
+      };
+
+      userSettings = {
+        "editor.fontFamily" = "'SpaceMono Nerd Font Mono', 'monospace', monospace";
+
+        "workbench.iconTheme" = "catppuccin-mocha";
+        "workbench.list.smoothScrolling" = true;
+        "workbench.sideBar.location" = "right";
+        "workbench.editor.tabActionLocation" = "left";
+        "workbench.panel.defaultLocation" = "bottom";
+
+        "files.autoSave" = "afterDelay";
+        "files.trimTrailingWhitespace" = true;
+
+        "window.menuBarVisibility" = "toggle";
+        "window.titleBarStyle" = "custom";
+
+        "editor.formatOnSave" = true;
+        "editor.formatOnPaste" = true;
+        "editor.formatOnType" = true;
+        "editor.fontLigatures" = true;
+        "editor.cursorSmoothCaretAnimation" = "on";
+        "editor.cursorStyle" = "line-thin";
+        "editor.pasteAs.enabled" = false;
+        "editor.bracketPairColorization.independentColorPoolPerBracketType" = true;
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        "editor.rulers" = 120;
+
+        "terminal.integrated.cursorBlinking" = true;
+
+        "catppuccin.accentColor" = "pink";
+
+        "git.allowForcePush" = true;
+        "git.mergeEditor" = true;
+        "github.gitProtocol" = "ssh";
+        "git.autoStash" = true;
+        "git.countBadge" = "tracked";
+
+        "gitlens.currentLine.enabled" = false;
+
+        "kotlin.inlayHints.typeHints" = true;
+        "kotlin.inlayHints.parameterHints" = true;
+        "kotlin.inlayHints.chainedHints" = true;
+
+        "nix.enableLanguageServer" = true;
+        "nix.formatterPath" = "alejandra";
+        "nix.serverPath" = "nil";
+
+        "scss.format.spaceAroundSelectorSeparator" = true;
+
+        "accessibility.underlineLinks" = true;
+
+        "window.zoomLevel" = 1.15;
+
+        "[nix]" = {
+          "editor.defaultFormatter" = "kamadorueda.alejandra";
+        };
+
+        "workbench.colorTheme" = "Catppuccin Mocha";
+        "explorer.confirmDelete" = false;
+
+        "dart.devToolsBrowser" = "default";
+        "dart.lineLength" = 160;
+
+        # "java.jdt.ls.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
+        # "kotlin.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
+
+        "redhat.telemetry.enabled" = true;
+      };
+    };
 
     package = pkgs.vscodium.fhsWithPackages (
       ps: with ps; [
@@ -23,20 +109,6 @@ in
         zlib
       ]
     );
-    userTasks = {
-      version = "2.0.0";
-      tasks = [
-        {
-          "label" = "Nix Switch";
-          "type" = "shell";
-          "command" = "nh os switch .";
-          "group" = {
-            "kind" = "build";
-            "isDefault" = true;
-          };
-        }
-      ];
-    };
 
     # extensions = with inputs.nix-vscode-extensions.extensions.x86_64-linux; [
     #   ## Language Support
@@ -80,72 +152,5 @@ in
     #   })
     # ];
 
-    userSettings = {
-      "editor.fontFamily" = "'SpaceMono Nerd Font Mono', 'monospace', monospace";
-
-      "workbench.iconTheme" = "catppuccin-mocha";
-      "workbench.list.smoothScrolling" = true;
-      "workbench.sideBar.location" = "right";
-      "workbench.editor.tabActionLocation" = "left";
-      "workbench.panel.defaultLocation" = "bottom";
-
-      "files.autoSave" = "afterDelay";
-      "files.trimTrailingWhitespace" = true;
-
-      "window.menuBarVisibility" = "toggle";
-      "window.titleBarStyle" = "custom";
-
-      "editor.formatOnSave" = true;
-      "editor.formatOnPaste" = true;
-      "editor.formatOnType" = true;
-      "editor.fontLigatures" = true;
-      "editor.cursorSmoothCaretAnimation" = "on";
-      "editor.cursorStyle" = "line-thin";
-      "editor.pasteAs.enabled" = false;
-      "editor.bracketPairColorization.independentColorPoolPerBracketType" = true;
-      "editor.defaultFormatter" = "esbenp.prettier-vscode";
-      "editor.rulers" = 120;
-
-      "terminal.integrated.cursorBlinking" = true;
-
-      "catppuccin.accentColor" = "pink";
-
-      "git.allowForcePush" = true;
-      "git.mergeEditor" = true;
-      "github.gitProtocol" = "ssh";
-      "git.autoStash" = true;
-      "git.countBadge" = "tracked";
-
-      "gitlens.currentLine.enabled" = false;
-
-      "kotlin.inlayHints.typeHints" = true;
-      "kotlin.inlayHints.parameterHints" = true;
-      "kotlin.inlayHints.chainedHints" = true;
-
-      "nix.enableLanguageServer" = true;
-      "nix.formatterPath" = "alejandra";
-      "nix.serverPath" = "nil";
-
-      "scss.format.spaceAroundSelectorSeparator" = true;
-
-      "accessibility.underlineLinks" = true;
-
-      "window.zoomLevel" = 1.15;
-
-      "[nix]" = {
-        "editor.defaultFormatter" = "kamadorueda.alejandra";
-      };
-
-      "workbench.colorTheme" = "Catppuccin Mocha";
-      "explorer.confirmDelete" = false;
-
-      "dart.devToolsBrowser" = "default";
-      "dart.lineLength" = 160;
-
-      # "java.jdt.ls.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
-      # "kotlin.java.home" = "/nix/store/59flqcj6x3dxiwjavxkwrycamg0482yb-openjdk-21.0.3+9";
-
-      "redhat.telemetry.enabled" = true;
-    };
   };
 }
