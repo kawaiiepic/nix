@@ -28,6 +28,7 @@
 
     #../../system/desktop/greetd.nix
     ../../system/desktop/hyprland.nix
+    ../../system/desktop/gnome.nix
 
     ../../system/games
     
@@ -51,7 +52,7 @@
   };
 
   jovian.steam.autoStart = true;
-  jovian.steam.desktopSession = "hyprland-uwsm";
+  jovian.steam.desktopSession = "gnome";
 
   programs.hyprlock = {
     enable = true;
