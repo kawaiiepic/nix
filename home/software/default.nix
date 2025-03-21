@@ -18,6 +18,9 @@
     (callPackage ./nyaashows { })
     stremio
     mpv
+    wootility
   ];
+  
+  
 
 }

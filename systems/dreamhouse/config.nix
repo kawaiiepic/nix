@@ -28,6 +28,8 @@
   hardware.opentabletdriver.enable = true;
 
   hardware.i2c.enable = true;
+  
+  hardware.wooting.enable = true;
 
   boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
   boot.kernelModules = [

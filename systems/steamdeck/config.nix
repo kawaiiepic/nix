@@ -53,8 +53,4 @@
 
   jovian.steam.autoStart = true;
   jovian.steam.desktopSession = "gnome";
-
-  programs.hyprlock = {
-    enable = true;
-  };
 }
