@@ -1,0 +1,31 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    label {
+        font-size: 0;
+        min-width: 8pt;
+        min-height: 8pt;
+        border-radius: 7pt;
+        margin: 0 2.5pt;
+        transition: min-width 0.5s ease-out;
+
+        &.focused {
+            min-width: 26pt;
+            min-height: 11pt;
+        }
+    }
+}
+
+@mixin themed {
+    label {
+        box-shadow: inset 0 0 0 20pt theme-get("surface1");
+
+        &.occupied {
+            box-shadow: inset 0 0 0 20pt theme-get("text");
+        }
+
+        &.focused {
+            box-shadow: inset 0 0 0 20pt theme-get("color0");
+        }
+    }
+}

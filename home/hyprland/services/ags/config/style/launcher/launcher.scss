@@ -1,0 +1,114 @@
+@use "../themes/theme" as *;
+@use "../util.scss" as *;
+
+window.launcher {
+     background-color: rgba(black, 0.5);
+    box {
+        border: none;
+    }
+
+    image {
+        font-size: 30em;
+    }
+
+    .icon {
+        font-size: 3em;
+    }
+
+    .default-apps {
+        padding: 10px;
+        box-shadow: 2px 3px 8px 0 gtkalpha(black, 0.4);
+        min-height: 50px;
+        min-width: 50px;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+    }
+
+    .hover {
+        font-size: 1.1em;
+    }
+
+    box.AppIcon {
+        button {
+            icon {
+                font-size: 3em;
+            }
+        }
+    }
+
+    box.Applauncher {
+        border-radius: 11px;
+        margin: 1rem;
+        padding: 0.8rem;
+        min-width: 800px;
+        box-shadow: 2px 3px 8px 0 gtkalpha(black, 0.4);
+
+        entry {
+            margin-bottom: 0.8rem;
+        }
+
+        button {
+            min-width: 0;
+            min-height: 0;
+            padding: 0.5rem;
+
+            image {
+                font-size: 3em;
+                margin-right: 0.5rem;
+            }
+
+            label.name {
+                font-weight: bold;
+                font-size: 1.1em;
+            }
+        }
+
+        box.not-found {
+            padding: 1rem;
+
+            icon {
+                font-size: 6em;
+            }
+
+            label {
+                font-size: 1.2em;
+            }
+        }
+    }
+
+    @include theme() {
+        .default-apps {
+            background-color: theme-get("base");
+        }
+
+        .hover {
+            background-color: theme-get("surface0");
+            border-radius: 12px;
+        }
+
+        box.Applauncher {
+            background-color: theme-get("base");
+        }
+
+        button {
+            label.description {
+                color: gtkalpha(theme-get("text"), 0.8);
+            }
+        }
+
+        box.not-found {
+            icon {
+                color: gtkalpha(theme-get("text"), 0.7);
+            }
+
+            label {
+                color: gtkalpha(theme-get("text"), 0.9);
+            }
+        }
+    }
+}

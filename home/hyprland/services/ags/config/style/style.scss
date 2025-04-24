@@ -1,0 +1,13 @@
+@use "./bar/bar.scss";
+@use "./desktop/desktop.scss";
+@use "./launcher/launcher.scss";
+@use "notification/notification.scss";
+@use "./osd/OSD.scss";
+@use "./logout/logout.scss";
+
+.clean {
+    > button {
+        background-color: transparent;
+        padding: 0px 5px;
+    }
+}

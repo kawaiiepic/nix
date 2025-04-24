@@ -1,11 +1,5 @@
-import { Variable, GLib, bind, Process } from "astal";
-
 export default () => {
   return (
-    <label
-      tooltipText="Notifications"
-      className="notifications"
-      label=""
-    />
+    <image iconName={"notification"} pixelSize={14}></image>
   );
 }

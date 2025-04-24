@@ -1,0 +1,72 @@
+@use "../themes/theme" as *;
+@use "../util.scss" as *;
+
+window.NotificationPopups {
+    box.Notification {
+        padding: 7px;
+        min-width: 320px;
+        border-radius: 15px;
+
+        .header {
+            .app-name {
+                font-style: italic;
+                font-size: 0.9em;
+            }
+
+            .time {
+                font-style: italic;
+            }
+        }
+
+        .content {
+            .summary {
+                font-weight: bold;
+                font-size: 1em;
+            }
+
+            .body {
+                font-size: 0.9em;
+            }
+
+            .image {
+                border-radius: 9px;
+                min-width: 64px;
+                min-height: 64px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+
+    @include theme() {
+        box.Notification {
+            background-color: theme-get("base");
+            border: 1px solid gtkalpha(theme-get("crust"), 0.8);
+            
+            .header {
+                .app-name {
+                    color: theme-get("subtext1");
+                }
+    
+                .time {
+                    color: theme-get("subtext1");
+                }
+            }
+            
+            .content {
+                .summary {
+                    color: theme-get("text");
+                }
+    
+                .body {
+                    color: theme-get("text");
+                }
+    
+                .image {
+                    border: 1px solid gtkalpha(theme-get("crust"), 1);
+                }
+            }
+        }
+    }
+}

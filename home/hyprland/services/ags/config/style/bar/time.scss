@@ -1,0 +1,23 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    font-size: 15px;
+
+    button {
+        background-color: transparent;
+        padding: 0px 0px;
+    }
+}
+
+@mixin themed {
+    &:active {
+        color: theme-get("color2");
+    }
+
+    &:hover {
+        color: theme-get("color2");
+    }
+    button {
+        color: theme-get("text");
+    }
+}

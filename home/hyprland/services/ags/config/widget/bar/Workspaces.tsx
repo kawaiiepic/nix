@@ -1,35 +1,37 @@
-import { Variable, GLib, bind, Process } from "astal";
-import { Gtk, Widget } from "astal/gtk3";
-import Hyprland from "gi://AstalHyprland";
+import { Gtk, hook, Widget } from "astal/gtk4";
+import AstalHyprland from "gi://AstalHyprland?version=0.1";
 
-const hypr = Hyprland.get_default();
+const hypr = AstalHyprland.get_default();
 
 export default () =>
-  new Widget.Box({
-    className: "workspaces",
+  Widget.Box({
+    cssClasses: ["workspaces"],
     vexpand: false,
     children: Array.from({ length: 5 }, (_, i) => i + 1).map(
-      (i) =>
-        new Widget.EventBox({
-          onClick: (event) => {
-            hypr.message_async(`dispatch workspace ${i}`, null);
-          },
-          child: new Widget.Label({
-            // attribute: i,
-            className: "workspace",
-            valign: Gtk.Align.CENTER,
-            halign: Gtk.Align.CENTER,
-            tooltip_text: `Workspace: ${i}`,
-            label: `${i}`,
-            setup: (self) =>
-              self.hook(hypr, "event", () => {
-                self.toggleClassName("focused", hypr.focusedWorkspace.id === i);
-                self.toggleClassName(
-                  "occupied",
-                  (hypr.get_workspace(i)?.clients.length || 0) > 0,
-                );
-              }),
-          }),
-        }),
+      (i) => (
+        <box
+          onButtonPressed={() => hypr.message_async(`dispatch workspace ${i}`, null)}
+        >
+          <label
+            valign={Gtk.Align.CENTER}
+            halign={Gtk.Align.CENTER}
+            tooltipText={`Workspace: ${i}`}
+            label={`${i}`}
+            setup={(self) => hook(self, hypr, "event", () => {
+              if(hypr.focusedWorkspace.id === i){
+                self.add_css_class("focused");
+              } else {
+                self.remove_css_class("focused");
+              }
+              
+              if((hypr.get_workspace(i)?.clients.length || 0) > 0){
+                self.add_css_class("occupied");
+              } else {
+                self.remove_css_class("occupied");
+              }
+            })}
+          ></label>
+        </box>
+      ),
     ),
   });

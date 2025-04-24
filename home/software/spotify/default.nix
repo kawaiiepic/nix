@@ -10,8 +10,12 @@
     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
   in {
     enable = true;
-    # theme = spicePkgs.themes.text;
-    colorScheme = "CatppuccinMocha";
+    spicetifyPackage = pkgs.spicetify-cli;
+    theme = spicePkgs.themes.defaultDynamic;
+     
+    enabledCustomApps = with spicePkgs.apps; [
+      historyInSidebar
+    ];
 
     enabledExtensions = with spicePkgs.extensions; [
       ({
@@ -31,6 +35,7 @@
       playlistIcons
       lastfm
       adblock
+      betterGenres
     ];
   };
 }

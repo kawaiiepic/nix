@@ -23,7 +23,6 @@
     packages = with pkgs; [
       libnotify
       pinentry-gnome3
-      swayosd
 
       nautilus
       file-roller
@@ -35,6 +34,7 @@
       wlr-randr # Randr Wayland
       seahorse # Password manager
       gthumb
+      linux-wallpaperengine
 
       wl-clipboard
       (pkgs.writeShellScriptBin "launcher" ''
@@ -47,7 +47,8 @@
         }
       '')
       (pkgs.writeShellScriptBin "start" ''
-        hyprctl dispatch exec "[workspace 3] uwsm app -- discord"
+        hyprctl dispatch exec "[workspace 3] uwsm app -- zen"
+        hyprctl dispatch exec "[workspace 3] uwsm app -- discordcanary"
         hyprctl dispatch exec "[workspace 5] uwsm app -- steam"
       '')
       (pkgs.writeShellScriptBin "screenshot" ''
@@ -75,14 +76,14 @@
     enable = true;
     xdgOpenUsePortal = true;
 
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
-    configPackages = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
+    # extraPortals = with pkgs; [
+    #   inputs.hyprland.packages.x86_64-linux.xdg-desktop-portal-hyprland
+    #   xdg-desktop-portal-gtk
+    # ];
+    # configPackages = with pkgs; [
+    #   inputs.hyprland.packages.x86_64-linux.xdg-desktop-portal-hyprland
+    #   xdg-desktop-portal-gtk
+    # ];
   };
 
   xdg.userDirs = {

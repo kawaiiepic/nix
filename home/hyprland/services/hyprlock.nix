@@ -38,7 +38,7 @@ in
       background = [
         {
           monitor = "";
-          path = "screenshot"; # ${config.home.homeDirectory}/.cache/background
+          path = "${config.home.homeDirectory}/.cache/background"; # ${config.home.homeDirectory}/.cache/background
           # color = "rgba(25, 20, 20, 1.0)";
           blur_size = 4;
           blur_passes = 3; # 0 disables blurring

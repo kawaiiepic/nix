@@ -1,27 +1,22 @@
 import { bind } from "astal";
-import Tray from "gi://AstalTray";
+import AstalTray from "gi://AstalTray?version=0.1";
 
 export default () => {
-  const tray = Tray.get_default();
+  const tray = AstalTray.get_default();
 
-  return (
-    <box className="surface1" spacing={6}>
-      {bind(tray, "items").as((items) =>
-        items.map((item) => (
-          <menubutton
-            className="systray"
-            tooltipMarkup={bind(item, "tooltipMarkup")}
-            usePopover={false}
-            actionGroup={bind(item, "action-group").as((ag) => [
-              "dbusmenu",
-              ag,
-            ])}
-            menuModel={bind(item, "menu-model")}
-          >
-            <icon gicon={bind(item, "gicon")} />
-          </menubutton>
-        )),
-      )}
-    </box>
+  return bind(tray, "items").as((items) =>
+    items.map((item) => (
+      <menubutton
+        cssClasses={["systray"]}
+        tooltipMarkup={bind(item, "tooltipMarkup")}
+        menuModel={bind(item, "menu_model")}
+      >
+        <image
+          cssClasses={["systray"]}
+          gicon={bind(item, "gicon")}
+          pixelSize={14}
+        />
+      </menubutton>
+    )),
   );
-}
+};

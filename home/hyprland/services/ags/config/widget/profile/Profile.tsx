@@ -1,12 +1,3 @@
-import {
-  App,
-  Astal,
-  Gtk,
-  Gdk,
-  Widget,
-  astalify,
-  type ConstructProps,
-} from "astal/gtk3";
 import RefreshButton from "./buttons/RefreshButton";
 import LockButton from "./buttons/LockButton";
 import ShutdownButton from "./buttons/ShutdownButton";
@@ -14,7 +5,7 @@ import InternetButton from "./buttons/InternetButton";
 import BluetoothButton from "./buttons/BluetoothButton";
 import NightLightButton from "./buttons/NightLightButton";
 import DoNotDisturbButton from "./buttons/DoNotDisturbButton";
-import { bind, GObject } from "astal";
+import { bind, GLib, GObject, interval, timeout, Variable } from "astal";
 import Wp from "gi://AstalWp";
 import Theme from "./buttons/Theme";
 import Caffeine from "./buttons/Caffeine";
@@ -26,11 +17,14 @@ import Battery from "./Battery";
 import Uptime from "./Uptime";
 import Mpris from "gi://AstalMpris";
 import Notifd from "gi://AstalNotifd";
-import Notification, {
-  fileExists,
-  isIcon,
-} from "../notifications/Notification";
-import { CenterBox } from "astal/gtk3/widget";
+import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk4";
+import { setup_theme } from "../theme";
+import { ScrolledWindow } from "../custom/Scrollable";
+import { onHover, onHoverLost } from "../utils";
+import { Grid } from "../custom/Grid";
+import { Subscribable } from "astal/binding";
+import { NotificationMap } from "./notification/NotificationMap";
+import { Notification } from "./notification/Not";
 
 const mpris = Mpris.get_default();
 const notifd = Notifd.get_default();
@@ -49,13 +43,32 @@ function MediaPlayer({ player }: { player: Mpris.Player }) {
 
   const artist = bind(player, "artist").as((a) => a || "Unknown Artist");
 
-  const coverArt = bind(player, "coverArt").as(
-    (c) => `background-image: url('${c}')`, 
-  );
+  const coverArt = bind(player, "coverArt").as((c) => {
+    if (!c) {
+      return <image iconName="media-optical" pixelSize={64}></image>;
+    }
 
-  const playerIcon = bind(player, "entry").as((e) =>
-    Astal.Icon.lookup_icon(e) ? e : "audio-x-generic-symbolic",
-  );
+    App.apply_css(`
+        .coverArt-${player.busName.replaceAll(".", "-")} {
+          background-image: url(file://${c});
+        }
+      `);
+
+    return (
+      <box
+        valign={Gtk.Align.CENTER}
+        cssClasses={[
+          "coverArt",
+          `coverArt-${player.busName.replaceAll(".", "-")}`,
+        ]}
+      />
+    );
+  });
+
+  const playerIcon = bind(player, "entry").as((entry) => {
+    if (entry == "zen") entry = "zen-beta";
+    return entry;
+  });
 
   const position = bind(player, "position").as((p) =>
     player.length > 0 ? p / player.length : 0,
@@ -68,23 +81,25 @@ function MediaPlayer({ player }: { player: Mpris.Player }) {
   );
 
   return (
-    <box className="MediaPlayer">
-      <box className="cover-art" css={coverArt} />
+    <box cssClasses={["MediaPlayer"]} spacing={8}>
+      {coverArt}
       <box vertical>
-        <box className="title">
-          <label truncate hexpand halign={START} label={title} />
-          <icon icon={playerIcon} />
+        <box cssClasses={["title"]}>
+          <label hexpand halign={START} tooltipText={title} label={title} />
+          <image iconName={playerIcon} />
         </box>
         <label halign={START} valign={START} vexpand wrap label={artist} />
         <slider
           visible={bind(player, "length").as((l) => l > 0)}
-          onDragged={({ value }) => (player.position = value * player.length)}
+          onChangeValue={({ value }) =>
+            (player.position = value * player.length)
+          }
           value={position}
         />
-        <centerbox className="actions">
+        <centerbox cssClasses={["actions"]}>
           <label
             hexpand
-            className="position"
+            cssClasses={["position"]}
             halign={START}
             visible={bind(player, "length").as((l) => l > 0)}
             label={bind(player, "position").as(lengthStr)}
@@ -94,23 +109,23 @@ function MediaPlayer({ player }: { player: Mpris.Player }) {
               onClicked={() => player.previous()}
               visible={bind(player, "canGoPrevious")}
             >
-              <icon icon="media-skip-backward-symbolic" />
+              <image iconName="media-skip-backward-symbolic" />
             </button>
             <button
               onClicked={() => player.play_pause()}
               visible={bind(player, "canControl")}
             >
-              <icon icon={playIcon} />
+              <image iconName={playIcon} />
             </button>
             <button
               onClicked={() => player.next()}
               visible={bind(player, "canGoNext")}
             >
-              <icon icon="media-skip-forward-symbolic" />
+              <image iconName="media-skip-forward-symbolic" />
             </button>
           </box>
           <label
-            className="length"
+            cssClasses={["length"]}
             hexpand
             halign={END}
             visible={bind(player, "length").as((l) => l > 0)}
@@ -124,249 +139,265 @@ function MediaPlayer({ player }: { player: Mpris.Player }) {
   );
 }
 
-export default (gdkmonitor: Gdk.Monitor, hostname: String) => {
+function face() {
+  var image = Gtk.Image.new_from_file(GLib.getenv("HOME") + "/.face");
+  image.add_css_class("profile-pfp");
+  image.overflow = Gtk.Overflow.HIDDEN;
+  return image;
+}
+
+export default () => {
   const speaker = Wp.get_default()?.audio.defaultSpeaker!;
-  return new Widget.Window({
-    name: "profile",
-    className: "profile",
-    visible: false,
-    gdkmonitor: gdkmonitor,
-    application: App,
-    exclusivity: Astal.Exclusivity.EXCLUSIVE,
-    marginRight: 50,
-    marginBottom: 2,
-    keymode: Astal.Keymode.EXCLUSIVE,
-    onKeyPressEvent: (self, event) => {
-      if (event.get_keyval()[1] === Gdk.KEY_Escape) {
-        App.toggle_window("profile");
-      }
-    },
-    anchor: Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT,
+  const speakers = Wp.get_default()?.audio!;
+  return (
+    <box cssClasses={["profile"]} vertical>
+      <box>
+        <box halign={Gtk.Align.START}>
+          <box
+            cssClasses={["profile-pfp"]}
+            halign={Gtk.Align.CENTER}
+            valign={Gtk.Align.CENTER}
+            tooltipText={`${GLib.get_user_name()}@${GLib.get_host_name()}`}
+          >
+            {face()}
+          </box>
 
-    child: new Widget.Box({
-      className: "profile macchiato",
-      vertical: true,
-      spacing: 6,
-      children: [
-        new Widget.CenterBox({
-          start_widget: new Widget.Box({
-            children: [
-              new Widget.Box({
-                className: "profile-pfp",
-                hexpand: false,
-                halign: Gtk.Align.CENTER,
-                vexpand: false,
-                valign: Gtk.Align.CENTER,
-                tooltipText: "mia@dreamhouse",
-                css: "background-image: url('/home/mia/.face');",
-              }),
+          {Uptime()}
+          {Battery()}
+        </box>
 
-              Uptime(),
-              Battery(),
-            ],
-          }),
+        <box spacing={6} hexpand halign={Gtk.Align.END}>
+          {Screenshot()}
+          {ShutdownButton()}
+        </box>
+      </box>
 
-          end_widget: new Widget.Box({
-            spacing: 6,
-            halign: Gtk.Align.END,
-            children: [Screenshot(), ShutdownButton()],
-          }),
-        }),
+      {Gtk.Separator.new(Gtk.Orientation.HORIZONTAL)}
 
-        new Separator({}),
+      <Grid rowHomogeneous columnHomogeneous cssClasses={["surface1"]}>
+        <box vertical spacing={12} halign={Gtk.Align.CENTER}>
+          {InternetButton()}
+          {Caffeine()}
+        </box>
 
-        new Widget.Box({
-          className: "surface1",
-          vertical: true,
-          spacing: 6,
-          children: [
-            new Widget.Box({
-              className: "surface1",
-              spacing: 12,
-              halign: Gtk.Align.CENTER,
-              hexpand: false,
-              vexpand: false,
-              children: [
-                InternetButton(),
-                BluetoothButton(),
-                NightLightButton(),
-                Theme(),
-              ],
-            }),
+        <box vertical spacing={12} halign={Gtk.Align.CENTER}>
+          {BluetoothButton()}
+          {DoNotDisturbButton()}
+        </box>
 
-            new Widget.Box({
-              className: "surface1",
-              spacing: 35,
-              halign: Gtk.Align.CENTER,
-              hexpand: false,
-              vexpand: false,
-              children: [
-                Caffeine(),
-                DoNotDisturbButton(),
-                Microphone(),
-                Screenshare(),
-              ],
-            }),
-          ],
-        }),
+        <box vertical spacing={12} halign={Gtk.Align.CENTER}>
+          {NightLightButton()}
+          {Microphone()}
+        </box>
 
-        new Widget.Box({
-          className: "surface1",
-          vertical: true,
-          spacing: 12,
-          children: [
-            new Widget.Box({
-              spacing: 15,
-              children: [
-                new Widget.Icon({ icon: bind(speaker, "volumeIcon") }),
-                new Widget.Slider({
-                  className: "slider",
-                  hexpand: true,
-                  onDragged: ({ value }) => (speaker.volume = value),
-                  value: bind(speaker, "volume"),
-                }),
-              ],
-            }),
-          ],
-        }),
+        <box vertical spacing={12} halign={Gtk.Align.CENTER}>
+          {Theme()}
+          {Screenshare()}
+        </box>
+      </Grid>
 
-        <box
-          className="surface1"
-          vertical
-          visible={bind(mpris, "players").as((arr) => arr.length > 1)}
-        >
-          {bind(mpris, "players").as((arr) => {
-            if (arr.length > 1) {
-              print(arr[1]);
-              return <MediaPlayer player={arr[1]} />;
+      <box
+        onButtonPressed={(box) => {
+          (box.children[2] as Gtk.Popover).popup();
+        }}
+        cssClasses={["surface1"]}
+        spacing={6}
+      >
+        <image iconName={bind(speaker, "volumeIcon")}></image>
+        <slider
+          cssClasses={["slider"]}
+          hexpand
+          onChangeValue={(slider) => speaker.set_volume(slider.value)}
+          value={bind(speaker, "volume")}
+        />
+        <popover>
+          <box vertical spacing={12}>
+            <label label="Speakers" />
+            {bind(speakers, "speakers").as((s) => {
+              return s.map((speak) => {
+                return (
+                  <box
+                    onButtonPressed={() => {
+                      speak.set_is_default(true);
+                    }}
+                  >
+                    <label label={speak.description} />
+                    <label label="D" visible={bind(speak, "is_default")} />
+                  </box>
+                );
+              });
+            })}
+          </box>
+        </popover>
+      </box>
+
+      <box
+        cssClasses={["surface1"]}
+        spacing={12}
+        vertical
+        visible={bind(mpris, "players").as(
+          (players) =>
+            players.filter((player) => !player.busName.includes("playerctld"))
+              .length > 0,
+        )}
+      >
+        {bind(mpris, "players").as((arr) =>
+          arr.map((player) => {
+            if (!player.busName.includes("playerctld")) {
+              return <MediaPlayer player={player} />;
+            } else {
+              return <box />;
             }
-          })}
-        </box>,
+          }),
+        )}
+      </box>
 
-        // new Separator({}),
+      <box cssClasses={["surface1"]} spacing={12} vertical>
+        <box hexpand halign={Gtk.Align.FILL}>
+          <label label="Notifications" />
+          <label
+            cssClasses={["dismiss-notifications"]}
+            onHoverEnter={onHover}
+            onHoverLeave={onHoverLost}
+            hexpand
+            halign={Gtk.Align.END}
+            onButtonPressed={() => {
+              notifs.clear();
+            }}
+            label="󰎟"
+            tooltipText="Clear Notifications"
+          />
+        </box>
 
-        // new Widget.CenterBox({
-        //   spacing: 6,
-        //   centerWidget: new Widget.Label({ label: "Notifications" }),
-        //   endWidget: new Widget.EventBox({
-        //     onClick: () => {
-        //       notifd.notifications.forEach((not) => {
-        //         print(not.appName);
-        //         not.dismiss();
-        //       });
-        //     },
-        //     className: "dismiss-notifications",
-        //     halign: Gtk.Align.END,
-        //     child: new Widget.Label({ 
-        //       className: "dismiss-notifications-label",
-        //       tooltipText: "Clear Notifications",
-        //       label: "󰎟",
-        //     }),
-        //   }),
-        // }),
+        <ScrolledWindow heightRequest={200}>
+          <box vertical spacing={12}>
+            {bind(notifs).as((w) =>
+              w.length == 0 ? (
+                <label
+                  vexpand
+                  valign={Gtk.Align.CENTER}
+                  halign={Gtk.Align.CENTER}
+                  label="No Notifications :)"
+                />
+              ) : (<box>
+                  {w.reverse()}
+              </box>
+              ),
+            )}
 
-        // new Widget.Scrollable({
-        //   hscroll: Gtk.PolicyType.NEVER,
-        //   vscroll: Gtk.PolicyType.AUTOMATIC,
-        //   css: "min-height: 200px; ",
-        //   child: new Widget.Box({
-        //     vertical: true,
-        //     children: bind(notifd, "notifications").as((notifications) => {
-        //       if (notifications.length == 0) {
-        //         return [
-        //           new Widget.Label({
-        //             valign: Gtk.Align.CENTER,
-        //             label: "No Notifications :)",
-        //           }),
-        //         ];
-        //       }
+            {/* {bind(notifd, "notifications").as((notifications) => {
+              if (notifications.length == 0) {
+                return (
+                  <label
+                    valign={Gtk.Align.CENTER}
+                    label="No Notifications :)"
+                  />
+                );
+              } else {
+                return notifications.map((notification) => {
+                  if (
+                    notification.image &&
+                    GLib.file_test(notification.image, GLib.FileTest.EXISTS)
+                  ) {
+                    App.apply_css(`
+                           .image-${notification.id} {
+                           background-image: url(file://${notification.image});
+                           }
+                        `);
+                  }
 
-        //       return notifications.map((n) => (
-        //         <eventbox className="Not">
-        //           <box>
-        //             <box className="content">
-        //               {n.image && fileExists(n.image) && (
-        //                 <box
-        //                   valign={Gtk.Align.START}
-        //                   className="image"
-        //                   css={`
-        //                     background-image: url("${n.image}");
-        //                   `}
-        //                 />
-        //               )}
-        //               {n.image && isIcon(n.image) && (
-        //                 <box
-        //                   expand={false}
-        //                   valign={Gtk.Align.START}
-        //                   className="icon-image"
-        //                 >
-        //                   <icon
-        //                     icon={n.image}
-        //                     expand
-        //                     halign={Gtk.Align.CENTER}
-        //                     valign={Gtk.Align.CENTER}
-        //                   />
-        //                 </box>
-        //               )}
-        //               <box vertical hexpand={true}>
-        //                 <CenterBox endWidget={<label halign={Gtk.Align.END} label={n.get_time().toString()}/>}>
-        //                   <label
-        //                     className="summary"
-        //                     halign={Gtk.Align.START}
-        //                     xalign={0}
-        //                     label={n.summary}
-        //                     truncate
-        //                   />
-        //                 </CenterBox>
-        //                 {n.body && (
-        //                   <label
-        //                     className="body"
-        //                     wrap
-        //                     useMarkup
-        //                     halign={Gtk.Align.START}
-        //                     xalign={0}
-        //                     justifyFill
-        //                     label={n.body.replaceAll("&", "and")}
-        //                   />
-        //                 )}
-        //               </box>
-        //             </box>
-        //           </box>
-        //         </eventbox>
-        //       ));
-        //     }),
-        //   }),
-        // }),
+                  return (
+                    <revealer
+                      revealChild={
+                        Math.floor(Date.now() / 1000) != notification.time
+                      }
+                      setup={(self) =>
+                        timeout(100, () => (self.revealChild = true))
+                      }
+                      transitionType={Gtk.RevealerTransitionType.SWING_RIGHT}
+                    >
 
-        // new Widget.Box({
-        //   className: "calendar surface0",
-        //   child: new Calendar({
-        //     hexpand: true,
-        //   }),
-        // }),
-      ],
-    }),
-  });
+                    </revealer>
+                  );
+                });
+              }
+            })} */}
+          </box>
+        </ScrolledWindow>
+      </box>
+    </box>
+  );
 };
 
-export class Calendar extends astalify(Gtk.Calendar) {
-  static {
-    GObject.registerClass(this);
+class NotificationMap implements Subscribable {
+  // the underlying map to keep track of id widget pairs
+  private map: Map<number, Gtk.Widget> = new Map();
+
+  // it makes sense to use a Variable under the hood and use its
+  // reactivity implementation instead of keeping track of subscribers ourselves
+  private var: Variable<Array<Gtk.Widget>> = Variable([]);
+
+  // notify subscribers to rerender when state changes
+  private notifiy() {
+    this.var.set([...this.map.values()]);
   }
 
-  constructor(props: ConstructProps<Calendar, Gtk.Calendar.ConstructorProps>) {
-    super(props as any);
+  public clear() {
+    this.map.clear();
+    this.notifiy();
+  }
+
+  public constructor() {
+    const notifd = Notifd.get_default();
+
+    // notifd.notifications.forEach((n) => {
+    //   var id = n.id;
+    //   this.set(
+    //     id,
+    //     Notification({
+    //       notification: notifd.get_notification(id)!,
+    //       onHoverLost: () => {
+    //         print("HoverLost");
+    //       }, // this.delete(id)
+    //     }),
+    //   );
+    // });
+
+    notifd.connect("notified", (_, id) => {
+      this.set(
+        id,
+        Notification({
+          notification: notifd.get_notification(id)!,
+          onHoverLost: () => {
+            print("HoverLost");
+          }, // this.delete(id)
+        }),
+      );
+    });
+
+    notifd.connect("resolved", (_, id) => {
+      print("Notifications Resolved");
+      this.delete(id);
+    });
+  }
+
+  private set(key: number, value: Gtk.Widget) {
+    this.map.set(key, value);
+    this.notifiy();
+  }
+
+  private delete(key: number) {
+    this.map.delete(key);
+    this.notifiy();
+  }
+
+  get() {
+    return this.var.get();
+  }
+
+  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
+    return this.var.subscribe(callback);
   }
 }
 
-export class Separator extends astalify(Gtk.Separator) {
-  static {
-    GObject.registerClass(this);
-  }
-
-  constructor(
-    props: ConstructProps<Separator, Gtk.Separator.ConstructorProps>,
-  ) {
-    super(props as any);
-  }
-}
+const notifs = new NotificationMap();

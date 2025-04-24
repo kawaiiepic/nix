@@ -1,0 +1,9 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    b
+}
+
+@mixin themed {
+    border: 0.5px solid theme-get("crust");
+}

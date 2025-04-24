@@ -1,9 +1,11 @@
-import { Astal, Gtk, Gdk } from "astal/gtk3";
 import Notifd from "gi://AstalNotifd";
 import Notification from "./Notification";
 import { type Subscribable } from "astal/binding";
 import { GLib, Variable, bind, timeout } from "astal";
-import { Revealer } from "astal/gtk3/widget";
+import { Astal, Gdk, Gtk } from "astal/gtk4";
+import { setup_theme } from "../theme";
+
+const notifd = Notifd.get_default();
 
 // see comment below in constructor
 const TIMEOUT_DELAY = 8000;
@@ -21,10 +23,10 @@ class NotifiationMap implements Subscribable {
 
   // notify subscribers to rerender when state changes
   private notifiy() {
-    this.var.set([...this.map.values()].reverse());
+    this.var.set([...this.map.values()]);
   }
 
-  private constructor() {
+  public constructor(display: Gdk.Display) {
     const notifd = Notifd.get_default();
 
     /**
@@ -40,13 +42,14 @@ class NotifiationMap implements Subscribable {
         id,
         Notification({
           notification: notifd.get_notification(id)!,
+          display: display,
 
           // once hovering over the notification is done
           // destroy the widget without calling notification.dismiss()
           // so that it acts as a "popup" and we can still display it
           // in a notification center like widget
           // but clicking on the close button will close it
-          onHoverLost: () => this.delete(id),
+          onHoverLost: () => this.delete(id), // this.delete(id)
 
           // notifd by default does not close notifications
           // until user input or the timeout specified by sender
@@ -57,10 +60,11 @@ class NotifiationMap implements Subscribable {
                * uncomment this if you want to "hide" the notifications
                * after TIMEOUT_DELAY
                */
-              (this.map.get(id) as Revealer).revealChild = false;
-              timeout(200, () => this.delete(id));
+
+              (this.map.get(id) as Gtk.Revealer).revealChild = false;
+              timeout(200, () => this.delete(id)); // this.delete(id)
             }),
-        })
+        }),
       );
     });
 
@@ -72,14 +76,12 @@ class NotifiationMap implements Subscribable {
   }
 
   private set(key: number, value: Gtk.Widget) {
-    // in case of replacecment destroy previous widget
-    this.map.get(key)?.destroy();
+    // (this.map.get(key)?.parent as Gtk.Box).remove(this.map.get(key)!);
     this.map.set(key, value);
     this.notifiy();
   }
 
   private delete(key: number) {
-    this.map.get(key)?.destroy();
     this.map.delete(key);
     this.notifiy();
   }
@@ -97,17 +99,22 @@ class NotifiationMap implements Subscribable {
 
 export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
   const { TOP, RIGHT } = Astal.WindowAnchor;
-  const notifs = new NotifiationMap();
+  const notifs = new NotifiationMap(gdkmonitor.display);
 
   return (
     <window
-      className="NotificationPopups"
-      gdkmonitor={gdkmonitor}
       layer={Astal.Layer.OVERLAY}
-      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      visible={bind(notifd, "dontDisturb")}
+      cssClasses={["NotificationPopups"]}
+      gdkmonitor={gdkmonitor}
+      exclusivity={Astal.Exclusivity.IGNORE}
+      marginTop={5}
+      marginRight={5}
       anchor={TOP | RIGHT}
     >
-      <box vertical noImplicitDestroy>{bind(notifs)}</box>
+      <box setup={setup_theme} vertical>
+        {bind(notifs)}
+      </box>
     </window>
   );
 }

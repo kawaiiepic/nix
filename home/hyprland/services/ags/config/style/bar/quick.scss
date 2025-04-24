@@ -1,0 +1,12 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    background-color: transparent;
+    separator {
+        margin: 5px;
+        background-color: pink;
+    }
+}
+
+@mixin themed {
+}

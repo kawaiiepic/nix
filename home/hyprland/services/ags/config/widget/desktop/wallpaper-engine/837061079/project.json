@@ -1,0 +1,22 @@
+{
+	"description" : "『灼け落ちない翼』 - 多田葵\nVideo from: Charlotte EP01~13, NCOP, NCED\nMusic from: Charlotte(シャーロット)オープニング／エンディング「Bravely You/灼け落ちない翼」\nCharlotte ED的完整版音乐，视频由原片及NCOP/NCED剪辑。",
+	"file" : "Charlotte ED Full.mp4",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			}
+		}
+	},
+	"preview" : "preview.jpg",
+	"tags" : [ "Anime", "Cartoon", "Music" ],
+	"title" : "Charlotte ED (灼け落ちない翼) Full 1080P",
+	"type" : "video",
+	"visibility" : "public"
+}

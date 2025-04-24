@@ -1,123 +1,75 @@
-import { App, Astal, Gtk, Gdk } from "astal/gtk3";
-
-import Media from "./Media";
+import { App, Astal, Gtk, Gdk } from "astal/gtk4";
+import { bind, Variable } from "astal";
 import Launcher from "./Launcher";
-import Workspaces from "./Workspaces";
 import FocusedClient from "./FocusedClient";
-import Audio from "./Audio";
+import Workspaces from "./Workspaces";
 import SysTray from "./SysTray";
-import Time from "./Time";
-import UserProfile from "./UserProfile";
+import Audio from "./Audio";
 import Bluetooth from "./Bluetooth";
-import Wallpaper from "./Wallpaper";
-import ShowDesktop from "./ShowDesktop";
-import DefaultApplication from "./DefaultApplication";
-import Wifi from "./Wifi";
-import Battery from "../profile/Battery";
+import Battery from "./Battery";
 import Notifications from "./Notifications";
+import ShowDesktop from "./ShowDesktop";
+import { setup_theme, theme } from "../theme";
+import Time from "./Time";
+import Wallpaper from "./Wallpaper";
+import Profile from "../profile/Profile";
 
-export default function Bar(gdkmonitor: Gdk.Monitor, hostname: string) {
-  if (hostname == "wyntor") {
-    return (
-      <window
-        name="bar"
-        className="bar macchiato"
-        gdkmonitor={gdkmonitor}
-        exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={
-          Astal.WindowAnchor.BOTTOM |
-          Astal.WindowAnchor.LEFT |
-          Astal.WindowAnchor.RIGHT
-        }
-        application={App}
-      >
-        <centerbox className="macchiato">
-          <box css="padding-left: 2px;" hexpand halign={Gtk.Align.START}>
-            <Launcher hostname={hostname} />
-            <FocusedClient></FocusedClient>
-          </box>
+const time = Variable("").poll(1000, "date");
 
-          <box className="surface" spacing={8}>
-            <Workspaces />
-          </box>
+export default function Bar(gdkmonitor: Gdk.Monitor) {
+  return (
+    <window
+      visible
+      cssClasses={["bar"]}
+      gdkmonitor={gdkmonitor}
+      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      anchor={
+        Astal.WindowAnchor.TOP |
+        Astal.WindowAnchor.LEFT |
+        Astal.WindowAnchor.RIGHT
+      }
+      application={App}
+    >
+      <centerbox setup={setup_theme}>
+        <box hexpand halign={Gtk.Align.START} spacing={8}>
+          <Launcher />
+          <FocusedClient />
+        </box>
 
-          <box spacing={8} hexpand halign={Gtk.Align.END}>
-            <Media></Media>
-            <SysTray></SysTray>
-            <eventbox
-              onClick={() => {
-                App.toggle_window("profile");
-              }}
+        <box>
+          <Workspaces />
+        </box>
+
+        <box hexpand halign={Gtk.Align.END} spacing={8}>
+          <box>
+            <menubutton
+              cssClasses={["clean", "surface1"]}
             >
-              <box className="surface1" spacing={6}>
-                {/* <Wifi/> */}
-                <Audio />
-                {/* <Bluetooth/> */}
-                <Battery />
-                <Notifications />
+              <popover>
+                <Profile />
+              </popover>
+              <box spacing={8}>
+              <Audio />
+              <Bluetooth />
+              <Battery />
+              <Notifications />
               </box>
-            </eventbox>
-            <box className="surface1">
-              <Time />
+            </menubutton>
+            {Gtk.Separator.new(Gtk.Orientation.VERTICAL)}
+            <box spacing={8}>
+              <SysTray />
             </box>
-            <Wallpaper />
-            <box css="padding-right: 10px;">
-              <ShowDesktop />
-            </box>
+            
           </box>
-        </centerbox>
-      </window>
-    );
-  } else {
-    return (
-      <window
-        name="bar"
-        className="bar macchiato"
-        gdkmonitor={gdkmonitor}
-        exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={
-          Astal.WindowAnchor.BOTTOM |
-          Astal.WindowAnchor.LEFT |
-          Astal.WindowAnchor.RIGHT
-        }
-        application={App}
-      >
-        <centerbox className="macchiato">
-          <box css="padding-left: 2px;" hexpand halign={Gtk.Align.START}>
-            <Launcher />
-            <FocusedClient></FocusedClient>
+          <box spacing={12}>
+            <Time />
+            <Wallpaper />
+            <ShowDesktop />
           </box>
 
-          <box className="surface" spacing={8}>
-            <Workspaces />
-          </box>
-
-          <box spacing={8} hexpand halign={Gtk.Align.END}>
-            <Media></Media>
-            <SysTray></SysTray>
-            <eventbox
-              onClick={() => {
-                App.toggle_window("profile");
-              }}
-            >
-              <box className="surface1" spacing={6}>
-                {/* <Wifi/> */}
-                <Audio />
-                <Bluetooth />
-                <Battery />
-                <Notifications />
-              </box>
-            </eventbox>
-            <box className="surface1">
-              <Time />
-            </box>
-            <Wallpaper />
-            <box css="padding-right: 10px;">
-              <ShowDesktop />
-            </box>
-          </box>
-        </centerbox>
-      </window>
-    );
-  }
+          <box widthRequest={10} />
+        </box>
+      </centerbox>
+    </window>
+  );
 }

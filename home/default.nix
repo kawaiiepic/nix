@@ -28,6 +28,7 @@
       "dart"
       "wakatime"
       "catppuccin"
+      "lua"
     ];
     userSettings = {
       autosave = {

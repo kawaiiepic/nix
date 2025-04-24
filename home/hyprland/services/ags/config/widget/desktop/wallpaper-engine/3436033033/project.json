@@ -1,0 +1,209 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "------------------------中文---------------------------\n画师:Kori 背景音乐：Morose Dreamer\nミクと夏☀️🌻 | Kori #pixiv https://www.pixiv.net/artworks/122454985\n已经开始期待夏天了呢！\n倘若你觉得运行起来卡顿请关闭鼠标视察，与些许粒子.\n如果觉得壁纸做的不错请给作者一个好评,十分感谢！！(*´∀人)\n倘若您对壁纸有什么建议请评论区留言。 (*´∀｀)ﾉゞ\n------------------------English---------------------------\nArtist:Kori Background music: Morose Dreamer\nミクと夏☀️🌻 | Kori #pixiv https://www.pixiv.net/artworks/122454985\nI'm already looking forward to summer!\nIf you feel that it is running stutty please turn off the mouse and inspect with a few particles.\nIf you think the wallpaper is good, please give the author a good review, thank you very much!!(*´∀人)\nIf you have any suggestions for wallpaper, please leave a comment in the comments section.\n(*´∀｀)ﾉゞ",
+	"file" : "scene.json",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"_1" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "<br><p><center><img src=http://m.qpic.cn/psc?/V14PRR3o2EVCK9/TmEUgtj9EK6.7V8ajmQrEFM2Aw.RNP3ROnrUolYCxC8bnFxNioc4Qs5Iz78Y0ExQUxI0SCXcMuWyfWfHes61usnV9MFEUkLf6RAuRWWiAaM!/b&bo=OQF7ADkBewADByI!&rf=viewer_4>",
+				"value" : ""
+			},
+			"lightround" : 
+			{
+				"index" : 6,
+				"order" : 106,
+				"text" : "光圈/light round",
+				"type" : "bool",
+				"value" : true
+			},
+			"newproperty" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "高光/highlight",
+				"type" : "bool",
+				"value" : false
+			},
+			"newproperty1" : 
+			{
+				"index" : 5,
+				"order" : 105,
+				"text" : "粒子/particle",
+				"type" : "bool",
+				"value" : true
+			},
+			"newproperty10" : 
+			{
+				"condition" : "newproperty2.value",
+				"fraction" : true,
+				"index" : 10,
+				"max" : 0.5,
+				"min" : 0.1,
+				"order" : 110,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "大小",
+				"type" : "slider",
+				"value" : 0.14
+			},
+			"newproperty2" : 
+			{
+				"index" : 9,
+				"order" : 109,
+				"text" : "音频识别框/Music recognition",
+				"type" : "bool",
+				"value" : false
+			},
+			"newproperty3" : 
+			{
+				"index" : 3,
+				"order" : 103,
+				"text" : "鸟/bird",
+				"type" : "bool",
+				"value" : true
+			},
+			"newproperty4" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "<center><p><h3><b><a>如果觉得壁纸做的不错请给作者一个好评,十分感谢！！(*´∀人) </center></i></a></h3></b><b><a><center><h4><br>If you think the wallpaper is good, please give the author a good review, thank you very much!!(*´∀人)</br></a><b></h4></p>",
+				"value" : ""
+			},
+			"newproperty5" : 
+			{
+				"index" : 8,
+				"order" : 108,
+				"text" : "音频条/Audio strip",
+				"type" : "bool",
+				"value" : true
+			},
+			"newproperty6" : 
+			{
+				"index" : 14,
+				"order" : 114,
+				"text" : "开关/switch",
+				"type" : "bool",
+				"value" : false
+			},
+			"newproperty7" : 
+			{
+				"condition" : "newproperty6.value",
+				"fraction" : true,
+				"index" : 15,
+				"max" : 1,
+				"min" : 0,
+				"order" : 115,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "大小/size",
+				"type" : "slider",
+				"value" : 0.55
+			},
+			"newproperty8" : 
+			{
+				"index" : 13,
+				"order" : 113,
+				"text" : "时间组件/Time module",
+				"type" : "group",
+				"value" : ""
+			},
+			"newproperty9" : 
+			{
+				"index" : 7,
+				"order" : 107,
+				"text" : "音频组件//Audio module",
+				"type" : "group",
+				"value" : ""
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.28627450980392155 0.6352941176470588 0.796078431372549"
+			},
+			"wind" : 
+			{
+				"index" : 4,
+				"order" : 104,
+				"text" : "风/wind",
+				"type" : "bool",
+				"value" : true
+			},
+			"x" : 
+			{
+				"condition" : "newproperty6.value",
+				"fraction" : true,
+				"index" : 16,
+				"max" : 1,
+				"min" : 0,
+				"order" : 116,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "x轴/x axis",
+				"type" : "slider",
+				"value" : 0.22
+			},
+			"xxaxis" : 
+			{
+				"condition" : "newproperty2.value",
+				"fraction" : true,
+				"index" : 11,
+				"max" : 1,
+				"min" : 0,
+				"order" : 111,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "x轴/x axis",
+				"type" : "slider",
+				"value" : 0.12
+			},
+			"y" : 
+			{
+				"condition" : "newproperty6.value",
+				"fraction" : true,
+				"index" : 17,
+				"max" : 1,
+				"min" : 0,
+				"order" : 117,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "y轴/y axis",
+				"type" : "slider",
+				"value" : 0.8
+			},
+			"yyaxis" : 
+			{
+				"condition" : "newproperty2.value",
+				"fraction" : true,
+				"index" : 12,
+				"max" : 1,
+				"min" : 0,
+				"order" : 112,
+				"precision" : 3,
+				"step" : 0.01,
+				"text" : "y轴/y axis",
+				"type" : "slider",
+				"value" : 0.95
+			}
+		},
+		"supportsaudioprocessing" : true,
+		"supportsvideo" : true,
+		"supportsvideoflags" : 2
+	},
+	"preview" : "preview.gif",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"tags" : [ "Anime" ],
+	"title" : "Miku-Summer[4K]",
+	"type" : "Scene",
+	"version" : 2,
+	"visibility" : "public",
+	"workshopid" : "3436033033",
+	"workshopurl" : "steam://url/CommunityFilePage/3436033033"
+}

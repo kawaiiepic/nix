@@ -1,18 +1,18 @@
-import { GLib } from "astal";
-import { Gtk, Astal } from "astal/gtk3";
-import { type EventBox } from "astal/gtk3/widget";
+import { Gio, GLib, timeout } from "astal";
+import { App, Gdk, Gtk, Widget } from "astal/gtk4";
 import Notifd from "gi://AstalNotifd";
+import GdkPixbuf20 from "gi://GdkPixbuf";
+import Pango from "gi://Pango?version=1.0";
 
-export const isIcon = (icon: string) => !!Astal.Icon.lookup_icon(icon);
+export const fileExists = (path: string) =>
+  GLib.file_test(path, GLib.FileTest.EXISTS);
 
-export const fileExists = (path: string) => GLib.file_test(path, GLib.FileTest.EXISTS);
-
-const time = (time: number, format = "%H:%M") =>
-  GLib.DateTime.new_from_unix_local(time).format(format)!;
+const time = (time: number, format = "%H:%M") => {
+  return GLib.DateTime.new_from_unix_local(time).format(format)!;
+};
 
 const urgency = (n: Notifd.Notification) => {
   const { LOW, NORMAL, CRITICAL } = Notifd.Urgency;
-  // match operator when?
   switch (n.urgency) {
     case LOW:
       return "low";
@@ -25,92 +25,105 @@ const urgency = (n: Notifd.Notification) => {
 };
 
 type Props = {
-  setup(self: EventBox): void;
-  onHoverLost(self: EventBox): void;
+  setup(self: Gtk.Box): void;
+  onHoverLost(self: Gtk.Box): void;
+  display: Gdk.Display;
   notification: Notifd.Notification;
 };
 
 export default function Notification(props: Props) {
-  const { notification: n, onHoverLost, setup } = props;
+  const { display: display, notification: n, onHoverLost, setup } = props;
   const { START, CENTER, END } = Gtk.Align;
-  
-  print(n.image);
+  const isIcon = (icon: string) => Gtk.IconTheme.get_for_display(display).has_icon(icon);
+
+  if (n.image && fileExists(n.image)) {
+    App.apply_css(`
+         .image-${n.id} {
+         background-image: url(file://${n.image});
+         }
+      `);
+  }
 
   return (
-    <revealer reveal_child={true}>
-    <eventbox
-      className={`Notification ${urgency(n)}`}
-      setup={setup}
-      onHoverLost={onHoverLost}
+    <revealer
+      setup={(self) => timeout(100, () => (self.revealChild = true))}
+      transitionType={Gtk.RevealerTransitionType.SWING_DOWN}
     >
-      <box vertical>
-        <box className="header">
-          {(n.appIcon || n.desktopEntry) && (
-            <icon
-              className="app-icon"
-              visible={Boolean(n.appIcon || n.desktopEntry)}
-              icon={n.appIcon || n.desktopEntry}
+      <box
+        cssClasses={["Notification", `$urgency(n)}`]}
+        setup={setup}
+        onHoverLeave={onHoverLost}
+      >
+        <box vertical spacing={3}>
+          <box
+            spacing={3}
+            halign={Gtk.Align.FILL}
+            hexpand
+            cssClasses={["header"]}
+          >
+            <image
+              cssClasses={["app-icon"]}
+              iconName={n.appIcon || n.desktopEntry || "dialog-information"}
             />
-          )}
-          <label
-            className="app-name"
-            halign={START}
-            truncate
-            label={n.appName || "Unknown"}
-          />
-          <label className="time" hexpand halign={END} label={time(n.time)} />
-          <button onClicked={() => n.dismiss()}>
-            <icon icon="window-close-symbolic" />
-          </button>
-        </box>
-        <Gtk.Separator visible />
-        <box className="content">
-          {n.image && fileExists(n.image) && (
-            <box
-              valign={START}
-              className="image"
-              css={`
-                background-image: url("${n.image}");
-              `}
-            />
-          )}
-          {n.image && isIcon(n.image) && (
-            <box expand={false} valign={START} className="icon-image">
-              <icon icon={n.image} expand halign={CENTER} valign={CENTER} />
-            </box>
-          )}
-          <box vertical>
+
             <label
-              className="summary"
+              cssClasses={["app-name"]}
               halign={START}
-              xalign={0}
-              label={n.summary}
-              truncate
+              label={n.appName || "Unknown"}
             />
-            {n.body && (
+
+            <label
+              cssClasses={["time"]}
+              hexpand
+              halign={END}
+              label={time(n.time)}
+            />
+          </box>
+
+          <box spacing={6} cssClasses={["content"]}>
+            {n.image && fileExists(n.image) && (
+              <box valign={START} cssClasses={["image", `image-${n.id}`]}/>
+            )}
+            {n.image && isIcon(n.image) && (
+              <box valign={START} cssClasses={["icon-image"]}>
+                <image
+                  iconName={n.image}
+                  halign={CENTER}
+                  valign={CENTER}
+                ></image>
+              </box>
+            )}
+
+            <box vertical>
               <label
-                className="body"
-                wrap
-                useMarkup
+                cssClasses={["summary"]}
                 halign={START}
                 xalign={0}
-                justifyFill
-                label={n.body}
+                label={n.summary}
               />
-            )}
+              {n.body && (
+                <label
+                  cssClasses={["body"]}
+                  wrap
+                  useMarkup
+                  halign={START}
+                  xalign={0}
+                  label={n.body}
+                />
+              )}
+            </box>
           </box>
+          {n.get_actions().length > 0 && (
+            <box cssClasses={["actions"]}>
+              {n.get_actions().map(({ label, id }) => (
+                <button hexpand onClicked={() => n.invoke(id)}>
+                  <label label={label} halign={CENTER} hexpand />
+                </button>
+              ))}
+            </box>
+          )}
         </box>
-        {n.get_actions().length > 0 && (
-          <box className="actions">
-            {n.get_actions().map(({ label, id }) => (
-              <button hexpand onClicked={() => n.invoke(id)}>
-                <label label={label} halign={CENTER} hexpand />
-              </button>
-            ))}
-          </box>
-        )}
       </box>
-    </eventbox>
     </revealer>
   );
 }

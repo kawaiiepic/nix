@@ -1,0 +1,16 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    background-color: transparent;
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 5px;
+}
+
+@mixin themed {
+    border: 0.5px solid theme-get("crust");
+}

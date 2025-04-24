@@ -1,17 +1,13 @@
-import { Widget } from "astal/gtk3";
 import { background } from "../desktop/Desktop";
 
-export default () =>
-  new Widget.EventBox({
-    onClick: () => {
-      background.poll(30 * 60 * 1000, [
-        "bash",
-        "-c",
-        `WALL="$(find $HOME/.wallpapers/ -type f | shuf -n 1)" && ln -sf $WALL $HOME/.cache/background && echo $WALL`,
-      ]);
-    },
-    child: new Widget.Label({
-      label: "󰸉 ",
-      tooltip_text: "Change wallpaper",
-    }),
-  });
+export default () => (
+  <box onButtonPressed={() => {
+    background.poll(30 * 60 * 1000, [
+      "bash",
+      "-c",
+      `find ${SRC}/widget/desktop/wallpaper-engine/ ${SRC}/widget/desktop/wallpapers/ -maxdepth 1 -type f,d | shuf -n 1`,
+    ])
+  }}>
+    <label label="󰸉" tooltipText="Change wallpaper" />
+  </box>
+);

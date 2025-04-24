@@ -1,0 +1,99 @@
+@use "../themes/theme" as *;
+@use "./workspaces.scss";
+@use "./launcher.scss";
+@use "./time.scss";
+@use "./systray.scss";
+@use "./quick.scss";
+@use "./profile.scss";
+
+window.bar {
+    font-weight: bold;
+
+    image {
+        &:hover {
+            filter: grayscale(80%);
+        }
+    }
+
+    .surface {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 5px;
+        border-radius: 12px;
+    }
+
+    .surface1 {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 5px;
+        border-radius: 12px;
+    }
+
+    .workspaces {
+        @include workspaces.default;
+    }
+
+    .launcher {
+        @include launcher.default;
+    }
+
+    .time {
+        @include time.default;
+    }
+
+    .systray {
+        @include systray.default;
+    }
+
+    .quick {
+        @include quick.default;
+    }
+
+    .profile {
+        @include profile.default;
+    }
+
+    @include theme() {
+        background-color: theme-get("base");
+        color: theme-get("text");
+        
+        button {
+            &:active {
+                color: orange;
+            }
+            &:hover {
+                background: linear-gradient(90deg,rgba(42, 123, 155, 0.2) 0%, rgba(87, 199, 133, 0.2) 50%, rgba(237, 221, 83, 0.2) 100%);
+            }
+        }
+
+        .surface {
+            background-color: theme-get("surface0");
+            border: 0.5px solid theme-get("crust");
+        }
+
+        .surface1 {
+            background-color: theme-get("surface0");
+            border: 0.5px solid theme-get("crust");
+        }
+
+        .workspaces {
+            @include workspaces.themed;
+        }
+
+        .systray {
+            @include systray.themed;
+        }
+
+        .quick {
+            @include quick.themed;
+        }
+
+        .profile {
+            @include profile.themed;
+        }
+
+        .time {
+            @include time.themed;
+        }
+    }
+}

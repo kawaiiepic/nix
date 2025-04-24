@@ -1,0 +1,12 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    button {
+        background-color: transparent;
+        color: red;
+        padding: 0px 0px;
+    }
+}
+
+@mixin themed {
+}

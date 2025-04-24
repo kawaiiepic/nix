@@ -1,0 +1,36 @@
+@use "../themes/theme" as *;
+@use "../util.scss";
+
+window.OSD {
+    box.OSD {
+        border-radius: 100px;
+        padding: 13px 16px;
+        margin: 13px;
+        box-shadow: 3px 3px 7px 0 rgba(0,0,0,.4);
+    }
+
+    icon {
+        font-size: 4rem;
+    }
+
+    label {
+        font-size: 0.8rem;
+    }
+
+    levelbar {
+        trough {
+            margin: 1rem .6rem;
+        }
+
+        block {
+            border-radius: 20px;
+            min-height: 1rem;
+        }
+    }
+    
+    @include theme() {
+        box.OSD {
+            background-color: theme-get("base");
+        }
+    }
+}

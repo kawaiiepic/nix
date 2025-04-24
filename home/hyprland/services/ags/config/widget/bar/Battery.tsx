@@ -1,17 +1,18 @@
-import { Variable, GLib, bind, Process } from "astal";
-import Battery from "gi://AstalBattery";
+import { bind } from "astal";
+import AstalBattery from "gi://AstalBattery?version=0.1";
 
 export default () => {
-  const bat = Battery.get_default();
-
+  const bat = AstalBattery.get_default();
+  
   return (
-    <icon
+    <image
       visible={bind(bat, "isPresent")}
       tooltipText={bind(bat, "percentage").as(
         (p) => `${Math.floor(p * 100)} %`,
       )}
-      className="battery"
-      icon={bind(bat, "batteryIconName")}
+      cssName="battery"
+      iconName={bind(bat, "batteryIconName")}
+      pixelSize={14}
     />
   );
 };

@@ -1,0 +1,26 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "原图P站 ID:  60141148\n尝试制作了头发衣服的飘动以及除鸽子外的其余动态效果。。\n第一次做这种动态 肯定会有些瑕疵呢。。对颜色拿捏不准是硬伤=w=\n原图是1080P 视频是 60FPS\n(σ°∀°)σ..:*☆ 最后 有没有大佬有MAYU适合当壁纸的高清图，求几张，谢谢啦",
+	"file" : "15v3-1080p.mp4",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.5019607843137255 0.5019607843137255 0.5019607843137255"
+			}
+		}
+	},
+	"preview" : "preview.gif",
+	"tags" : [ "Anime" ],
+	"title" : "[miku]千年越し",
+	"type" : "Video",
+	"version" : 0,
+	"visibility" : "public",
+	"workshopid" : 1259354518,
+	"workshopurl" : "steam://url/CommunityFilePage/1259354518"
+}

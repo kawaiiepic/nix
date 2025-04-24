@@ -3,17 +3,9 @@
     "compilerOptions": {
         "experimentalDecorators": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "astal/gtk3",
+        "jsxImportSource": "astal/gtk4",
         "module": "ES2022",
         "moduleResolution": "Bundler",
-        "paths": {
-            "astal": [
-                "/nix/store/36kxv4nh9kcsjcjdjv3xsvqnpk53xja4-astal-gjs/share/astal/gjs"
-            ],
-            "astal/*": [
-                "/nix/store/36kxv4nh9kcsjcjdjv3xsvqnpk53xja4-astal-gjs/share/astal/gjs/*"
-            ]
-        },
         "strict": true,
         "target": "ES2022"
     }

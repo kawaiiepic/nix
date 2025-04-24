@@ -1,30 +1,23 @@
-import { App } from "astal/gtk3";
-import style from "./style/scss/style.scss";
-import Desktop from "./widget/desktop/Desktop";
-import NotificationPopups from "./widget/notifications/NotificationPopups";
-import Profile from "./widget/profile/Profile";
+import { App } from "astal/gtk4";
+import style from "./style/style.scss";
 import Bar from "./widget/bar/Bar";
-import Applauncher from "./widget/appLauncher/Applauncher";
+import Desktop from "./widget/desktop/Desktop";
+import Applauncher from "./widget/applauncher/Applauncher";
+import Profile from "./widget/profile/Profile";
+import NotificationPopups from "./widget/notifications/NotificationPopups";
 import Logout from "./widget/logout/Logout";
+import OSD from "./widget/osd/OSD";
 
-import GLib from "gi://GLib"
+App.start({
+  css: style,
+  main() {
+    Applauncher(App.get_monitors()[0]);
+    // Profile(App.get_monitors()[0]);
+    NotificationPopups(App.get_monitors()[0]);
+    Logout(App.get_monitors()[0]);
 
-const USER = GLib.getenv("USER")
-const HOSTNAME = GLib.get_host_name();
-
-print(HOSTNAME);
-
-if (USER != null) {
-  App.start({
-    icons: `${SRC}/style/assets`,
-    css: style,
-    main() {
-      App.get_monitors().map(Desktop);
-      Bar(App.get_monitors()[0], USER)
-      Profile(App.get_monitors()[0], USER);
-      Logout(App.get_monitors()[0], HOSTNAME);
-      Applauncher(App.get_monitors()[0]);
-      NotificationPopups(App.get_monitors()[0]);
-    },
-  });
-}
+    App.get_monitors().map(Bar);
+    App.get_monitors().map(Desktop);
+    App.get_monitors().map(OSD);
+  },
+});

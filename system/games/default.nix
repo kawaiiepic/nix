@@ -43,7 +43,7 @@
           fetchSubmodules = true;
         }; 
     })
-    (pkgs.callPackage ./vita3k.nix { })
+    # (pkgs.callPackage ./vita3k.nix { })
     (pkgs.steamtinkerlaunch.overrideAttrs {
       src = fetchFromGitHub {
         owner = "sonic2kk";

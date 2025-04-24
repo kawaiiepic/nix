@@ -1,0 +1,17 @@
+@use "../themes/theme" as *;
+
+window.desktop {
+    background-color: transparent;
+    
+    .wallpaper {
+        border-radius: 0px 0px 25px 25px;
+        background-size: cover;
+        transition: 250ms background-image;
+    }
+
+    @include theme() {
+        .wallpaper {
+            border-bottom: 0.5px solid theme-get("crust");
+        }
+    }
+}

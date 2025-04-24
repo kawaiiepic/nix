@@ -1,29 +1,19 @@
-import { GObject } from "astal";
-import { astalify, ConstructProps, Gtk, Widget } from "astal/gtk3";
-import { ToggleButton } from "../../customWidget/ToggleButton";
+import { Gtk } from "astal/gtk4";
+import { ToggleButton } from "../../custom/ToggleButton";
 
-export default () =>
-  new Widget.Box({
-    vertical: true,
-    spacing: 6,
-    children: [
-      new ToggleButton({
-        className: "profile-normal-button circular",
-        hexpand: false,
-        halign: Gtk.Align.CENTER,
-        tooltip_text: "Toggle Night Light",
-        active: true,
-        child: new Widget.Label({
-          className: "profile-normal-button-icon",
-          label: "",
-        }),
-      }),
-      
-      new Widget.Box({
-        child: new Widget.Label({
-          className: "small-font",
-          label: "Caffeine",
-        }),
-      }),
-    ]
-  })
+export default () => (
+  <box vertical spacing={6}>
+    <ToggleButton
+      cssClasses={["profile-normal-button", "circular"]}
+      halign={Gtk.Align.CENTER}
+      tooltipText="Screenshare status"
+    >
+      <label cssClasses={["profile-normal-button-label"]} label="" />
+    </ToggleButton>
+    <label
+      halign={Gtk.Align.CENTER}
+      cssClasses={["small-font"]}
+      label="Screenshare"
+    />
+  </box>
+);

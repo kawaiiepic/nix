@@ -15,13 +15,14 @@
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
           "uwsm app -- my-shell"
           "uwsm app -- hyprlock --immediate"
-          "uwsm app -- swayosd-server"
           "uwsm app -- wvkbd-mobintl --hidden --alpha 50 -L 200"
           "uwsm app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "uwsm app -- ${pkgs.networkmanagerapplet}/bin/nm-applet"
           "uwsm app -- ${pkgs.joystickwake}/bin/joystickwake"
           "uwsm app -- ${pkgs.hyprsunset}/bin/hyprsunset"
           "uwsm app -- ${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
+          "uwsm app -- ags run --gtk4"
+          "uwsm app -- systemctl start --user hypridle"
           "sleep 5 && start"
         ];
 
@@ -40,18 +41,18 @@
           resize_on_border = true;
           allow_tearing = true;
           monitor = [
-            "DP-1,2560x1440@143.97Hz,0x0,1.25,vrr,1"
+            "DP-2,2560x1440@143.97Hz,0x0,1.25,vrr,1"
             "HDMI-A-2,1920x1080@74.97Hz,2048x0,auto,vrr,0"
             "HDMI-A-1,highres,3968x0,2,vrr,0,transform,2"
             "eDP-1,highrr,0x0,1,transform,3"
           ];
 
           workspace = [
-            "1,monitor:DP-1,persistent:true,default:true"
-            "2,monitor:DP-1,persistent:true"
-            "3,monitor:DP-1,persistent:true"
-            "4,monitor:DP-1,persistent:true"
-            "5,monitor:DP-1,persistent:true"
+            "1,monitor:DP-2,persistent:true,default:true"
+            "2,monitor:DP-2,persistent:true"
+            "3,monitor:DP-2,persistent:true"
+            "4,monitor:DP-2,persistent:true"
+            "5,monitor:DP-2,persistent:true"
             "6,monitor:HDMI-A-1,gapsin:0,gapsout:0,rounding:false,border:false,default:true"
           ];
         };
@@ -188,19 +189,14 @@
         ];
 
         bindel = [
-          ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise && canberra-gtk-play -i audio-volume-change"
-          ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower && canberra-gtk-play -i audio-volume-change"
-          ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise && canberra-gtk-play -i audio-volume-change"
-          ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower && canberra-gtk-play -i audio-volume-change"
+          ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+          ", XF86MonBrightnessUp, exec, notify-send Brightness up"
+          ", XF86MonBrightnessDown, exec, notify-send Brightness down"
         ];
 
         bindl = [
-          ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
-          "$MOD, M, exec, swayosd-client --input-volume mute-toggle && canberra-gtk-play -i audio-volume-change"
-        ];
-
-        bindr = [
-          "Caps_Lock, Caps_Lock, exec, swayosd-client --caps-lock"
+          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ];
 
         bindm = [
@@ -318,7 +314,7 @@
       (lib.mkIf (osConfig.networking.hostName == "dreamhouse") {
         general = {
           monitor = [
-            "DP-1,2560x1440@143.97Hz,0x0,1.25,vrr,1"
+            "DP-2,2560x1440@143.97Hz,0x0,1.25,vrr,1"
             "HDMI-A-2,1920x1080@74.97Hz,2048x0,auto,vrr,0"
             "HDMI-A-1,highres,3968x0,2,vrr,0,transform,2"
             "eDP-1,highrr,0x0,1,transform,3"
