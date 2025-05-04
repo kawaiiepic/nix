@@ -1,6 +1,7 @@
-import { Variable } from "astal";
+import { bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk4";
 import AstalApps from "gi://AstalApps";
+
 import { setup_theme } from "../theme";
 
 const MAX_ITEMS = 8;
@@ -72,7 +73,7 @@ function AppIcon({ app }: { app: AstalApps.Application }) {
 }
 
 export default (gdkmonitor: Gdk.Monitor) => {
-  const apps = new AstalApps.Apps();
+  const apps = new AstalApps.Apps({minScore: 20});
 
   const { CENTER } = Gtk.Align;
 
@@ -91,17 +92,24 @@ export default (gdkmonitor: Gdk.Monitor) => {
       .slice(0, MAX_ITEMS)
       .filter((app) => {
         if (app.executable.includes("steam://rungameid")) {
-          return false;
+          return true;
         }
         return true;
       }),
   );
 
   const onEnter = () => {
-    apps.fuzzy_query(text.get())?.[0].launch();
+    list.get()[0].launch();
     text.set("");
+    entry.text = "";
     hide();
   };
+  
+  const entry: Gtk.Entry = (<entry
+    placeholderText="Search"
+    onChanged={(self) => text.set(self.text)}
+    onActivate={onEnter}
+  />);
 
   return (
     <window
@@ -122,6 +130,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
         if (keyval === Gdk.KEY_Escape) {
           App.toggle_window("launcher");
           text.set("");
+          entry.text = ("");
         }
       }}
     >
@@ -137,12 +146,7 @@ export default (gdkmonitor: Gdk.Monitor) => {
         </box>
         <box heightRequest={100} />
         <box halign={Gtk.Align.CENTER} cssClasses={["Applauncher"]} vertical>
-          <entry
-            placeholderText="Search"
-            // text={text()}
-            onChanged={(self) => text.set(self.text)}
-            onActivate={onEnter}
-          />
+          {entry}
           <box spacing={6} vertical>
             {list.as((list) => list.map((app) => <AppButton app={app} />))}
           </box>

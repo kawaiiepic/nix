@@ -1,12 +1,11 @@
 import { App, Astal, Gdk, Gtk } from "astal/gtk4";
 import { setup_theme } from "../theme";
 import { bind, execAsync, exec, Variable, subprocess, Gio } from "astal";
-import { wallpaperEngine } from "../utils";
 
 export const background = Variable("").poll(30 * 60 * 1000, [
   "bash",
   "-c",
-  `find ${SRC}/widget/desktop/wallpaper-engine/ ${SRC}/widget/desktop/wallpapers/ -maxdepth 1 -type f,d | shuf -n 1`,
+  `find ${SRC}/widget/desktop/wallpapers/ -maxdepth 1 -type f | shuf -n 1`,
 ]);
 
 export default function Desktop(gdkmonitor: Gdk.Monitor) {
@@ -44,36 +43,12 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
           </popover>
           <label vexpand yalign={0.98}>
             {bind(background).as((background) => {
-              if (background.includes("wallpaper-engine")) {
-                App.apply_css(`
-                     box.wallpaper {
-                      background-image: none;
-                    }
-                  `);
-                try {
-                  if (gdkmonitor == App.get_monitors()[0]) {
-                    subprocess([
-                      "bash",
-                      "-c",
-                      "killall linux-wallpaperengine || echo Not Running",
-                    ]);
-                  }
-
-                  subprocess([
-                    "bash",
-                    "-c",
-                    `linux-wallpaperengine --silent --no-fullscreen-pause --screen-root ${gdkmonitor.connector} ${background}`,
-                  ]);
-                } catch (e) {
-                  print(e);
-                }
-              } else {
-                App.apply_css(`
+              App.apply_css(`
                      box.wallpaper {
                       background-image: url(file://${background});
                     }
                   `);
-              }
+
               return background;
             })}
           </label>

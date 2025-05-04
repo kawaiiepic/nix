@@ -14,7 +14,7 @@ export default () => {
 
   return focused.as(
     (client) =>
-      client && (
+      (client && (
         <box
           visible={focused.as(Boolean)}
           cssClasses={["client-title", "surface1"]}
@@ -23,21 +23,21 @@ export default () => {
         >
           <image
             cssName="client-icon"
-            iconName={bind(client, "class").as((title) => {
-              switch (title) {
+            iconName={bind(client, "class").as((clientClass) => {
+              switch (clientClass) {
                 case "dev.zed.Zed":
-                  title = "Zed";
+                  clientClass = "Zed";
               }
-              const title_query = apps.fuzzy_query(client.initial_title);
-              const class_query = apps.fuzzy_query(title);
 
-              if (class_query.length > 0) {
-                return class_query[0].iconName;
-              } else if (title_query.length > 0) {
-                return title_query[0].iconName;
-              } else {
-                return client.class;
+              const class_query = apps.exact_query(clientClass);
+
+              if (clientClass.includes("steam_app_")) {
+                return clientClass.replace("app_", "icon_");
               }
+              
+              print("Client: " + clientClass + " | " + class_query[0].iconName);
+
+              return class_query[0].iconName;
             })}
           />
 
@@ -47,6 +47,6 @@ export default () => {
             })}
           />
         </box>
-      ) || (<box></box>),
+      )) || <box></box>,
   );
 };

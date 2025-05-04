@@ -76,14 +76,15 @@
     enable = true;
     xdgOpenUsePortal = true;
 
-    # extraPortals = with pkgs; [
-    #   inputs.hyprland.packages.x86_64-linux.xdg-desktop-portal-hyprland
-    #   xdg-desktop-portal-gtk
-    # ];
-    # configPackages = with pkgs; [
-    #   inputs.hyprland.packages.x86_64-linux.xdg-desktop-portal-hyprland
-    #   xdg-desktop-portal-gtk
-    # ];
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+    
+    configPackages = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
   };
 
   xdg.userDirs = {
