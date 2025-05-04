@@ -5,7 +5,7 @@ import { bind, execAsync, exec, Variable, subprocess, Gio } from "astal";
 export const background = Variable("").poll(30 * 60 * 1000, [
   "bash",
   "-c",
-  `find ${SRC}/widget/desktop/wallpapers/ -maxdepth 1 -type f | shuf -n 1`,
+  `find ${SRC}/widget/desktop/wallpaper-engine/ -maxdepth 1 -type f | shuf -n 1`,
 ]);
 
 export default function Desktop(gdkmonitor: Gdk.Monitor) {

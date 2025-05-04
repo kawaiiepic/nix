@@ -17,6 +17,7 @@
 
     # additional packages to add to gjs's runtime
     extraPackages = with inputs.ags.packages.${pkgs.system}; [
+      pkgs.mpvpaper
       apps
       hyprland
       notifd

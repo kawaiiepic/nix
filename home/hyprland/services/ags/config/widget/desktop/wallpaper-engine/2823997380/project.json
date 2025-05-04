@@ -1,0 +1,24 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "[4K] spirit 精灵客厅鸭子坐",
+	"file" : "spirit.mp4",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.67059 0.61961 0.54118"
+			}
+		}
+	},
+	"preview" : "preview.jpg",
+	"tags" : [ "Anime" ],
+	"title" : "[4K] spirit 精灵客厅鸭子坐",
+	"type" : "Video",
+	"version" : 0,
+	"visibility" : "public"
+}

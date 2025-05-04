@@ -1,0 +1,42 @@
+{
+	"approved" : true,
+	"contentrating" : "Everyone",
+	"description" : "Original art by Gwan-E - https://www.pixiv.net/en/artworks/98461983\r\nYor Forger/ヨル フォージャー from Spy Family / Spy x Family / SpyxFamily\r\nKeywords: black-haired anime girl, red, flowers, roses, rain\r\nYou can adjust noise amount",
+	"file" : "scene.json",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"noiseamount" : 
+			{
+				"fraction" : true,
+				"index" : 0,
+				"max" : 1.4,
+				"min" : 0,
+				"order" : 100,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "Noise amount",
+				"type" : "slider",
+				"value" : 0.7
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.64314 0.21569 0.19216"
+			}
+		}
+	},
+	"preview" : "preview.gif",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"tags" : [ "Anime" ],
+	"title" : "Yor Forger | SPY×FAMILY",
+	"type" : "scene",
+	"version" : 2,
+	"visibility" : "public",
+	"workshopid" : "2813843465",
+	"workshopurl" : "steam://url/CommunityFilePage/2813843465"
+}
