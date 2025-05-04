@@ -1,7 +1,11 @@
 { pkgs, ... }:
 {
+  
+  programs.git = {
+     enable = true;
+     lfs.enable = true;
+   };
 
-  environment.systemPackages = [ pkgs.git ];
 
   documentation.nixos.enable = false;
 

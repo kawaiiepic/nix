@@ -20,6 +20,10 @@ export const background = Variable("").poll(10000, [ // 30 * 60 * 1000
 ]);
 
 export function WallpaperManager() {
+  
+  App.monitors.forEach((monitor) => {
+    print(monitor.connector);
+  })
 
   background.subscribe((background) => {
     if (previousProcess != null) {
