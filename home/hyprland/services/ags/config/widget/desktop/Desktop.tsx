@@ -1,12 +1,7 @@
 import { App, Astal, Gdk, Gtk } from "astal/gtk4";
 import { setup_theme } from "../theme";
 import { bind, execAsync, exec, Variable, subprocess, Gio } from "astal";
-
-export const background = Variable("").poll(30 * 60 * 1000, [
-  "bash",
-  "-c",
-  `find ${SRC}/widget/desktop/wallpaper-engine/ -maxdepth 1 -type f | shuf -n 1`,
-]);
+import { background } from "./WallpaperManager";
 
 export default function Desktop(gdkmonitor: Gdk.Monitor) {
   const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
@@ -43,11 +38,12 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
           </popover>
           <label vexpand yalign={0.98}>
             {bind(background).as((background) => {
-              App.apply_css(`
-                     box.wallpaper {
-                      background-image: url(file://${background});
-                    }
-                  `);
+              print(background);
+              // App.apply_css(`
+              //        box.wallpaper {
+              //         background-image: url(file://${background});
+              //       }
+              //     `);
 
               return background;
             })}

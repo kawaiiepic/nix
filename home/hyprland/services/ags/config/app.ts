@@ -7,6 +7,10 @@ import Profile from "./widget/profile/Profile";
 import NotificationPopups from "./widget/notifications/NotificationPopups";
 import Logout from "./widget/logout/Logout";
 import OSD from "./widget/osd/OSD";
+import Wallpaper from "./widget/bar/Wallpaper";
+import { WallpaperManager } from "./widget/desktop/WallpaperManager";
+
+WallpaperManager();
 
 App.start({
   css: style,
