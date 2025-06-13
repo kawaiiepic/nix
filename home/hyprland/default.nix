@@ -34,7 +34,15 @@
       wlr-randr # Randr Wayland
       seahorse # Password manager
       gthumb
-      linux-wallpaperengine
+      (linux-wallpaperengine.overrideAttrs {
+        version = "git";
+        src = fetchFromGitHub {
+          owner = "kawaiiepic";
+          repo = "linux-wallpaperengine";
+          rev = "cef046b2a721821f2740ddc3ad7bc2956ad16a70";
+          hash = "sha256-lCCy6uNa3R3LpkklEDjBOPnJpuGICZjCxORoRhUO1lc=";
+        };
+      })
 
       wl-clipboard
       (pkgs.writeShellScriptBin "launcher" ''

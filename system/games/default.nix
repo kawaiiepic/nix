@@ -34,15 +34,7 @@
     prismlauncher
     ryujinx
     xivlauncher
-    (shadps4.overrideAttrs {
-      src = fetchFromGitHub {
-          owner = "shadps4-emu";
-          repo = "shadPS4";
-          rev = "5691046dcc2c1bd57f5b6f21fc5ced8735771f41";
-          hash = "sha256-J3U1FxkGZ4q3oxkxzaiv9hA0Mj2wsJzoXMGI/g7Ev4w=";
-          fetchSubmodules = true;
-        }; 
-    })
+    # shadps4
     # (pkgs.callPackage ./vita3k.nix { })
     (pkgs.steamtinkerlaunch.overrideAttrs {
       src = fetchFromGitHub {

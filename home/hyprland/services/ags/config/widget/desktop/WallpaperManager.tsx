@@ -9,29 +9,44 @@ import {
   Gio,
   AstalIO,
   GLib,
+  interval,
 } from "astal";
 
 var previousProcess: AstalIO.Process;
 
-export const background = Variable("").poll(10000, [ // 30 * 60 * 1000
-  "bash",
-  "-c",
-  `find ${SRC}/widget/desktop/wallpaper-engine/ -maxdepth 1 -type d | shuf -n 1`,
-]);
+var wallpaperType = "picture";
 
 export function WallpaperManager() {
-  
-  App.monitors.forEach((monitor) => {
-    print(monitor.connector);
-  })
+  interval(30 * 60 * 1000, () => {
+    if (wallpaperType == "picture") {
+      var backgroundImage = exec(["bash", "-c",
+        `find ${SRC}/widget/desktop/wallpapers/ -mindepth 1 -maxdepth 1 -type f | shuf -n 1`,
+      ]);
 
-  background.subscribe((background) => {
-    if (previousProcess != null) {
-      previousProcess.kill();
+      print("Bacgrkound:" + backgroundImage);
+
+      App.apply_css(`
+             box.wallpaper {
+              background-image: url(file://${backgroundImage});
+            }
+          `);
+    } else if ((wallpaperType = "video")) {
+      var screenRoot = "";
+      var backgroundImage = exec(
+        `find ${SRC}/widget/desktop/wallpaper-engine/ -mindepth 1 -maxdepth 1 -type d | shuf -n 1`,
+      );
+
+      App.get_monitors().forEach((monitor) => {
+        screenRoot += `--screen-root ${monitor.connector} `;
+      });
+
+      if (previousProcess != null) {
+        previousProcess.kill();
+      }
+
+      previousProcess = subprocess(
+        `linux-wallpaperengine --silent --no-fullscreen-pause ${screenRoot} ${backgroundImage}`,
+      );
     }
-
-    previousProcess = subprocess(
-      `linux-wallpaperengine --silent --no-fullscreen-pause --screen-root DP-2 --screen-root HDMI-A-2 ${background}`,
-    );
   });
 }

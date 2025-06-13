@@ -5,8 +5,7 @@
      enable = true;
      lfs.enable = true;
    };
-
-
+   
   documentation.nixos.enable = false;
 
   # Remove xterm

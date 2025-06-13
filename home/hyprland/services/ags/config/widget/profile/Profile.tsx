@@ -222,7 +222,7 @@ export default () => {
                     }}
                   >
                     <label label={speak.description} />
-                    <label label="D" visible={bind(speak, "is_default")} />
+                    <label label="" visible={bind(speak, "is_default")} />
                   </box>
                 );
               });

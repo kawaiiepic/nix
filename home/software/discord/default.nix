@@ -50,42 +50,42 @@ in
 
   programs.nixcord = {
     enable = true; # enable Nixcord. Also installs discord package
-    discord.package = pkgs.discord-canary;
-    config = {
-      themeLinks = [
-        "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
-        # "https://raw.githubusercontent.com/refact0r/system24/refs/heads/main/theme/flavors/catppuccin-macchiato.theme.css"
-      ];
-      enabledThemes = [
-        "cat-girls.theme.css"
-        "catppuccin-mocha.theme.css"
-      ];
-      plugins = {
-        alwaysAnimate.enable = true;
-        betterSessions.enable = true;
-        blurNSFW.enable = true;
-        customIdle.enable = true;
-        mentionAvatars.enable = true;
-        messageLinkEmbeds.enable = true;
-        messageLogger.enable = true;
-        openInApp.enable = true;
-        summaries.enable = true;
-        spotifyCrack.enable = true;
-        typingIndicator.enable = true;
-        typingTweaks.enable = true;
-        whoReacted.enable = true;
-      };
+    # discord.package = pkgs.discord-canary;
+    # config = {
+    #   themeLinks = [
+    #     "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
+    #     # "https://raw.githubusercontent.com/refact0r/system24/refs/heads/main/theme/flavors/catppuccin-macchiato.theme.css"
+    #   ];
+    #   enabledThemes = [
+    #     "cat-girls.theme.css"
+    #     "catppuccin-mocha.theme.css"
+    #   ];
+    #   plugins = {
+    #     alwaysAnimate.enable = true;
+    #     betterSessions.enable = true;
+    #     blurNSFW.enable = true;
+    #     customIdle.enable = true;
+    #     mentionAvatars.enable = true;
+    #     messageLinkEmbeds.enable = true;
+    #     messageLogger.enable = true;
+    #     openInApp.enable = true;
+    #     summaries.enable = true;
+    #     spotifyCrack.enable = true;
+    #     typingIndicator.enable = true;
+    #     typingTweaks.enable = true;
+    #     whoReacted.enable = true;
+    #   };
 
-    };
+    # };
 
-    userPlugins = {
-      betterActivities = "github:D3SOX/vc-betterActivities/044b504666b8b753ab45d82c0cd0d316b1ea7e60";
-    };
+    # userPlugins = {
+    #   betterActivities = "github:D3SOX/vc-betterActivities/044b504666b8b753ab45d82c0cd0d316b1ea7e60";
+    # };
 
-    extraConfig = {
-      plugins = {
-        betterActivities.enable = true;
-      };
-    };
+    # extraConfig = {
+    #   plugins = {
+    #     betterActivities.enable = true;
+    #   };
+    # };
   };
 }

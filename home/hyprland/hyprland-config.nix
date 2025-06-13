@@ -366,7 +366,7 @@
 
     plugins = with pkgs; [
       # hyprlandPlugins.hyprbars
-      hyprlandPlugins.hyprtrails
+      # hyprlandPlugins.hyprtrails
       hyprlandPlugins.hyprexpo
       # hyprlandPlugins.hyprfocus
       # inputs.hyprfocus.packages.${system}.default

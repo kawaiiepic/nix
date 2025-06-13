@@ -13,7 +13,7 @@
       cd ~/Documents/nix
       git pull
 
-      kitty --class kitty-update-nix3 nh os switch --update .
+      kitty --class kitty-update-nix nh os switch --update .
     '')
 
     (pkgs.writeShellScriptBin "reboot-to-windows" ''
