@@ -1,12 +1,11 @@
-import { Variable } from "astal";
-import { Gtk, Widget } from "astal/gtk4";
+export const [theme, setTheme] = createState("macchiato");
 
-export const theme = Variable("macchiato");
+import { createState } from "ags";
+import { Gtk } from "ags/gtk4";
 
 export function setup_theme(widget: Gtk.Widget) {
   widget.add_css_class(theme.get());
-  theme.subscribe((value: string) => {
-    console.log("Theme changed to: " + value);
-    widget.add_css_class(value);
+  theme.subscribe(() => {
+    widget.add_css_class(theme.get());
   });
 }

@@ -1,12 +1,12 @@
-import { Widget } from "astal/gtk4";
+import { Gtk } from "ags/gtk4";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 
-const hypr = AstalHyprland.get_default();
+const hypr = AstalHyprland.get_default(); 
 
 var showing = false;
 
-export default () =>
-  Widget.Box({
+export default () => {
+  const box = new Gtk.Box({
     // onClick: () => {
     //   if (!showing) {
     //     hypr.message_async("keyword decoration:active_opacity 0.1", null);
@@ -20,8 +20,11 @@ export default () =>
 
     //   showing = !showing;
     // },
-    child: Widget.Label({
-      label: " ",
-      tooltip_text: "Show Desktop",
-    }),
   });
+  box.append(new Gtk.Label({
+    label: " ",
+    tooltip_text: "Show Desktop",
+  }));
+  
+  return box;
+}

@@ -14,7 +14,7 @@
         exec-once = [
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
           "uwsm app -- my-shell"
-          "uwsm app -- hyprlock --immediate"
+          #"uwsm app -- hyprlock --immediate"
           "uwsm app -- wvkbd-mobintl --hidden --alpha 50 -L 200"
           "uwsm app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "uwsm app -- ${pkgs.networkmanagerapplet}/bin/nm-applet"
@@ -39,7 +39,7 @@
           "col.inactive_border" = "rgb(181926)";
           layout = "master";
           resize_on_border = true;
-          allow_tearing = true;
+          allow_tearing = false;
           monitor = [
             "DP-2,2560x1440@143.97Hz,0x0,1.25,vrr,1"
             "HDMI-A-2,1920x1080@74.97Hz,2048x0,auto,vrr,0"
@@ -367,10 +367,10 @@
     plugins = with pkgs; [
       # hyprlandPlugins.hyprbars
       # hyprlandPlugins.hyprtrails
-      hyprlandPlugins.hyprexpo
+      # hyprlandPlugins.hyprexpo
       # hyprlandPlugins.hyprfocus
       # inputs.hyprfocus.packages.${system}.default
-      hyprlandPlugins.hyprspace
+      # hyprlandPlugins.hyprspace
     ];
   };
 }

@@ -16,6 +16,7 @@ import './fontconfig-2.0.d.ts';
 import './cairo-1.0.d.ts';
 import './wp-0.5.d.ts';
 import './vulkan-1.0.d.ts';
+import './soup-3.0.d.ts';
 import './pangoxft-1.0.d.ts';
 import './pangoot-1.0.d.ts';
 import './pangofc-1.0.d.ts';

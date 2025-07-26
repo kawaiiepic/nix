@@ -1,21 +1,19 @@
-import { Gtk } from "astal/gtk4";
-import { ToggleButton } from "../../custom/ToggleButton";
+import { Gtk } from "ags/gtk4";
 
-export default () =>
-(
-  <box vertical spacing={6}>
-    <ToggleButton
-      cssClasses={["profile-normal-button", "circular"]}
-      halign={Gtk.Align.CENTER}
-      tooltipText="Theme"
-      active
-    >
-      <label cssClasses={["profile-normal-button-label"]} label="󰔎" />
-    </ToggleButton>
-    <box halign={Gtk.Align.CENTER}>
-    <label cssClasses={["small-font"]} label="Theme" />
-    <label cssClasses={["small-font"]} label="" />
-    </box>
-    
-  </box>
-);
+const box = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 6 });
+
+const toggleButton = new Gtk.ToggleButton({
+  cssClasses: ["profile-normal-button", "circular"],
+  halign: Gtk.Align.CENTER,
+  tooltipText: "Theme",
+  active: true,
+  child: new Gtk.Label({
+    cssClasses: ["profile-normal-button-label"],
+    label: "󰔎",
+  }),
+});
+
+box.append(toggleButton);
+box.append(new Gtk.Label({ cssClasses: ["small-font"], label: "Theme " }));
+
+export default () => box;

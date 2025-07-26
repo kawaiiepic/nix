@@ -1,31 +1,21 @@
-import { Astal, Gtk } from "astal/gtk4";
-import { ToggleButton } from "../../custom/ToggleButton";
-import { bind, execAsync, Variable } from "astal";
+import { Gtk } from "ags/gtk4";
 
-var active = Variable(false);
+var nightLight = true;
 
-export default () => (
-  <box vertical spacing={6}>
-    <ToggleButton
-      cssClasses={["profile-normal-button", "circular"]}
-      halign={Gtk.Align.CENTER}
-      tooltipText="Toggle Night Light"
-      active={bind(active)}
-      onButtonPressed={(b, s) => {
-        active.set(!active.get());
-        if (!active.get()) {
-          execAsync("hyprctl hyprsunset temperature 2500");
-        } else {
-          execAsync("hyprctl hyprsunset identity");
-        }
-      }}
-    >
-      <label cssClasses={["profile-normal-button-icon"]} label="" />
-    </ToggleButton>
-    <label
-      halign={Gtk.Align.CENTER}
-      cssClasses={["small-font"]}
-      label="Night Light"
-    />
-  </box>
-);
+const box = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 6 });
+
+const toggleButton = new Gtk.ToggleButton({
+  cssClasses: ["profile-normal-button", "circular"],
+  halign: Gtk.Align.CENTER,
+  active: nightLight,
+  tooltipText: "Toggle Night Light",
+  child: new Gtk.Label({
+    cssClasses: ["profile-normal-button-label"],
+    label: "",
+  }),
+});
+
+box.append(toggleButton);
+box.append(new Gtk.Label({ cssClasses: ["small-font"], label: "Night Light" }));
+
+export default () => box;

@@ -5,11 +5,20 @@
 @use "./systray.scss";
 @use "./quick.scss";
 @use "./profile.scss";
+@use "./focused-client.scss";
+@use "./notifications.scss";
 
 window.bar {
     font-weight: bold;
+    min-height: 30px;
 
-    image {
+    box {
+        &.centerbox {
+            padding: 0px 5px 0 5px;
+        }
+    }
+
+    box .launcher {
         &:hover {
             filter: grayscale(80%);
         }
@@ -18,16 +27,17 @@ window.bar {
     .surface {
         padding-left: 10px;
         padding-right: 10px;
-        margin: 5px;
         border-radius: 12px;
     }
 
     .surface1 {
         padding-left: 10px;
         padding-right: 10px;
-        margin: 5px;
+        padding: 0px 2px 0px 2px;
         border-radius: 12px;
     }
+
+    @include focused-client.default;
 
     .workspaces {
         @include workspaces.default;
@@ -53,16 +63,25 @@ window.bar {
         @include profile.default;
     }
 
+    .notifications {
+        @include notifications.default;
+    }
+
     @include theme() {
         background-color: theme-get("base");
         color: theme-get("text");
-        
+
         button {
             &:active {
                 color: orange;
             }
             &:hover {
-                background: linear-gradient(90deg,rgba(42, 123, 155, 0.2) 0%, rgba(87, 199, 133, 0.2) 50%, rgba(237, 221, 83, 0.2) 100%);
+                background: linear-gradient(
+                    90deg,
+                    rgba(42, 123, 155, 0.2) 0%,
+                    rgba(87, 199, 133, 0.2) 50%,
+                    rgba(237, 221, 83, 0.2) 100%
+                );
             }
         }
 
@@ -94,6 +113,10 @@ window.bar {
 
         .time {
             @include time.themed;
+        }
+
+        .notifications {
+            @include notifications.themed;
         }
     }
 }

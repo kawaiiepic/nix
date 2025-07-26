@@ -1,18 +1,29 @@
-import { bind } from "astal";
+import { Gtk } from "ags/gtk4";
 import AstalBattery from "gi://AstalBattery?version=0.1";
 
 export default () => {
-  const bat = AstalBattery.get_default();
+  const battery = AstalBattery.get_default();
+
+  const menuButton = new Gtk.MenuButton({visible: battery.isPresent});
+  const box = new Gtk.Box();
   
-  return (
-    <image
-      visible={bind(bat, "isPresent")}
-      tooltipText={bind(bat, "percentage").as(
-        (p) => `${Math.floor(p * 100)} %`,
-      )}
-      cssName="battery"
-      iconName={bind(bat, "batteryIconName")}
-      pixelSize={14}
-    />
-  );
+  const image = new Gtk.Image();
+  const label = new Gtk.Label();
+  
+  box.append(image);
+  box.append(label);
+  
+  battery.connect("notify::is-present", (battery) => {
+    menuButton.set_visible(battery.isPresent);
+  });
+  
+  battery.connect("notify::icon-name", (battery) => {
+    image.iconName = battery.batteryIconName;
+  });
+  
+  battery.connect("notify::percentage", (battery) => {
+    label.label = `${Math.floor(battery.percentage * 100)}%`;
+  });
+  
+  return menuButton;
 };

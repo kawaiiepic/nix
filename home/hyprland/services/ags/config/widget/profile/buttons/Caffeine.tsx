@@ -1,31 +1,21 @@
-import { Gtk, Widget } from "astal/gtk4";
-import { ToggleButton } from "../../custom/ToggleButton";
-import { bind, execAsync, Variable } from "astal";
+import { Gtk } from "ags/gtk4";
 
-var active = Variable(false);
+var caffeine = false;
 
-export default () => (
-  <box vertical spacing={6}>
-    <ToggleButton
-      cssClasses={["profile-normal-button", "circular"]}
-      halign={Gtk.Align.CENTER}
-      active={bind(active)}
-      onButtonPressed={(b, s) => {
-        active.set(!active.get());
-        if (!active.get()) {
-          execAsync("systemctl --user stop hypridle");
-        } else {
-          execAsync("systemctl --user start hypridle");
-        }
-      }}
-      tooltipText="Toggle Caffeine"
-    >
-      <label cssClasses={["profile-normal-button-label"]} label="" />
-    </ToggleButton>
-    <label
-      halign={Gtk.Align.CENTER}
-      cssClasses={["small-font"]}
-      label="Caffeine"
-    />
-  </box>
-);
+const box = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 6 });
+
+const toggleButton = new Gtk.ToggleButton({
+  cssClasses: ["profile-normal-button", "circular"],
+  halign: Gtk.Align.CENTER,
+  active: caffeine,
+  tooltipText: "Toggle Caffeine",
+  child: new Gtk.Label({
+    cssClasses: ["profile-normal-button-label"],
+    label: "",
+  }),
+});
+
+box.append(toggleButton);
+box.append(new Gtk.Label({ cssClasses: ["small-font"], label: "Caffeine" }));
+
+export default () => box;

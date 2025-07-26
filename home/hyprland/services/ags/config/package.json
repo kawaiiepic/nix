@@ -1,6 +1,5 @@
 {
-    "dependencies": {
-        "astal": "/home/mia/.local/share/ags"
-    },
-    "name": "astal-shell"
+  "dependencies": {
+    "ags": "*"
+  }
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   
   programs.git = {
@@ -16,6 +16,8 @@
   nixpkgs.config.permittedInsecurePackages = [
     "freeimage-unstable-2021-11-01"
   ];
+
+  
   programs.nh = {
     enable = true;
     # weekly cleanup

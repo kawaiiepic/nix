@@ -27,6 +27,8 @@
       tray
       bluetooth
       battery
+      powerprofiles
+      cava
     ];
   };
   

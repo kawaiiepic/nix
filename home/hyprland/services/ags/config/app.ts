@@ -1,27 +1,28 @@
-import { App } from "astal/gtk4";
+import app from "ags/gtk4/app";
 import style from "./style/style.scss";
 import Bar from "./widget/bar/Bar";
 import Desktop from "./widget/desktop/Desktop";
 import Applauncher from "./widget/applauncher/Applauncher";
-import Profile from "./widget/profile/Profile";
 import NotificationPopups from "./widget/notifications/NotificationPopups";
 import Logout from "./widget/logout/Logout";
 import OSD from "./widget/osd/OSD";
-import Wallpaper from "./widget/bar/Wallpaper";
 import { WallpaperManager } from "./widget/desktop/WallpaperManager";
+import { NotificationUtils } from "./widget/notifications/NotificationUtils";
 
 WallpaperManager();
 
-App.start({
+// Initialize notification utilities and log keybind information
+NotificationUtils.registerKeybinds();
+
+app.start({
   css: style,
   main() {
-    Applauncher(App.get_monitors()[0]);
-    // Profile(App.get_monitors()[0]);
-    NotificationPopups(App.get_monitors()[0]);
-    Logout(App.get_monitors()[0]);
+    Applauncher(app.get_monitors()[0]);
+    NotificationPopups(app.get_monitors()[0]);
+    Logout(app.get_monitors()[0]);
 
-    App.get_monitors().map(Bar);
-    App.get_monitors().map(Desktop);
-    App.get_monitors().map(OSD);
+    app.get_monitors().map(Bar);
+    app.get_monitors().map(Desktop);
+    app.get_monitors().map(OSD);
   },
 });

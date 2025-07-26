@@ -1,24 +1,27 @@
-import { GLib, Process } from "astal";
-import { App, Gtk } from "astal/gtk4";
+import { Gtk } from "ags/gtk4";
+import app from "ags/gtk4/app";
+import { Process } from "ags/process";
+import GLib from "gi://GLib";
 
-export default () => (
-  <box
-    setup={() => {
-      App.apply_css(`
+export default () => {
+  //TODO: Subscribe to /.face
+  var box = new Gtk.Box();
+  app.apply_css(`
            window.bar .launcher {
            background-image: url(file://${GLib.getenv("HOME") + "/.face"});
            }
-        `);
-    }}
-    onButtonPressed={() => {
-      App.toggle_window("launcher");
-    }}
-    halign={Gtk.Align.CENTER}
-    hexpand={false}
-    vexpand={false}
-    valign={Gtk.Align.CENTER}
-    cssClasses={["launcher"]}
-    cssName="image"
-    tooltip_text={"NixOS " + Process.exec("uname -r")}
-  ></box>
-);
+      `);
+  var gesture = new Gtk.GestureClick();
+  gesture.connect("pressed", () => {
+    app.toggle_window("launcher");
+  });
+  box.add_controller(gesture);
+
+  box.halign = Gtk.Align.CENTER;
+  box.hexpand = false;
+  box.vexpand = false;
+  box.valign = Gtk.Align.CENTER;
+  box.cssClasses = ["launcher"];
+  box.tooltip_text = "NixOS " + Process.exec("uname -r");
+  return box;
+};

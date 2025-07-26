@@ -1,16 +1,13 @@
-import { execAsync } from "astal";
-import { App, Gtk } from "astal/gtk4";
+import { Gtk } from "ags/gtk4";
 
-export default () => (
-  <button
-    cssClasses={["profile-small-button", "circular"]}
-    valign={Gtk.Align.CENTER}
-    tooltipText={"Screenshot"}
-    onClicked={() => {
-      App.toggle_window("profile");
-      execAsync(["bash", "-c", "screenshot"]);
-    }}
-  >
-    <label cssClasses={["profile-small-button-icon"]} label={""} />
-  </button>
-);
+const button = new Gtk.Button({
+  cssClasses: ["profile-small-button", "circular"],
+  valign: Gtk.Align.CENTER,
+  tooltipText: "Screenshot",
+  child: new Gtk.Label({
+    cssClasses: ["profile-small-button-icon"],
+    label: "",
+  }),
+});
+
+export default () => button;

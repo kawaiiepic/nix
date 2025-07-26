@@ -42,29 +42,27 @@ window.NotificationPopups {
     @include theme() {
         box.Notification {
             background-color: theme-get("base");
-            border: 1px solid gtkalpha(theme-get("crust"), 0.8);
-            
+
             .header {
                 .app-name {
                     color: theme-get("subtext1");
                 }
-    
+
                 .time {
                     color: theme-get("subtext1");
                 }
             }
-            
+
             .content {
                 .summary {
                     color: theme-get("text");
                 }
-    
+
                 .body {
                     color: theme-get("text");
                 }
-    
+
                 .image {
-                    border: 1px solid gtkalpha(theme-get("crust"), 1);
                 }
             }
         }

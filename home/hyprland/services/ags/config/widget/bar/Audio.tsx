@@ -1,17 +1,21 @@
-import { bind } from "astal";
-import { Gtk, Widget } from "astal/gtk4";
+import { Gtk } from "ags/gtk4";
 import AstalWp from "gi://AstalWp?version=0.1";
 
 export default () => {
   const speaker = AstalWp.get_default()?.audio.defaultSpeaker!;
-
-  return (
-    <box
-      tooltipText={bind(speaker, "volume").as(
-        (volume) => Math.round(volume * 100).toString() + "%",
-      )}
-    >
-      <image iconName={bind(speaker, "volumeIcon")} pixelSize={14}></image>
-    </box>
-  );
+  
+  const box = new Gtk.Box();
+  const image = new Gtk.Image({pixelSize: 14});
+  
+  box.append(image);
+  
+  speaker.connect("notify::volume", (source) => {
+    box.tooltipText = Math.round(source.volume * 100).toString() + "%";
+  });
+  
+  speaker.connect("notify::volume-icon", (source) => {
+    image.iconName = source.volumeIcon;
+  });
+  
+  return box;
 };

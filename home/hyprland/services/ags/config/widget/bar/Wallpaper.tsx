@@ -1,9 +1,6 @@
+import { Gtk } from "ags/gtk4";
 
-
-export default () => (
-  <box onButtonPressed={() => {
-   
-  }}>
-    <label label="󰸉" tooltipText="Change wallpaper" />
-  </box>
-);
+export default () => {
+  const label = new Gtk.Label({ label: "󰸉", tooltipText: "Change wallpaper" });
+  return label;
+}

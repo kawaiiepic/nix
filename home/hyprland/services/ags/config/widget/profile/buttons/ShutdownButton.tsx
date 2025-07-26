@@ -1,15 +1,13 @@
-import { App, Gtk, Widget } from "astal/gtk4";
+import { Gtk } from "ags/gtk4";
 
-export default () => (
-  <button
-    cssClasses={["profile-small-button", "circular"]}
-    valign={Gtk.Align.CENTER}
-    tooltipText={"Shutdown"}
-    onClicked={() => {
-      App.toggle_window("logout");
-      App.toggle_window("profile");
-    }}
-  >
-    <label cssClasses={["profile-small-button-icon"]} label={""}></label>
-  </button>
-);
+const button = new Gtk.Button({
+  cssClasses: ["profile-small-button", "circular"],
+  valign: Gtk.Align.CENTER,
+  tooltipText: "Shutdown",
+  child: new Gtk.Label({
+    cssClasses: ["profile-small-button-icon"],
+    label: "",
+  }),
+});
+
+export default () => button;

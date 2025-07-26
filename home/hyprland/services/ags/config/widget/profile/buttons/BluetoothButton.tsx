@@ -1,62 +1,33 @@
+import { Gtk } from "ags/gtk4";
 import Bluetooth from "gi://AstalBluetooth";
-import { bind } from "astal";
-import { astalify, Gtk, Widget } from "astal/gtk4";
-import { ToggleButton } from "../../custom/ToggleButton";
 
 const bluetooth = Bluetooth.get_default();
 
-export default () => (
-  <box vertical spacing={6}>
-    <ToggleButton
-      cssClasses={["profile-normal-button", "circular"]}
-      halign={Gtk.Align.CENTER}
-      tooltipText="Toggle Bluetooth"
-      onButtonPressed={() => bluetooth.toggle()}
-      active={bind(bluetooth, "isPowered")}
-    >
-      <image
-        cssClasses={["profile-normal-button-icon"]}
-        iconName={bind(bluetooth, "isPowered").as(
-          (powered) => `bluetooth-${powered ? "active" : "disabled"}-symbolic`,
-        )}
-      ></image>
-    </ToggleButton>
-    <box halign={Gtk.Align.CENTER}>
-      <label cssClasses={["small-font"]} label="Bluetooth" />
-      <label cssClasses={["small-font"]} label="" />
-    </box>
-  </box>
-);
-// Widget.Box({
-//   vertical: true,
-//   spacing: 6,
-//   children: [
-//     ToggleButton({
-//       cssClasses: ["profile-normal-button", "circular"],
-//       hexpand: false,
-//       halign: Gtk.Align.CENTER,
-//       tooltip_text: "Toggle Bluetooth",
-//       onButtonPressEvent: (self) => {
-//         bluetooth.toggle;
-//       },
-//       active: bind(bluetooth, "isPowered"),
-//       child: Widget.Image({
-//         cssClasses: ["profile-normal-button-icon"],
-//         iconName: bind(bluetooth, "isPowered").as(
-//           (powered) =>
-//             `bluetooth-${powered ? "active" : "disabled"}-symbolic`,
-//         ),
-//       }),
-//     }),
+const box = new Gtk.Box({ orientation: Gtk.Orientation.VERTICAL, spacing: 6 });
 
-//     Widget.Box({
-//       children: [
-//         Widget.Label({
-//           cssClasses: ["small-font"],
-//           label: "Bluetooth",
-//         }),
-//         Widget.Label({ cssClasses: ["small-font"], label: " " }),
-//       ],
-//     }),
-//   ],
-// });
+const image = new Gtk.Image({
+  cssClasses: ["profile-normal-button-icon"],
+  iconName: `bluetooth-${bluetooth.isPowered ? "active" : "disabled"}-symbolic`,
+});
+
+const toggleButton = new Gtk.ToggleButton({
+  cssClasses: ["profile-normal-button", "circular"],
+  halign: Gtk.Align.CENTER,
+  active: bluetooth.isPowered,
+  tooltipText: "Toggle Bluetooth",
+  child: image,
+});
+
+const label = new Gtk.Label({
+  cssClasses: ["small-font"],
+  label: "Bluetooth ",
+});
+
+bluetooth.connect("notify::is-powered", (source) => {
+  image.iconName = `bluetooth-${source.isPowered ? "active" : "disabled"}-symbolic`;
+});
+
+box.append(toggleButton);
+box.append(label);
+
+export default () => box;

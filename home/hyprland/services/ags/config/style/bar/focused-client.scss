@@ -1,0 +1,47 @@
+@use "../themes/theme" as *;
+
+@mixin default {
+    .focused-client {
+        border: none;
+        box-shadow: none;
+        background: transparent;
+    }
+    
+    .focused-client:hover {
+ 
+    }
+    
+    /* App name styling */
+    .app-name {
+        font-weight: 600;
+        font-size: 0.8em;
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .app-name:hover {
+        color: rgba(255, 255, 255, 1);
+    }
+    
+    /* Window title styling */
+    .window-title {
+        font-size: 0.8em;
+        color: rgba(255, 255, 255, 0.7);
+        font-style: italic
+    }
+    
+    .focused-client:hover .window-title,
+    .focused-client-button:hover .window-title,
+    .focused-client-reactive:hover .window-title {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    /* App icon styling */
+    .app-icon {
+        margin-right: 4px;
+        opacity: 0.9;
+    }
+}
+
+@mixin themed {
+    border: 0.5px solid theme-get("crust");
+}

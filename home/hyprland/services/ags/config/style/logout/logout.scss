@@ -2,27 +2,125 @@
 @use "../util.scss";
 
 window.logout {
-    .logout {
-        padding: 10px;
-        /* box-shadow: 2px 3px 8px 0 util.gtkalpha(black, 0.4); */
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        padding-bottom: 1.5rem;
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-        border-bottom-left-radius: 2rem;
-        border-bottom-right-radius: 2rem;
+    /* Full screen overlay background */
+    .logout-background {
+        background: transparent;
+        border: none;
+        border-radius: 0;
     }
 
-    button {
-        font-size: 25px;
+    /* Main container */
+    .logout-container {
+        border-radius: 24px;
+        padding: 32px;
+        backdrop-filter: blur(20px);
+    }
+
+    /* Title styling */
+    .logout-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    /* Button container */
+    .logout-buttons {
+        /* No additional styling needed */
+    }
+
+    /* Individual logout buttons */
+    .logout-button {
+        border-radius: 16px;
+        transition: all 0.3s ease;
         min-height: 80px;
         min-width: 80px;
+        padding: 8px;
+    }
+
+    .logout-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .logout-button:active {
+        transform: translateY(0);
+    }
+
+    /* Icon styling */
+    .logout-icon {
+        font-size: 28px;
+    }
+
+    /* Label styling */
+    .logout-label {
+        font-size: 12px;
+        font-weight: 500;
     }
 
     @include theme() {
-        .logout {
-            background-color: theme-get("base");
+        .logout-background {
+            background: util.gtkalpha(theme-get("crust"), 0.8);
+        }
+
+        .logout-container {
+            background: theme-get("base");
+            border: 2px solid theme-get("surface2");
+            box-shadow: 0 16px 64px util.gtkalpha(theme-get("crust"), 0.6);
+        }
+
+        .logout-title {
+            color: theme-get("text");
+        }
+
+        .logout-button {
+            background: theme-get("surface0");
+            border: 2px solid theme-get("surface1");
+        }
+
+        .logout-button:hover {
+            background: theme-get("surface1");
+            border-color: theme-get("surface2");
+            box-shadow: 0 8px 24px util.gtkalpha(theme-get("crust"), 0.4);
+        }
+
+        .logout-button:active {
+            box-shadow: 0 4px 12px util.gtkalpha(theme-get("crust"), 0.3);
+        }
+
+        .logout-icon {
+            color: theme-get("text");
+        }
+
+        .logout-label {
+            color: theme-get("subtext1");
+        }
+
+        .logout-button.shutdown:hover {
+            border-color: theme-get("color4");
+            background: util.gtkalpha(theme-get("color4"), 0.2);
+        }
+
+        .logout-button.reboot:hover {
+            border-color: theme-get("color6");
+            background: util.gtkalpha(theme-get("color6"), 0.2);
+        }
+
+        .logout-button.logout:hover {
+            border-color: theme-get("teal");
+            background: util.gtkalpha(theme-get("teal"), 0.2);
+        }
+
+        .logout-button.suspend:hover {
+            border-color: theme-get("green");
+            background: util.gtkalpha(theme-get("green"), 0.2);
+        }
+
+        .logout-button.lock:hover {
+            border-color: theme-get("yellow");
+            background: util.gtkalpha(theme-get("yellow"), 0.2);
+        }
+
+        .logout-button.cancel:hover {
+            border-color: theme-get("surface2");
+            background: theme-get("surface1");
         }
     }
 }

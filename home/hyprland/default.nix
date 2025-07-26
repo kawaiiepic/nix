@@ -34,15 +34,7 @@
       wlr-randr # Randr Wayland
       seahorse # Password manager
       gthumb
-      (linux-wallpaperengine.overrideAttrs {
-        version = "git";
-        src = fetchFromGitHub {
-          owner = "kawaiiepic";
-          repo = "linux-wallpaperengine";
-          rev = "cef046b2a721821f2740ddc3ad7bc2956ad16a70";
-          hash = "sha256-lCCy6uNa3R3LpkklEDjBOPnJpuGICZjCxORoRhUO1lc=";
-        };
-      })
+      linux-wallpaperengine
 
       wl-clipboard
       (pkgs.writeShellScriptBin "launcher" ''
@@ -85,12 +77,12 @@
     xdgOpenUsePortal = true;
 
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
     
     configPackages = with pkgs; [
-      xdg-desktop-portal-hyprland
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
@@ -102,6 +94,9 @@
   # enable hyprland
   wayland.windowManager.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     systemd.enable = false;
   };
 

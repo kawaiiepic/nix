@@ -1,75 +1,86 @@
-import { App, Astal, Gtk, Gdk } from "astal/gtk4";
-import { bind, Variable } from "astal";
 import Launcher from "./Launcher";
 import FocusedClient from "./FocusedClient";
 import Workspaces from "./Workspaces";
-import SysTray from "./SysTray";
-import Audio from "./Audio";
-import Bluetooth from "./Bluetooth";
-import Battery from "./Battery";
-import Notifications from "./Notifications";
 import ShowDesktop from "./ShowDesktop";
 import { setup_theme, theme } from "../theme";
 import Time from "./Time";
 import Wallpaper from "./Wallpaper";
+import { createPoll } from "ags/time";
+import { Astal, Gdk, Gtk } from "ags/gtk4";
+import SysTray from "./SysTray";
+import Notifications from "./Notifications";
+import Battery from "./Battery";
+import Bluetooth from "./Bluetooth";
+import Audio from "./Audio";
 import Profile from "../profile/Profile";
 
-const time = Variable("").poll(1000, "date");
-
+const time = createPoll("", 1000, (prev) => "Fake Date");
 export default function Bar(gdkmonitor: Gdk.Monitor) {
-  return (
-    <window
-      visible
-      cssClasses={["bar"]}
-      gdkmonitor={gdkmonitor}
-      exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      anchor={
-        Astal.WindowAnchor.TOP |
-        Astal.WindowAnchor.LEFT |
-        Astal.WindowAnchor.RIGHT
-      }
-      application={App}
-    >
-      <centerbox setup={setup_theme}>
-        <box hexpand halign={Gtk.Align.START} spacing={8}>
-          <Launcher />
-          <FocusedClient />
-        </box>
+  const window = new Astal.Window({
+    visible: true,
+    cssClasses: ["bar"],
+    gdkmonitor,
+    exclusivity: Astal.Exclusivity.EXCLUSIVE,
+    anchor:
+      Astal.WindowAnchor.TOP |
+      Astal.WindowAnchor.LEFT |
+      Astal.WindowAnchor.RIGHT,
+  });
 
-        <box>
-          <Workspaces />
-        </box>
+  const start = new Gtk.Box({
+    hexpand: true,
+    halign: Gtk.Align.START,
+    spacing: 8,
+  });
+  start.append(Launcher());
+  start.append(FocusedClient());
 
-        <box hexpand halign={Gtk.Align.END} spacing={8}>
-          <box>
-            <menubutton
-              cssClasses={["clean", "surface1"]}
-            >
-              <popover>
-                <Profile />
-              </popover>
-              <box spacing={8}>
-              <Audio />
-              <Bluetooth />
-              <Battery />
-              <Notifications />
-              </box>
-            </menubutton>
-            {Gtk.Separator.new(Gtk.Orientation.VERTICAL)}
-            <box spacing={8}>
-              <SysTray />
-            </box>
-            
-          </box>
-          <box spacing={12}>
-            <Time />
-            <Wallpaper />
-            <ShowDesktop />
-          </box>
+  const center = new Gtk.Box({ hexpand: false });
+  center.append(Workspaces());
 
-          <box widthRequest={10} />
-        </box>
-      </centerbox>
-    </window>
-  );
+  const end = new Gtk.Box({
+    hexpand: true,
+    halign: Gtk.Align.END,
+    spacing: 8,
+  });
+
+  const mb = new Gtk.MenuButton({
+    cssClasses: ["clean", "surface1"],
+    valign: Gtk.Align.CENTER,
+  });
+  mb.popover = new Gtk.Popover({ child: Profile() });
+
+  const mbBox = new Gtk.Box({ spacing: 8 });
+
+  mbBox.append(Audio());
+  mbBox.append(Bluetooth());
+  mbBox.append(Battery());
+
+  const notificationsWrapper = new Gtk.Box({
+    cssClasses: ["notifications"],
+  });
+  notificationsWrapper.append(Notifications());
+  mbBox.append(notificationsWrapper);
+
+  mb.child = mbBox;
+
+  end.append(mb);
+
+  end.append(SysTray());
+
+  end.append(Time());
+  end.append(Wallpaper());
+  end.append(ShowDesktop());
+
+  const centerbox = new Gtk.CenterBox({
+    cssClasses: ["centerbox"],
+    startWidget: start,
+    centerWidget: center,
+    endWidget: end,
+  });
+  setup_theme(centerbox);
+
+  window.set_child(centerbox);
+
+  return window;
 }

@@ -1,0 +1,94 @@
+@use "../themes/theme" as *;
+@use "../util.scss" as *;
+
+@mixin default {
+    .notifications-toggle {
+        transition: all 200ms ease;
+
+        &.has-notifications {
+            .notification-count {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        &.dnd-active {
+            opacity: 0.6;
+        }
+
+        .notification-count {
+            font-size: 10px;
+            font-weight: bold;
+            min-width: 16px;
+            min-height: 16px;
+            border-radius: 8px;
+            padding: 2px 4px;
+            margin: -4px -4px 0 0;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 200ms ease;
+        }
+    }
+}
+
+@mixin themed {
+    .notifications-toggle {
+        &:hover {
+            background-color: gtkalpha(theme-get("surface1"), 0.5);
+        }
+
+        &.has-notifications {
+            .notification-count {
+                // Main notification count styling - bright red for visibility
+                background-color: theme-get("color4");
+                color: theme-get("base");
+                box-shadow: 0 2px 4px gtkalpha(black, 0.2);
+
+                // Alternative color options (uncomment to use):
+                // Orange theme:
+                // background-color: theme-get("peach");
+
+                // Blue theme:
+                // background-color: theme-get("blue");
+
+                // Green theme:
+                // background-color: theme-get("green");
+
+                // Purple theme:
+                // background-color: theme-get("mauve");
+
+                // Yellow theme:
+                // background-color: theme-get("yellow");
+                // color: theme-get("base");
+
+                // Add glow effect for better visibility
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: -2px;
+                    left: -2px;
+                    right: -2px;
+                    bottom: -2px;
+                    background: radial-gradient(
+                        circle,
+                        gtkalpha(theme-get("color4"), 0.3) 0%,
+                        transparent 70%
+                    );
+                    border-radius: 10px;
+                    z-index: -1;
+                }
+            }
+        }
+
+        &.dnd-active {
+            .notification-count {
+                background-color: theme-get("overlay0");
+                color: theme-get("subtext1");
+
+                &::before {
+                    background: none;
+                }
+            }
+        }
+    }
+}
