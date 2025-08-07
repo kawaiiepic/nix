@@ -7,6 +7,7 @@
 @use "./profile.scss";
 @use "./focused-client.scss";
 @use "./notifications.scss";
+@use "./show-desktop.scss";
 
 window.bar {
     font-weight: bold;
@@ -67,6 +68,10 @@ window.bar {
         @include notifications.default;
     }
 
+    .show-desktop {
+        @include show-desktop.default;
+    }
+
     @include theme() {
         background-color: theme-get("base");
         color: theme-get("text");
@@ -117,6 +122,10 @@ window.bar {
 
         .notifications {
             @include notifications.themed;
+        }
+
+        .show-desktop {
+            @include show-desktop.themed;
         }
     }
 }

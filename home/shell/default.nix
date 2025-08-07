@@ -23,34 +23,103 @@
 
   programs.fastfetch = {
     enable = true;
-    # settings = {
-    #   logo = {
-    #     source = "~/.face"; # # ${toString ../../../services/pfp/face.jpg}
-    #     padding = {
-    #       right = 1;
-    #     };
-    #   };
-    #   display = {
-    #     size.binaryPrefix = "si";
-    #     color = "blue";
-    #     separator = "  ";
-    #   };
-    #   modules = [
-    #     {
-    #       type = "datetime";
-    #       key = "Date";
-    #       format = "{1}-{3}-{11}";
-    #     }
-    #     {
-    #       type = "datetime";
-    #       key = "Time";
-    #       format = "{14}:{17}:{20}";
-    #     }
-    #     "break"
-    #     "player"
-    #     "media"
-    #   ];
-    # };
+    settings = {
+      logo = {
+        source = "nixos_small";
+        padding = {
+          right = 2;
+          top = 1;
+        };
+      };
+      display = {
+        size.binaryPrefix = "si";
+        color = "cyan";
+        separator = " ➜ ";
+        brightColor = true;
+      };
+      modules = [
+        {
+          type = "title";
+          keyColor = "magenta";
+          valueColor = "cyan";
+        }
+        {
+          type = "separator";
+          string = "─────────────────────────────────";
+        }
+        {
+          type = "os";
+          key = "  OS";
+          keyColor = "blue";
+        }
+        {
+          type = "kernel";
+          key = "  Kernel";
+          keyColor = "blue";
+        }
+        {
+          type = "uptime";
+          key = "  Uptime";
+          keyColor = "blue";
+        }
+        {
+          type = "packages";
+          key = "  Packages";
+          keyColor = "blue";
+        }
+        {
+          type = "shell";
+          key = "  Shell";
+          keyColor = "blue";
+        }
+        {
+          type = "display";
+          key = "  Display";
+          keyColor = "blue";
+        }
+        {
+          type = "de";
+          key = "  DE";
+          keyColor = "blue";
+        }
+        {
+          type = "wm";
+          key = "  WM";
+          keyColor = "blue";
+        }
+        {
+          type = "terminal";
+          key = "  Terminal";
+          keyColor = "blue";
+        }
+        {
+          type = "cpu";
+          key = "  CPU";
+          keyColor = "green";
+        }
+        {
+          type = "gpu";
+          key = "  GPU";
+          keyColor = "green";
+        }
+        {
+          type = "memory";
+          key = "  Memory";
+          keyColor = "yellow";
+        }
+        {
+          type = "disk";
+          key = "  Disk";
+          keyColor = "yellow";
+        }
+        "break"
+        {
+          type = "colors";
+          paddingLeft = 2;
+          symbol = "circle";
+        }
+      ];
+    };
   };
 
   programs.fish = {

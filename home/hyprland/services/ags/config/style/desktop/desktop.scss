@@ -1,485 +1,289 @@
 @use "../themes/theme" as *;
 
-// Removed animations - not supported in GTK
+@mixin default {
+    .desktop-icon {
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 200ms ease;
+        cursor: pointer;
 
-window.desktop {
-    background-color: transparent;
+        &:hover {
+            transform: scale(1.05);
+        }
 
-    .wallpaper {
-        border-radius: 0px 0px 25px 25px;
-    }
+        &.selected {
+            transform: scale(1.1);
+        }
 
-    // Desktop icons grid
-    .desktop-scrolled {
-        background: transparent;
-        border: none;
-        overflow: hidden;
+        .icon {
+            transition: all 200ms ease;
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 4px;
+            text-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.9),
+                0 0 6px rgba(0, 0, 0, 0.7),
+                1px 1px 0 rgba(0, 0, 0, 0.8),
+                -1px -1px 0 rgba(0, 0, 0, 0.8),
+                1px -1px 0 rgba(0, 0, 0, 0.8),
+                -1px 1px 0 rgba(0, 0, 0, 0.8);
+        }
     }
 
     .desktop-grid {
-        background: transparent;
         padding: 20px;
-        overflow: hidden;
+    }
 
-        /* Drag hover state for grid */
-        &.drag-hover {
-            background: rgba(173, 216, 230, 0.1);
-            border: 2px dashed rgba(173, 216, 230, 0.6);
-            border-radius: 8px;
-        }
+    .wallpaper-overlay {
+        background: transparent;
+    }
 
-        /* Grid position indicators during drag */
-        &.show-grid-positions {
-            .desktop-icon-button {
-                border: 1px dotted rgba(138, 173, 244, 0.5);
-            }
-        }
+    .wallpaper-buttons {
+        spacing: 8px;
+        margin: 12px;
+    }
 
-        /* Visual indication when drag mode is enabled */
-        &.drag-mode-enabled {
-        }
+    .wallpaper-button {
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 200ms ease;
 
-        /* Active drag operation state */
-        &.drag-active {
+        &:hover {
+            transform: translateY(-1px);
         }
     }
 
-    /* Grid overlay for visual drop feedback */
+    .context-menu {
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 12px;
+        padding: 8px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .context-menu-item {
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 150ms ease;
+        font-weight: 500;
+
+        &:hover {
+            transform: translateX(2px);
+        }
+    }
+
+    .blur-overlay {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+    }
+
+    .clock-widget {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 16px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .weather-widget {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 16px;
+        padding: 16px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .widget-container {
+        margin: 20px;
+    }
+
+    /* Minimal Cava audio visualizer */
+    .cava-minimal {
+        background: transparent;
+        padding: 4px;
+        border-radius: 4px;
+    }
+
+    .cava-bar-minimal {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 2px;
+        transition: all 0.1s ease;
+        min-height: 2px;
+        margin: 0 1px;
+    }
+
+    /* Grid overlay for drag feedback */
     .grid-overlay {
         background: transparent;
+        pointer-events: none;
+        z-index: 9998;
     }
 
     .grid-cell {
-        border: 1px dashed transparent;
-        background: transparent;
-        transition: all 0.1s ease;
-    }
-
-    .debug-grid-cell {
-        border: 1px solid rgba(100, 150, 255, 0.3);
-        background: transparent;
-        min-width: 64px;
-        min-height: 64px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        transition: all 150ms ease;
+        pointer-events: none;
+        z-index: 9999;
     }
 
     .grid-cell-hover {
-        border: 3px solid rgba(100, 150, 255, 1);
-        background: rgba(100, 150, 255, 0.25);
-        box-shadow: 0 0 20px rgba(100, 150, 255, 0.8);
-        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        transform: scale(1.05);
+        z-index: 10000;
     }
 
     .drop-target-highlight {
-        background: rgba(100, 150, 255, 0.2);
-        border: 3px solid rgba(100, 150, 255, 0.8);
+        background: rgba(0, 255, 0, 0.2);
+        border: 2px solid rgba(0, 255, 0, 0.8);
         border-radius: 8px;
-        box-shadow: 0 0 15px rgba(100, 150, 255, 0.6);
-        z-index: 999;
-        opacity: 0.8;
+        pointer-events: none;
     }
 
-    .debug-crosshair-h {
-        background: #00ff00;
-        border: 1px solid #ffffff;
-        z-index: 1001;
-        opacity: 0.9;
-    }
-
-    .debug-crosshair-v {
-        background: #00ff00;
-        border: 1px solid #ffffff;
-        z-index: 1001;
-        opacity: 0.9;
-    }
-
-    .debug-drop-marker {
-        background: radial-gradient(circle, #ff4444, #cc0000);
-        border: 3px solid white;
-        border-radius: 50%;
-        box-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
-        z-index: 1000;
-        opacity: 0.9;
-    }
-
-    /* Individual desktop icons (Windows-style) */
-    .desktop-icon-button {
-        background: transparent;
-        border: 1px dotted transparent;
-        border-radius: 2px;
-        padding: 0;
-        margin: 0;
-        min-width: 64px;
-        min-height: 64px;
-        max-width: 64px;
-        max-height: 64px;
-
-        /* Launching state */
-        &.launching {
-        }
-
-        /* Dragging state - simplified */
-        &.dragging {
-            background: red;
-            border: 3px solid blue;
-        }
-
-        /* Test CSS class for debugging */
-        &.test-drag {
-            background: lime;
-            border: 3px solid magenta;
-        }
-
-        /* Hover state for potential drop targets */
-        &.drop-target {
-        }
-
-        /* Special styling for trash icon when being used as drop target */
-        &.trash-drop-target {
-            background: rgba(220, 50, 50, 0.2);
-            border: 3px solid rgba(220, 50, 50, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(220, 50, 50, 0.6);
-            transform: scale(1.1);
-        }
-
-        /* Special styling for bottom-right positioned trash icon */
-        &.trash-bottom-right {
-            position: fixed;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            background: rgba(0, 0, 0, 0.1);
-        }
-    }
-
-    /* Desktop icon context menu styling */
-    popover.desktop-icon-menu {
-        padding: 0;
-        border-radius: 8px;
-
+    /* Context menus and dialogs */
+    popover {
         .context-menu-item {
-            padding: 8px 16px;
-            border-radius: 4px;
-            background: transparent;
-            border: none;
-            color: white;
-            transition: background 0.2s ease;
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.1);
-            }
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 150ms ease;
         }
 
         separator {
-            margin: 4px 0;
-            background: rgba(255, 255, 255, 0.2);
+            margin: 4px 8px;
+            min-height: 1px;
         }
     }
+}
 
-    /* Delete confirmation dialog styling */
-    popover.delete-confirm {
-        padding: 0;
-        border-radius: 12px;
-
-        label {
-            color: white;
-            font-weight: bold;
-        }
-
-        .context-menu-item {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.1);
-                border-color: rgba(255, 255, 255, 0.3);
-            }
-        }
+@mixin themed {
+    .desktop {
+        background: transparent;
+        color: theme-get("text");
     }
 
     .desktop-icon {
-        padding: 4px 2px 2px 2px;
+        &:hover {
+            background: gtkalpha(theme-get("surface0"), 0.7);
+        }
+
+        &.selected {
+            background: gtkalpha(theme-get("color12"), 0.3);
+        }
+
+        .label {
+            color: theme-get("text");
+            text-shadow:
+                0 1px 3px gtkalpha(theme-get("base"), 0.9),
+                0 0 6px gtkalpha(theme-get("base"), 0.7),
+                1px 1px 0 gtkalpha(theme-get("base"), 0.8),
+                -1px -1px 0 gtkalpha(theme-get("base"), 0.8),
+                1px -1px 0 gtkalpha(theme-get("base"), 0.8),
+                -1px 1px 0 gtkalpha(theme-get("base"), 0.8);
+        }
     }
 
-    .desktop-icon-image {
-        border: none;
-        border-radius: 0px;
-        margin-bottom: 2px;
-        min-width: 32px;
-        min-height: 32px;
-        max-width: 32px;
-        max-height: 32px;
+    .wallpaper-button {
+        background: gtkalpha(theme-get("surface0"), 0.8);
+        color: theme-get("text");
+        border: 1px solid theme-get("surface2");
+
+        &:hover {
+            background: gtkalpha(theme-get("surface1"), 0.9);
+            color: theme-get("accent");
+        }
+
+        &.active {
+            background: gtkalpha(theme-get("color12"), 0.8);
+            color: theme-get("base");
+        }
     }
 
-    .desktop-icon-label {
-        font-size: 10px;
-        padding: 1px 2px;
-        background: rgba(0, 0, 0, 0.6);
-        color: white;
-        border-radius: 2px;
-        margin-top: 1px;
-        max-width: 60px;
-        min-height: 12px;
-        max-height: 16px;
+    .context-menu {
+        background: gtkalpha(theme-get("surface0"), 0.95);
+        border: 1px solid theme-get("surface2");
     }
 
-    /* Removed unsupported hover states */
+    .context-menu-item {
+        color: theme-get("text");
 
-    /* Context menus */
+        &:hover {
+            background: theme-get("surface1");
+            color: theme-get("accent");
+        }
+    }
+
+    .clock-widget {
+        background: gtkalpha(theme-get("surface0"), 0.9);
+        border: 1px solid theme-get("surface2");
+        color: theme-get("text");
+
+        .time {
+            color: theme-get("color12");
+            font-size: 2em;
+            font-weight: 300;
+        }
+
+        .date {
+            color: theme-get("subtext1");
+            font-size: 1.1em;
+        }
+    }
+
+    .weather-widget {
+        background: gtkalpha(theme-get("surface0"), 0.9);
+        border: 1px solid theme-get("surface2");
+        color: theme-get("text");
+
+        .temperature {
+            color: theme-get("color6");
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .condition {
+            color: theme-get("subtext1");
+        }
+    }
+
+    .blur-overlay {
+        background: gtkalpha(theme-get("base"), 0.4);
+    }
+
+    .cava-bar-minimal {
+        background: gtkalpha(theme-get("text"), 0.8);
+    }
+
+    /* Themed grid overlay styles */
+    .grid-cell {
+        background: gtkalpha(theme-get("surface1"), 0.2);
+        border: 1px solid gtkalpha(theme-get("surface2"), 0.4);
+    }
+
+    .grid-cell-hover {
+        background: gtkalpha(theme-get("accent"), 0.3);
+        border: 2px solid gtkalpha(theme-get("accent"), 0.6);
+    }
+
+    .drop-target-highlight {
+        background: gtkalpha(theme-get("green"), 0.3);
+        border: 2px solid gtkalpha(theme-get("green"), 0.9);
+    }
+
+    /* Context menus and dialogs */
     popover {
-        padding: 0;
-        border-radius: 8px;
-
         .context-menu-item {
-            padding: 8px 16px;
-            border-radius: 4px;
-            background: transparent;
-            border: none;
+            color: theme-get("text");
         }
 
         separator {
-            margin: 4px 0;
-        }
-    }
-
-    /* App properties dialog */
-    .app-properties {
-        border-radius: 12px;
-
-        .app-name-large {
-            font-size: 1.4rem;
-        }
-
-        .property-label {
-            font-size: 0.9rem;
-        }
-
-        .property-value {
-            font-size: 0.9rem;
-        }
-
-        .close-button {
-            padding: 8px 24px;
-            border-radius: 6px;
-        }
-    }
-
-    .desktop-separator {
-        margin: 8px;
-    }
-
-    @include theme() {
-        .wallpaper {
-            border-bottom: 0.5px solid theme-get("crust");
-        }
-
-        /* Grid drag states */
-        .desktop-grid.drag-hover {
-            background: rgba(138, 173, 244, 0.05);
-            border: 2px dashed rgba(138, 173, 244, 0.6);
-        }
-
-        /* Removed unsupported pseudo-element */
-
-        .desktop-grid.drag-active {
-        }
-
-        /* Removed unsupported pseudo-elements and hover states */
-
-        /* Desktop icon button states - simplified */
-        .desktop-icon-button.selected {
-            background: rgba(138, 173, 244, 0.3);
-            border: 1px solid rgba(138, 173, 244, 0.8);
-        }
-
-        .desktop-icon-button.launching {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .desktop-icon-button.dragging {
-            background: red;
-            border: 3px solid blue;
-        }
-
-        .desktop-icon-button.drop-target {
-            background: rgba(138, 173, 244, 0.2);
-            border: 2px dashed rgba(138, 173, 244, 0.8);
-        }
-
-        .desktop-icon-button.trash-drop-target {
-            background: rgba(220, 50, 50, 0.2);
-            border: 3px solid rgba(220, 50, 50, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(220, 50, 50, 0.6);
-            transform: scale(1.1);
-        }
-
-        .desktop-icon-button.trash-drop-target .desktop-icon-label {
-            background: rgba(220, 50, 50, 0.8);
-            color: white;
-        }
-
-        .desktop-icon-button.trash-bottom-right {
-            position: fixed;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .desktop-icon-button.trash-bottom-right .desktop-icon-label {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-        }
-
-        /* Desktop icon context menu styling (themed) */
-        popover.desktop-icon-menu {
-            .context-menu-item {
-                color: theme-get("text");
-
-                &:hover {
-                    background: theme-get("surface0");
-                }
-            }
-
-            separator {
-                background: theme-get("surface2");
-            }
-        }
-
-        /* Delete confirmation dialog styling (themed) */
-        popover.delete-confirm {
-            label {
-                color: theme-get("text");
-            }
-
-            .context-menu-item {
-                color: theme-get("text");
-
-                &:hover {
-                    background: theme-get("surface0");
-                }
-            }
-        }
-
-        /* Desktop icon labels */
-        .desktop-icon-label {
-            color: theme-get("text");
-        }
-
-        .desktop-icon-button.selected .desktop-icon-label {
-            background: rgba(138, 173, 244, 0.8);
-            color: theme-get("text");
-        }
-
-        /* Minimal Cava audio visualizer */
-        .cava-minimal {
-            background: transparent;
-        }
-
-        .cava-bar-minimal {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 1px;
-            transition: all 0.1s ease;
-            min-height: 1px;
-        }
-
-        /* Context menus and dialogs */
-        popover {
-            .context-menu-item {
-                color: theme-get("text");
-            }
-
-            separator {
-                background: theme-get("surface2");
-            }
-        }
-
-        .app-properties {
-            background: theme-get("base");
-            border: 1px solid theme-get("surface1");
-
-            .app-name-large {
-                color: theme-get("text");
-            }
-
-            .property-label {
-                color: theme-get("subtext1");
-            }
-
-            .property-value {
-                color: theme-get("text");
-            }
-
-            .close-button {
-                background: theme-get("surface0");
-                border: 1px solid theme-get("surface1");
-                color: theme-get("text");
-            }
-        }
-
-        .desktop-separator {
             background: theme-get("surface2");
-        }
-
-        /* Grid overlay for drag feedback */
-        .grid-overlay {
-            background: transparent;
-        }
-
-        .grid-cell {
-            border: 1px dashed rgba(138, 173, 244, 0.2);
-            background: transparent;
-        }
-
-        .debug-grid-cell {
-            border: 1px solid rgba(138, 173, 244, 0.3);
-            background: transparent;
-            min-width: 64px;
-            min-height: 64px;
-        }
-
-        .grid-cell-hover {
-            border: 3px solid rgba(138, 173, 244, 1);
-            background: rgba(138, 173, 244, 0.25);
-            box-shadow: 0 0 20px rgba(138, 173, 244, 0.8);
-            border-radius: 8px;
-        }
-
-        .drop-target-highlight {
-            background: rgba(138, 173, 244, 0.2);
-            border: 3px solid rgba(138, 173, 244, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(138, 173, 244, 0.6);
-            z-index: 999;
-            opacity: 0.8;
-        }
-
-        .debug-crosshair-h {
-            background: #00ff00;
-            border: 1px solid #ffffff;
-            z-index: 1001;
-            opacity: 0.9;
-        }
-
-        .debug-crosshair-v {
-            background: #00ff00;
-            border: 1px solid #ffffff;
-            z-index: 1001;
-            opacity: 0.9;
-        }
-
-        .debug-drop-marker {
-            background: radial-gradient(circle, #ff4444, #cc0000);
-            border: 3px solid white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
-            z-index: 1000;
-            opacity: 0.9;
         }
     }
 }

@@ -3,91 +3,168 @@
 
 @mixin default {
     .notifications-toggle {
-        transition: all 200ms ease;
+        border-radius: 8px;
+        transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
 
         &.has-notifications {
             .notification-count {
                 opacity: 1;
                 transform: scale(1);
+                animation: notification-pulse 0.3s ease-out;
             }
         }
 
         &.dnd-active {
-            opacity: 0.6;
+            opacity: 0.5;
+
+            .notification-count {
+                opacity: 0.7;
+            }
         }
 
         .notification-count {
-            font-size: 10px;
-            font-weight: bold;
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            font-size: 9px;
+            font-weight: 700;
             min-width: 16px;
             min-height: 16px;
-            border-radius: 8px;
-            padding: 2px 4px;
-            margin: -4px -4px 0 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
+            transform: scale(0.7);
+            transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            // Ensure text is always readable
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    @keyframes notification-pulse {
+        0% {
             transform: scale(0.8);
-            transition: all 200ms ease;
+            opacity: 0.8;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes notification-glow {
+        0% {
+            box-shadow: 0 0 5px currentColor;
+        }
+        50% {
+            box-shadow:
+                0 0 15px currentColor,
+                0 0 25px currentColor;
+        }
+        100% {
+            box-shadow: 0 0 5px currentColor;
         }
     }
 }
 
 @mixin themed {
     .notifications-toggle {
+        color: theme-get("text");
+
         &:hover {
-            background-color: gtkalpha(theme-get("surface1"), 0.5);
         }
 
         &.has-notifications {
             .notification-count {
-                // Main notification count styling - bright red for visibility
-                background-color: theme-get("color4");
-                color: theme-get("base");
-                box-shadow: 0 2px 4px gtkalpha(black, 0.2);
+                color: theme-get("crust");
+                font-weight: 700;
 
-                // Alternative color options (uncomment to use):
-                // Orange theme:
-                // background-color: theme-get("peach");
+                // Add subtle glow effect
+                animation: notification-glow 2s ease-in-out infinite;
 
-                // Blue theme:
-                // background-color: theme-get("blue");
+                // High contrast for critical notifications
+                &.urgent-critical {
+                    color: theme-get("crust");
+                    animation: notification-glow 1s ease-in-out infinite;
+                }
 
-                // Green theme:
-                // background-color: theme-get("green");
-
-                // Purple theme:
-                // background-color: theme-get("mauve");
-
-                // Yellow theme:
-                // background-color: theme-get("yellow");
-                // color: theme-get("base");
-
-                // Add glow effect for better visibility
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: -2px;
-                    left: -2px;
-                    right: -2px;
-                    bottom: -2px;
-                    background: radial-gradient(
-                        circle,
-                        gtkalpha(theme-get("color4"), 0.3) 0%,
-                        transparent 70%
-                    );
-                    border-radius: 10px;
-                    z-index: -1;
+                // Softer style for low priority
+                &.urgent-low {
+                    color: theme-get("crust");
+                    animation: none;
                 }
             }
         }
 
         &.dnd-active {
-            .notification-count {
-                background-color: theme-get("overlay0");
-                color: theme-get("subtext1");
+            color: theme-get("subtext0");
 
-                &::before {
-                    background: none;
+            .notification-count {
+                color: theme-get("overlay2");
+                animation: none;
+            }
+
+            &:hover {
+                color: theme-get("subtext1");
+                background-color: gtkalpha(theme-get("surface0"), 0.5);
+            }
+        }
+
+        // Clean menu styling
+        .notification-menu {
+            border-radius: 12px;
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 0;
+
+            .menu-item {
+                background: transparent;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 12px;
+                margin: 2px;
+                transition: all 150ms ease;
+                color: theme-get("text");
+                font-weight: 500;
+
+                &:hover {
+                    background-color: theme-get("surface1");
+                    color: theme-get("accent");
+                    transform: translateX(2px);
                 }
+
+                &.clear-button:hover {
+                    background-color: gtkalpha(theme-get("color4"), 0.1);
+                    color: theme-get("color4");
+                }
+
+                &.dnd-button:hover {
+                    background-color: gtkalpha(theme-get("color12"), 0.1);
+                    color: theme-get("color12");
+                }
+
+                &.test-button:hover {
+                    background-color: gtkalpha(theme-get("color8"), 0.1);
+                    color: theme-get("color8");
+                }
+            }
+
+            separator {
+                background-color: theme-get("surface2");
+                min-height: 1px;
+                margin: 4px 8px;
             }
         }
     }

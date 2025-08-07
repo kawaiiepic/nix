@@ -3,7 +3,7 @@ import { setup_theme } from "../theme";
 import GLib from "gi://GLib";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
-import { execAsync } from "ags/process";
+import { execAsync, exec } from "ags/process";
 import { readFile, writeFile } from "ags/file";
 
 interface DesktopFile {
@@ -87,8 +87,8 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
     cssClasses: ["desktop-icon-button", "windows-icon"],
     child: iconBox,
     tooltipText: file.name === "trash" ? "Open Trash" : file.path,
-    widthRequest: 64,
-    heightRequest: 64,
+    widthRequest: 80,
+    heightRequest: 80,
     focusOnClick: true,
     marginTop: 0,
     marginBottom: 0,
@@ -211,7 +211,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
       copyButton.connect("clicked", () => {
         popover.popdown();
         execAsync(["echo", file.path]).then((output) => {
-          execAsync(["wl-copy"], output).catch((error) => {
+          execAsync(["wl-copy", output]).catch((error) => {
             // Silently ignore copy errors
           });
         });
@@ -319,12 +319,16 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
   dragSource.connect("prepare", () => {
     isDragging = true;
     button.add_css_class("dragging");
-    // Show grid overlay immediately
+    return Gdk.ContentProvider.new_for_value(file.path);
+  });
+
+  dragSource.connect("drag-begin", (source, drag) => {
+    // Show grid overlay when drag begins
     const overlay = (globalThis as any).desktopGridOverlay;
     if (overlay) {
       overlay.set_visible(true);
+      // Grid cells will be shown individually on hover
     }
-    return Gdk.ContentProvider.new_for_value(file.path);
   });
 
   dragSource.connect("drag-end", () => {
@@ -367,7 +371,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
   });
 
   dropTarget.connect("drop", (target, value, x, y) => {
-    const draggedPath = value;
+    const draggedPath = value.toString();
     if (draggedPath !== file.path) {
       if (file.name === "trash") {
         // Handle dropping files on trash
@@ -558,14 +562,35 @@ function moveFileToPosition(
   saveDesktopPositions();
 }
 
-async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
+function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
   // Calculate grid dimensions first for consistent use throughout
   const geometry = gdkmonitor.get_geometry();
   const desktopWidth = geometry.width;
   const desktopHeight = geometry.height;
-  const cellSize = 64;
-  const maxColumns = Math.ceil(desktopWidth / cellSize);
-  const maxRows = Math.ceil(desktopHeight / cellSize);
+
+  // Calculate optimal grid size that divides evenly into monitor resolution
+  // Start with desired size around 80px and find closest divisor
+  const targetCellSize = 80;
+  let bestCellSize = targetCellSize;
+  let minWaste = Infinity;
+
+  // Try cell sizes from 60 to 120 to find the best fit
+  for (let testSize = 60; testSize <= 120; testSize++) {
+    const cols = Math.floor(desktopWidth / testSize);
+    const rows = Math.floor(desktopHeight / testSize);
+    const wastedX = desktopWidth - cols * testSize;
+    const wastedY = desktopHeight - rows * testSize;
+    const totalWaste = wastedX + wastedY;
+
+    if (totalWaste < minWaste) {
+      minWaste = totalWaste;
+      bestCellSize = testSize;
+    }
+  }
+
+  const cellSize = bestCellSize;
+  const maxColumns = Math.floor(desktopWidth / cellSize);
+  const maxRows = Math.floor(desktopHeight / cellSize);
 
   const scrolled = new Gtk.ScrolledWindow({
     cssClasses: ["desktop-scrolled"],
@@ -591,41 +616,89 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
     cssClasses: ["grid-overlay"],
     hexpand: true,
     vexpand: true,
-    visible: false,
+    visible: true,
   });
 
   for (let row = 0; row < maxRows; row++) {
     for (let col = 0; col < maxColumns; col++) {
       const gridCell = new Gtk.Box({
         cssClasses: ["grid-cell", "debug-grid-cell"],
-        widthRequest: 64,
-        heightRequest: 64,
+        widthRequest: cellSize,
+        heightRequest: cellSize,
         visible: false,
       });
-      gridOverlay.put(gridCell, col * 64 + 20, row * 64 + 20);
+
+      // Add inline CSS for hover grid (red)
+      gridCell.add_css_class("grid-cell-debug");
+      const provider = new Gtk.CssProvider();
+      provider.load_from_string(`
+        .grid-cell-debug {
+          background: rgba(255, 0, 0, 0.5);
+          border: 2px solid red;
+        }
+      `);
+      gridCell
+        .get_style_context()
+        .add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+      const x = col * cellSize;
+      const y = row * cellSize;
+      gridOverlay.put(gridCell, x, y);
     }
   }
 
   // Store reference globally for access during drag
   (globalThis as any).desktopGridOverlay = gridOverlay;
 
-  // Function to populate the grid with files
-  const populateGrid = async () => {
-    // Clear existing children
-    let child = gridBox.get_first_child();
-    while (child) {
-      const next = child.get_next_sibling();
-      gridBox.remove(child);
-      child = next;
-    }
+  // Create permanent test grid to see actual icon positions
+  const testGridOverlay = new Gtk.Fixed({
+    cssClasses: ["test-grid-overlay"],
+    hexpand: true,
+    vexpand: true,
+    visible: true,
+  });
 
+  for (let row = 0; row < maxRows; row++) {
+    for (let col = 0; col < maxColumns; col++) {
+      const testCell = new Gtk.Box({
+        cssClasses: ["test-grid-cell"],
+        widthRequest: cellSize,
+        heightRequest: cellSize,
+        visible: true,
+      });
+
+      // Add inline CSS for test grid (blue)
+      testCell.add_css_class("test-cell-debug");
+      const provider = new Gtk.CssProvider();
+      provider.load_from_string(`
+        .test-cell-debug {
+          background: rgba(0, 0, 255, 0.3);
+          border: 1px solid blue;
+        }
+      `);
+      testCell
+        .get_style_context()
+        .add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+      // Position exactly where icons should be (with gridBox padding)
+      const x = col * cellSize + 20;
+      const y = row * cellSize + 20;
+      testGridOverlay.put(testCell, x, y);
+    }
+  }
+
+  // Track existing icons to avoid unnecessary recreation
+  const existingIcons = new Map<string, Gtk.Widget>();
+  let trashWidget: Gtk.Widget | null = null;
+
+  // Function to populate the grid with files
+  const populateGrid = () => {
     // Get files from Desktop directory
     const files = getDesktopFiles();
 
     // Check if trash is empty or full for dynamic icon
     let trashIcon = "user-trash";
     try {
-      const trashList = await execAsync(["gio", "trash", "--list"]);
+      const trashList = exec(["gio", "trash", "--list"]);
       trashIcon = trashList.trim() ? "user-trash-full" : "user-trash";
     } catch (error) {
       // Silently ignore trash status check errors
@@ -649,59 +722,102 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
       return posA - posB;
     });
 
-    // Use the same maxColumns as calculated in grid creation scope
+    // Track which files should exist
+    const currentFiles = new Set(files.map((f) => f.name));
 
-    // Add file icons to grid (excluding trash)
-    files.forEach((file, index) => {
+    // Remove icons for files that no longer exist
+    for (const [fileName, widget] of existingIcons.entries()) {
+      if (!currentFiles.has(fileName)) {
+        gridBox.remove(widget);
+        existingIcons.delete(fileName);
+      }
+    }
+
+    // Add/update file icons to grid (excluding trash)
+    let nonTrashIndex = 0;
+    files.forEach((file) => {
       // Skip trash icon as it has fixed position
       if (file.name === "trash") return;
 
       // Store grid position for new files
       if (!(file.name in desktopPositions)) {
-        desktopPositions[file.name] = index;
+        desktopPositions[file.name] = nonTrashIndex;
         saveDesktopPositions();
       }
 
-      const position = desktopPositions[file.name] ?? index;
+      const position = desktopPositions[file.name] ?? nonTrashIndex;
       const gridX = position % maxColumns;
       const gridY = Math.floor(position / maxColumns);
 
-      const iconWidget = DesktopIcon({
-        file,
+      // Position coordinates
+      const iconX = gridX * cellSize;
+      const iconY = gridY * cellSize;
+
+      // Only create new icon if it doesn't exist
+      if (!existingIcons.has(file.name)) {
+        const iconWidget = DesktopIcon({
+          file,
+          onLaunch: () => {
+            populateGrid(); // Refresh grid after changes
+          },
+        });
+
+        // Add visual debug marker to see actual icon position
+        const debugMarker = new Gtk.Box({
+          cssClasses: ["icon-position-marker"],
+          widthRequest: 4,
+          heightRequest: 4,
+          visible: true,
+        });
+        const markerProvider = new Gtk.CssProvider();
+        markerProvider.load_from_string(`
+          .icon-position-marker {
+            background: rgba(0, 255, 0, 1.0);
+            border: 1px solid lime;
+          }
+        `);
+        debugMarker
+          .get_style_context()
+          .add_provider(
+            markerProvider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+          );
+
+        existingIcons.set(file.name, iconWidget);
+        gridBox.put(iconWidget, iconX, iconY);
+        gridBox.put(debugMarker, iconX, iconY); // Green dot at exact icon position
+      } else {
+        // Just update position if icon already exists
+        const existingWidget = existingIcons.get(file.name)!;
+        gridBox.move(existingWidget, iconX, iconY);
+      }
+    });
+
+    // Handle trash icon
+    if (!trashWidget) {
+      trashWidget = DesktopIcon({
+        file: trashFile,
         onLaunch: () => {
           populateGrid(); // Refresh grid after changes
         },
       });
 
-      // Position widget at specific coordinates
-      gridBox.put(iconWidget, gridX * 64, gridY * 64);
-    });
+      // Add special CSS class for bottom-right trash icon
+      trashWidget.add_css_class("trash-bottom-right");
 
-    // Add trash icon to bottom right corner
-    const trashIconWidget = DesktopIcon({
-      file: trashFile,
-      onLaunch: () => {
-        populateGrid(); // Refresh grid after changes
-      },
-    });
+      // Position trash in bottom right
+      const gridContentWidth = desktopWidth - 40;
+      const gridContentHeight = desktopHeight - 40;
+      const bottomMargin = 20;
+      const rightMargin = 20;
+      const trashX = Math.max(0, gridContentWidth - 80 - rightMargin);
+      const trashY = Math.max(0, gridContentHeight - 80 - bottomMargin);
 
-    // Add special CSS class for bottom-right trash icon
-    trashIconWidget.add_css_class("trash-bottom-right");
-
-    // Position trash in bottom right (accounting for grid padding and icon size)
-    // gridBox has 20px padding, so content area is (desktopWidth - 40) x (desktopHeight - 40)
-    const gridContentWidth = desktopWidth - 40; // Account for 20px padding on both sides
-    const gridContentHeight = desktopHeight - 40; // Account for 20px padding on both sides
-    const bottomMargin = 20; // Extra margin from bottom edge
-    const rightMargin = 20; // Extra margin from right edge
-    const trashX = Math.max(0, gridContentWidth - 64 - rightMargin); // Position within grid content area
-    const trashY = Math.max(0, gridContentHeight - 64 - bottomMargin); // Position within grid content area
-
-    gridBox.put(trashIconWidget, trashX, trashY);
-
-    // Ensure trash icon is visible and on top
-    trashIconWidget.set_visible(true);
-    trashIconWidget.set_can_focus(true);
+      gridBox.put(trashWidget, trashX, trashY);
+      trashWidget.set_visible(true);
+      trashWidget.set_can_focus(true);
+    }
+    // Note: Trash icon position doesn't change, so no need to move it
   };
 
   // Add drop target to the overlay container for better coverage
@@ -737,10 +853,10 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
   });
 
   overlayDropTarget.connect("motion", (target, x, y) => {
-    const gridX = Math.floor((x - 20) / 64);
-    const gridY = Math.floor((y - 20) / 64);
+    const gridX = Math.floor(x / cellSize);
+    const gridY = Math.floor(y / cellSize);
 
-    // Hide all grid cells and remove hover class
+    // Hide all grid cells and clear hover states
     let child = gridOverlay.get_first_child();
     while (child) {
       child.remove_css_class("grid-cell-hover");
@@ -748,8 +864,12 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
       child = child.get_next_sibling();
     }
 
+    // With perfect divisibility, we can use all grid positions
+    const maxValidX = maxColumns - 1;
+    const maxValidY = maxRows - 1;
+
     // Validate grid bounds before highlighting
-    if (gridX < 0 || gridY < 0 || gridX >= maxColumns || gridY >= maxRows) {
+    if (gridX < 0 || gridY < 0 || gridX > maxValidX || gridY > maxValidY) {
       return Gdk.DragAction.MOVE;
     }
 
@@ -768,28 +888,40 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
         currentChild.set_visible(true);
         currentChild.add_css_class("grid-cell-hover");
       }
-    } else {
     }
 
     return Gdk.DragAction.MOVE;
   });
 
   overlayDropTarget.connect("drop", (target, value, x, y) => {
-    // Calculate grid position from drop coordinates (accounting for 20px padding)
-    const rawGridX = Math.floor((x - 20) / 64);
-    const rawGridY = Math.floor((y - 20) / 64);
+    // Calculate grid position from drop coordinates
+    const rawGridX = Math.floor(x / cellSize);
+    const rawGridY = Math.floor(y / cellSize);
 
-    // Clamp grid position to valid bounds and find nearest valid position
-    const gridX = Math.max(0, Math.min(rawGridX, maxColumns - 1));
-    const gridY = Math.max(0, Math.min(rawGridY, maxRows - 1));
+    // With perfect divisibility, we can use all grid positions
+    const maxValidX = maxColumns - 1;
+    const maxValidY = maxRows - 1;
 
-    if (rawGridX !== gridX || rawGridY !== gridY) {
+    // Clamp grid position to valid bounds
+    const gridX = Math.max(0, Math.min(rawGridX, maxValidX));
+    const gridY = Math.max(0, Math.min(rawGridY, maxValidY));
+
+    // Reject drops that would place icons outside grid bounds
+    if (
+      rawGridX < 0 ||
+      rawGridY < 0 ||
+      rawGridX > maxValidX ||
+      rawGridY > maxValidY
+    ) {
+      gridBox.remove_css_class("grid-drop-target");
+      gridOverlay.set_visible(false);
+      return false;
     }
 
     const targetPosition = gridY * maxColumns + gridX;
 
     // Get the filename from the path
-    const fileName = GLib.path_get_basename(value);
+    const fileName = GLib.path_get_basename(value.toString());
 
     // Don't allow dropping onto trash icon's fixed position
     if (fileName === "trash") {
@@ -805,19 +937,18 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
     const overlayAlloc = gridOverlay.get_allocation();
 
     // Create visual grid cell highlighter to show exact drop target
-    const gridCellX = gridX * 64 + 20; // Account for grid padding (20px)
-    const gridCellY = gridY * 64 + 20; // Account for grid padding (20px)
+    const gridCellX = gridX * cellSize;
+    const gridCellY = gridY * cellSize;
 
     // Create a cell highlight overlay to show the exact drop zone
     const cellHighlight = new Gtk.Box({
       cssClasses: ["drop-target-highlight"],
-      widthRequest: 64,
-      heightRequest: 64,
+      widthRequest: cellSize,
+      heightRequest: cellSize,
     });
     gridOverlay.put(cellHighlight, gridCellX, gridCellY);
 
     // Create crosshair markers to show exact center
-    const cellSize = 64; // Grid cell is 64px x 64px
     const cellCenterX = gridCellX + cellSize / 2; // Exact center of cell
     const cellCenterY = gridCellY + cellSize / 2; // Exact center of cell
 
@@ -868,52 +999,131 @@ async function createDesktopGrid(gdkmonitor: Gdk.Monitor): Promise<Gtk.Widget> {
 
     moveFileToPosition(fileName, targetPosition, maxColumns);
 
-    populateGrid().then(() => {
-      gridBox.remove_css_class("grid-drop-target");
-      gridOverlay.set_visible(false);
-    });
+    populateGrid();
+    gridBox.remove_css_class("grid-drop-target");
+    gridOverlay.set_visible(false);
     return true;
   });
 
   // Don't add controller to gridBox anymore
 
   // Add drop target to viewport as well for better coverage
+  viewportDropTarget.connect("motion", (target, x, y) => {
+    console.log(`Viewport motion at ${x}, ${y}`);
+    const gridX = Math.floor(x / 80);
+    const gridY = Math.floor(y / 80);
+
+    // Show grid overlay when motion is detected
+    const overlay = (globalThis as any).desktopGridOverlay;
+    if (overlay) {
+      overlay.set_visible(true);
+
+      // Hide all cells and clear previous hover states
+      let child = overlay.get_first_child();
+      while (child) {
+        child.remove_css_class("grid-cell-hover");
+        child.set_visible(false);
+        child = child.get_next_sibling();
+      }
+
+      // With perfect divisibility, we can use all grid positions
+      const maxValidX = maxColumns - 1;
+      const maxValidY = maxRows - 1;
+
+      // Validate grid bounds before highlighting
+      if (
+        gridX >= 0 &&
+        gridY >= 0 &&
+        gridX <= maxValidX &&
+        gridY <= maxValidY
+      ) {
+        // Calculate which cell to highlight
+        const targetIndex = gridY * maxColumns + gridX;
+        if (targetIndex >= 0 && targetIndex < maxRows * maxColumns) {
+          // Find the specific cell by walking through children
+          let currentChild = overlay.get_first_child();
+          let currentIndex = 0;
+          while (currentChild && currentIndex < targetIndex) {
+            currentChild = currentChild.get_next_sibling();
+            currentIndex++;
+          }
+
+          if (currentChild) {
+            currentChild.set_visible(true);
+            currentChild.add_css_class("grid-cell-hover");
+          }
+        }
+      }
+    }
+
+    return Gdk.DragAction.MOVE;
+  });
+
   viewportDropTarget.connect("drop", (target, value, x, y) => {
     // Get viewport allocation for coordinate translation
     const viewportAllocation = viewport.get_allocation();
 
     // Calculate grid position from drop coordinates
-    const gridX = Math.floor(x / 64);
-    const gridY = Math.floor(y / 64);
+    const rawGridX = Math.floor(x / cellSize);
+    const rawGridY = Math.floor(y / cellSize);
+
+    // With perfect divisibility, we can use all grid positions
+    const maxValidX = maxColumns - 1;
+    const maxValidY = maxRows - 1;
+
+    // Clamp to valid bounds and reject if outside grid
+    if (
+      rawGridX < 0 ||
+      rawGridY < 0 ||
+      rawGridX > maxValidX ||
+      rawGridY > maxValidY
+    ) {
+      return false;
+    }
+
+    const gridX = Math.max(0, Math.min(rawGridX, maxValidX));
+    const gridY = Math.max(0, Math.min(rawGridY, maxValidY));
     const targetPosition = gridY * maxColumns + gridX;
 
-    const fileName = GLib.path_get_basename(value);
+    const fileName = GLib.path_get_basename(value.toString());
 
-    moveFileToPosition(fileName, targetPosition);
+    moveFileToPosition(fileName, targetPosition, maxColumns);
     populateGrid();
     return true;
   });
 
   viewport.add_controller(viewportDropTarget);
 
+  // Also add viewport drop target leave handler
+  viewportDropTarget.connect("leave", () => {
+    const overlay = (globalThis as any).desktopGridOverlay;
+    if (overlay) {
+      overlay.set_visible(false);
+      // Hide all grid cells
+      let child = overlay.get_first_child();
+      while (child) {
+        child.remove_css_class("grid-cell-hover");
+        child.set_visible(false);
+        child = child.get_next_sibling();
+      }
+    }
+  });
+
   // Load positions and initial population
   loadDesktopPositions();
   populateGrid();
 
-  // Refresh every 5 seconds to pick up new files
-  const refreshInterval = setInterval(() => {
-    populateGrid();
-  }, 5000);
-
-  // Clean up interval when widget is destroyed
-  gridBox.connect("destroy", () => {
-    clearInterval(refreshInterval);
-  });
+  // No automatic refresh - only update on drag/drop or manual refresh
 
   // Create overlay container and ensure grid overlay is added
   const overlay = new Gtk.Overlay();
   overlay.set_child(gridBox);
+  overlay.add_overlay(testGridOverlay);
   overlay.add_overlay(gridOverlay);
+
+  // Force grid overlay to be on top
+  gridOverlay.set_can_focus(false);
+  gridOverlay.set_can_target(false);
 
   // Add drop target to the overlay container
   overlay.add_controller(overlayDropTarget);
@@ -998,15 +1208,6 @@ function getDesktopFiles(): DesktopFile[] {
           }
         }
       }
-      // Handle repositioning if requested
-      let gridPosition: { x: number; y: number } | undefined;
-      if ((globalThis as any).repositionDesktopIcon) {
-        const reposition = (globalThis as any).repositionDesktopIcon;
-        if (reposition.path === path) {
-          gridPosition = reposition.position;
-          (globalThis as any).repositionDesktopIcon = null;
-        }
-      }
       files.push({
         name,
         displayName,
@@ -1015,7 +1216,6 @@ function getDesktopFiles(): DesktopFile[] {
         iconName,
         isDesktopFile,
         execCommand,
-        gridPosition,
       });
     }
 
@@ -1135,149 +1335,7 @@ function createDesktopContextMenu(): Gtk.Popover {
   return popover;
 }
 
-// Function to create AstalCava audio visualizer widget
-function createCavaWidget(
-  desktopWidth: number,
-  desktopHeight: number,
-): Gtk.Widget {
-  // Create minimalist bars container - no background or borders
-  const barsContainer = new Gtk.Box({
-    cssClasses: ["cava-minimal"],
-    orientation: Gtk.Orientation.HORIZONTAL,
-    spacing: 1,
-    halign: Gtk.Align.CENTER,
-    valign: Gtk.Align.END,
-  });
-
-  // Create visual bars
-  const bars: Gtk.Box[] = [];
-  for (let i = 0; i < 24; i++) {
-    const bar = new Gtk.Box({
-      cssClasses: ["cava-bar-minimal"],
-      widthRequest: 3,
-      heightRequest: 1,
-      valign: Gtk.Align.END,
-    });
-    bars.push(bar);
-    barsContainer.append(bar);
-  }
-
-  // Simple audio visualization using cava command
-  let updateInterval: number | null = null;
-
-  let isVisible = false;
-  let consecutiveFailures = 0;
-  const maxFailures = 10; // Stop trying after 10 consecutive failures
-
-  const updateBars = async () => {
-    // Skip updates if we've had too many consecutive failures
-    if (consecutiveFailures >= maxFailures) {
-      if (isVisible) {
-        barsContainer.set_visible(false);
-        isVisible = false;
-      }
-      return;
-    }
-
-    try {
-      // Create a temporary config file for cava
-      const tmpConfigPath = `/tmp/cava-config-${Math.random().toString(36).substr(2, 9)}`;
-      const cavaConfig = `[general]
-bars = 24
-framerate = 60
-autosens = 1
-sensitivity = 100
-
-[input]
-method = pulse
-
-[output]
-method = raw
-raw_target = /dev/stdout
-data_format = ascii
-channels = mono
-`;
-
-      // Write config to temp file
-      GLib.file_set_contents(tmpConfigPath, cavaConfig);
-
-      // Run cava with timeout to get one frame of data
-      const result = await execAsync([
-        "timeout",
-        "0.2s",
-        "cava",
-        "-p",
-        tmpConfigPath,
-      ]);
-
-      // Clean up temp file
-      execAsync(["rm", "-f", tmpConfigPath]).catch(() => {});
-
-      if (result.trim()) {
-        const lines = result.trim().split("\n");
-        const lastLine = lines[lines.length - 1];
-
-        if (lastLine && lastLine.includes(" ")) {
-          const values = lastLine
-            .split(/\s+/)
-            .map((val) => {
-              const num = parseInt(val) || 0;
-              return Math.max(0, Math.min(1, num / 255)); // cava outputs 0-255
-            })
-            .slice(0, 24);
-
-          if (values.length >= 12) {
-            // Ensure we have reasonable data
-            values.forEach((value, index) => {
-              if (index < bars.length) {
-                const height = Math.max(2, Math.min(40, value * 35 + 2));
-                bars[index].set_size_request(3, height);
-              }
-            });
-
-            if (!isVisible) {
-              barsContainer.set_visible(true);
-              isVisible = true;
-            }
-            consecutiveFailures = 0; // Reset failure counter on success
-            return; // Successfully updated, exit function
-          }
-        }
-      }
-    } catch {
-      consecutiveFailures++;
-    }
-
-    // Hide widget when no valid cava data is available
-    consecutiveFailures++;
-    if (isVisible) {
-      barsContainer.set_visible(false);
-      isVisible = false;
-    }
-  };
-
-  // Start periodic updates at 20fps for smoother animation
-  updateInterval = setInterval(updateBars, 50);
-  barsContainer.set_visible(false); // Initially hidden until cava data is available
-
-  // Cleanup on widget destroy
-  barsContainer.connect("destroy", () => {
-    if (updateInterval) {
-      clearInterval(updateInterval);
-      updateInterval = null;
-    }
-  });
-
-  // Position in bottom center
-  const fixed = new Gtk.Fixed();
-  const x = (desktopWidth - 80) / 2; // Small width for minimal bars
-  const y = desktopHeight - 80; // Close to bottom
-  fixed.put(barsContainer, x, y);
-
-  return fixed;
-}
-
-export default async function Desktop(gdkmonitor: Gdk.Monitor) {
+export default function Desktop(gdkmonitor: Gdk.Monitor) {
   const window = new Astal.Window({
     layer: Astal.Layer.BOTTOM,
     visible: true,
@@ -1309,12 +1367,8 @@ export default async function Desktop(gdkmonitor: Gdk.Monitor) {
 
   // Desktop icons grid - only on primary monitor
   if (isPrimaryMonitor) {
-    const iconsGrid = await createDesktopGrid(gdkmonitor);
+    const iconsGrid = createDesktopGrid(gdkmonitor);
     overlay.add_overlay(iconsGrid);
-
-    // Add Cava audio visualizer widget
-    const cavaWidget = createCavaWidget(geometry.width, geometry.height);
-    overlay.add_overlay(cavaWidget);
 
     // Desktop context menu (right-click on empty space) - only on primary
     const desktopContextMenu = createDesktopContextMenu();

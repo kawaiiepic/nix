@@ -1,17 +1,55 @@
 @use "../themes/theme" as *;
 
 @mixin default {
+    .workspace-button {
+        position: relative;
+    }
+
     label {
         font-size: 0;
         min-width: 8pt;
         min-height: 8pt;
         border-radius: 7pt;
         margin: 0 2.5pt;
-        transition: min-width 0.5s ease-out;
+        position: relative;
+        transition:
+            min-width 0.5s ease-out,
+            min-height 0.3s ease-out,
+            transform 0.2s ease-out,
+            box-shadow 0.3s ease-out;
+
+        &:hover {
+            transform: scale(1.1);
+            min-width: 10pt;
+            min-height: 10pt;
+        }
 
         &.focused {
             min-width: 26pt;
             min-height: 11pt;
+
+            &:hover {
+                transform: scale(1.05);
+                min-width: 28pt;
+                min-height: 12pt;
+            }
+        }
+
+        &.occupied {
+            &:hover {
+                transform: scale(1.15);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: -2px;
+                right: -2px;
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                transition: all 0.2s ease-out;
+            }
         }
     }
 }
@@ -20,12 +58,40 @@
     label {
         box-shadow: inset 0 0 0 20pt theme-get("surface1");
 
+        &:hover {
+            box-shadow:
+                inset 0 0 0 20pt theme-get("surface2"),
+                0 0 8px gtkalpha(theme-get("text"), 0.2);
+        }
+
         &.occupied {
             box-shadow: inset 0 0 0 20pt theme-get("text");
+
+            &:hover {
+                box-shadow:
+                    inset 0 0 0 20pt theme-get("subtext1"),
+                    0 0 12px gtkalpha(theme-get("text"), 0.4);
+            }
+
+            &::after {
+                background: theme-get("color4");
+                box-shadow: 0 0 4px theme-get("color4");
+            }
         }
 
         &.focused {
             box-shadow: inset 0 0 0 20pt theme-get("color0");
+
+            &:hover {
+                box-shadow:
+                    inset 0 0 0 20pt theme-get("color1"),
+                    0 0 16px gtkalpha(theme-get("color0"), 0.6);
+            }
+
+            &.occupied::after {
+                background: theme-get("color4");
+                transform: scale(1.2);
+            }
         }
     }
 }

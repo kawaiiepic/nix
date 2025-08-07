@@ -17,21 +17,30 @@ export default function Notifications(): Gtk.Box {
   const overlay = new Gtk.Overlay();
 
   const icon = new Gtk.Image({
-    pixelSize: 14,
+    pixelSize: 16,
   });
 
   // Notification count badge
   const countLabel = new Gtk.Label({
     cssClasses: ["notification-count"],
-    valign: Gtk.Align.START,
-    halign: Gtk.Align.END,
+    valign: Gtk.Align.CENTER,
+    halign: Gtk.Align.CENTER,
     visible: false,
   });
 
   overlay.set_child(icon);
   overlay.add_overlay(countLabel);
   button.append(overlay);
-  // button.set_child(overlay);
+
+  // Helper function to get highest urgency level
+  const getHighestUrgency = (notifications: Notifd.Notification[]) => {
+    if (!notifications || notifications.length === 0) return "normal";
+
+    const urgencies = notifications.map((n) => n.urgency);
+    if (urgencies.includes(Notifd.Urgency.CRITICAL)) return "critical";
+    if (urgencies.includes(Notifd.Urgency.NORMAL)) return "normal";
+    return "low";
+  };
 
   // Update icon and styles based on do not disturb state
   const updateState = () => {
@@ -39,18 +48,31 @@ export default function Notifications(): Gtk.Box {
     const notifications = notifd.notifications;
     const count = notifications?.length || 0;
 
+    // Clear previous urgency classes
+    countLabel.remove_css_class("urgent-critical");
+    countLabel.remove_css_class("urgent-normal");
+    countLabel.remove_css_class("urgent-low");
+
     if (dnd) {
-      icon.set_from_icon_name("notifications-disabled");
+      icon.set_from_icon_name("notifications-disabled-symbolic");
       button.add_css_class("dnd-active");
       button.remove_css_class("has-notifications");
       countLabel.set_visible(false);
     } else {
-      icon.set_from_icon_name("notification");
+      icon.set_from_icon_name("notification-symbolic");
       button.remove_css_class("dnd-active");
 
       if (count > 0) {
         button.add_css_class("has-notifications");
-        countLabel.set_text(count > 99 ? "99+" : count.toString());
+
+        // Set count text with better formatting
+        const displayCount = count > 99 ? "99+" : count.toString();
+        countLabel.set_text(displayCount);
+
+        // Add urgency-based styling
+        const urgency = getHighestUrgency(notifications);
+        countLabel.add_css_class(`urgent-${urgency}`);
+
         countLabel.set_visible(true);
       } else {
         button.remove_css_class("has-notifications");
@@ -78,17 +100,22 @@ export default function Notifications(): Gtk.Box {
         const summary = NotificationUtils.getNotificationsByUrgency();
         const parts = [];
 
+        // Enhanced emoji and styling for different urgencies
         if (summary.critical.length > 0) {
-          parts.push(`🔴 ${summary.critical.length} critical`);
+          parts.push(`🚨 ${summary.critical.length} critical`);
         }
         if (summary.normal.length > 0) {
-          parts.push(`🟡 ${summary.normal.length} normal`);
+          parts.push(`📢 ${summary.normal.length} normal`);
         }
         if (summary.low.length > 0) {
-          parts.push(`🟢 ${summary.low.length} low`);
+          parts.push(`💬 ${summary.low.length} low priority`);
         }
 
-        tooltipText = `🔔 ${count} notification${count > 1 ? "s" : ""}\n${parts.join(", ")}\nLeft click: Enable DND\nRight click: More options`;
+        const urgency = getHighestUrgency(notifications);
+        const urgencyEmoji =
+          urgency === "critical" ? "🚨" : urgency === "normal" ? "🔔" : "💬";
+
+        tooltipText = `${urgencyEmoji} ${count} notification${count > 1 ? "s" : ""}\n${parts.join(" • ")}\n\nLeft click: Enable DND\nRight click: More options`;
       }
     }
 
@@ -109,26 +136,25 @@ export default function Notifications(): Gtk.Box {
   updateState();
   updateTooltip();
 
-  // // Toggle do not disturb on click
-  // button.connect("clicked", () => {
-  //   NotificationUtils.toggleDND();
-  // });
-
   // Create context menu for additional options
-  const popover = new Gtk.Popover();
+  const popover = new Gtk.Popover({
+    cssClasses: ["notification-menu"],
+  });
+
   const menuBox = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
-    spacing: 4,
-    marginTop: 8,
-    marginBottom: 8,
-    marginStart: 8,
-    marginEnd: 8,
+    spacing: 6,
+    marginTop: 12,
+    marginBottom: 12,
+    marginStart: 12,
+    marginEnd: 12,
   });
 
   // Clear all notifications button
   const clearButton = new Gtk.Button({
-    label: "Clear All",
-    cssClasses: ["menu-item"],
+    label: "🗑️ Clear All",
+    cssClasses: ["menu-item", "clear-button"],
+    halign: Gtk.Align.FILL,
   });
   clearButton.connect("clicked", () => {
     NotificationUtils.clearAll();
@@ -137,25 +163,47 @@ export default function Notifications(): Gtk.Box {
 
   // DND for 1 hour button
   const dnd1hButton = new Gtk.Button({
-    label: "DND for 1 hour",
-    cssClasses: ["menu-item"],
+    label: "⏰ DND for 1 hour",
+    cssClasses: ["menu-item", "dnd-button"],
+    halign: Gtk.Align.FILL,
   });
   dnd1hButton.connect("clicked", () => {
     NotificationUtils.toggleDNDForDuration(60);
     popover.popdown();
   });
 
+  // DND for 30 minutes button
+  const dnd30mButton = new Gtk.Button({
+    label: "⏱️ DND for 30 min",
+    cssClasses: ["menu-item", "dnd-button"],
+    halign: Gtk.Align.FILL,
+  });
+  dnd30mButton.connect("clicked", () => {
+    NotificationUtils.toggleDNDForDuration(30);
+    popover.popdown();
+  });
+
   // Test notification button
   const testButton = new Gtk.Button({
-    label: "Send Test",
-    cssClasses: ["menu-item"],
+    label: "🧪 Send Test",
+    cssClasses: ["menu-item", "test-button"],
+    halign: Gtk.Align.FILL,
   });
   testButton.connect("clicked", () => {
     NotificationUtils.sendTestNotification();
     popover.popdown();
   });
 
+  // Add separator
+  const separator = new Gtk.Separator({
+    orientation: Gtk.Orientation.HORIZONTAL,
+    marginTop: 4,
+    marginBottom: 4,
+  });
+
   menuBox.append(clearButton);
+  menuBox.append(separator);
+  menuBox.append(dnd30mButton);
   menuBox.append(dnd1hButton);
   menuBox.append(testButton);
 

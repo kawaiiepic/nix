@@ -20,6 +20,8 @@ export function WallpaperManager() {
       app.apply_css(`
              box.wallpaper {
               background-image: url(file://${backgroundImage});
+              background-size: cover;
+              background-repeat: no-repeat;
             }
           `);
     } else if ((wallpaperType = "video")) {

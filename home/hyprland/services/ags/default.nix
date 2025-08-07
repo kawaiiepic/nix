@@ -9,6 +9,10 @@
 
   imports = [ inputs.ags.homeManagerModules.default ];
 
+  home.packages = with pkgs; [
+    cava
+  ];
+
   programs.ags = {
     enable = true;
 
@@ -31,7 +35,7 @@
       cava
     ];
   };
-  
+
   # home.packages = [
   #   (inputs.ags.lib.bundle {
   #     inherit pkgs;
@@ -40,18 +44,17 @@
   #     entry = "app.ts";
   #     gtk4 = true;
 
-
   #     # additional libraries and executables to add to gjs' runtime
   #     extraPackages = with inputs.ags.packages.${pkgs.system}; [
-        # apps
-        # hyprland
-        # notifd
-        # mpris
-        # wireplumber
-        # network
-        # tray
-        # bluetooth
-        # battery
+  # apps
+  # hyprland
+  # notifd
+  # mpris
+  # wireplumber
+  # network
+  # tray
+  # bluetooth
+  # battery
   #     ];
 
   #   })

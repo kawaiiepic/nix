@@ -1,5 +1,5 @@
 import Notifd from "gi://AstalNotifd";
-import { execAsync } from "ags/process";
+import { execAsync, exec } from "ags/process";
 
 const notifd = Notifd.get_default();
 
@@ -64,13 +64,13 @@ export class NotificationUtils {
   /**
    * Send system notification (for testing or internal use)
    */
-  static async sendTestNotification(
+  static sendTestNotification(
     summary: string = "Test Notification",
     body: string = "This is a test notification",
     icon: string = "dialog-information",
-  ): Promise<void> {
+  ): void {
     try {
-      await execAsync(["notify-send", "-i", icon, summary, body]);
+      exec(["notify-send", "-i", icon, summary, body]);
     } catch (error) {
       // Silently ignore test notification errors
     }

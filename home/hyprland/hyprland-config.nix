@@ -21,7 +21,7 @@
           "uwsm app -- ${pkgs.joystickwake}/bin/joystickwake"
           "uwsm app -- ${pkgs.hyprsunset}/bin/hyprsunset"
           "uwsm app -- ${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
-          "uwsm app -- ags run --gtk4"
+          "uwsm app -- ags run"
           "uwsm app -- systemctl start --user hypridle"
           "sleep 5 && start"
         ];
@@ -39,9 +39,9 @@
           "col.inactive_border" = "rgb(181926)";
           layout = "master";
           resize_on_border = true;
-          allow_tearing = false;
+          allow_tearing = true;
           monitor = [
-            "DP-2,2560x1440@143.97Hz,0x0,1.25,vrr,1"
+            "DP-2,2560x1440@143.97Hz,0x0,1,vrr,1"
             "HDMI-A-2,1920x1080@74.97Hz,2048x0,auto,vrr,0"
             "HDMI-A-1,highres,3968x0,2,vrr,0,transform,2"
             "eDP-1,highrr,0x0,1,transform,3"
@@ -296,9 +296,17 @@
           workspace_swipe_touch = true;
         };
 
-        # render = {
-        #   direct_scanout = true;
-        # };
+        render = {
+          direct_scanout = 1;
+        };
+        
+        debug = {
+          full_cm_proto = true;
+        };
+        
+        experimental = {
+          xx_color_management_v4 = true;
+        };
 
         input = {
           kb_layout = "us";

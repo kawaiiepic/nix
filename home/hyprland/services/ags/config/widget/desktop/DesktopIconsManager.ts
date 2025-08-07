@@ -1,6 +1,6 @@
 import AstalApps from "gi://AstalApps";
 import GLib from "gi://GLib";
-import { execAsync } from "ags/process";
+import { execAsync, exec } from "ags/process";
 import { readFile, writeFile } from "ags/file";
 
 export interface DesktopIconConfig {
@@ -441,7 +441,7 @@ export class DesktopIconsManager {
   /**
    * Launch application with error handling
    */
-  async launchApp(app: AstalApps.Application): Promise<boolean> {
+  launchApp(app: AstalApps.Application): boolean {
     try {
       app.launch();
       return true;
@@ -451,7 +451,7 @@ export class DesktopIconsManager {
       // Try alternative launch methods
       if (app.executable) {
         try {
-          await execAsync([app.executable]);
+          exec([app.executable]);
           return true;
         } catch (execError) {
           // Silently ignore executable launch errors
