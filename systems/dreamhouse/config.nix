@@ -46,10 +46,10 @@
       ];
     };
 
-    amdgpu.amdvlk = {
-      enable = true;
-      support32Bit.enable = true;
-    };
+    # amdgpu.amdvlk = {
+    #   enable = true;
+    #   support32Bit.enable = true;
+    # };
   };
 
   environment.systemPackages = with pkgs; [

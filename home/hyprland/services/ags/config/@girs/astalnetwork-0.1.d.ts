@@ -137,7 +137,7 @@ declare module 'gi://AstalNetwork?version=0.1' {
                 iconName: string;
                 mode: NM.__80211Mode;
                 flags: NM.__80211ApFlags;
-                rsn_flags: NM.__80211ApSecurityFlags;
+                rsn_flags: NM.__80211Ap.Flags;
                 rsnFlags: NM.__80211ApSecurityFlags;
                 wpa_flags: NM.__80211ApSecurityFlags;
                 wpaFlags: NM.__80211ApSecurityFlags;

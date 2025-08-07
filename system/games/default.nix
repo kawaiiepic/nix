@@ -32,7 +32,7 @@
     steam-rom-manager
     mangohud
     prismlauncher
-    ryujinx
+    ryubing
     xivlauncher
     # shadps4
     # (pkgs.callPackage ./vita3k.nix { })
@@ -46,10 +46,10 @@
     })
   ];
   
-  programs.gamescope = {
-      enable = true;
-      capSysNice = true;
-    };
+  # programs.gamescope = {
+  #     enable = true;
+  #     capSysNice = true;
+  #   };
 
   programs.adb.enable = true;
 

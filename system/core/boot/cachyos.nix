@@ -1,3 +1,4 @@
-{pkgs, ...}: {
-  boot.kernelPackages = pkgs.linuxPackages_cachyos;
+{ pkgs, ... }:
+{
+  # boot.kernelPackages = pkgs.linuxPackages_cachyos;
 }

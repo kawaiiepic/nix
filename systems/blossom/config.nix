@@ -29,7 +29,7 @@
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_xanmod_latest;
+  # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_xanmod_latest;
 
   hardware.nvidia = {
 
