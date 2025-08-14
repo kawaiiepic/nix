@@ -1,8 +1,8 @@
 @use "../themes/theme" as *;
+@use "../util.scss";
 
 @mixin default {
     .workspace-button {
-        position: relative;
     }
 
     label {
@@ -11,7 +11,6 @@
         min-height: 8pt;
         border-radius: 7pt;
         margin: 0 2.5pt;
-        position: relative;
         transition:
             min-width 0.5s ease-out,
             min-height 0.3s ease-out,
@@ -39,17 +38,6 @@
             &:hover {
                 transform: scale(1.15);
             }
-
-            &::after {
-                content: "";
-                position: absolute;
-                top: -2px;
-                right: -2px;
-                width: 4px;
-                height: 4px;
-                border-radius: 50%;
-                transition: all 0.2s ease-out;
-            }
         }
     }
 }
@@ -61,7 +49,7 @@
         &:hover {
             box-shadow:
                 inset 0 0 0 20pt theme-get("surface2"),
-                0 0 8px gtkalpha(theme-get("text"), 0.2);
+                0 0 8px util.gtkalpha(theme-get("text"), 0.2);
         }
 
         &.occupied {
@@ -70,12 +58,7 @@
             &:hover {
                 box-shadow:
                     inset 0 0 0 20pt theme-get("subtext1"),
-                    0 0 12px gtkalpha(theme-get("text"), 0.4);
-            }
-
-            &::after {
-                background: theme-get("color4");
-                box-shadow: 0 0 4px theme-get("color4");
+                    0 0 12px util.gtkalpha(theme-get("text"), 0.4);
             }
         }
 
@@ -85,12 +68,7 @@
             &:hover {
                 box-shadow:
                     inset 0 0 0 20pt theme-get("color1"),
-                    0 0 16px gtkalpha(theme-get("color0"), 0.6);
-            }
-
-            &.occupied::after {
-                background: theme-get("color4");
-                transform: scale(1.2);
+                    0 0 16px util.gtkalpha(theme-get("color0"), 0.6);
             }
         }
     }

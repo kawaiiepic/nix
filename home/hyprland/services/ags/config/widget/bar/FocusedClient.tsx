@@ -15,6 +15,7 @@ export default () => {
   });
 
   const currentClient = client.get();
+  
   const app = currentClient ? apps.fuzzy_query(currentClient.class)[0] : null;
   const appName = app?.name || currentClient?.class || "Desktop";
   const title = currentClient?.title || "No Window";

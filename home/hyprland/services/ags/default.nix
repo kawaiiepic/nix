@@ -11,6 +11,7 @@
 
   home.packages = with pkgs; [
     cava
+    inputs.ags.packages.${pkgs.system}.apps
   ];
 
   programs.ags = {

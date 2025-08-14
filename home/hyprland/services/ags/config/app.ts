@@ -8,11 +8,14 @@ import Logout from "./widget/logout/Logout";
 import OSD from "./widget/osd/OSD";
 import { WallpaperManager } from "./widget/desktop/WallpaperManager";
 import { NotificationUtils } from "./widget/notifications/NotificationUtils";
+import { writeFile, writeFileAsync } from "ags/file";
 
 WallpaperManager();
 
 // Initialize notification utilities and log keybind information
 NotificationUtils.registerKeybinds();
+
+writeFile('myFile.txt', style);
 
 app.start({
   css: style,

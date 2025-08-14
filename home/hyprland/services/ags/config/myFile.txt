@@ -1,0 +1,1773 @@
+window.bar {
+  font-weight: bold;
+  min-height: 30px;
+  /* App name styling */
+  /* Window title styling */
+  /* App icon styling */
+}
+window.bar box.centerbox {
+  padding: 0px 5px 0 5px;
+}
+window.bar box .launcher:hover {
+  filter: grayscale(80%);
+}
+window.bar .surface {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 12px;
+}
+window.bar .surface1 {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding: 0px 2px 0px 2px;
+  border-radius: 12px;
+}
+window.bar .focused-client {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+window.bar .app-name {
+  font-weight: 600;
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.95);
+}
+window.bar .app-name:hover {
+  color: rgb(255, 255, 255);
+}
+window.bar .window-title {
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+window.bar .focused-client:hover .window-title,
+window.bar .focused-client-button:hover .window-title,
+window.bar .focused-client-reactive:hover .window-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+window.bar .app-icon {
+  margin-right: 4px;
+  opacity: 0.9;
+}
+window.bar .workspaces label {
+  font-size: 0;
+  min-width: 8pt;
+  min-height: 8pt;
+  border-radius: 7pt;
+  margin: 0 2.5pt;
+  transition: min-width 0.5s ease-out, min-height 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
+}
+window.bar .workspaces label:hover {
+  transform: scale(1.1);
+  min-width: 10pt;
+  min-height: 10pt;
+}
+window.bar .workspaces label.focused {
+  min-width: 26pt;
+  min-height: 11pt;
+}
+window.bar .workspaces label.focused:hover {
+  transform: scale(1.05);
+  min-width: 28pt;
+  min-height: 12pt;
+}
+window.bar .workspaces label.occupied:hover {
+  transform: scale(1.15);
+}
+window.bar .launcher {
+  background-color: transparent;
+  min-width: 24px;
+  min-height: 24px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+window.bar .time {
+  font-size: 15px;
+}
+window.bar .time button {
+  background-color: transparent;
+  padding: 0px 0px;
+}
+window.bar .systray button {
+  background-color: transparent;
+  padding: 0px 2px;
+}
+window.bar .quick {
+  background-color: transparent;
+}
+window.bar .quick separator {
+  margin: 5px;
+  background-color: pink;
+}
+window.bar .profile .profile {
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+window.bar .profile .profile-pfp {
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+window.bar .profile .dismiss-notifications {
+  margin-right: 10px;
+  font-size: 20px;
+}
+window.bar .profile .dismiss-notifications-label {
+  margin-right: 10px;
+  font-size: 20px;
+}
+window.bar .profile .small-font {
+  font-size: 12px;
+}
+window.bar .profile .surface0 {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 8px;
+  border-radius: 15px;
+}
+window.bar .profile .surface1 {
+  border-radius: 11px;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+window.bar .profile .slider {
+  border-radius: 12px;
+}
+window.bar .profile .slider trough {
+  min-height: 10px;
+  border-radius: 12px;
+}
+window.bar .profile .slider trough highlight,
+window.bar .profile .slider trough progress {
+  border-radius: 12px;
+}
+window.bar .profile .slider slider {
+  box-shadow: none;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 12px;
+}
+window.bar .profile box.MediaPlayer box.coverArt {
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 9px;
+  margin-right: 0.6rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+window.bar .profile box.MediaPlayer .title label {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+window.bar .profile box.MediaPlayer scale {
+  padding: 0;
+  margin: 0.4rem 0;
+}
+window.bar .profile box.MediaPlayer scale trough {
+  min-height: 8px;
+  border-radius: 20px;
+}
+window.bar .profile box.MediaPlayer scale highlight {
+  /* background-color: $fg-color; */
+}
+window.bar .profile box.MediaPlayer scale slider {
+  all: unset;
+}
+window.bar .profile box.MediaPlayer centerbox.actions {
+  min-width: 220px;
+}
+window.bar .profile box.MediaPlayer centerbox.actions button {
+  min-width: 0;
+  min-height: 0;
+  padding: 0.4rem;
+  margin: 0 0.2rem;
+}
+window.bar .profile box.Notification {
+  padding: 7px;
+  margin-right: 10px;
+  border-radius: 15px;
+}
+window.bar .profile box.Notification .content .image {
+  border-radius: 9px;
+  min-width: 48px;
+  min-height: 48px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+window.bar .notifications .notifications-toggle {
+  border-radius: 8px;
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+window.bar .notifications .notifications-toggle:hover {
+  transform: translateY(-1px);
+}
+window.bar .notifications .notifications-toggle.has-notifications .notification-count {
+  opacity: 1;
+  transform: scale(1);
+  animation: notification-pulse 0.3s ease-out;
+}
+window.bar .notifications .notifications-toggle.dnd-active {
+  opacity: 0.5;
+}
+window.bar .notifications .notifications-toggle.dnd-active .notification-count {
+  opacity: 0.7;
+}
+window.bar .notifications .notifications-toggle .notification-count {
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 10px;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+@keyframes notification-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes notification-glow {
+  0% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
+  }
+  100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+}
+window.bar .show-desktop .show-desktop {
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+window.bar .show-desktop .show-desktop:hover {
+  transform: translateY(-1px);
+}
+window.bar .show-desktop .show-desktop.active {
+  transform: scale(0.95);
+}
+window.bar .show-desktop .show-desktop.active:hover {
+  transform: scale(0.98) translateY(-1px);
+}
+window.bar .show-desktop .show-desktop popover {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+window.bar .show-desktop .show-desktop popover .menu-item {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px;
+  transition: all 150ms ease;
+  font-weight: 500;
+}
+window.bar .show-desktop .show-desktop popover .menu-item:hover {
+  transform: translateX(2px);
+}
+window.bar .show-desktop .show-desktop popover separator {
+  min-height: 1px;
+  margin: 4px 8px;
+}
+window.bar .macchiato {
+  background-color: #24273a;
+  color: #cad3f5;
+}
+window.bar .macchiato button:active {
+  color: orange;
+}
+window.bar .macchiato button:hover {
+  background: linear-gradient(90deg, rgba(42, 123, 155, 0.2) 0%, rgba(87, 199, 133, 0.2) 50%, rgba(237, 221, 83, 0.2) 100%);
+}
+window.bar .macchiato .surface {
+  background-color: #363a4f;
+  border: 0.5px solid #181926;
+}
+window.bar .macchiato .surface1 {
+  background-color: #363a4f;
+  border: 0.5px solid #181926;
+}
+window.bar .macchiato .workspaces label {
+  box-shadow: inset 0 0 0 20pt #494d64;
+}
+window.bar .macchiato .workspaces label:hover {
+  box-shadow: inset 0 0 0 20pt #5b6078, 0 0 8px alpha(#cad3f5,0.2);
+}
+window.bar .macchiato .workspaces label.occupied {
+  box-shadow: inset 0 0 0 20pt #cad3f5;
+}
+window.bar .macchiato .workspaces label.occupied:hover {
+  box-shadow: inset 0 0 0 20pt #b8c0e0, 0 0 12px alpha(#cad3f5,0.4);
+}
+window.bar .macchiato .workspaces label.focused {
+  box-shadow: inset 0 0 0 20pt #f4dbd6;
+}
+window.bar .macchiato .workspaces label.focused:hover {
+  box-shadow: inset 0 0 0 20pt #f0c6c6, 0 0 16px alpha(#f4dbd6,0.6);
+}
+window.bar .macchiato .profile {
+  background-color: #24273a;
+  color: #cad3f5;
+}
+window.bar .macchiato .profile box.Notification {
+  background-color: #494d64;
+}
+window.bar .macchiato .profile box.Notification .content .image {
+  border: 1px solid alpha(#181926,1);
+}
+window.bar .macchiato .profile .profile {
+  border: 0.5px solid #181926;
+}
+window.bar .macchiato .profile .surface0 {
+  background-color: #363a4f;
+}
+window.bar .macchiato .profile .surface1 {
+  background-color: #363a4f;
+}
+window.bar .macchiato .profile .surface2 {
+  background-color: #494d64;
+}
+window.bar .macchiato .profile separator {
+  background-color: #363a4f;
+}
+window.bar .macchiato .time:active {
+  color: #f5bde6;
+}
+window.bar .macchiato .time:hover {
+  color: #f5bde6;
+}
+window.bar .macchiato .time button {
+  color: #cad3f5;
+}
+window.bar .macchiato .notifications .notifications-toggle {
+  color: #cad3f5;
+}
+window.bar .macchiato .notifications .notifications-toggle.has-notifications .notification-count {
+  color: #181926;
+  font-weight: 700;
+  animation: notification-glow 2s ease-in-out infinite;
+}
+window.bar .macchiato .notifications .notifications-toggle.has-notifications .notification-count.urgent-critical {
+  color: #181926;
+  animation: notification-glow 1s ease-in-out infinite;
+}
+window.bar .macchiato .notifications .notifications-toggle.has-notifications .notification-count.urgent-low {
+  color: #181926;
+  animation: none;
+}
+window.bar .macchiato .notifications .notifications-toggle.dnd-active {
+  color: #a5adcb;
+}
+window.bar .macchiato .notifications .notifications-toggle.dnd-active .notification-count {
+  color: #939ab7;
+  animation: none;
+}
+window.bar .macchiato .notifications .notifications-toggle.dnd-active:hover {
+  color: #b8c0e0;
+  background-color: alpha(#363a4f,0.5);
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu .menu-item {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px;
+  transition: all 150ms ease;
+  color: #cad3f5;
+  font-weight: 500;
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu .menu-item:hover {
+  background-color: #494d64;
+  transform: translateX(2px);
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu .menu-item.clear-button:hover {
+  background-color: alpha(#ed8796,0.1);
+  color: #ed8796;
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu .menu-item.dnd-button:hover {
+  background-color: alpha(#8aadf4,0.1);
+  color: #8aadf4;
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu .menu-item.test-button:hover {
+  background-color: alpha(#a6da95,0.1);
+  color: #a6da95;
+}
+window.bar .macchiato .notifications .notifications-toggle .notification-menu separator {
+  background-color: #5b6078;
+  min-height: 1px;
+  margin: 4px 8px;
+}
+window.bar .macchiato .show-desktop .show-desktop {
+  color: #cad3f5;
+}
+window.bar .macchiato .show-desktop .show-desktop:hover {
+  background-color: alpha(#494d64,0.6);
+}
+window.bar .macchiato .show-desktop .show-desktop.active {
+  background-color: alpha(#8aadf4,0.2);
+  color: #8aadf4;
+}
+window.bar .macchiato .show-desktop .show-desktop.active:hover {
+  background-color: alpha(#8aadf4,0.3);
+  color: #8aadf4;
+}
+window.bar .macchiato .show-desktop .show-desktop popover box {
+  background-color: #363a4f;
+  border: 1px solid #5b6078;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+window.bar .macchiato .show-desktop .show-desktop popover .menu-item {
+  color: #cad3f5;
+}
+window.bar .macchiato .show-desktop .show-desktop popover .menu-item:hover {
+  background-color: #494d64;
+}
+window.bar .macchiato .show-desktop .show-desktop popover .menu-item:nth-child(1):hover {
+  background-color: alpha(#eed49f,0.1);
+  color: #eed49f;
+}
+window.bar .macchiato .show-desktop .show-desktop popover .menu-item:nth-child(2):hover {
+  background-color: alpha(#8aadf4,0.1);
+  color: #8aadf4;
+}
+window.bar .macchiato .show-desktop .show-desktop popover .menu-item:nth-child(3):hover {
+  background-color: alpha(#a6da95,0.1);
+  color: #a6da95;
+}
+window.bar .macchiato .show-desktop .show-desktop popover .menu-item:nth-child(5):hover {
+  background-color: alpha(#c6a0f6,0.1);
+  color: #c6a0f6;
+}
+window.bar .macchiato .show-desktop .show-desktop popover separator {
+  background-color: #5b6078;
+}
+window.bar .dark {
+  background-color: green;
+  color: green;
+}
+window.bar .dark button:active {
+  color: orange;
+}
+window.bar .dark button:hover {
+  background: linear-gradient(90deg, rgba(42, 123, 155, 0.2) 0%, rgba(87, 199, 133, 0.2) 50%, rgba(237, 221, 83, 0.2) 100%);
+}
+window.bar .dark .surface {
+  background-color: green;
+  border: 0.5px solid green;
+}
+window.bar .dark .surface1 {
+  background-color: green;
+  border: 0.5px solid green;
+}
+window.bar .dark .workspaces label {
+  box-shadow: inset 0 0 0 20pt green;
+}
+window.bar .dark .workspaces label:hover {
+  box-shadow: inset 0 0 0 20pt green, 0 0 8px alpha(green,0.2);
+}
+window.bar .dark .workspaces label.occupied {
+  box-shadow: inset 0 0 0 20pt green;
+}
+window.bar .dark .workspaces label.occupied:hover {
+  box-shadow: inset 0 0 0 20pt green, 0 0 12px alpha(green,0.4);
+}
+window.bar .dark .workspaces label.focused {
+  box-shadow: inset 0 0 0 20pt green;
+}
+window.bar .dark .workspaces label.focused:hover {
+  box-shadow: inset 0 0 0 20pt green, 0 0 16px alpha(green,0.6);
+}
+window.bar .dark .profile {
+  background-color: green;
+  color: green;
+}
+window.bar .dark .profile box.Notification {
+  background-color: green;
+}
+window.bar .dark .profile box.Notification .content .image {
+  border: 1px solid alpha(green,1);
+}
+window.bar .dark .profile .profile {
+  border: 0.5px solid green;
+}
+window.bar .dark .profile .surface0 {
+  background-color: green;
+}
+window.bar .dark .profile .surface1 {
+  background-color: green;
+}
+window.bar .dark .profile .surface2 {
+  background-color: green;
+}
+window.bar .dark .profile separator {
+  background-color: green;
+}
+window.bar .dark .time:active {
+  color: green;
+}
+window.bar .dark .time:hover {
+  color: green;
+}
+window.bar .dark .time button {
+  color: green;
+}
+window.bar .dark .notifications .notifications-toggle {
+  color: green;
+}
+window.bar .dark .notifications .notifications-toggle.has-notifications .notification-count {
+  color: green;
+  font-weight: 700;
+  animation: notification-glow 2s ease-in-out infinite;
+}
+window.bar .dark .notifications .notifications-toggle.has-notifications .notification-count.urgent-critical {
+  color: green;
+  animation: notification-glow 1s ease-in-out infinite;
+}
+window.bar .dark .notifications .notifications-toggle.has-notifications .notification-count.urgent-low {
+  color: green;
+  animation: none;
+}
+window.bar .dark .notifications .notifications-toggle.dnd-active {
+  color: green;
+}
+window.bar .dark .notifications .notifications-toggle.dnd-active .notification-count {
+  color: green;
+  animation: none;
+}
+window.bar .dark .notifications .notifications-toggle.dnd-active:hover {
+  color: green;
+  background-color: alpha(green,0.5);
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu .menu-item {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px;
+  transition: all 150ms ease;
+  color: green;
+  font-weight: 500;
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu .menu-item:hover {
+  background-color: green;
+  transform: translateX(2px);
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu .menu-item.clear-button:hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu .menu-item.dnd-button:hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu .menu-item.test-button:hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .notifications .notifications-toggle .notification-menu separator {
+  background-color: green;
+  min-height: 1px;
+  margin: 4px 8px;
+}
+window.bar .dark .show-desktop .show-desktop {
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop:hover {
+  background-color: alpha(green,0.6);
+}
+window.bar .dark .show-desktop .show-desktop.active {
+  background-color: alpha(green,0.2);
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop.active:hover {
+  background-color: alpha(green,0.3);
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover box {
+  background-color: green;
+  border: 1px solid green;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+window.bar .dark .show-desktop .show-desktop popover .menu-item {
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover .menu-item:hover {
+  background-color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover .menu-item:nth-child(1):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover .menu-item:nth-child(2):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover .menu-item:nth-child(3):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover .menu-item:nth-child(5):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .dark .show-desktop .show-desktop popover separator {
+  background-color: green;
+}
+window.bar .light {
+  background-color: green;
+  color: green;
+}
+window.bar .light button:active {
+  color: orange;
+}
+window.bar .light button:hover {
+  background: linear-gradient(90deg, rgba(42, 123, 155, 0.2) 0%, rgba(87, 199, 133, 0.2) 50%, rgba(237, 221, 83, 0.2) 100%);
+}
+window.bar .light .surface {
+  background-color: green;
+  border: 0.5px solid green;
+}
+window.bar .light .surface1 {
+  background-color: green;
+  border: 0.5px solid green;
+}
+window.bar .light .workspaces label {
+  box-shadow: inset 0 0 0 20pt green;
+}
+window.bar .light .workspaces label:hover {
+  box-shadow: inset 0 0 0 20pt green, 0 0 8px alpha(green,0.2);
+}
+window.bar .light .workspaces label.occupied {
+  box-shadow: inset 0 0 0 20pt green;
+}
+window.bar .light .workspaces label.occupied:hover {
+  box-shadow: inset 0 0 0 20pt green, 0 0 12px alpha(green,0.4);
+}
+window.bar .light .workspaces label.focused {
+  box-shadow: inset 0 0 0 20pt green;
+}
+window.bar .light .workspaces label.focused:hover {
+  box-shadow: inset 0 0 0 20pt green, 0 0 16px alpha(green,0.6);
+}
+window.bar .light .profile {
+  background-color: green;
+  color: green;
+}
+window.bar .light .profile box.Notification {
+  background-color: green;
+}
+window.bar .light .profile box.Notification .content .image {
+  border: 1px solid alpha(green,1);
+}
+window.bar .light .profile .profile {
+  border: 0.5px solid green;
+}
+window.bar .light .profile .surface0 {
+  background-color: green;
+}
+window.bar .light .profile .surface1 {
+  background-color: green;
+}
+window.bar .light .profile .surface2 {
+  background-color: green;
+}
+window.bar .light .profile separator {
+  background-color: green;
+}
+window.bar .light .time:active {
+  color: green;
+}
+window.bar .light .time:hover {
+  color: green;
+}
+window.bar .light .time button {
+  color: green;
+}
+window.bar .light .notifications .notifications-toggle {
+  color: green;
+}
+window.bar .light .notifications .notifications-toggle.has-notifications .notification-count {
+  color: green;
+  font-weight: 700;
+  animation: notification-glow 2s ease-in-out infinite;
+}
+window.bar .light .notifications .notifications-toggle.has-notifications .notification-count.urgent-critical {
+  color: green;
+  animation: notification-glow 1s ease-in-out infinite;
+}
+window.bar .light .notifications .notifications-toggle.has-notifications .notification-count.urgent-low {
+  color: green;
+  animation: none;
+}
+window.bar .light .notifications .notifications-toggle.dnd-active {
+  color: green;
+}
+window.bar .light .notifications .notifications-toggle.dnd-active .notification-count {
+  color: green;
+  animation: none;
+}
+window.bar .light .notifications .notifications-toggle.dnd-active:hover {
+  color: green;
+  background-color: alpha(green,0.5);
+}
+window.bar .light .notifications .notifications-toggle .notification-menu {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+window.bar .light .notifications .notifications-toggle .notification-menu .menu-item {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px;
+  transition: all 150ms ease;
+  color: green;
+  font-weight: 500;
+}
+window.bar .light .notifications .notifications-toggle .notification-menu .menu-item:hover {
+  background-color: green;
+  transform: translateX(2px);
+}
+window.bar .light .notifications .notifications-toggle .notification-menu .menu-item.clear-button:hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .notifications .notifications-toggle .notification-menu .menu-item.dnd-button:hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .notifications .notifications-toggle .notification-menu .menu-item.test-button:hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .notifications .notifications-toggle .notification-menu separator {
+  background-color: green;
+  min-height: 1px;
+  margin: 4px 8px;
+}
+window.bar .light .show-desktop .show-desktop {
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop:hover {
+  background-color: alpha(green,0.6);
+}
+window.bar .light .show-desktop .show-desktop.active {
+  background-color: alpha(green,0.2);
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop.active:hover {
+  background-color: alpha(green,0.3);
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop popover box {
+  background-color: green;
+  border: 1px solid green;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+window.bar .light .show-desktop .show-desktop popover .menu-item {
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop popover .menu-item:hover {
+  background-color: green;
+}
+window.bar .light .show-desktop .show-desktop popover .menu-item:nth-child(1):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop popover .menu-item:nth-child(2):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop popover .menu-item:nth-child(3):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop popover .menu-item:nth-child(5):hover {
+  background-color: alpha(green,0.1);
+  color: green;
+}
+window.bar .light .show-desktop .show-desktop popover separator {
+  background-color: green;
+}
+
+.desktop-icon-button {
+  padding: 0px;
+}
+
+.desktop-icon {
+  padding: 0px;
+  margin: 4px;
+  background-color: pink;
+  border-radius: 8px;
+  transition: all 200ms ease;
+}
+.desktop-icon:hover {
+  transform: scale(1.05);
+}
+.desktop-icon.selected {
+  transform: scale(1.1);
+}
+.desktop-icon .icon {
+  transition: all 200ms ease;
+}
+.desktop-icon .label {
+  font-size: 11px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 6px rgba(0, 0, 0, 0.7), 1px 1px 0 rgba(0, 0, 0, 0.8), -1px -1px 0 rgba(0, 0, 0, 0.8), 1px -1px 0 rgba(0, 0, 0, 0.8), -1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+.wallpaper-overlay {
+  background: transparent;
+}
+
+.wallpaper-buttons {
+  margin: 12px;
+}
+
+.wallpaper-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 200ms ease;
+}
+.wallpaper-button:hover {
+  transform: translateY(-1px);
+}
+
+.context-menu {
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 12px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.context-menu-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 150ms ease;
+  font-weight: 500;
+}
+.context-menu-item:hover {
+  transform: translateX(2px);
+}
+
+.blur-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.clock-widget {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.weather-widget {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-container {
+  margin: 20px;
+}
+
+/* Minimal Cava audio visualizer */
+.cava-minimal {
+  background: transparent;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.cava-bar-minimal {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  transition: all 0.1s ease;
+  min-height: 2px;
+  margin: 0 1px;
+}
+
+/* Grid overlay for drag feedback */
+.grid-overlay {
+  background-color: transparent;
+}
+
+@keyframes dropPulse {
+  0% {
+    transform: scale(1.05);
+    background: rgba(0, 120, 215, 0.4);
+  }
+  50% {
+    transform: scale(1.2);
+    background: rgba(0, 255, 0, 0.8);
+  }
+  100% {
+    transform: scale(1.15);
+    background: rgba(0, 255, 0, 0.6);
+  }
+}
+.grid-fade-in {
+  animation: gridFadeIn 300ms ease-out;
+}
+
+.grid-fade-out {
+  animation: gridFadeOut 200ms ease-in;
+}
+
+@keyframes gridFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes gridFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+.drop-target-highlight {
+  background: rgba(0, 255, 0, 0.2);
+  border: 2px solid rgba(0, 255, 0, 0.8);
+  border-radius: 8px;
+}
+
+/* Context menus and dialogs */
+popover .context-menu-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 150ms ease;
+}
+popover separator {
+  margin: 4px 8px;
+  min-height: 1px;
+}
+
+.macchiato {
+  /* Themed grid overlay styles */
+  /* Context menus and dialogs */
+}
+.macchiato .desktop {
+  background: transparent;
+  color: #cad3f5;
+}
+.macchiato .desktop-icon:hover {
+  background: alpha(#363a4f,0.7);
+}
+.macchiato .desktop-icon.selected {
+  background: alpha(#8aadf4,0.3);
+}
+.macchiato .desktop-icon .label {
+  color: #cad3f5;
+  text-shadow: 0 1px 3px alpha(#24273a,0.9), 0 0 6px alpha(#24273a,0.7), 1px 1px 0 alpha(#24273a,0.8), -1px -1px 0 alpha(#24273a,0.8), 1px -1px 0 alpha(#24273a,0.8), -1px 1px 0 alpha(#24273a,0.8);
+}
+.macchiato .wallpaper-button {
+  background: alpha(#363a4f,0.8);
+  color: #cad3f5;
+  border: 1px solid #5b6078;
+}
+.macchiato .wallpaper-button:hover {
+  background: alpha(#494d64,0.9);
+}
+.macchiato .wallpaper-button.active {
+  background: alpha(#8aadf4,0.8);
+  color: #24273a;
+}
+.macchiato .context-menu {
+  background: alpha(#363a4f,0.95);
+  border: 1px solid #5b6078;
+}
+.macchiato .context-menu-item {
+  color: #cad3f5;
+}
+.macchiato .context-menu-item:hover {
+  background: #494d64;
+}
+.macchiato .clock-widget {
+  background: alpha(#363a4f,0.9);
+  border: 1px solid #5b6078;
+  color: #cad3f5;
+}
+.macchiato .clock-widget .time {
+  color: #8aadf4;
+  font-size: 2em;
+  font-weight: 300;
+}
+.macchiato .clock-widget .date {
+  color: #b8c0e0;
+  font-size: 1.1em;
+}
+.macchiato .weather-widget {
+  background: alpha(#363a4f,0.9);
+  border: 1px solid #5b6078;
+  color: #cad3f5;
+}
+.macchiato .weather-widget .temperature {
+  color: #f5a97f;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.macchiato .weather-widget .condition {
+  color: #b8c0e0;
+}
+.macchiato .grid-cell {
+  /* border: 1px solid theme-get("surface2");
+  border-color: theme-get("surface2"); */
+}
+.macchiato .grid-cell-target {
+  border: 1px solid pink;
+  border-color: pink;
+}
+.macchiato .grid-cell-hover {
+  border: 1px solid white;
+  border-color: white;
+}
+.macchiato popover .context-menu-item {
+  color: #cad3f5;
+}
+.macchiato popover separator {
+  background: #5b6078;
+}
+
+.dark {
+  /* Themed grid overlay styles */
+  /* Context menus and dialogs */
+}
+.dark .desktop {
+  background: transparent;
+  color: green;
+}
+.dark .desktop-icon:hover {
+  background: alpha(green,0.7);
+}
+.dark .desktop-icon.selected {
+  background: alpha(green,0.3);
+}
+.dark .desktop-icon .label {
+  color: green;
+  text-shadow: 0 1px 3px alpha(green,0.9), 0 0 6px alpha(green,0.7), 1px 1px 0 alpha(green,0.8), -1px -1px 0 alpha(green,0.8), 1px -1px 0 alpha(green,0.8), -1px 1px 0 alpha(green,0.8);
+}
+.dark .wallpaper-button {
+  background: alpha(green,0.8);
+  color: green;
+  border: 1px solid green;
+}
+.dark .wallpaper-button:hover {
+  background: alpha(green,0.9);
+}
+.dark .wallpaper-button.active {
+  background: alpha(green,0.8);
+  color: green;
+}
+.dark .context-menu {
+  background: alpha(green,0.95);
+  border: 1px solid green;
+}
+.dark .context-menu-item {
+  color: green;
+}
+.dark .context-menu-item:hover {
+  background: green;
+}
+.dark .clock-widget {
+  background: alpha(green,0.9);
+  border: 1px solid green;
+  color: green;
+}
+.dark .clock-widget .time {
+  color: green;
+  font-size: 2em;
+  font-weight: 300;
+}
+.dark .clock-widget .date {
+  color: green;
+  font-size: 1.1em;
+}
+.dark .weather-widget {
+  background: alpha(green,0.9);
+  border: 1px solid green;
+  color: green;
+}
+.dark .weather-widget .temperature {
+  color: green;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.dark .weather-widget .condition {
+  color: green;
+}
+.dark .grid-cell {
+  /* border: 1px solid theme-get("surface2");
+  border-color: theme-get("surface2"); */
+}
+.dark .grid-cell-target {
+  border: 1px solid pink;
+  border-color: pink;
+}
+.dark .grid-cell-hover {
+  border: 1px solid white;
+  border-color: white;
+}
+.dark popover .context-menu-item {
+  color: green;
+}
+.dark popover separator {
+  background: green;
+}
+
+.light {
+  /* Themed grid overlay styles */
+  /* Context menus and dialogs */
+}
+.light .desktop {
+  background: transparent;
+  color: green;
+}
+.light .desktop-icon:hover {
+  background: alpha(green,0.7);
+}
+.light .desktop-icon.selected {
+  background: alpha(green,0.3);
+}
+.light .desktop-icon .label {
+  color: green;
+  text-shadow: 0 1px 3px alpha(green,0.9), 0 0 6px alpha(green,0.7), 1px 1px 0 alpha(green,0.8), -1px -1px 0 alpha(green,0.8), 1px -1px 0 alpha(green,0.8), -1px 1px 0 alpha(green,0.8);
+}
+.light .wallpaper-button {
+  background: alpha(green,0.8);
+  color: green;
+  border: 1px solid green;
+}
+.light .wallpaper-button:hover {
+  background: alpha(green,0.9);
+}
+.light .wallpaper-button.active {
+  background: alpha(green,0.8);
+  color: green;
+}
+.light .context-menu {
+  background: alpha(green,0.95);
+  border: 1px solid green;
+}
+.light .context-menu-item {
+  color: green;
+}
+.light .context-menu-item:hover {
+  background: green;
+}
+.light .clock-widget {
+  background: alpha(green,0.9);
+  border: 1px solid green;
+  color: green;
+}
+.light .clock-widget .time {
+  color: green;
+  font-size: 2em;
+  font-weight: 300;
+}
+.light .clock-widget .date {
+  color: green;
+  font-size: 1.1em;
+}
+.light .weather-widget {
+  background: alpha(green,0.9);
+  border: 1px solid green;
+  color: green;
+}
+.light .weather-widget .temperature {
+  color: green;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.light .weather-widget .condition {
+  color: green;
+}
+.light .grid-cell {
+  /* border: 1px solid theme-get("surface2");
+  border-color: theme-get("surface2"); */
+}
+.light .grid-cell-target {
+  border: 1px solid pink;
+  border-color: pink;
+}
+.light .grid-cell-hover {
+  border: 1px solid white;
+  border-color: white;
+}
+.light popover .context-menu-item {
+  color: green;
+}
+.light popover separator {
+  background: green;
+}
+
+window.launcher {
+  background-color: transparent;
+}
+window.launcher box {
+  border: none;
+}
+window.launcher .launcher-background {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 300ms ease;
+}
+window.launcher .launcher-background:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: none;
+}
+window.launcher .launcher-background:active {
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: none;
+}
+window.launcher .launcher-container {
+  background-color: transparent;
+}
+window.launcher image {
+  font-size: 30em;
+}
+window.launcher .icon {
+  font-size: 3em;
+}
+window.launcher .default-apps {
+  padding: 10px;
+  box-shadow: 2px 3px 20px 0 alpha(black,0.3);
+  min-height: 50px;
+  min-width: 50px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 300ms ease, transform 300ms ease;
+}
+window.launcher .hover {
+  font-size: 1.1em;
+}
+window.launcher box.AppIcon {
+  padding: 8px;
+  border-radius: 12px;
+  transition: all 200ms ease;
+}
+window.launcher box.AppIcon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+window.launcher box.AppIcon image {
+  transition: all 200ms ease;
+}
+window.launcher box.AppIcon:hover image {
+  filter: brightness(1.2);
+}
+window.launcher box.AppIcon button icon {
+  font-size: 3em;
+}
+window.launcher box.Applauncher {
+  border-radius: 11px;
+  margin: 1rem;
+  padding: 0.8rem;
+  min-width: 800px;
+  box-shadow: 2px 3px 20px 0 alpha(black,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 300ms ease, transform 300ms ease;
+}
+window.launcher box.Applauncher entry {
+  margin-bottom: 0.8rem;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 8px 0 alpha(black,0.2);
+  transition: box-shadow 250ms ease, border-color 250ms ease;
+}
+window.launcher box.Applauncher button {
+  min-width: 0;
+  min-height: 0;
+  padding: 0.5rem;
+}
+window.launcher box.Applauncher button image {
+  font-size: 3em;
+  margin-right: 0.5rem;
+}
+window.launcher box.Applauncher button label.name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+window.launcher box.Applauncher box.not-found {
+  padding: 1rem;
+}
+window.launcher box.Applauncher box.not-found icon {
+  font-size: 6em;
+}
+window.launcher box.Applauncher box.not-found label {
+  font-size: 1.2em;
+}
+window.launcher .macchiato .default-apps {
+  background-color: alpha(#24273a,0.75);
+}
+window.launcher .macchiato .hover {
+  background-color: #363a4f;
+  border-radius: 12px;
+}
+window.launcher .macchiato box.Applauncher {
+  background-color: alpha(#24273a,0.8);
+}
+window.launcher .macchiato box.Applauncher entry {
+  background-color: alpha(#363a4f,0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+window.launcher .macchiato button label.description {
+  color: alpha(#cad3f5,0.8);
+}
+window.launcher .macchiato box.not-found icon {
+  color: alpha(#cad3f5,0.7);
+}
+window.launcher .macchiato box.not-found label {
+  color: alpha(#cad3f5,0.9);
+}
+window.launcher .macchiato .context-menu-item {
+  background-color: alpha(#363a4f,0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px 0;
+  box-shadow: 0 2px 10px 0 alpha(black,0.2);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+window.launcher .macchiato .context-menu-item:hover {
+  background-color: alpha(#494d64,0.85);
+}
+window.launcher .macchiato .context-menu-item:active {
+  background-color: alpha(#5b6078,0.9);
+}
+window.launcher .dark .default-apps {
+  background-color: alpha(green,0.75);
+}
+window.launcher .dark .hover {
+  background-color: green;
+  border-radius: 12px;
+}
+window.launcher .dark box.Applauncher {
+  background-color: alpha(green,0.8);
+}
+window.launcher .dark box.Applauncher entry {
+  background-color: alpha(green,0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+window.launcher .dark button label.description {
+  color: alpha(green,0.8);
+}
+window.launcher .dark box.not-found icon {
+  color: alpha(green,0.7);
+}
+window.launcher .dark box.not-found label {
+  color: alpha(green,0.9);
+}
+window.launcher .dark .context-menu-item {
+  background-color: alpha(green,0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px 0;
+  box-shadow: 0 2px 10px 0 alpha(black,0.2);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+window.launcher .dark .context-menu-item:hover {
+  background-color: alpha(green,0.85);
+}
+window.launcher .dark .context-menu-item:active {
+  background-color: alpha(green,0.9);
+}
+window.launcher .light .default-apps {
+  background-color: alpha(green,0.75);
+}
+window.launcher .light .hover {
+  background-color: green;
+  border-radius: 12px;
+}
+window.launcher .light box.Applauncher {
+  background-color: alpha(green,0.8);
+}
+window.launcher .light box.Applauncher entry {
+  background-color: alpha(green,0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+window.launcher .light button label.description {
+  color: alpha(green,0.8);
+}
+window.launcher .light box.not-found icon {
+  color: alpha(green,0.7);
+}
+window.launcher .light box.not-found label {
+  color: alpha(green,0.9);
+}
+window.launcher .light .context-menu-item {
+  background-color: alpha(green,0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 2px 0;
+  box-shadow: 0 2px 10px 0 alpha(black,0.2);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+window.launcher .light .context-menu-item:hover {
+  background-color: alpha(green,0.85);
+}
+window.launcher .light .context-menu-item:active {
+  background-color: alpha(green,0.9);
+}
+
+window.NotificationPopups box.Notification {
+  padding: 7px;
+  min-width: 320px;
+  border-radius: 15px;
+}
+window.NotificationPopups box.Notification .header .app-name {
+  font-style: italic;
+  font-size: 0.9em;
+}
+window.NotificationPopups box.Notification .header .time {
+  font-style: italic;
+}
+window.NotificationPopups box.Notification .content .summary {
+  font-weight: bold;
+  font-size: 1em;
+}
+window.NotificationPopups box.Notification .content .body {
+  font-size: 0.9em;
+}
+window.NotificationPopups box.Notification .content .image {
+  border-radius: 9px;
+  min-width: 64px;
+  min-height: 64px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+window.NotificationPopups .macchiato box.Notification {
+  background-color: #24273a;
+}
+window.NotificationPopups .macchiato box.Notification .header .app-name {
+  color: #b8c0e0;
+}
+window.NotificationPopups .macchiato box.Notification .header .time {
+  color: #b8c0e0;
+}
+window.NotificationPopups .macchiato box.Notification .content .summary {
+  color: #cad3f5;
+}
+window.NotificationPopups .macchiato box.Notification .content .body {
+  color: #cad3f5;
+}
+window.NotificationPopups .dark box.Notification {
+  background-color: green;
+}
+window.NotificationPopups .dark box.Notification .header .app-name {
+  color: green;
+}
+window.NotificationPopups .dark box.Notification .header .time {
+  color: green;
+}
+window.NotificationPopups .dark box.Notification .content .summary {
+  color: green;
+}
+window.NotificationPopups .dark box.Notification .content .body {
+  color: green;
+}
+window.NotificationPopups .light box.Notification {
+  background-color: green;
+}
+window.NotificationPopups .light box.Notification .header .app-name {
+  color: green;
+}
+window.NotificationPopups .light box.Notification .header .time {
+  color: green;
+}
+window.NotificationPopups .light box.Notification .content .summary {
+  color: green;
+}
+window.NotificationPopups .light box.Notification .content .body {
+  color: green;
+}
+window.OSD box.OSD {
+  border-radius: 100px;
+  padding: 13px 16px;
+  margin: 13px;
+  box-shadow: 3px 3px 7px 0 rgba(0, 0, 0, 0.4);
+}
+window.OSD icon {
+  font-size: 4rem;
+}
+window.OSD label {
+  font-size: 0.8rem;
+}
+window.OSD levelbar trough {
+  margin: 1rem 0.6rem;
+}
+window.OSD levelbar block {
+  border-radius: 20px;
+  min-height: 1rem;
+}
+window.OSD .macchiato box.OSD {
+  background-color: #24273a;
+}
+window.OSD .dark box.OSD {
+  background-color: green;
+}
+window.OSD .light box.OSD {
+  background-color: green;
+}
+
+window.logout {
+  /* Full screen overlay background */
+  /* Main container */
+  /* Title styling */
+  /* Button container */
+  /* Individual logout buttons */
+  /* Icon styling */
+  /* Label styling */
+}
+window.logout .logout-background {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+window.logout .logout-container {
+  border-radius: 24px;
+  padding: 32px;
+}
+window.logout .logout-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+window.logout .logout-buttons {
+  /* No additional styling needed */
+}
+window.logout .logout-button {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  min-height: 80px;
+  min-width: 80px;
+  padding: 8px;
+}
+window.logout .logout-button:hover {
+  transform: translateY(-2px);
+}
+window.logout .logout-button:active {
+  transform: translateY(0);
+}
+window.logout .logout-icon {
+  font-size: 28px;
+}
+window.logout .logout-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+window.logout .macchiato .logout-background {
+  background: alpha(#181926,0.8);
+}
+window.logout .macchiato .logout-container {
+  background: #24273a;
+  border: 2px solid #5b6078;
+  box-shadow: 0 16px 64px alpha(#181926,0.6);
+}
+window.logout .macchiato .logout-title {
+  color: #cad3f5;
+}
+window.logout .macchiato .logout-button {
+  background: #363a4f;
+  border: 2px solid #494d64;
+}
+window.logout .macchiato .logout-button:hover {
+  background: #494d64;
+  border-color: #5b6078;
+  box-shadow: 0 8px 24px alpha(#181926,0.4);
+}
+window.logout .macchiato .logout-button:active {
+  box-shadow: 0 4px 12px alpha(#181926,0.3);
+}
+window.logout .macchiato .logout-icon {
+  color: #cad3f5;
+}
+window.logout .macchiato .logout-label {
+  color: #b8c0e0;
+}
+window.logout .macchiato .logout-button.shutdown:hover {
+  border-color: #ed8796;
+  background: alpha(#ed8796,0.2);
+}
+window.logout .macchiato .logout-button.reboot:hover {
+  border-color: #f5a97f;
+  background: alpha(#f5a97f,0.2);
+}
+window.logout .macchiato .logout-button.logout:hover {
+  border-color: #f5a97f;
+  background: alpha(#f5a97f,0.2);
+}
+window.logout .macchiato .logout-button.suspend:hover {
+  border-color: #f5a97f;
+  background: alpha(#f5a97f,0.2);
+}
+window.logout .macchiato .logout-button.lock:hover {
+  border-color: #f5a97f;
+  background: alpha(#f5a97f,0.2);
+}
+window.logout .macchiato .logout-button.cancel:hover {
+  border-color: #5b6078;
+  background: #494d64;
+}
+window.logout .dark .logout-background {
+  background: alpha(green,0.8);
+}
+window.logout .dark .logout-container {
+  background: green;
+  border: 2px solid green;
+  box-shadow: 0 16px 64px alpha(green,0.6);
+}
+window.logout .dark .logout-title {
+  color: green;
+}
+window.logout .dark .logout-button {
+  background: green;
+  border: 2px solid green;
+}
+window.logout .dark .logout-button:hover {
+  background: green;
+  border-color: green;
+  box-shadow: 0 8px 24px alpha(green,0.4);
+}
+window.logout .dark .logout-button:active {
+  box-shadow: 0 4px 12px alpha(green,0.3);
+}
+window.logout .dark .logout-icon {
+  color: green;
+}
+window.logout .dark .logout-label {
+  color: green;
+}
+window.logout .dark .logout-button.shutdown:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .dark .logout-button.reboot:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .dark .logout-button.logout:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .dark .logout-button.suspend:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .dark .logout-button.lock:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .dark .logout-button.cancel:hover {
+  border-color: green;
+  background: green;
+}
+window.logout .light .logout-background {
+  background: alpha(green,0.8);
+}
+window.logout .light .logout-container {
+  background: green;
+  border: 2px solid green;
+  box-shadow: 0 16px 64px alpha(green,0.6);
+}
+window.logout .light .logout-title {
+  color: green;
+}
+window.logout .light .logout-button {
+  background: green;
+  border: 2px solid green;
+}
+window.logout .light .logout-button:hover {
+  background: green;
+  border-color: green;
+  box-shadow: 0 8px 24px alpha(green,0.4);
+}
+window.logout .light .logout-button:active {
+  box-shadow: 0 4px 12px alpha(green,0.3);
+}
+window.logout .light .logout-icon {
+  color: green;
+}
+window.logout .light .logout-label {
+  color: green;
+}
+window.logout .light .logout-button.shutdown:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .light .logout-button.reboot:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .light .logout-button.logout:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .light .logout-button.suspend:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .light .logout-button.lock:hover {
+  border-color: green;
+  background: alpha(green,0.2);
+}
+window.logout .light .logout-button.cancel:hover {
+  border-color: green;
+  background: green;
+}

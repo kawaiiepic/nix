@@ -13,7 +13,6 @@ window.logout {
     .logout-container {
         border-radius: 24px;
         padding: 32px;
-        backdrop-filter: blur(20px);
     }
 
     /* Title styling */
@@ -104,18 +103,18 @@ window.logout {
         }
 
         .logout-button.logout:hover {
-            border-color: theme-get("teal");
-            background: util.gtkalpha(theme-get("teal"), 0.2);
+            border-color: theme-get("color6");
+            background: util.gtkalpha(theme-get("color6"), 0.2);
         }
 
         .logout-button.suspend:hover {
-            border-color: theme-get("green");
-            background: util.gtkalpha(theme-get("green"), 0.2);
+            border-color: theme-get("color6");
+            background: util.gtkalpha(theme-get("color6"), 0.2);
         }
 
         .logout-button.lock:hover {
-            border-color: theme-get("yellow");
-            background: util.gtkalpha(theme-get("yellow"), 0.2);
+            border-color: theme-get("color6");
+            background: util.gtkalpha(theme-get("color6"), 0.2);
         }
 
         .logout-button.cancel:hover {

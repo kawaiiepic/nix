@@ -101,7 +101,7 @@ $theme-map: null;
         // make a class for each theme using interpolation -> #{}
         // use & for making the theme class ancestor of the class
         // from which you use @include theme() {...}
-        & .#{$theme} {
+        .#{$theme} {
             @content; // the content inside @include theme() {...}
         }
     }

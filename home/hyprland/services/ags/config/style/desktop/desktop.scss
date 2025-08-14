@@ -1,11 +1,16 @@
 @use "../themes/theme" as *;
+@use "../util.scss" as *;
 
-@mixin default {
+    .desktop-icon-button {
+        padding: 0px;
+    }
+    
     .desktop-icon {
-        padding: 8px;
+        padding: 0px;
+        margin: 4px;
+        background-color: pink;
         border-radius: 8px;
         transition: all 200ms ease;
-        cursor: pointer;
 
         &:hover {
             transform: scale(1.05);
@@ -22,8 +27,6 @@
         .label {
             font-size: 11px;
             font-weight: 600;
-            text-align: center;
-            margin-top: 4px;
             text-shadow:
                 0 1px 3px rgba(0, 0, 0, 0.9),
                 0 0 6px rgba(0, 0, 0, 0.7),
@@ -34,16 +37,11 @@
         }
     }
 
-    .desktop-grid {
-        padding: 20px;
-    }
-
     .wallpaper-overlay {
         background: transparent;
     }
 
     .wallpaper-buttons {
-        spacing: 8px;
         margin: 12px;
     }
 
@@ -62,7 +60,6 @@
         background: rgba(0, 0, 0, 0.9);
         border-radius: 12px;
         padding: 8px;
-        backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -79,14 +76,12 @@
 
     .blur-overlay {
         background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(8px);
     }
 
     .clock-widget {
         background: rgba(0, 0, 0, 0.6);
         border-radius: 16px;
         padding: 20px;
-        backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -94,7 +89,6 @@
         background: rgba(0, 0, 0, 0.6);
         border-radius: 16px;
         padding: 16px;
-        backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -119,32 +113,58 @@
 
     /* Grid overlay for drag feedback */
     .grid-overlay {
-        background: transparent;
-        pointer-events: none;
-        z-index: 9998;
+        background-color: transparent;
     }
 
-    .grid-cell {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        transition: all 150ms ease;
-        pointer-events: none;
-        z-index: 9999;
+    @keyframes dropPulse {
+        0% {
+            transform: scale(1.05);
+            background: rgba(0, 120, 215, 0.4);
+        }
+        50% {
+            transform: scale(1.2);
+            background: rgba(0, 255, 0, 0.8);
+        }
+        100% {
+            transform: scale(1.15);
+            background: rgba(0, 255, 0, 0.6);
+        }
     }
 
-    .grid-cell-hover {
-        background: rgba(255, 255, 255, 0.3);
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        transform: scale(1.05);
-        z-index: 10000;
+    .grid-fade-in {
+        animation: gridFadeIn 300ms ease-out;
+    }
+
+    .grid-fade-out {
+        animation: gridFadeOut 200ms ease-in;
+    }
+
+    @keyframes gridFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes gridFadeOut {
+        from {
+            opacity: 1;
+            transform: scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: scale(0.95);
+        }
     }
 
     .drop-target-highlight {
         background: rgba(0, 255, 0, 0.2);
         border: 2px solid rgba(0, 255, 0, 0.8);
         border-radius: 8px;
-        pointer-events: none;
     }
 
     /* Context menus and dialogs */
@@ -160,9 +180,8 @@
             min-height: 1px;
         }
     }
-}
 
-@mixin themed {
+    @include theme() {
     .desktop {
         background: transparent;
         color: theme-get("text");
@@ -251,29 +270,21 @@
             color: theme-get("subtext1");
         }
     }
-
-    .blur-overlay {
-        background: gtkalpha(theme-get("base"), 0.4);
-    }
-
-    .cava-bar-minimal {
-        background: gtkalpha(theme-get("text"), 0.8);
-    }
-
+    
     /* Themed grid overlay styles */
     .grid-cell {
-        background: gtkalpha(theme-get("surface1"), 0.2);
-        border: 1px solid gtkalpha(theme-get("surface2"), 0.4);
+        /* border: 1px solid theme-get("surface2");
+        border-color: theme-get("surface2"); */
     }
-
+    
+    .grid-cell-target {
+        border: 1px solid pink;
+        border-color: pink;
+    }
+    
     .grid-cell-hover {
-        background: gtkalpha(theme-get("accent"), 0.3);
-        border: 2px solid gtkalpha(theme-get("accent"), 0.6);
-    }
-
-    .drop-target-highlight {
-        background: gtkalpha(theme-get("green"), 0.3);
-        border: 2px solid gtkalpha(theme-get("green"), 0.9);
+        border: 1px solid white;
+        border-color: white;
     }
 
     /* Context menus and dialogs */

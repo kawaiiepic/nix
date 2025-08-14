@@ -45,13 +45,9 @@
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.lix = {
-        url = "git+https://git.lix.systems/lix-project/lix";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-    };
+          url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.3-1.tar.gz";
+          inputs.nixpkgs.follows = "nixpkgs";
+        };
 
     nixcord = {
       url = "github:kaylorben/nixcord";

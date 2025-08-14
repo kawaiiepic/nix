@@ -5,6 +5,7 @@ import Gio from "gi://Gio";
 import GObject from "gi://GObject";
 import { execAsync, exec } from "ags/process";
 import { readFile, writeFile } from "ags/file";
+import Pango from "gi://Pango?version=1.0";
 
 interface DesktopFile {
   name: string;
@@ -51,11 +52,11 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
     spacing: 1,
     cssClasses: ["desktop-icon"],
     halign: Gtk.Align.CENTER,
-    valign: Gtk.Align.CENTER,
-    marginTop: 0,
-    marginBottom: 0,
-    marginStart: 0,
-    marginEnd: 0,
+    valign: Gtk.Align.FILL,
+    hexpand: false,
+    vexpand: false,
+    widthRequest: 64,
+    heightRequest: 64,
   });
 
   // File icon
@@ -75,25 +76,19 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
 
   const label = new Gtk.Label({
     label: displayName,
-    cssClasses: ["desktop-icon-label"],
+    cssClasses: ["label"],
     justify: Gtk.Justification.CENTER,
     wrap: false,
     maxWidthChars: 8,
-    widthRequest: 60,
-    ellipsize: 3,
+    ellipsize: Pango.EllipsizeMode.END,
   });
 
   const button = new Gtk.Button({
-    cssClasses: ["desktop-icon-button", "windows-icon"],
+    cssClasses: ["desktop-icon-button"],
     child: iconBox,
     tooltipText: file.name === "trash" ? "Open Trash" : file.path,
-    widthRequest: 80,
-    heightRequest: 80,
     focusOnClick: true,
-    marginTop: 0,
-    marginBottom: 0,
-    marginStart: 0,
-    marginEnd: 0,
+    hasFrame: false
   });
 
   iconBox.append(icon);
@@ -337,12 +332,12 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
     // Hide grid overlay
     const overlay = (globalThis as any).desktopGridOverlay;
     if (overlay) {
-      overlay.set_visible(false);
+      overlay.set_visible(true);
       // Reset all cell highlights and hide all cells
       let child = overlay.get_first_child();
       while (child) {
         child.remove_css_class("grid-cell-hover");
-        child.set_visible(false);
+        child.set_visible(true);
         child = child.get_next_sibling();
       }
     }
@@ -619,72 +614,26 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
     visible: true,
   });
 
+  // Create visual feedback grid cells
+  const gridCells: Gtk.Widget[] = [];
   for (let row = 0; row < maxRows; row++) {
     for (let col = 0; col < maxColumns; col++) {
       const gridCell = new Gtk.Box({
-        cssClasses: ["grid-cell", "debug-grid-cell"],
+        cssClasses: ["grid-cell"],
         widthRequest: cellSize,
         heightRequest: cellSize,
         visible: false,
       });
 
-      // Add inline CSS for hover grid (red)
-      gridCell.add_css_class("grid-cell-debug");
-      const provider = new Gtk.CssProvider();
-      provider.load_from_string(`
-        .grid-cell-debug {
-          background: rgba(255, 0, 0, 0.5);
-          border: 2px solid red;
-        }
-      `);
-      gridCell
-        .get_style_context()
-        .add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-      const x = col * cellSize;
+      const x = col * cellSize; // Match icon positioning
       const y = row * cellSize;
       gridOverlay.put(gridCell, x, y);
+      gridCells.push(gridCell);
     }
   }
 
   // Store reference globally for access during drag
   (globalThis as any).desktopGridOverlay = gridOverlay;
-
-  // Create permanent test grid to see actual icon positions
-  const testGridOverlay = new Gtk.Fixed({
-    cssClasses: ["test-grid-overlay"],
-    hexpand: true,
-    vexpand: true,
-    visible: true,
-  });
-
-  for (let row = 0; row < maxRows; row++) {
-    for (let col = 0; col < maxColumns; col++) {
-      const testCell = new Gtk.Box({
-        cssClasses: ["test-grid-cell"],
-        widthRequest: cellSize,
-        heightRequest: cellSize,
-        visible: true,
-      });
-
-      // Add inline CSS for test grid (blue)
-      testCell.add_css_class("test-cell-debug");
-      const provider = new Gtk.CssProvider();
-      provider.load_from_string(`
-        .test-cell-debug {
-          background: rgba(0, 0, 255, 0.3);
-          border: 1px solid blue;
-        }
-      `);
-      testCell
-        .get_style_context()
-        .add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-      // Position exactly where icons should be (with gridBox padding)
-      const x = col * cellSize + 20;
-      const y = row * cellSize + 20;
-      testGridOverlay.put(testCell, x, y);
-    }
-  }
 
   // Track existing icons to avoid unnecessary recreation
   const existingIcons = new Map<string, Gtk.Widget>();
@@ -762,30 +711,8 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
           },
         });
 
-        // Add visual debug marker to see actual icon position
-        const debugMarker = new Gtk.Box({
-          cssClasses: ["icon-position-marker"],
-          widthRequest: 4,
-          heightRequest: 4,
-          visible: true,
-        });
-        const markerProvider = new Gtk.CssProvider();
-        markerProvider.load_from_string(`
-          .icon-position-marker {
-            background: rgba(0, 255, 0, 1.0);
-            border: 1px solid lime;
-          }
-        `);
-        debugMarker
-          .get_style_context()
-          .add_provider(
-            markerProvider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
-          );
-
         existingIcons.set(file.name, iconWidget);
         gridBox.put(iconWidget, iconX, iconY);
-        gridBox.put(debugMarker, iconX, iconY); // Green dot at exact icon position
       } else {
         // Just update position if icon already exists
         const existingWidget = existingIcons.get(file.name)!;
@@ -805,13 +732,9 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
       // Add special CSS class for bottom-right trash icon
       trashWidget.add_css_class("trash-bottom-right");
 
-      // Position trash in bottom right
-      const gridContentWidth = desktopWidth - 40;
-      const gridContentHeight = desktopHeight - 40;
-      const bottomMargin = 20;
-      const rightMargin = 20;
-      const trashX = Math.max(0, gridContentWidth - 80 - rightMargin);
-      const trashY = Math.max(0, gridContentHeight - 80 - bottomMargin);
+      // Position trash in bottom right corner of grid
+      const trashX = Math.max(0, desktopWidth - cellSize);
+      const trashY = Math.max(0, desktopHeight - cellSize);
 
       gridBox.put(trashWidget, trashX, trashY);
       trashWidget.set_visible(true);
@@ -826,97 +749,110 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
   overlayDropTarget.set_actions(Gdk.DragAction.MOVE | Gdk.DragAction.COPY);
   overlayDropTarget.set_preload(true);
 
-  // Also try adding to viewport for better coverage
-  const viewportDropTarget = new Gtk.DropTarget();
-  viewportDropTarget.set_gtypes([GObject.TYPE_STRING]);
-  viewportDropTarget.set_actions(Gdk.DragAction.MOVE | Gdk.DragAction.COPY);
-  viewportDropTarget.set_preload(true);
-
   overlayDropTarget.connect("leave", () => {
     gridBox.remove_css_class("grid-drop-target");
-
+    gridBox.remove_css_class("grid-drop-active");
     gridOverlay.set_visible(false);
+
     // Hide all grid cells
-    let child = gridOverlay.get_first_child();
-    while (child) {
-      child.remove_css_class("grid-cell-hover");
-      child.set_visible(false);
-      child = child.get_next_sibling();
-    }
+    gridCells.forEach((cell) => {
+      cell.set_visible(false);
+      cell.remove_css_class("grid-cell-hover");
+      cell.remove_css_class("grid-cell-target");
+    });
   });
 
   overlayDropTarget.connect("enter", (target, x, y) => {
     gridBox.add_css_class("grid-drop-target");
-
     gridOverlay.set_visible(true);
+
+    // Show all grid cells with fade in effect
+    gridBox.add_css_class("grid-fade-in");
+    gridCells.forEach((cell, index) => {
+      setTimeout(() => {
+        cell.set_visible(false);
+      }, index * 2); // Stagger the appearance for wave effect
+    });
+
     return Gdk.DragAction.MOVE;
   });
 
   overlayDropTarget.connect("motion", (target, x, y) => {
-    const gridX = Math.floor(x / cellSize);
-    const gridY = Math.floor(y / cellSize);
+    // Account for icon positioning offset (icons are positioned at cellX + 20, cellY + 20)
+    const adjustedX = Math.max(0, x - 20);
+    const adjustedY = Math.max(0, y - 20);
 
-    // Hide all grid cells and clear hover states
-    let child = gridOverlay.get_first_child();
-    while (child) {
-      child.remove_css_class("grid-cell-hover");
-      child.set_visible(false);
-      child = child.get_next_sibling();
-    }
+    const gridX = Math.floor(adjustedX / cellSize);
+    const gridY = Math.floor(adjustedY / cellSize);
 
-    // With perfect divisibility, we can use all grid positions
-    const maxValidX = maxColumns - 1;
-    const maxValidY = maxRows - 1;
+    // Clear all previous hover states
+    gridCells.forEach((cell) => {
+      cell.remove_css_class("grid-cell-hover");
+      cell.remove_css_class("grid-cell-target");
+    });
 
-    // Validate grid bounds before highlighting
-    if (gridX < 0 || gridY < 0 || gridX > maxValidX || gridY > maxValidY) {
+    // Validate grid bounds
+    if (gridX < 0 || gridY < 0 || gridX >= maxColumns || gridY >= maxRows) {
+      gridBox.remove_css_class("grid-drop-active");
       return Gdk.DragAction.MOVE;
     }
 
-    // Calculate which cell to show and highlight
+    // Highlight target cell
     const targetIndex = gridY * maxColumns + gridX;
-    if (targetIndex >= 0 && targetIndex < maxRows * maxColumns) {
-      // Find the specific cell by walking through children
-      let currentChild = gridOverlay.get_first_child();
-      let currentIndex = 0;
-      while (currentChild && currentIndex < targetIndex) {
-        currentChild = currentChild.get_next_sibling();
-        currentIndex++;
-      }
+    if (targetIndex < gridCells.length) {
+      const targetCell = gridCells[targetIndex];
+      targetCell.add_css_class("grid-cell-target");
+      targetCell.visible = true;
 
-      if (currentChild) {
-        currentChild.set_visible(true);
-        currentChild.add_css_class("grid-cell-hover");
-      }
+      // Also highlight surrounding cells for better visual context
+      const surroundingIndices = [
+        targetIndex - maxColumns - 1,
+        targetIndex - maxColumns,
+        targetIndex - maxColumns + 1,
+        targetIndex - 1,
+        targetIndex + 1,
+        targetIndex + maxColumns - 1,
+        targetIndex + maxColumns,
+        targetIndex + maxColumns + 1,
+      ];
+
+      surroundingIndices.forEach((index) => {
+        if (index >= 0 && index < gridCells.length && index !== targetIndex) {
+          const surroundingRow = Math.floor(index / maxColumns);
+          const surroundingCol = index % maxColumns;
+          const targetRow = Math.floor(targetIndex / maxColumns);
+          const targetCol = targetIndex % maxColumns;
+
+          // Only highlight if within one cell distance
+          if (
+            Math.abs(surroundingRow - targetRow) <= 1 &&
+            Math.abs(surroundingCol - targetCol) <= 1
+          ) {
+            gridCells[index].add_css_class("grid-cell-hover");
+            gridCells[index].visible = true;
+          }
+        }
+      });
     }
 
+    gridBox.add_css_class("grid-drop-active");
     return Gdk.DragAction.MOVE;
   });
 
   overlayDropTarget.connect("drop", (target, value, x, y) => {
-    // Calculate grid position from drop coordinates
-    const rawGridX = Math.floor(x / cellSize);
-    const rawGridY = Math.floor(y / cellSize);
+    // Account for icon positioning offset (icons are positioned at cellX + 20, cellY + 20)
+    const adjustedX = Math.max(0, x);
+    const adjustedY = Math.max(0, y);
 
-    // With perfect divisibility, we can use all grid positions
-    const maxValidX = maxColumns - 1;
-    const maxValidY = maxRows - 1;
-
-    // Clamp grid position to valid bounds
-    const gridX = Math.max(0, Math.min(rawGridX, maxValidX));
-    const gridY = Math.max(0, Math.min(rawGridY, maxValidY));
-
-    // Reject drops that would place icons outside grid bounds
-    if (
-      rawGridX < 0 ||
-      rawGridY < 0 ||
-      rawGridX > maxValidX ||
-      rawGridY > maxValidY
-    ) {
-      gridBox.remove_css_class("grid-drop-target");
-      gridOverlay.set_visible(false);
-      return false;
-    }
+    // Calculate grid position from adjusted coordinates
+    const gridX = Math.max(
+      0,
+      Math.min(Math.floor(adjustedX / cellSize), maxColumns - 1),
+    );
+    const gridY = Math.max(
+      0,
+      Math.min(Math.floor(adjustedY / cellSize), maxRows - 1),
+    );
 
     const targetPosition = gridY * maxColumns + gridX;
 
@@ -930,195 +866,52 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
       return false;
     }
 
-    // Comprehensive coordinate debugging
+    // Show drop animation before moving
+    const targetCell = gridCells[targetPosition];
+    if (targetCell) {
+      targetCell.add_css_class("grid-cell-drop-animation");
 
-    // Get actual widget allocations for debugging
-    const gridBoxAlloc = gridBox.get_allocation();
-    const overlayAlloc = gridOverlay.get_allocation();
+      // Animate the drop
+      setTimeout(() => {
+        targetCell.remove_css_class("grid-cell-drop-animation");
 
-    // Create visual grid cell highlighter to show exact drop target
-    const gridCellX = gridX * cellSize;
-    const gridCellY = gridY * cellSize;
+        // Move the file to the target position
+        moveFileToPosition(fileName, targetPosition, maxColumns);
+        populateGrid();
 
-    // Create a cell highlight overlay to show the exact drop zone
-    const cellHighlight = new Gtk.Box({
-      cssClasses: ["drop-target-highlight"],
-      widthRequest: cellSize,
-      heightRequest: cellSize,
-    });
-    gridOverlay.put(cellHighlight, gridCellX, gridCellY);
+        // Fade out grid overlay
+        gridBox.add_css_class("grid-fade-out");
+        setTimeout(() => {
+          gridBox.remove_css_class("grid-drop-target");
+          gridBox.remove_css_class("grid-fade-out");
+          gridOverlay.set_visible(false);
 
-    // Create crosshair markers to show exact center
-    const cellCenterX = gridCellX + cellSize / 2; // Exact center of cell
-    const cellCenterY = gridCellY + cellSize / 2; // Exact center of cell
+          // Hide all grid cells
+          gridCells.forEach((cell) => {
+            cell.set_visible(false);
+            cell.remove_css_class("grid-cell-hover");
+            cell.remove_css_class("grid-cell-target");
+          });
+        }, 200);
+      }, 150);
+    } else {
+      // Fallback without animation
+      moveFileToPosition(fileName, targetPosition, maxColumns);
+      populateGrid();
+      gridBox.remove_css_class("grid-drop-target");
+      gridOverlay.set_visible(false);
+    }
 
-    // Horizontal crosshair line
-    const hLine = new Gtk.Box({
-      cssClasses: ["debug-crosshair-h"],
-      widthRequest: 32,
-      heightRequest: 2,
-    });
-    gridOverlay.put(hLine, cellCenterX - 16, cellCenterY - 1);
-
-    // Vertical crosshair line
-    const vLine = new Gtk.Box({
-      cssClasses: ["debug-crosshair-v"],
-      widthRequest: 2,
-      heightRequest: 32,
-    });
-    gridOverlay.put(vLine, cellCenterX - 1, cellCenterY - 16);
-
-    // Create debug marker at exact center
-    const markerSize = 12; // Marker is 12px x 12px
-    const markerCenterX = cellCenterX - markerSize / 2; // Center the marker on the crosshair
-    const markerCenterY = cellCenterY - markerSize / 2; // Center the marker on the crosshair
-
-    const debugMarker = new Gtk.Box({
-      cssClasses: ["debug-drop-marker"],
-      widthRequest: 12,
-      heightRequest: 12,
-    });
-    gridOverlay.put(debugMarker, markerCenterX, markerCenterY);
-
-    // Remove all markers after 3 seconds for better visibility
-    setTimeout(() => {
-      gridOverlay.remove(cellHighlight);
-      gridOverlay.remove(hLine);
-      gridOverlay.remove(vLine);
-      gridOverlay.remove(debugMarker);
-      // Hide all grid cells after drop
-      let child = gridOverlay.get_first_child();
-      while (child) {
-        child.remove_css_class("grid-cell-hover");
-        child.set_visible(false);
-        child = child.get_next_sibling();
-      }
-    }, 3000);
-
-    // Move the file to the target position
-
-    moveFileToPosition(fileName, targetPosition, maxColumns);
-
-    populateGrid();
-    gridBox.remove_css_class("grid-drop-target");
-    gridOverlay.set_visible(false);
     return true;
-  });
-
-  // Don't add controller to gridBox anymore
-
-  // Add drop target to viewport as well for better coverage
-  viewportDropTarget.connect("motion", (target, x, y) => {
-    console.log(`Viewport motion at ${x}, ${y}`);
-    const gridX = Math.floor(x / 80);
-    const gridY = Math.floor(y / 80);
-
-    // Show grid overlay when motion is detected
-    const overlay = (globalThis as any).desktopGridOverlay;
-    if (overlay) {
-      overlay.set_visible(true);
-
-      // Hide all cells and clear previous hover states
-      let child = overlay.get_first_child();
-      while (child) {
-        child.remove_css_class("grid-cell-hover");
-        child.set_visible(false);
-        child = child.get_next_sibling();
-      }
-
-      // With perfect divisibility, we can use all grid positions
-      const maxValidX = maxColumns - 1;
-      const maxValidY = maxRows - 1;
-
-      // Validate grid bounds before highlighting
-      if (
-        gridX >= 0 &&
-        gridY >= 0 &&
-        gridX <= maxValidX &&
-        gridY <= maxValidY
-      ) {
-        // Calculate which cell to highlight
-        const targetIndex = gridY * maxColumns + gridX;
-        if (targetIndex >= 0 && targetIndex < maxRows * maxColumns) {
-          // Find the specific cell by walking through children
-          let currentChild = overlay.get_first_child();
-          let currentIndex = 0;
-          while (currentChild && currentIndex < targetIndex) {
-            currentChild = currentChild.get_next_sibling();
-            currentIndex++;
-          }
-
-          if (currentChild) {
-            currentChild.set_visible(true);
-            currentChild.add_css_class("grid-cell-hover");
-          }
-        }
-      }
-    }
-
-    return Gdk.DragAction.MOVE;
-  });
-
-  viewportDropTarget.connect("drop", (target, value, x, y) => {
-    // Get viewport allocation for coordinate translation
-    const viewportAllocation = viewport.get_allocation();
-
-    // Calculate grid position from drop coordinates
-    const rawGridX = Math.floor(x / cellSize);
-    const rawGridY = Math.floor(y / cellSize);
-
-    // With perfect divisibility, we can use all grid positions
-    const maxValidX = maxColumns - 1;
-    const maxValidY = maxRows - 1;
-
-    // Clamp to valid bounds and reject if outside grid
-    if (
-      rawGridX < 0 ||
-      rawGridY < 0 ||
-      rawGridX > maxValidX ||
-      rawGridY > maxValidY
-    ) {
-      return false;
-    }
-
-    const gridX = Math.max(0, Math.min(rawGridX, maxValidX));
-    const gridY = Math.max(0, Math.min(rawGridY, maxValidY));
-    const targetPosition = gridY * maxColumns + gridX;
-
-    const fileName = GLib.path_get_basename(value.toString());
-
-    moveFileToPosition(fileName, targetPosition, maxColumns);
-    populateGrid();
-    return true;
-  });
-
-  viewport.add_controller(viewportDropTarget);
-
-  // Also add viewport drop target leave handler
-  viewportDropTarget.connect("leave", () => {
-    const overlay = (globalThis as any).desktopGridOverlay;
-    if (overlay) {
-      overlay.set_visible(false);
-      // Hide all grid cells
-      let child = overlay.get_first_child();
-      while (child) {
-        child.remove_css_class("grid-cell-hover");
-        child.set_visible(false);
-        child = child.get_next_sibling();
-      }
-    }
   });
 
   // Load positions and initial population
   loadDesktopPositions();
   populateGrid();
 
-  // No automatic refresh - only update on drag/drop or manual refresh
-
   // Create overlay container and ensure grid overlay is added
   const overlay = new Gtk.Overlay();
   overlay.set_child(gridBox);
-  overlay.add_overlay(testGridOverlay);
   overlay.add_overlay(gridOverlay);
 
   // Force grid overlay to be on top

@@ -22,7 +22,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     gdkmonitor,
     exclusivity: Astal.Exclusivity.EXCLUSIVE,
     anchor:
-      Astal.WindowAnchor.TOP |
+      Astal.WindowAnchor.BOTTOM |
       Astal.WindowAnchor.LEFT |
       Astal.WindowAnchor.RIGHT,
   });
