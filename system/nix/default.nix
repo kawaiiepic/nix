@@ -1,13 +1,13 @@
 { pkgs, lib, ... }:
 {
-  
+
   programs.git = {
-     enable = true;
-     lfs.enable = true;
-   };
-   
-   nix.package = pkgs.lixPackageSets.git.lix;
-   
+    enable = true;
+    lfs.enable = true;
+  };
+
+  nix.package = pkgs.lixPackageSets.git.lix;
+
   documentation.nixos.enable = false;
 
   # Remove xterm
@@ -19,7 +19,6 @@
     "freeimage-unstable-2021-11-01"
   ];
 
-  
   programs.nh = {
     enable = true;
     # weekly cleanup
@@ -27,8 +26,10 @@
       enable = true;
       extraArgs = "--keep-since 4d --keep 3";
     };
-    
+
   };
+
+  nix.gc.automatic = true;
 
   nix.settings = {
     auto-optimise-store = true;
