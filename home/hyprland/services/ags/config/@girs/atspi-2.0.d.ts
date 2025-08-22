@@ -2270,7 +2270,7 @@ declare module 'gi://Atspi?version=2.0' {
             (event: Event): void;
         }
         interface GenerateMouseEventCB {
-            (): void;
+            (user_data?: any | null): void;
         }
         interface KeyCallback {
             (

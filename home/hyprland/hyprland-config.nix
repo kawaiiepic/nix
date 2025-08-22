@@ -23,6 +23,7 @@
           "uwsm app -- ${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
           "uwsm app -- ags run"
           "uwsm app -- systemctl start --user hypridle"
+          "uwsm app -- vicinae server"
           "sleep 5 && start"
         ];
 
@@ -179,7 +180,7 @@
           "$MODSHIFT, P, exec, uwsm app -- screenshot-area"
           "$MOD, Return, exec, uwsm app -- kitty"
           "$MODSHIFT, Return, exec, [float] uwsm app -- kitty "
-          "$MOD, D, exec, uwsm app -- launcher"
+          "$MOD, D, exec, uwsm app -- vicinae vicinae://toggle"
           "$MOD, E, exec, uwsm app -- nautilus --new-window"
           ", XF86AudioPlay, exec, playerctl play-pause"
           ", XF86AudioNext, exec, playerctl next"
@@ -299,11 +300,11 @@
         render = {
           direct_scanout = 1;
         };
-        
+
         debug = {
           full_cm_proto = true;
         };
-        
+
         experimental = {
           xx_color_management_v4 = true;
         };

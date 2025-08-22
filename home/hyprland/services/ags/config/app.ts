@@ -18,6 +18,7 @@ NotificationUtils.registerKeybinds();
 writeFile('myFile.txt', style);
 
 app.start({
+  icons: `./icons`,
   css: style,
   main() {
     Applauncher(app.get_monitors()[0]);

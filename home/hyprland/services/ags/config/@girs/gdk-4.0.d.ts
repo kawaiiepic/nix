@@ -3883,7 +3883,7 @@ declare module 'gi://Gdk?version=4.0' {
             type: GObject.GType,
             io_priority: number,
             cancellable?: Gio.Cancellable | null,
-        ): Promise<[GObject.Value]>;
+        ): globalThis.Promise<[GObject.Value]>;
         /**
          * Reads content from the given input stream and deserialize it, asynchronously.
          *
@@ -3923,7 +3923,7 @@ declare module 'gi://Gdk?version=4.0' {
             io_priority: number,
             cancellable?: Gio.Cancellable | null,
             callback?: Gio.AsyncReadyCallback<Gio.InputStream> | null,
-        ): Promise<[GObject.Value]> | void;
+        ): globalThis.Promise<[GObject.Value]> | void;
         /**
          * Finishes a content deserialization operation.
          * @param result the `GAsyncResult`
@@ -3982,7 +3982,7 @@ declare module 'gi://Gdk?version=4.0' {
             value: GObject.Value | any,
             io_priority: number,
             cancellable?: Gio.Cancellable | null,
-        ): Promise<boolean>;
+        ): globalThis.Promise<boolean>;
         /**
          * Serialize content and write it to the given output stream, asynchronously.
          *
@@ -4022,7 +4022,7 @@ declare module 'gi://Gdk?version=4.0' {
             io_priority: number,
             cancellable?: Gio.Cancellable | null,
             callback?: Gio.AsyncReadyCallback<Gio.OutputStream> | null,
-        ): Promise<boolean> | void;
+        ): globalThis.Promise<boolean> | void;
         /**
          * Finishes a content serialization operation.
          * @param result the `GAsyncResult`
@@ -5372,7 +5372,7 @@ declare module 'gi://Gdk?version=4.0' {
                 mime_types: string[],
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Gio.InputStream | null, string]>;
+            ): globalThis.Promise<[Gio.InputStream | null, string]>;
             /**
              * Asynchronously requests an input stream to read the `clipboard'`s
              * contents from.
@@ -5406,7 +5406,7 @@ declare module 'gi://Gdk?version=4.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.InputStream | null, string]> | void;
+            ): globalThis.Promise<[Gio.InputStream | null, string]> | void;
             /**
              * Finishes an asynchronous clipboard read.
              *
@@ -5423,7 +5423,7 @@ declare module 'gi://Gdk?version=4.0' {
              * need more control over the operation.
              * @param cancellable optional `GCancellable` object
              */
-            read_text_async(cancellable?: Gio.Cancellable | null): Promise<string | null>;
+            read_text_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<string | null>;
             /**
              * Asynchronously request the `clipboard` contents converted to a string.
              *
@@ -5446,7 +5446,7 @@ declare module 'gi://Gdk?version=4.0' {
             read_text_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<string | null> | void;
+            ): globalThis.Promise<string | null> | void;
             /**
              * Finishes an asynchronous clipboard read.
              *
@@ -5463,7 +5463,7 @@ declare module 'gi://Gdk?version=4.0' {
              * need more control over the operation.
              * @param cancellable optional `GCancellable` object, %NULL to ignore.
              */
-            read_texture_async(cancellable?: Gio.Cancellable | null): Promise<Texture | null>;
+            read_texture_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<Texture | null>;
             /**
              * Asynchronously request the `clipboard` contents converted to a `GdkPixbuf`.
              *
@@ -5489,7 +5489,7 @@ declare module 'gi://Gdk?version=4.0' {
             read_texture_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Texture | null> | void;
+            ): globalThis.Promise<Texture | null> | void;
             /**
              * Finishes an asynchronous clipboard read.
              *
@@ -5513,7 +5513,7 @@ declare module 'gi://Gdk?version=4.0' {
                 type: GObject.GType,
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<GObject.Value>;
+            ): globalThis.Promise<GObject.Value>;
             /**
              * Asynchronously request the `clipboard` contents converted to the given
              * `type`.
@@ -5549,7 +5549,7 @@ declare module 'gi://Gdk?version=4.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<GObject.Value> | void;
+            ): globalThis.Promise<GObject.Value> | void;
             /**
              * Finishes an asynchronous clipboard read.
              *
@@ -5598,7 +5598,7 @@ declare module 'gi://Gdk?version=4.0' {
              * @param io_priority the I/O priority of the request
              * @param cancellable optional `GCancellable` object
              */
-            store_async(io_priority: number, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            store_async(io_priority: number, cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Asynchronously instructs the `clipboard` to store its contents remotely.
              *
@@ -5642,7 +5642,7 @@ declare module 'gi://Gdk?version=4.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes an asynchronous clipboard store.
              *
@@ -6460,7 +6460,7 @@ declare module 'gi://Gdk?version=4.0' {
                 stream: Gio.OutputStream,
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<boolean>;
+            ): globalThis.Promise<boolean>;
             /**
              * Asynchronously writes the contents of `provider` to `stream` in the given
              * `mime_type`.
@@ -6504,7 +6504,7 @@ declare module 'gi://Gdk?version=4.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes an asynchronous write operation.
              *
@@ -8912,7 +8912,10 @@ declare module 'gi://Gdk?version=4.0' {
              * @param size an integer.
              * @param cancellable optional #GCancellable object, %NULL to ignore.
              */
-            load_async(size: number, cancellable?: Gio.Cancellable | null): Promise<[Gio.InputStream, string]>;
+            load_async(
+                size: number,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<[Gio.InputStream, string]>;
             /**
              * Loads an icon asynchronously. To finish this function, see
              * g_loadable_icon_load_finish(). For the synchronous, blocking
@@ -8938,7 +8941,7 @@ declare module 'gi://Gdk?version=4.0' {
                 size: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.InputStream, string]> | void;
+            ): globalThis.Promise<[Gio.InputStream, string]> | void;
             /**
              * Finishes an asynchronous icon load started in g_loadable_icon_load_async().
              * @param res a #GAsyncResult.
@@ -10365,7 +10368,7 @@ declare module 'gi://Gdk?version=4.0' {
                 mime_types: string[],
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Gio.InputStream | null, string]>;
+            ): globalThis.Promise<[Gio.InputStream | null, string]>;
             /**
              * Asynchronously read the dropped data from a `GdkDrop`
              * in a format that complies with one of the mime types.
@@ -10393,7 +10396,7 @@ declare module 'gi://Gdk?version=4.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.InputStream | null, string]> | void;
+            ): globalThis.Promise<[Gio.InputStream | null, string]> | void;
             /**
              * Finishes an async drop read operation.
              *
@@ -10422,7 +10425,7 @@ declare module 'gi://Gdk?version=4.0' {
                 type: GObject.GType,
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<GObject.Value>;
+            ): globalThis.Promise<GObject.Value>;
             /**
              * Asynchronously request the drag operation's contents converted
              * to the given `type`.
@@ -10458,7 +10461,7 @@ declare module 'gi://Gdk?version=4.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<GObject.Value> | void;
+            ): globalThis.Promise<GObject.Value> | void;
             /**
              * Finishes an async drop read.
              *
@@ -11601,7 +11604,10 @@ declare module 'gi://Gdk?version=4.0' {
              * @param size an integer.
              * @param cancellable optional #GCancellable object, %NULL to ignore.
              */
-            load_async(size: number, cancellable?: Gio.Cancellable | null): Promise<[Gio.InputStream, string]>;
+            load_async(
+                size: number,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<[Gio.InputStream, string]>;
             /**
              * Loads an icon asynchronously. To finish this function, see
              * g_loadable_icon_load_finish(). For the synchronous, blocking
@@ -11627,7 +11633,7 @@ declare module 'gi://Gdk?version=4.0' {
                 size: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.InputStream, string]> | void;
+            ): globalThis.Promise<[Gio.InputStream, string]> | void;
             /**
              * Finishes an asynchronous icon load started in g_loadable_icon_load_async().
              * @param res a #GAsyncResult.
@@ -12921,7 +12927,10 @@ declare module 'gi://Gdk?version=4.0' {
              * @param size an integer.
              * @param cancellable optional #GCancellable object, %NULL to ignore.
              */
-            load_async(size: number, cancellable?: Gio.Cancellable | null): Promise<[Gio.InputStream, string]>;
+            load_async(
+                size: number,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<[Gio.InputStream, string]>;
             /**
              * Loads an icon asynchronously. To finish this function, see
              * g_loadable_icon_load_finish(). For the synchronous, blocking
@@ -12947,7 +12956,7 @@ declare module 'gi://Gdk?version=4.0' {
                 size: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.InputStream, string]> | void;
+            ): globalThis.Promise<[Gio.InputStream, string]> | void;
             /**
              * Finishes an asynchronous icon load started in g_loadable_icon_load_async().
              * @param res a #GAsyncResult.
@@ -13636,7 +13645,7 @@ declare module 'gi://Gdk?version=4.0' {
              * what colorstates are, this is probably the right thing.
              * @param color_state The colorstate describing the data
              */
-            set_color_state(color_state?: ColorState | null): void;
+            set_color_state(color_state: ColorState): void;
             /**
              * Sets the format of the bytes.
              *
@@ -15208,7 +15217,10 @@ declare module 'gi://Gdk?version=4.0' {
              * @param size an integer.
              * @param cancellable optional #GCancellable object, %NULL to ignore.
              */
-            load_async(size: number, cancellable?: Gio.Cancellable | null): Promise<[Gio.InputStream, string]>;
+            load_async(
+                size: number,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<[Gio.InputStream, string]>;
             /**
              * Loads an icon asynchronously. To finish this function, see
              * g_loadable_icon_load_finish(). For the synchronous, blocking
@@ -15234,7 +15246,7 @@ declare module 'gi://Gdk?version=4.0' {
                 size: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.InputStream, string]> | void;
+            ): globalThis.Promise<[Gio.InputStream, string]> | void;
             /**
              * Finishes an asynchronous icon load started in g_loadable_icon_load_async().
              * @param res a #GAsyncResult.
@@ -17706,6 +17718,89 @@ declare module 'gi://Gdk?version=4.0' {
         };
 
         namespace Paintable {
+            /**
+             * Interface for implementing Paintable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Gets an immutable paintable for the current contents displayed by `paintable`.
+                 *
+                 * This is useful when you want to retain the current state of an animation,
+                 * for example to take a screenshot of a running animation.
+                 *
+                 * If the `paintable` is already immutable, it will return itself.
+                 */
+                vfunc_get_current_image(): Paintable;
+                /**
+                 * Get flags for the paintable.
+                 *
+                 * This is oftentimes useful for optimizations.
+                 *
+                 * See [flags`Gdk`.PaintableFlags] for the flags and what they mean.
+                 */
+                vfunc_get_flags(): PaintableFlags;
+                /**
+                 * Gets the preferred aspect ratio the `paintable` would like to be displayed at.
+                 *
+                 * The aspect ratio is the width divided by the height, so a value of 0.5
+                 * means that the `paintable` prefers to be displayed twice as high as it
+                 * is wide. Consumers of this interface can use this to preserve aspect
+                 * ratio when displaying the paintable.
+                 *
+                 * This is a purely informational value and does not in any way limit the
+                 * values that may be passed to [method`Gdk`.Paintable.snapshot].
+                 *
+                 * Usually when a `paintable` returns nonzero values from
+                 * [method`Gdk`.Paintable.get_intrinsic_width] and
+                 * [method`Gdk`.Paintable.get_intrinsic_height] the aspect ratio
+                 * should conform to those values, though that is not required.
+                 *
+                 * If the `paintable` does not have a preferred aspect ratio,
+                 * it returns 0. Negative values are never returned.
+                 */
+                vfunc_get_intrinsic_aspect_ratio(): number;
+                /**
+                 * Gets the preferred height the `paintable` would like to be displayed at.
+                 *
+                 * Consumers of this interface can use this to reserve enough space to draw
+                 * the paintable.
+                 *
+                 * This is a purely informational value and does not in any way limit the
+                 * values that may be passed to [method`Gdk`.Paintable.snapshot].
+                 *
+                 * If the `paintable` does not have a preferred height, it returns 0.
+                 * Negative values are never returned.
+                 */
+                vfunc_get_intrinsic_height(): number;
+                /**
+                 * Gets the preferred width the `paintable` would like to be displayed at.
+                 *
+                 * Consumers of this interface can use this to reserve enough space to draw
+                 * the paintable.
+                 *
+                 * This is a purely informational value and does not in any way limit the
+                 * values that may be passed to [method`Gdk`.Paintable.snapshot].
+                 *
+                 * If the `paintable` does not have a preferred width, it returns 0.
+                 * Negative values are never returned.
+                 */
+                vfunc_get_intrinsic_width(): number;
+                /**
+                 * Snapshots the given paintable with the given `width` and `height`.
+                 *
+                 * The paintable is drawn at the current (0,0) offset of the `snapshot`.
+                 * If `width` and `height` are not larger than zero, this function will
+                 * do nothing.
+                 * @param snapshot a `GdkSnapshot` to snapshot to
+                 * @param width width to snapshot in
+                 * @param height height to snapshot in
+                 */
+                vfunc_snapshot(snapshot: Snapshot, width: number, height: number): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -17728,7 +17823,7 @@ declare module 'gi://Gdk?version=4.0' {
              */
             new_empty(intrinsic_width: number, intrinsic_height: number): Paintable;
         }
-        interface Paintable extends GObject.Object {
+        interface Paintable extends GObject.Object, Paintable.Interface {
             // Methods
 
             /**
@@ -17858,83 +17953,6 @@ declare module 'gi://Gdk?version=4.0' {
              * @param height height to snapshot in
              */
             snapshot(snapshot: Snapshot, width: number, height: number): void;
-
-            // Virtual methods
-
-            /**
-             * Gets an immutable paintable for the current contents displayed by `paintable`.
-             *
-             * This is useful when you want to retain the current state of an animation,
-             * for example to take a screenshot of a running animation.
-             *
-             * If the `paintable` is already immutable, it will return itself.
-             */
-            vfunc_get_current_image(): Paintable;
-            /**
-             * Get flags for the paintable.
-             *
-             * This is oftentimes useful for optimizations.
-             *
-             * See [flags`Gdk`.PaintableFlags] for the flags and what they mean.
-             */
-            vfunc_get_flags(): PaintableFlags;
-            /**
-             * Gets the preferred aspect ratio the `paintable` would like to be displayed at.
-             *
-             * The aspect ratio is the width divided by the height, so a value of 0.5
-             * means that the `paintable` prefers to be displayed twice as high as it
-             * is wide. Consumers of this interface can use this to preserve aspect
-             * ratio when displaying the paintable.
-             *
-             * This is a purely informational value and does not in any way limit the
-             * values that may be passed to [method`Gdk`.Paintable.snapshot].
-             *
-             * Usually when a `paintable` returns nonzero values from
-             * [method`Gdk`.Paintable.get_intrinsic_width] and
-             * [method`Gdk`.Paintable.get_intrinsic_height] the aspect ratio
-             * should conform to those values, though that is not required.
-             *
-             * If the `paintable` does not have a preferred aspect ratio,
-             * it returns 0. Negative values are never returned.
-             */
-            vfunc_get_intrinsic_aspect_ratio(): number;
-            /**
-             * Gets the preferred height the `paintable` would like to be displayed at.
-             *
-             * Consumers of this interface can use this to reserve enough space to draw
-             * the paintable.
-             *
-             * This is a purely informational value and does not in any way limit the
-             * values that may be passed to [method`Gdk`.Paintable.snapshot].
-             *
-             * If the `paintable` does not have a preferred height, it returns 0.
-             * Negative values are never returned.
-             */
-            vfunc_get_intrinsic_height(): number;
-            /**
-             * Gets the preferred width the `paintable` would like to be displayed at.
-             *
-             * Consumers of this interface can use this to reserve enough space to draw
-             * the paintable.
-             *
-             * This is a purely informational value and does not in any way limit the
-             * values that may be passed to [method`Gdk`.Paintable.snapshot].
-             *
-             * If the `paintable` does not have a preferred width, it returns 0.
-             * Negative values are never returned.
-             */
-            vfunc_get_intrinsic_width(): number;
-            /**
-             * Snapshots the given paintable with the given `width` and `height`.
-             *
-             * The paintable is drawn at the current (0,0) offset of the `snapshot`.
-             * If `width` and `height` are not larger than zero, this function will
-             * do nothing.
-             * @param snapshot a `GdkSnapshot` to snapshot to
-             * @param width width to snapshot in
-             * @param height height to snapshot in
-             */
-            vfunc_snapshot(snapshot: Snapshot, width: number, height: number): void;
         }
 
         export const Paintable: PaintableNamespace & {

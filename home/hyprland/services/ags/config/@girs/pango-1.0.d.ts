@@ -2923,7 +2923,7 @@ declare module 'gi://Pango?version=1.0' {
          */
         function version_string(): string;
         interface AttrDataCopyFunc {
-            (): any | null;
+            (user_data?: any | null): any | null;
         }
         interface AttrFilterFunc {
             (attribute: Attribute): boolean;

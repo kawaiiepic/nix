@@ -59,7 +59,7 @@ export default function Notifications(): Gtk.Box {
       button.remove_css_class("has-notifications");
       countLabel.set_visible(false);
     } else {
-      icon.set_from_icon_name("notification-symbolic");
+      icon.set_from_icon_name("notification-1-symbolic");
       button.remove_css_class("dnd-active");
 
       if (count > 0) {

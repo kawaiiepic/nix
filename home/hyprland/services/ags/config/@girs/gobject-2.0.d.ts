@@ -48,6 +48,79 @@ declare module 'gi://GObject?version=2.0' {
             Requires?: Object[];
         }
 
+        export type Property<K extends ParamSpec> = K extends ParamSpec<infer T> ? T : any;
+
+        // Advanced type inference for GObject class registration
+        // String conversion utilities for property names
+        type SnakeToUnderscoreCase<S extends string> = S extends `${infer T}-${infer U}`
+            ? `${T}_${SnakeToUnderscoreCase<U>}`
+            : S extends `${infer T}`
+              ? `${T}`
+              : never;
+
+        type SnakeToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
+            ? `${Lowercase<T>}${SnakeToPascalCase<U>}`
+            : S extends `${infer T}`
+              ? `${Lowercase<T>}`
+              : SnakeToPascalCase<S>;
+
+        type SnakeToPascalCase<S extends string> = string extends S
+            ? string
+            : S extends `${infer T}-${infer U}`
+              ? `${Capitalize<Lowercase<T>>}${SnakeToPascalCase<U>}`
+              : S extends `${infer T}`
+                ? `${Capitalize<Lowercase<T>>}`
+                : never;
+
+        type SnakeToCamel<T> = { [P in keyof T as P extends string ? SnakeToCamelCase<P> : P]: T[P] };
+        type SnakeToUnderscore<T> = { [P in keyof T as P extends string ? SnakeToUnderscoreCase<P> : P]: T[P] };
+
+        // Advanced utility types for class registration
+        type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (x: infer R) => any ? R : never;
+
+        type IFaces<Interfaces extends { $gtype: GType<any> }[]> = {
+            [key in keyof Interfaces]: Interfaces[key] extends { $gtype: GType<infer I> } ? I : never;
+        };
+
+        export type Properties<Prototype extends {}, Properties extends { [key: string]: ParamSpec }> = Omit<
+            {
+                [key in keyof Properties | keyof Prototype]: key extends keyof Prototype
+                    ? never
+                    : key extends keyof Properties
+                      ? Property<Properties[key]>
+                      : never;
+            },
+            keyof Prototype
+        >;
+
+        export type RegisteredPrototype<
+            P extends {},
+            Props extends { [key: string]: ParamSpec },
+            Interfaces extends any[],
+        > = Properties<P, SnakeToCamel<Props> & SnakeToUnderscore<Props>> & UnionToIntersection<Interfaces[number]> & P;
+
+        type Ctor = new (...a: any[]) => object;
+        type Init = { _init(...args: any[]): void };
+
+        export type RegisteredClass<
+            T extends Ctor,
+            Props extends { [key: string]: ParamSpec },
+            Interfaces extends { $gtype: GType<any> }[],
+        > = T extends { prototype: infer P extends {} }
+            ? {
+                  $gtype: GType<RegisteredClass<T, Props, IFaces<Interfaces>>>;
+                  new (
+                      ...args: P extends Init ? Parameters<P['_init']> : [void]
+                  ): RegisteredPrototype<P, Props, IFaces<Interfaces>>;
+                  prototype: RegisteredPrototype<P, Props, IFaces<Interfaces>>;
+              }
+            : never;
+
+        export type SignalDefinitionType = {
+            param_types?: readonly GType[];
+            [key: string]: any;
+        };
+
         // Correctly types interface checks.
         export function type_is_a<T extends Object>(obj: Object, is_a_type: { $gtype: GType<T> }): obj is T;
 
@@ -57,6 +130,11 @@ declare module 'gi://GObject?version=2.0' {
             _construct: (params: any, ...otherArgs: any[]) => any;
             _init: (params: any) => void;
             $gtype?: GType<T>;
+        }
+
+        export namespace Object {
+            // Interface for virtual method implementations
+            export interface Interface extends GObject.Interface {}
         }
 
         /**
@@ -106,6 +184,7 @@ declare module 'gi://GObject?version=2.0' {
         export let TYPE_UINT: GType<number>;
         export let TYPE_INT64: GType<number>;
         export let TYPE_UINT64: GType<number>;
+        export let TYPE_FLOAT: GType<number>;
 
         // fake enum for signal accumulators, keep in sync with gi/object.c
         export enum AccumulatorType {
@@ -232,8 +311,6 @@ declare module 'gi://GObject?version=2.0' {
         export function signal_handlers_disconnect_by_func(instance: Object, func: (...args: any[]) => any): number;
         export function signal_handlers_disconnect_by_data(): void;
 
-        export type Property<K extends ParamSpec> = K extends ParamSpec<infer T> ? T : any;
-
         // Helper types for type-safe signal handling
         export interface SignalSignatures {
             /** Fallback for dynamic signals and type compatibility */
@@ -252,6 +329,9 @@ declare module 'gi://GObject?version=2.0' {
 
         type ObjectConstructor = { new (...args: any[]): Object };
 
+        // Standard registerClass overloads
+        export function registerClass<T extends ObjectConstructor>(cls: T): T;
+
         export function registerClass<
             T extends ObjectConstructor,
             Props extends { [key: string]: ParamSpec },
@@ -264,7 +344,36 @@ declare module 'gi://GObject?version=2.0' {
             },
         >(options: MetaInfo<Props, Interfaces, Sigs>, cls: T): T;
 
-        export function registerClass<T extends ObjectConstructor>(cls: T): T;
+        // Enhanced registerClass overloads with advanced type inference
+
+        export function registerClass<P extends {}, T extends new (...args: any[]) => P>(
+            klass: T,
+        ): RegisteredClass<T, {}, []>;
+
+        export function registerClass<
+            T extends Ctor,
+            Props extends { [key: string]: ParamSpec },
+            Interfaces extends { $gtype: GType }[],
+            Sigs extends {
+                [key: string]: {
+                    param_types?: readonly GType[];
+                    [key: string]: any;
+                };
+            },
+        >(
+            options: {
+                GTypeName?: string;
+                GTypeFlags?: TypeFlags;
+                Properties?: Props;
+                Signals?: Sigs;
+                Implements?: Interfaces;
+                CssName?: string;
+                Template?: string;
+                Children?: string[];
+                InternalChildren?: string[];
+            },
+            klass: T,
+        ): RegisteredClass<T, Props, Interfaces>;
 
         /**
          * GObject-2.0
@@ -4049,12 +4158,12 @@ declare module 'gi://GObject?version=2.0' {
             /**
              * Creates a new GParamSpecChar instance specifying a G_TYPE_CHAR property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static ['char'](
                 name: string,
@@ -4063,17 +4172,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecUChar instance specifying a G_TYPE_UCHAR property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static uchar(
                 name: string,
@@ -4082,17 +4191,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecInt instance specifying a G_TYPE_INT property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static int(
                 name: string,
@@ -4101,17 +4210,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecUInt instance specifying a G_TYPE_UINT property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static uint(
                 name: string,
@@ -4120,17 +4229,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecLong instance specifying a G_TYPE_LONG property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static long(
                 name: string,
@@ -4139,17 +4248,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecULong instance specifying a G_TYPE_ULONG property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static ulong(
                 name: string,
@@ -4158,17 +4267,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecInt64 instance specifying a G_TYPE_INT64 property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static int64(
                 name: string,
@@ -4177,17 +4286,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecUInt64 instance specifying a G_TYPE_UINT64 property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static uint64(
                 name: string,
@@ -4196,17 +4305,17 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecFloat instance specifying a G_TYPE_FLOAT property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static float(
                 name: string,
@@ -4215,31 +4324,31 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecBoolean instance specifying a G_TYPE_BOOLEAN property. In many cases, it may be more appropriate to use an enum with g_param_spec_enum(), both to improve code clarity by using explicitly named values, and to allow for more values to be added in future without breaking API.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static ['boolean'](
                 name: string,
                 nick: string | null,
                 blurb: string | null,
                 flags: ParamFlags | number,
-                defaultValue: boolean,
+                defaultValue?: boolean,
             ): ParamSpec<boolean>;
             /**
              * Creates a new GParamSpecEnum instance specifying a G_TYPE_ENUM property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
-             * @param enumType
-             * @param defaultValue The default value for this property
+             * @param enumType The GType for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static ['enum']<T>(
                 name: string,
@@ -4247,17 +4356,17 @@ declare module 'gi://GObject?version=2.0' {
                 blurb: string | null,
                 flags: ParamFlags | number,
                 enumType: GType<T> | { $gtype: GType<T> },
-                defaultValue: any,
+                defaultValue?: any,
             ): ParamSpec<T>;
             /**
              * Creates a new GParamSpecDouble instance specifying a G_TYPE_DOUBLE property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
              * @param minimum The minimum value for this property
              * @param maximum The maximum value for this property
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional)
              */
             static double(
                 name: string,
@@ -4266,30 +4375,30 @@ declare module 'gi://GObject?version=2.0' {
                 flags: ParamFlags | number,
                 minimum: number,
                 maximum: number,
-                defaultValue: number,
+                defaultValue?: number,
             ): ParamSpec<number>;
             /**
              * Creates a new GParamSpecString instance specifying a G_TYPE_STRING property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
-             * @param defaultValue The default value for this property
+             * @param defaultValue The default value for this property (optional, defaults to null if not provided)
              */
             static string(
                 name: string,
                 nick: string | null,
                 blurb: string | null,
                 flags: ParamFlags | number,
-                defaultValue: string,
+                defaultValue?: string | null,
             ): ParamSpec<string>;
             /**
              * Creates a new GParamSpecBoxed instance specifying a G_TYPE_BOXED derived property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
-             * @param boxedType
+             * @param boxedType The GType for this property
              */
             static boxed<T>(
                 name: string,
@@ -4304,22 +4413,22 @@ declare module 'gi://GObject?version=2.0' {
              * @param nick A human readable name for the property (can be null)
              * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
-             * @param objectType The GType of the object
+             * @param objectType The GType of the object (optional)
              */
             static object<T>(
                 name: string,
                 nick: string | null,
                 blurb: string | null,
                 flags: ParamFlags | number,
-                objectType: GType<T> | { $gtype: GType<T> },
+                objectType?: GType<T> | { $gtype: GType<T> },
             ): ParamSpec<T>;
             /**
              * Creates a new GParamSpecParam instance specifying a G_TYPE_PARAM property.
              * @param name The name of the property
-             * @param nick A human readable name for the property
-             * @param blurb A longer description of the property
+             * @param nick A human readable name for the property (can be null)
+             * @param blurb A longer description of the property (can be null)
              * @param flags The flags for this property (e.g. READABLE, WRITABLE)
-             * @param paramType
+             * @param paramType The GType for this property
              */
             static param(
                 name: string,
@@ -4463,6 +4572,7 @@ declare module 'gi://GObject?version=2.0' {
              * @param oclass The object class or type that contains the property to override
              */
             override(name: string, oclass: Object | Function | GType): void;
+            __type__(arg: never): A;
         }
 
         namespace SignalGroup {

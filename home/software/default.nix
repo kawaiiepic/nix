@@ -13,8 +13,9 @@
   ];
 
   home.packages = with pkgs; [
-    inputs.zen-browser.packages.${system}.default
+    inputs.zen-browser.packages.${system}.twilight
     (callPackage ./wvkbd.nix { })
+    (callPackage ./vicinae.nix { })
     (callPackage ./nyaashows { })
     stremio
     mpv

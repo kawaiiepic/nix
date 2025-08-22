@@ -6126,7 +6126,7 @@ declare module 'gi://Gtk?version=4.0' {
             uri: string,
             timestamp: number,
             cancellable?: Gio.Cancellable | null,
-        ): Promise<boolean>;
+        ): globalThis.Promise<boolean>;
         /**
          * This function launches the default application for showing
          * a given uri.
@@ -6168,7 +6168,7 @@ declare module 'gi://Gtk?version=4.0' {
             timestamp: number,
             cancellable?: Gio.Cancellable | null,
             callback?: Gio.AsyncReadyCallback<Window | null> | null,
-        ): Promise<boolean> | void;
+        ): globalThis.Promise<boolean> | void;
         /**
          * Finishes the gtk_show_uri() call and returns the result
          * of the operation.
@@ -6344,7 +6344,7 @@ declare module 'gi://Gtk?version=4.0' {
             (completion: EntryCompletion, key: string, iter: TreeIter): boolean;
         }
         interface ExpressionNotify {
-            (): void;
+            (user_data?: any | null): void;
         }
         interface FlowBoxCreateWidgetFunc<A = GObject.Object> {
             (item: A): Widget;
@@ -12411,7 +12411,7 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            choose(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<number>;
+            choose(parent?: Window | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<number>;
             /**
              * Shows the alert to the user.
              *
@@ -12441,7 +12441,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<number> | void;
+            ): globalThis.Promise<number> | void;
             /**
              * Finishes the [method`Gtk`.AlertDialog.choose] call.
              * @param result the result
@@ -36801,6 +36801,11 @@ declare module 'gi://Gtk?version=4.0' {
          *     </template>
          *   </interface>
          * ```
+         *
+         * A common approach is to embed such templates as CDATA marked sections into
+         * a surrounding UI file. Note that if you use this approach, extracting
+         * translatable strings with xgettext will not work for strings inside the
+         * marked section.
          */
         class BuilderListItemFactory extends ListItemFactory {
             static $gtype: GObject.GType<BuilderListItemFactory>;
@@ -58432,7 +58437,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 initial_color?: Gdk.RGBA | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Gdk.RGBA | null>;
+            ): globalThis.Promise<Gdk.RGBA | null>;
             /**
              * Presents a color chooser dialog to the user.
              * @param parent the parent window
@@ -58458,7 +58463,7 @@ declare module 'gi://Gtk?version=4.0' {
                 initial_color?: Gdk.RGBA | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gdk.RGBA | null> | void;
+            ): globalThis.Promise<Gdk.RGBA | null> | void;
             /**
              * Finishes the [method`Gtk`.ColorDialog.choose_rgba] call
              * @param result the result
@@ -103742,7 +103747,7 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            open(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<Gio.File | null>;
+            open(parent?: Window | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<Gio.File | null>;
             /**
              * Presents a file chooser dialog to the user.
              *
@@ -103772,7 +103777,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gio.File | null> | void;
+            ): globalThis.Promise<Gio.File | null> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.open] call.
              * @param result the result
@@ -103791,7 +103796,10 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            open_multiple(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<Gio.ListModel | null>;
+            open_multiple(
+                parent?: Window | null,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<Gio.ListModel | null>;
             /**
              * Presents a file chooser dialog to the user.
              *
@@ -103827,7 +103835,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gio.ListModel | null> | void;
+            ): globalThis.Promise<Gio.ListModel | null> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.open] call.
              * @param result the result
@@ -103852,7 +103860,7 @@ declare module 'gi://Gtk?version=4.0' {
             open_multiple_text_files(
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Gio.ListModel | null, string]>;
+            ): globalThis.Promise<[Gio.ListModel | null, string]>;
             /**
              * Presents a file chooser dialog to the user.
              *
@@ -103894,7 +103902,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.ListModel | null, string]> | void;
+            ): globalThis.Promise<[Gio.ListModel | null, string]> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.open] call.
              * @param result the result
@@ -103915,7 +103923,7 @@ declare module 'gi://Gtk?version=4.0' {
             open_text_file(
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Gio.File | null, string]>;
+            ): globalThis.Promise<[Gio.File | null, string]>;
             /**
              * Initiates a file selection operation by presenting a file chooser
              * dialog to the user.
@@ -103949,7 +103957,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.File | null, string]> | void;
+            ): globalThis.Promise<[Gio.File | null, string]> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.open_text_file] call
              * and returns the resulting file and text encoding.
@@ -103971,7 +103979,7 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            save(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<Gio.File | null>;
+            save(parent?: Window | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<Gio.File | null>;
             /**
              * Presents a file chooser dialog to the user.
              *
@@ -104001,7 +104009,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gio.File | null> | void;
+            ): globalThis.Promise<Gio.File | null> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.save] call.
              * @param result the result
@@ -104023,7 +104031,7 @@ declare module 'gi://Gtk?version=4.0' {
             save_text_file(
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Gio.File | null, string, string]>;
+            ): globalThis.Promise<[Gio.File | null, string, string]>;
             /**
              * Initiates a file save operation by presenting a file chooser
              * dialog to the user.
@@ -104059,7 +104067,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Gio.File | null, string, string]> | void;
+            ): globalThis.Promise<[Gio.File | null, string, string]> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.save_text_file] call
              * and returns the resulting file, text encoding and line endings.
@@ -104088,7 +104096,10 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            select_folder(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<Gio.File | null>;
+            select_folder(
+                parent?: Window | null,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<Gio.File | null>;
             /**
              * Presents a file chooser dialog to the user.
              *
@@ -104126,7 +104137,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gio.File | null> | void;
+            ): globalThis.Promise<Gio.File | null> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.select_folder] call.
              * @param result the result
@@ -104149,7 +104160,7 @@ declare module 'gi://Gtk?version=4.0' {
             select_multiple_folders(
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Gio.ListModel | null>;
+            ): globalThis.Promise<Gio.ListModel | null>;
             /**
              * Presents a file chooser dialog to the user.
              *
@@ -104187,7 +104198,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gio.ListModel | null> | void;
+            ): globalThis.Promise<Gio.ListModel | null> | void;
             /**
              * Finishes the [method`Gtk`.FileDialog.select_multiple_folders] call.
              * @param result the result
@@ -105119,7 +105130,7 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            launch(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            launch(parent?: Window | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Launches an application to open the file.
              *
@@ -105145,7 +105156,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes the [method`Gtk`.FileLauncher.launch] call and
              * returns the result.
@@ -105161,7 +105172,10 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            open_containing_folder(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            open_containing_folder(
+                parent?: Window | null,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<boolean>;
             /**
              * Launches a file manager to show the file in its parent directory.
              *
@@ -105189,7 +105203,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes the [method`Gtk`.FileLauncher.open_containing_folder]
              * call and returns the result.
@@ -115834,7 +115848,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 initial_value?: Pango.FontFace | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Pango.FontFace | null>;
+            ): globalThis.Promise<Pango.FontFace | null>;
             /**
              * Presents a font chooser dialog to the user.
              *
@@ -115868,7 +115882,7 @@ declare module 'gi://Gtk?version=4.0' {
                 initial_value?: Pango.FontFace | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Pango.FontFace | null> | void;
+            ): globalThis.Promise<Pango.FontFace | null> | void;
             /**
              * Finishes the [method`Gtk`.FontDialog.choose_face] call.
              * @param result the result
@@ -115887,7 +115901,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 initial_value?: Pango.FontFamily | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Pango.FontFamily | null>;
+            ): globalThis.Promise<Pango.FontFamily | null>;
             /**
              * Presents a font chooser dialog to the user.
              *
@@ -115917,7 +115931,7 @@ declare module 'gi://Gtk?version=4.0' {
                 initial_value?: Pango.FontFamily | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Pango.FontFamily | null> | void;
+            ): globalThis.Promise<Pango.FontFamily | null> | void;
             /**
              * Finishes the [method`Gtk`.FontDialog.choose_family] call.
              *
@@ -115943,7 +115957,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 initial_value?: Pango.FontDescription | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Pango.FontDescription | null>;
+            ): globalThis.Promise<Pango.FontDescription | null>;
             /**
              * Presents a font chooser dialog to the user.
              *
@@ -115979,7 +115993,7 @@ declare module 'gi://Gtk?version=4.0' {
                 initial_value?: Pango.FontDescription | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Pango.FontDescription | null> | void;
+            ): globalThis.Promise<Pango.FontDescription | null> | void;
             /**
              * Presents a font chooser dialog to the user.
              *
@@ -115996,7 +116010,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 initial_value?: Pango.FontDescription | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Pango.FontDescription, string, Pango.Language]>;
+            ): globalThis.Promise<[Pango.FontDescription, string, Pango.Language]>;
             /**
              * Presents a font chooser dialog to the user.
              *
@@ -116034,7 +116048,7 @@ declare module 'gi://Gtk?version=4.0' {
                 initial_value?: Pango.FontDescription | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Pango.FontDescription, string, Pango.Language]> | void;
+            ): globalThis.Promise<[Pango.FontDescription, string, Pango.Language]> | void;
             /**
              * Finishes the [method`Gtk`.FontDialog.choose_font_and_features] call.
              *
@@ -175161,12 +175175,17 @@ declare module 'gi://Gtk?version=4.0' {
          * </picture>
          *
          * It is primarily meant to provide context-dependent information
-         * or options. Popovers are attached to a parent widget. By default,
-         * they point to the whole widget area, although this behavior can be
-         * changed with [method`Gtk`.Popover.set_pointing_to].
+         * or options. Popovers are attached to a parent widget. The parent widget
+         * must support popover children, as [class`Gtk`.MenuButton] and
+         * [class`Gtk`.PopoverMenuBar] do. If you want to make a custom widget that
+         * has an attached popover, you need to call [method`Gtk`.Popover.present]
+         * in your [vfunc`Gtk`.Widget.size_allocate] vfunc, in order to update the
+         * positioning of the popover.
          *
          * The position of a popover relative to the widget it is attached to
-         * can also be changed with [method`Gtk`.Popover.set_position]
+         * can also be changed with [method`Gtk`.Popover.set_position]. By default,
+         * it points to the whole widget area, but it can be made to point to
+         * a specific area using [method`Gtk`.Popover.set_pointing_to].
          *
          * By default, `GtkPopover` performs a grab, in order to ensure input
          * events get redirected to it while it is shown, and also so the popover
@@ -183216,7 +183235,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 setup?: PrintSetup | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Gio.OutputStream>;
+            ): globalThis.Promise<Gio.OutputStream>;
             /**
              * This function prints content from a stream.
              *
@@ -183252,7 +183271,7 @@ declare module 'gi://Gtk?version=4.0' {
                 setup?: PrintSetup | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Gio.OutputStream> | void;
+            ): globalThis.Promise<Gio.OutputStream> | void;
             /**
              * This function prints a file.
              *
@@ -183268,7 +183287,7 @@ declare module 'gi://Gtk?version=4.0' {
                 setup: PrintSetup | null,
                 file: Gio.File,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<boolean>;
+            ): globalThis.Promise<boolean>;
             /**
              * This function prints a file.
              *
@@ -183304,7 +183323,7 @@ declare module 'gi://Gtk?version=4.0' {
                 file: Gio.File,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes the [method`Gtk`.PrintDialog.print_file] call and
              * returns the results.
@@ -183373,7 +183392,7 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent `GtkWindow`
              * @param cancellable a `GCancellable` to cancel the operation
              */
-            setup(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<PrintSetup>;
+            setup(parent?: Window | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<PrintSetup>;
             /**
              * This function presents a print dialog to let the user select a printer,
              * and set up print settings and page setup.
@@ -183415,7 +183434,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<PrintSetup> | void;
+            ): globalThis.Promise<PrintSetup> | void;
             /**
              * Finishes the [method`Gtk`.PrintDialog.setup] call.
              *
@@ -253781,7 +253800,7 @@ declare module 'gi://Gtk?version=4.0' {
              * @param parent the parent window
              * @param cancellable a cancellable to cancel the operation
              */
-            launch(parent?: Window | null, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            launch(parent?: Window | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Launches an application to open the uri.
              *
@@ -253807,7 +253826,7 @@ declare module 'gi://Gtk?version=4.0' {
                 parent?: Window | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes the [method`Gtk`.UriLauncher.launch] call and
              * returns the result.
@@ -270009,6 +270028,50 @@ declare module 'gi://Gtk?version=4.0' {
 
         type WindowHandleClass = typeof WindowHandle;
         namespace Accessible {
+            /**
+             * Interface for implementing Accessible.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Retrieves the accessible parent for an accessible object.
+                 *
+                 * This function returns `NULL` for top level widgets.
+                 */
+                vfunc_get_accessible_parent(): Accessible | null;
+                /**
+                 * Retrieves the implementation for the given accessible object.
+                 */
+                vfunc_get_at_context(): ATContext | null;
+                /**
+                 * Queries the coordinates and dimensions of this accessible
+                 *
+                 * This functionality can be overridden by `GtkAccessible`
+                 * implementations, e.g. to get the bounds from an ignored
+                 * child widget.
+                 */
+                vfunc_get_bounds(): [boolean, number, number, number, number];
+                /**
+                 * Retrieves the first accessible child of an accessible object.
+                 */
+                vfunc_get_first_accessible_child(): Accessible | null;
+                /**
+                 * Retrieves the next accessible sibling of an accessible object
+                 */
+                vfunc_get_next_accessible_sibling(): Accessible | null;
+                /**
+                 * Queries a platform state, such as focus.
+                 *
+                 * This functionality can be overridden by `GtkAccessible`
+                 * implementations, e.g. to get platform state from an ignored
+                 * child widget, as is the case for `GtkText` wrappers.
+                 * @param state platform state to query
+                 */
+                vfunc_get_platform_state(state: AccessiblePlatformState): boolean;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -270021,7 +270084,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<Accessible>;
             prototype: Accessible;
         }
-        interface Accessible extends GObject.Object {
+        interface Accessible extends GObject.Object, Accessible.Interface {
             // Properties
 
             /**
@@ -270180,44 +270243,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param values an array of `GValues`, one for each state
              */
             update_state(states: AccessibleState[] | null, values: (GObject.Value | any)[]): void;
-
-            // Virtual methods
-
-            /**
-             * Retrieves the accessible parent for an accessible object.
-             *
-             * This function returns `NULL` for top level widgets.
-             */
-            vfunc_get_accessible_parent(): Accessible | null;
-            /**
-             * Retrieves the implementation for the given accessible object.
-             */
-            vfunc_get_at_context(): ATContext | null;
-            /**
-             * Queries the coordinates and dimensions of this accessible
-             *
-             * This functionality can be overridden by `GtkAccessible`
-             * implementations, e.g. to get the bounds from an ignored
-             * child widget.
-             */
-            vfunc_get_bounds(): [boolean, number, number, number, number];
-            /**
-             * Retrieves the first accessible child of an accessible object.
-             */
-            vfunc_get_first_accessible_child(): Accessible | null;
-            /**
-             * Retrieves the next accessible sibling of an accessible object
-             */
-            vfunc_get_next_accessible_sibling(): Accessible | null;
-            /**
-             * Queries a platform state, such as focus.
-             *
-             * This functionality can be overridden by `GtkAccessible`
-             * implementations, e.g. to get platform state from an ignored
-             * child widget, as is the case for `GtkText` wrappers.
-             * @param state platform state to query
-             */
-            vfunc_get_platform_state(state: AccessiblePlatformState): boolean;
         }
 
         export const Accessible: AccessibleNamespace & {
@@ -270225,6 +270250,23 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace AccessibleRange {
+            /**
+             * Interface for implementing AccessibleRange.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface extends Accessible.Interface {
+                // Virtual methods
+
+                /**
+                 * Sets the current value of the accessible range.
+                 *
+                 * This operation should behave similarly as if the user performed the
+                 * action.
+                 * @param value the value to set
+                 */
+                vfunc_set_current_value(value: number): boolean;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Accessible.ConstructorProps {}
@@ -270234,24 +270276,106 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<AccessibleRange>;
             prototype: AccessibleRange;
         }
-        interface AccessibleRange extends Accessible {
-            // Virtual methods
-
-            /**
-             * Sets the current value of the accessible range.
-             *
-             * This operation should behave similarly as if the user performed the
-             * action.
-             * @param value the value to set
-             */
-            vfunc_set_current_value(value: number): boolean;
-        }
+        interface AccessibleRange extends Accessible, AccessibleRange.Interface {}
 
         export const AccessibleRange: AccessibleRangeNamespace & {
             new (): AccessibleRange; // This allows `obj instanceof AccessibleRange`
         };
 
         namespace AccessibleText {
+            /**
+             * Interface for implementing AccessibleText.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface extends Accessible.Interface {
+                // Virtual methods
+
+                /**
+                 * Retrieves the text attributes inside the accessible object.
+                 *
+                 * Each attribute is composed by:
+                 *
+                 * - a range
+                 * - a name
+                 * - a value
+                 *
+                 * It is left to the implementation to determine the serialization format
+                 * of the value to a string.
+                 *
+                 * GTK provides support for various text attribute names and values, but
+                 * implementations of this interface are free to add their own attributes.
+                 *
+                 * If this function returns true, `n_ranges` will be set to a value
+                 * greater than or equal to one, `ranges` will be set to a newly
+                 * allocated array of [struct#Gtk.AccessibleTextRange].
+                 * @param offset the offset, in characters
+                 */
+                vfunc_get_attributes(
+                    offset: number,
+                ): [boolean, AccessibleTextRange[] | null, string[] | null, string[] | null];
+                /**
+                 * Retrieves the position of the caret inside the accessible object.
+                 */
+                vfunc_get_caret_position(): number;
+                /**
+                 * Retrieve the current contents of the accessible object within
+                 * the given range.
+                 *
+                 * If `end` is `G_MAXUINT`, the end of the range is the full content
+                 * of the accessible object.
+                 * @param start the beginning of the range, in characters
+                 * @param end the end of the range, in characters
+                 */
+                vfunc_get_contents(start: number, end: number): GLib.Bytes;
+                /**
+                 * Retrieve the current contents of the accessible object starting
+                 * from the given offset, and using the given granularity.
+                 *
+                 * The `start` and `end` values contain the boundaries of the text.
+                 * @param offset the offset, in characters
+                 * @param granularity the granularity of the query
+                 */
+                vfunc_get_contents_at(
+                    offset: number,
+                    granularity: AccessibleTextGranularity,
+                ): [GLib.Bytes, number, number];
+                /**
+                 * Retrieves the default text attributes inside the accessible object.
+                 *
+                 * Each attribute is composed by:
+                 *
+                 * - a name
+                 * - a value
+                 *
+                 * It is left to the implementation to determine the serialization format
+                 * of the value to a string.
+                 *
+                 * GTK provides support for various text attribute names and values, but
+                 * implementations of this interface are free to add their own attributes.
+                 */
+                vfunc_get_default_attributes(): [string[] | null, string[] | null];
+                /**
+                 * Obtains the extents of a range of text, in widget coordinates.
+                 * @param start the start offset, in characters
+                 * @param end the end offset, in characters, @extents (out caller-allocates): return location for the extents
+                 * @param extents
+                 */
+                vfunc_get_extents(start: number, end: number, extents: Graphene.Rect): boolean;
+                /**
+                 * Gets the text offset at a given point.
+                 * @param point a point in widget coordinates of @self
+                 */
+                vfunc_get_offset(point: Graphene.Point): [boolean, number];
+                /**
+                 * Retrieves the selection ranges in the accessible object.
+                 *
+                 * If this function returns true, `n_ranges` will be set to a value
+                 * greater than or equal to one, and `ranges` will be set to a newly
+                 * allocated array of [struct#Gtk.AccessibleTextRange].
+                 */
+                vfunc_get_selection(): [boolean, AccessibleTextRange[] | null];
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Accessible.ConstructorProps {}
@@ -270261,7 +270385,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<AccessibleText>;
             prototype: AccessibleText;
         }
-        interface AccessibleText extends Accessible {
+        interface AccessibleText extends Accessible, AccessibleText.Interface {
             // Methods
 
             /**
@@ -270295,90 +270419,6 @@ declare module 'gi://Gtk?version=4.0' {
              * technologies.
              */
             update_selection_bound(): void;
-
-            // Virtual methods
-
-            /**
-             * Retrieves the text attributes inside the accessible object.
-             *
-             * Each attribute is composed by:
-             *
-             * - a range
-             * - a name
-             * - a value
-             *
-             * It is left to the implementation to determine the serialization format
-             * of the value to a string.
-             *
-             * GTK provides support for various text attribute names and values, but
-             * implementations of this interface are free to add their own attributes.
-             *
-             * If this function returns true, `n_ranges` will be set to a value
-             * greater than or equal to one, `ranges` will be set to a newly
-             * allocated array of [struct#Gtk.AccessibleTextRange].
-             * @param offset the offset, in characters
-             */
-            vfunc_get_attributes(
-                offset: number,
-            ): [boolean, AccessibleTextRange[] | null, string[] | null, string[] | null];
-            /**
-             * Retrieves the position of the caret inside the accessible object.
-             */
-            vfunc_get_caret_position(): number;
-            /**
-             * Retrieve the current contents of the accessible object within
-             * the given range.
-             *
-             * If `end` is `G_MAXUINT`, the end of the range is the full content
-             * of the accessible object.
-             * @param start the beginning of the range, in characters
-             * @param end the end of the range, in characters
-             */
-            vfunc_get_contents(start: number, end: number): GLib.Bytes;
-            /**
-             * Retrieve the current contents of the accessible object starting
-             * from the given offset, and using the given granularity.
-             *
-             * The `start` and `end` values contain the boundaries of the text.
-             * @param offset the offset, in characters
-             * @param granularity the granularity of the query
-             */
-            vfunc_get_contents_at(offset: number, granularity: AccessibleTextGranularity): [GLib.Bytes, number, number];
-            /**
-             * Retrieves the default text attributes inside the accessible object.
-             *
-             * Each attribute is composed by:
-             *
-             * - a name
-             * - a value
-             *
-             * It is left to the implementation to determine the serialization format
-             * of the value to a string.
-             *
-             * GTK provides support for various text attribute names and values, but
-             * implementations of this interface are free to add their own attributes.
-             */
-            vfunc_get_default_attributes(): [string[] | null, string[] | null];
-            /**
-             * Obtains the extents of a range of text, in widget coordinates.
-             * @param start the start offset, in characters
-             * @param end the end offset, in characters, @extents (out caller-allocates): return location for the extents
-             * @param extents
-             */
-            vfunc_get_extents(start: number, end: number, extents: Graphene.Rect): boolean;
-            /**
-             * Gets the text offset at a given point.
-             * @param point a point in widget coordinates of @self
-             */
-            vfunc_get_offset(point: Graphene.Point): [boolean, number];
-            /**
-             * Retrieves the selection ranges in the accessible object.
-             *
-             * If this function returns true, `n_ranges` will be set to a value
-             * greater than or equal to one, and `ranges` will be set to a newly
-             * allocated array of [struct#Gtk.AccessibleTextRange].
-             */
-            vfunc_get_selection(): [boolean, AccessibleTextRange[] | null];
         }
 
         export const AccessibleText: AccessibleTextNamespace & {
@@ -270386,6 +270426,62 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace Actionable {
+            /**
+             * Interface for implementing Actionable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Gets the action name for `actionable`.
+                 */
+                vfunc_get_action_name(): string | null;
+                /**
+                 * Gets the current target value of `actionable`.
+                 */
+                vfunc_get_action_target_value(): GLib.Variant | null;
+                /**
+                 * Specifies the name of the action with which this widget should be
+                 * associated.
+                 *
+                 * If `action_name` is %NULL then the widget will be unassociated from
+                 * any previous action.
+                 *
+                 * Usually this function is used when the widget is located (or will be
+                 * located) within the hierarchy of a `GtkApplicationWindow`.
+                 *
+                 * Names are of the form “win.save” or “app.quit” for actions on the
+                 * containing [class`ApplicationWindow]` or its associated [class`Application]`,
+                 * respectively. This is the same form used for actions in the [class`Gio`.Menu]
+                 * associated with the window.
+                 * @param action_name an action name
+                 */
+                vfunc_set_action_name(action_name?: string | null): void;
+                /**
+                 * Sets the target value of an actionable widget.
+                 *
+                 * If `target_value` is %NULL then the target value is unset.
+                 *
+                 * The target value has two purposes. First, it is used as the parameter
+                 * to activation of the action associated with the `GtkActionable` widget.
+                 * Second, it is used to determine if the widget should be rendered as
+                 * “active” — the widget is active if the state is equal to the given target.
+                 *
+                 * Consider the example of associating a set of buttons with a [iface`Gio`.Action]
+                 * with string state in a typical “radio button” situation. Each button
+                 * will be associated with the same action, but with a different target
+                 * value for that action. Clicking on a particular button will activate
+                 * the action with the target of that button, which will typically cause
+                 * the action’s state to change to that value. Since the action’s state
+                 * is now equal to the target value of the button, the button will now
+                 * be rendered as active (and the other buttons, with different targets,
+                 * rendered inactive).
+                 * @param target_value a [struct@GLib.Variant] to set as the target value
+                 */
+                vfunc_set_action_target_value(target_value?: GLib.Variant | null): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Widget.ConstructorProps {
@@ -270400,7 +270496,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<Actionable>;
             prototype: Actionable;
         }
-        interface Actionable extends Widget {
+        interface Actionable extends Widget, Actionable.Interface {
             // Properties
 
             /**
@@ -270484,56 +270580,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param detailed_action_name the detailed action name
              */
             set_detailed_action_name(detailed_action_name: string): void;
-
-            // Virtual methods
-
-            /**
-             * Gets the action name for `actionable`.
-             */
-            vfunc_get_action_name(): string | null;
-            /**
-             * Gets the current target value of `actionable`.
-             */
-            vfunc_get_action_target_value(): GLib.Variant | null;
-            /**
-             * Specifies the name of the action with which this widget should be
-             * associated.
-             *
-             * If `action_name` is %NULL then the widget will be unassociated from
-             * any previous action.
-             *
-             * Usually this function is used when the widget is located (or will be
-             * located) within the hierarchy of a `GtkApplicationWindow`.
-             *
-             * Names are of the form “win.save” or “app.quit” for actions on the
-             * containing [class`ApplicationWindow]` or its associated [class`Application]`,
-             * respectively. This is the same form used for actions in the [class`Gio`.Menu]
-             * associated with the window.
-             * @param action_name an action name
-             */
-            vfunc_set_action_name(action_name?: string | null): void;
-            /**
-             * Sets the target value of an actionable widget.
-             *
-             * If `target_value` is %NULL then the target value is unset.
-             *
-             * The target value has two purposes. First, it is used as the parameter
-             * to activation of the action associated with the `GtkActionable` widget.
-             * Second, it is used to determine if the widget should be rendered as
-             * “active” — the widget is active if the state is equal to the given target.
-             *
-             * Consider the example of associating a set of buttons with a [iface`Gio`.Action]
-             * with string state in a typical “radio button” situation. Each button
-             * will be associated with the same action, but with a different target
-             * value for that action. Clicking on a particular button will activate
-             * the action with the target of that button, which will typically cause
-             * the action’s state to change to that value. Since the action’s state
-             * is now equal to the target value of the button, the button will now
-             * be rendered as active (and the other buttons, with different targets,
-             * rendered inactive).
-             * @param target_value a [struct@GLib.Variant] to set as the target value
-             */
-            vfunc_set_action_target_value(target_value?: GLib.Variant | null): void;
         }
 
         export const Actionable: ActionableNamespace & {
@@ -270593,6 +270639,100 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace Buildable {
+            /**
+             * Interface for implementing Buildable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Adds a child to `buildable`. `type` is an optional string
+                 * describing how the child should be added.
+                 * @param builder a `GtkBuilder`
+                 * @param child child to add
+                 * @param type kind of child or %NULL
+                 */
+                vfunc_add_child(builder: Builder, child: GObject.Object, type?: string | null): void;
+                /**
+                 * Similar to gtk_buildable_parser_finished() but is
+                 * called once for each custom tag handled by the `buildable`.
+                 * @param builder a `GtkBuilder`
+                 * @param child child object or %NULL for non-child tags
+                 * @param tagname the name of the tag
+                 * @param data user data created in custom_tag_start
+                 */
+                vfunc_custom_finished(
+                    builder: Builder,
+                    child: GObject.Object | null,
+                    tagname: string,
+                    data?: any | null,
+                ): void;
+                /**
+                 * Called at the end of each custom element handled by
+                 * the buildable.
+                 * @param builder `GtkBuilder` used to construct this object
+                 * @param child child object or %NULL for non-child tags
+                 * @param tagname name of tag
+                 * @param data user data that will be passed in to parser functions
+                 */
+                vfunc_custom_tag_end(
+                    builder: Builder,
+                    child: GObject.Object | null,
+                    tagname: string,
+                    data?: any | null,
+                ): void;
+                /**
+                 * Called for each unknown element under `<child>`.
+                 * @param builder a `GtkBuilder` used to construct this object
+                 * @param child child object or %NULL for non-child tags
+                 * @param tagname name of tag
+                 */
+                vfunc_custom_tag_start(
+                    builder: Builder,
+                    child: GObject.Object | null,
+                    tagname: string,
+                ): [boolean, BuildableParser, any];
+                /**
+                 * The getter corresponding to `set_id`. Implement this
+                 *   if you implement `set_id`.
+                 */
+                vfunc_get_id(): string;
+                /**
+                 * Retrieves the internal child called `childname` of the `buildable` object.
+                 * @param builder a `GtkBuilder`
+                 * @param childname name of child
+                 */
+                vfunc_get_internal_child<T = GObject.Object>(builder: Builder, childname: string): T;
+                /**
+                 * Called when a builder finishes the parsing
+                 *  of a UI definition. It is normally not necessary to implement this,
+                 *  unless you need to perform special cleanup actions. `GtkWindow` sets
+                 *  the `GtkWidget:visible` property here.
+                 * @param builder
+                 */
+                vfunc_parser_finished(builder: Builder): void;
+                /**
+                 * Sets a property of a buildable object.
+                 *  It is normally not necessary to implement this, g_object_set_property()
+                 *  is used by default. `GtkWindow` implements this to delay showing itself
+                 *  (i.e. setting the [property`Gtk`.Widget:visible] property) until the whole
+                 *  interface is created.
+                 * @param builder
+                 * @param name
+                 * @param value
+                 */
+                vfunc_set_buildable_property(builder: Builder, name: string, value: GObject.Value | any): void;
+                /**
+                 * Stores the id attribute given in the `GtkBuilder` UI definition.
+                 *   `GtkWidget` stores the name as object data. Implement this method if your
+                 *   object has some notion of “ID” and it makes sense to map the XML id
+                 *   attribute to it.
+                 * @param id
+                 */
+                vfunc_set_id(id: string): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -270602,7 +270742,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<Buildable>;
             prototype: Buildable;
         }
-        interface Buildable extends GObject.Object {
+        interface Buildable extends GObject.Object, Buildable.Interface {
             // Methods
 
             /**
@@ -270613,94 +270753,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @returns the ID of the buildable object
              */
             get_buildable_id(): string | null;
-
-            // Virtual methods
-
-            /**
-             * Adds a child to `buildable`. `type` is an optional string
-             * describing how the child should be added.
-             * @param builder a `GtkBuilder`
-             * @param child child to add
-             * @param type kind of child or %NULL
-             */
-            vfunc_add_child(builder: Builder, child: GObject.Object, type?: string | null): void;
-            /**
-             * Similar to gtk_buildable_parser_finished() but is
-             * called once for each custom tag handled by the `buildable`.
-             * @param builder a `GtkBuilder`
-             * @param child child object or %NULL for non-child tags
-             * @param tagname the name of the tag
-             * @param data user data created in custom_tag_start
-             */
-            vfunc_custom_finished(
-                builder: Builder,
-                child: GObject.Object | null,
-                tagname: string,
-                data?: any | null,
-            ): void;
-            /**
-             * Called at the end of each custom element handled by
-             * the buildable.
-             * @param builder `GtkBuilder` used to construct this object
-             * @param child child object or %NULL for non-child tags
-             * @param tagname name of tag
-             * @param data user data that will be passed in to parser functions
-             */
-            vfunc_custom_tag_end(
-                builder: Builder,
-                child: GObject.Object | null,
-                tagname: string,
-                data?: any | null,
-            ): void;
-            /**
-             * Called for each unknown element under `<child>`.
-             * @param builder a `GtkBuilder` used to construct this object
-             * @param child child object or %NULL for non-child tags
-             * @param tagname name of tag
-             */
-            vfunc_custom_tag_start(
-                builder: Builder,
-                child: GObject.Object | null,
-                tagname: string,
-            ): [boolean, BuildableParser, any];
-            /**
-             * The getter corresponding to `set_id`. Implement this
-             *   if you implement `set_id`.
-             */
-            vfunc_get_id(): string;
-            /**
-             * Retrieves the internal child called `childname` of the `buildable` object.
-             * @param builder a `GtkBuilder`
-             * @param childname name of child
-             */
-            vfunc_get_internal_child<T = GObject.Object>(builder: Builder, childname: string): T;
-            /**
-             * Called when a builder finishes the parsing
-             *  of a UI definition. It is normally not necessary to implement this,
-             *  unless you need to perform special cleanup actions. `GtkWindow` sets
-             *  the `GtkWidget:visible` property here.
-             * @param builder
-             */
-            vfunc_parser_finished(builder: Builder): void;
-            /**
-             * Sets a property of a buildable object.
-             *  It is normally not necessary to implement this, g_object_set_property()
-             *  is used by default. `GtkWindow` implements this to delay showing itself
-             *  (i.e. setting the [property`Gtk`.Widget:visible] property) until the whole
-             *  interface is created.
-             * @param builder
-             * @param name
-             * @param value
-             */
-            vfunc_set_buildable_property(builder: Builder, name: string, value: GObject.Value | any): void;
-            /**
-             * Stores the id attribute given in the `GtkBuilder` UI definition.
-             *   `GtkWidget` stores the name as object data. Implement this method if your
-             *   object has some notion of “ID” and it makes sense to map the XML id
-             *   attribute to it.
-             * @param id
-             */
-            vfunc_set_id(id: string): void;
         }
 
         export const Buildable: BuildableNamespace & {
@@ -270708,6 +270760,52 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace BuilderScope {
+            /**
+             * Interface for implementing BuilderScope.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Create a closure with the given arguments. See gtk_builder_create_closure()
+                 *   for more details on those.
+                 *   The C implementation will try to use dlsym() to locate the function name and then
+                 *   g_cclosure_new() to create a closure for the symbol.
+                 *   The default implementation just fails and returns %NULL.
+                 * @param builder
+                 * @param function_name
+                 * @param flags
+                 * @param object
+                 */
+                vfunc_create_closure(
+                    builder: Builder,
+                    function_name: string,
+                    flags: BuilderClosureFlags,
+                    object: GObject.Object,
+                ): GObject.Closure;
+                /**
+                 * Try to lookup a `GType` via the given function name, specified
+                 *   explicitly in a GtkBuilder file, like via the "type-func" attribute in the `<object>` tag.
+                 *   This function is very rarely used.
+                 *   The C implementation will use dlsym() and call the resulting function as a `GTypeFunc`.
+                 *   The default implementation will fail and just return %G_TYPE_INVALID.
+                 * @param builder
+                 * @param function_name
+                 */
+                vfunc_get_type_from_function(builder: Builder, function_name: string): GObject.GType;
+                /**
+                 * Try to lookup a `GType` via the its name. See
+                 *   gtk_builder_get_type_from_name() for more details.
+                 *   The C implementation will use g_type_from_name() and if that fails try to guess the
+                 *   correct function name for registering the type and then use dlsym() to load it.
+                 *   The default implementation just tries g_type_from_name() and otherwise fails.
+                 * @param builder
+                 * @param type_name
+                 */
+                vfunc_get_type_from_name(builder: Builder, type_name: string): GObject.GType;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -270717,53 +270815,44 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<BuilderScope>;
             prototype: BuilderScope;
         }
-        interface BuilderScope extends GObject.Object {
-            // Virtual methods
-
-            /**
-             * Create a closure with the given arguments. See gtk_builder_create_closure()
-             *   for more details on those.
-             *   The C implementation will try to use dlsym() to locate the function name and then
-             *   g_cclosure_new() to create a closure for the symbol.
-             *   The default implementation just fails and returns %NULL.
-             * @param builder
-             * @param function_name
-             * @param flags
-             * @param object
-             */
-            vfunc_create_closure(
-                builder: Builder,
-                function_name: string,
-                flags: BuilderClosureFlags,
-                object: GObject.Object,
-            ): GObject.Closure;
-            /**
-             * Try to lookup a `GType` via the given function name, specified
-             *   explicitly in a GtkBuilder file, like via the "type-func" attribute in the `<object>` tag.
-             *   This function is very rarely used.
-             *   The C implementation will use dlsym() and call the resulting function as a `GTypeFunc`.
-             *   The default implementation will fail and just return %G_TYPE_INVALID.
-             * @param builder
-             * @param function_name
-             */
-            vfunc_get_type_from_function(builder: Builder, function_name: string): GObject.GType;
-            /**
-             * Try to lookup a `GType` via the its name. See
-             *   gtk_builder_get_type_from_name() for more details.
-             *   The C implementation will use g_type_from_name() and if that fails try to guess the
-             *   correct function name for registering the type and then use dlsym() to load it.
-             *   The default implementation just tries g_type_from_name() and otherwise fails.
-             * @param builder
-             * @param type_name
-             */
-            vfunc_get_type_from_name(builder: Builder, type_name: string): GObject.GType;
-        }
+        interface BuilderScope extends GObject.Object, BuilderScope.Interface {}
 
         export const BuilderScope: BuilderScopeNamespace & {
             new (): BuilderScope; // This allows `obj instanceof BuilderScope`
         };
 
         namespace CellEditable {
+            /**
+             * Interface for implementing CellEditable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Emits the `GtkCellEditable::editing-done` signal.
+                 */
+                vfunc_editing_done(): void;
+                /**
+                 * Emits the `GtkCellEditable::remove-widget` signal.
+                 */
+                vfunc_remove_widget(): void;
+                /**
+                 * Begins editing on a `cell_editable`.
+                 *
+                 * The `GtkCellRenderer` for the cell creates and returns a `GtkCellEditable` from
+                 * gtk_cell_renderer_start_editing(), configured for the `GtkCellRenderer` type.
+                 *
+                 * gtk_cell_editable_start_editing() can then set up `cell_editable` suitably for
+                 * editing a cell, e.g. making the Esc key emit `GtkCellEditable::editing-done`.
+                 *
+                 * Note that the `cell_editable` is created on-demand for the current edit; its
+                 * lifetime is temporary and does not persist across other edits and/or cells.
+                 * @param event The `GdkEvent` that began the editing process, or   %NULL if editing was initiated programmatically
+                 */
+                vfunc_start_editing(event?: Gdk.Event | null): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Widget.ConstructorProps {
@@ -270776,7 +270865,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<CellEditable>;
             prototype: CellEditable;
         }
-        interface CellEditable extends Widget {
+        interface CellEditable extends Widget, CellEditable.Interface {
             // Properties
 
             /**
@@ -270814,31 +270903,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param event The `GdkEvent` that began the editing process, or   %NULL if editing was initiated programmatically
              */
             start_editing(event?: Gdk.Event | null): void;
-
-            // Virtual methods
-
-            /**
-             * Emits the `GtkCellEditable::editing-done` signal.
-             */
-            vfunc_editing_done(): void;
-            /**
-             * Emits the `GtkCellEditable::remove-widget` signal.
-             */
-            vfunc_remove_widget(): void;
-            /**
-             * Begins editing on a `cell_editable`.
-             *
-             * The `GtkCellRenderer` for the cell creates and returns a `GtkCellEditable` from
-             * gtk_cell_renderer_start_editing(), configured for the `GtkCellRenderer` type.
-             *
-             * gtk_cell_editable_start_editing() can then set up `cell_editable` suitably for
-             * editing a cell, e.g. making the Esc key emit `GtkCellEditable::editing-done`.
-             *
-             * Note that the `cell_editable` is created on-demand for the current edit; its
-             * lifetime is temporary and does not persist across other edits and/or cells.
-             * @param event The `GdkEvent` that began the editing process, or   %NULL if editing was initiated programmatically
-             */
-            vfunc_start_editing(event?: Gdk.Event | null): void;
         }
 
         export const CellEditable: CellEditableNamespace & {
@@ -270846,6 +270910,90 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace CellLayout {
+            /**
+             * Interface for implementing CellLayout.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Adds an attribute mapping to the list in `cell_layout`.
+                 *
+                 * The `column` is the column of the model to get a value from, and the
+                 * `attribute` is the property on `cell` to be set from that value. So for
+                 * example if column 2 of the model contains strings, you could have the
+                 * “text” attribute of a `GtkCellRendererText` get its values from column 2.
+                 * In this context "attribute" and "property" are used interchangeably.
+                 * @param cell a `GtkCellRenderer`
+                 * @param attribute a property on the renderer
+                 * @param column the column position on the model to get the attribute from
+                 */
+                vfunc_add_attribute(cell: CellRenderer, attribute: string, column: number): void;
+                /**
+                 * Unsets all the mappings on all renderers on `cell_layout` and
+                 * removes all renderers from `cell_layout`.
+                 */
+                vfunc_clear(): void;
+                /**
+                 * Clears all existing attributes previously set with
+                 * gtk_cell_layout_set_attributes().
+                 * @param cell a `GtkCellRenderer` to clear the attribute mapping on
+                 */
+                vfunc_clear_attributes(cell: CellRenderer): void;
+                /**
+                 * Returns the underlying `GtkCellArea` which might be `cell_layout`
+                 * if called on a `GtkCellArea` or might be %NULL if no `GtkCellArea`
+                 * is used by `cell_layout`.
+                 */
+                vfunc_get_area(): CellArea | null;
+                /**
+                 * Returns the cell renderers which have been added to `cell_layout`.
+                 */
+                vfunc_get_cells(): CellRenderer[];
+                /**
+                 * Adds the `cell` to the end of `cell_layout`. If `expand` is %FALSE, then the
+                 * `cell` is allocated no more space than it needs. Any unused space is
+                 * divided evenly between cells for which `expand` is %TRUE.
+                 *
+                 * Note that reusing the same cell renderer is not supported.
+                 * @param cell a `GtkCellRenderer`
+                 * @param expand %TRUE if @cell is to be given extra space allocated to @cell_layout
+                 */
+                vfunc_pack_end(cell: CellRenderer, expand: boolean): void;
+                /**
+                 * Packs the `cell` into the beginning of `cell_layout`. If `expand` is %FALSE,
+                 * then the `cell` is allocated no more space than it needs. Any unused space
+                 * is divided evenly between cells for which `expand` is %TRUE.
+                 *
+                 * Note that reusing the same cell renderer is not supported.
+                 * @param cell a `GtkCellRenderer`
+                 * @param expand %TRUE if @cell is to be given extra space allocated to @cell_layout
+                 */
+                vfunc_pack_start(cell: CellRenderer, expand: boolean): void;
+                /**
+                 * Re-inserts `cell` at `position`.
+                 *
+                 * Note that `cell` has already to be packed into `cell_layout`
+                 * for this to function properly.
+                 * @param cell a `GtkCellRenderer` to reorder
+                 * @param position new position to insert @cell at
+                 */
+                vfunc_reorder(cell: CellRenderer, position: number): void;
+                /**
+                 * Sets the `GtkCellLayout`DataFunc to use for `cell_layout`.
+                 *
+                 * This function is used instead of the standard attributes mapping
+                 * for setting the column value, and should set the value of `cell_layout’`s
+                 * cell renderer(s) as appropriate.
+                 *
+                 * `func` may be %NULL to remove a previously set function.
+                 * @param cell a `GtkCellRenderer`
+                 * @param func the `GtkCellLayout`DataFunc to use
+                 */
+                vfunc_set_cell_data_func(cell: CellRenderer, func?: CellLayoutDataFunc | null): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -270855,7 +271003,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<CellLayout>;
             prototype: CellLayout;
         }
-        interface CellLayout extends GObject.Object {
+        interface CellLayout extends GObject.Object, CellLayout.Interface {
             // Methods
 
             /**
@@ -270935,84 +271083,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param func the `GtkCellLayout`DataFunc to use
              */
             set_cell_data_func(cell: CellRenderer, func?: CellLayoutDataFunc | null): void;
-
-            // Virtual methods
-
-            /**
-             * Adds an attribute mapping to the list in `cell_layout`.
-             *
-             * The `column` is the column of the model to get a value from, and the
-             * `attribute` is the property on `cell` to be set from that value. So for
-             * example if column 2 of the model contains strings, you could have the
-             * “text” attribute of a `GtkCellRendererText` get its values from column 2.
-             * In this context "attribute" and "property" are used interchangeably.
-             * @param cell a `GtkCellRenderer`
-             * @param attribute a property on the renderer
-             * @param column the column position on the model to get the attribute from
-             */
-            vfunc_add_attribute(cell: CellRenderer, attribute: string, column: number): void;
-            /**
-             * Unsets all the mappings on all renderers on `cell_layout` and
-             * removes all renderers from `cell_layout`.
-             */
-            vfunc_clear(): void;
-            /**
-             * Clears all existing attributes previously set with
-             * gtk_cell_layout_set_attributes().
-             * @param cell a `GtkCellRenderer` to clear the attribute mapping on
-             */
-            vfunc_clear_attributes(cell: CellRenderer): void;
-            /**
-             * Returns the underlying `GtkCellArea` which might be `cell_layout`
-             * if called on a `GtkCellArea` or might be %NULL if no `GtkCellArea`
-             * is used by `cell_layout`.
-             */
-            vfunc_get_area(): CellArea | null;
-            /**
-             * Returns the cell renderers which have been added to `cell_layout`.
-             */
-            vfunc_get_cells(): CellRenderer[];
-            /**
-             * Adds the `cell` to the end of `cell_layout`. If `expand` is %FALSE, then the
-             * `cell` is allocated no more space than it needs. Any unused space is
-             * divided evenly between cells for which `expand` is %TRUE.
-             *
-             * Note that reusing the same cell renderer is not supported.
-             * @param cell a `GtkCellRenderer`
-             * @param expand %TRUE if @cell is to be given extra space allocated to @cell_layout
-             */
-            vfunc_pack_end(cell: CellRenderer, expand: boolean): void;
-            /**
-             * Packs the `cell` into the beginning of `cell_layout`. If `expand` is %FALSE,
-             * then the `cell` is allocated no more space than it needs. Any unused space
-             * is divided evenly between cells for which `expand` is %TRUE.
-             *
-             * Note that reusing the same cell renderer is not supported.
-             * @param cell a `GtkCellRenderer`
-             * @param expand %TRUE if @cell is to be given extra space allocated to @cell_layout
-             */
-            vfunc_pack_start(cell: CellRenderer, expand: boolean): void;
-            /**
-             * Re-inserts `cell` at `position`.
-             *
-             * Note that `cell` has already to be packed into `cell_layout`
-             * for this to function properly.
-             * @param cell a `GtkCellRenderer` to reorder
-             * @param position new position to insert @cell at
-             */
-            vfunc_reorder(cell: CellRenderer, position: number): void;
-            /**
-             * Sets the `GtkCellLayout`DataFunc to use for `cell_layout`.
-             *
-             * This function is used instead of the standard attributes mapping
-             * for setting the column value, and should set the value of `cell_layout’`s
-             * cell renderer(s) as appropriate.
-             *
-             * `func` may be %NULL to remove a previously set function.
-             * @param cell a `GtkCellRenderer`
-             * @param func the `GtkCellLayout`DataFunc to use
-             */
-            vfunc_set_cell_data_func(cell: CellRenderer, func?: CellLayoutDataFunc | null): void;
         }
 
         export const CellLayout: CellLayoutNamespace & {
@@ -271020,6 +271090,48 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace ColorChooser {
+            /**
+             * Interface for implementing ColorChooser.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Adds a palette to the color chooser.
+                 *
+                 * If `orientation` is horizontal, the colors are grouped in rows,
+                 * with `colors_per_line` colors in each row. If `horizontal` is %FALSE,
+                 * the colors are grouped in columns instead.
+                 *
+                 * The default color palette of [class`Gtk`.ColorChooserWidget] has
+                 * 45 colors, organized in columns of 5 colors (this includes some
+                 * grays).
+                 *
+                 * The layout of the color chooser widget works best when the
+                 * palettes have 9-10 columns.
+                 *
+                 * Calling this function for the first time has the side effect
+                 * of removing the default color palette from the color chooser.
+                 *
+                 * If `colors` is %NULL, removes all previously added palettes.
+                 * @param orientation %GTK_ORIENTATION_HORIZONTAL if the palette should   be displayed in rows, %GTK_ORIENTATION_VERTICAL for columns
+                 * @param colors_per_line the number of colors to show in each row/column
+                 * @param colors the colors of the palette
+                 */
+                vfunc_add_palette(orientation: Orientation, colors_per_line: number, colors?: Gdk.RGBA[] | null): void;
+                vfunc_color_activated(color: Gdk.RGBA): void;
+                /**
+                 * Gets the currently-selected color.
+                 */
+                vfunc_get_rgba(): Gdk.RGBA;
+                /**
+                 * Sets the color.
+                 * @param color the new color
+                 */
+                vfunc_set_rgba(color: Gdk.RGBA): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -271033,7 +271145,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<ColorChooser>;
             prototype: ColorChooser;
         }
-        interface ColorChooser extends GObject.Object {
+        interface ColorChooser extends GObject.Object, ColorChooser.Interface {
             // Properties
 
             /**
@@ -271113,42 +271225,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param use_alpha %TRUE if color chooser should use alpha channel, %FALSE if not
              */
             set_use_alpha(use_alpha: boolean): void;
-
-            // Virtual methods
-
-            /**
-             * Adds a palette to the color chooser.
-             *
-             * If `orientation` is horizontal, the colors are grouped in rows,
-             * with `colors_per_line` colors in each row. If `horizontal` is %FALSE,
-             * the colors are grouped in columns instead.
-             *
-             * The default color palette of [class`Gtk`.ColorChooserWidget] has
-             * 45 colors, organized in columns of 5 colors (this includes some
-             * grays).
-             *
-             * The layout of the color chooser widget works best when the
-             * palettes have 9-10 columns.
-             *
-             * Calling this function for the first time has the side effect
-             * of removing the default color palette from the color chooser.
-             *
-             * If `colors` is %NULL, removes all previously added palettes.
-             * @param orientation %GTK_ORIENTATION_HORIZONTAL if the palette should   be displayed in rows, %GTK_ORIENTATION_VERTICAL for columns
-             * @param colors_per_line the number of colors to show in each row/column
-             * @param colors the colors of the palette
-             */
-            vfunc_add_palette(orientation: Orientation, colors_per_line: number, colors?: Gdk.RGBA[] | null): void;
-            vfunc_color_activated(color: Gdk.RGBA): void;
-            /**
-             * Gets the currently-selected color.
-             */
-            vfunc_get_rgba(): Gdk.RGBA;
-            /**
-             * Sets the color.
-             * @param color the new color
-             */
-            vfunc_set_rgba(color: Gdk.RGBA): void;
         }
 
         export const ColorChooser: ColorChooserNamespace & {
@@ -271172,6 +271248,102 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace Editable {
+            /**
+             * Interface for implementing Editable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                vfunc_changed(): void;
+                /**
+                 * Deletes a sequence of characters.
+                 *
+                 * The characters that are deleted are those characters at positions
+                 * from `start_pos` up to, but not including `end_pos`. If `end_pos` is
+                 * negative, then the characters deleted are those from `start_pos` to
+                 * the end of the text.
+                 *
+                 * Note that the positions are specified in characters, not bytes.
+                 * @param start_pos start position
+                 * @param end_pos end position
+                 */
+                vfunc_delete_text(start_pos: number, end_pos: number): void;
+                /**
+                 * Deletes a sequence of characters.
+                 *
+                 * The characters that are deleted are those characters at positions
+                 * from `start_pos` up to, but not including `end_pos`. If `end_pos` is
+                 * negative, then the characters deleted are those from `start_pos` to
+                 * the end of the text.
+                 *
+                 * Note that the positions are specified in characters, not bytes.
+                 * @param start_pos start position
+                 * @param end_pos end position
+                 */
+                vfunc_do_delete_text(start_pos: number, end_pos: number): void;
+                /**
+                 * Inserts `length` bytes of `text` into the contents of the
+                 * widget, at position `position`.
+                 *
+                 * Note that the position is in characters, not in bytes.
+                 * The function updates `position` to point after the newly
+                 * inserted text.
+                 * @param text the text to insert
+                 * @param length the length of the text in bytes, or -1
+                 * @param position location of the position text will be inserted at
+                 */
+                vfunc_do_insert_text(text: string, length: number, position: number): number;
+                /**
+                 * Gets the `GtkEditable` that `editable` is delegating its
+                 * implementation to.
+                 *
+                 * Typically, the delegate is a [class`Gtk`.Text] widget.
+                 */
+                vfunc_get_delegate(): Editable | null;
+                /**
+                 * Retrieves the selection bound of the editable.
+                 *
+                 * `start_pos` will be filled with the start of the selection and
+                 * `end_pos` with end. If no text was selected both will be identical
+                 * and %FALSE will be returned.
+                 *
+                 * Note that positions are specified in characters, not bytes.
+                 */
+                vfunc_get_selection_bounds(): [boolean, number, number];
+                /**
+                 * Retrieves the contents of `editable`.
+                 *
+                 * The returned string is owned by GTK and must not be modified or freed.
+                 */
+                vfunc_get_text(): string;
+                /**
+                 * Inserts `length` bytes of `text` into the contents of the
+                 * widget, at position `position`.
+                 *
+                 * Note that the position is in characters, not in bytes.
+                 * The function updates `position` to point after the newly
+                 * inserted text.
+                 * @param text the text to insert
+                 * @param length the length of the text in bytes, or -1
+                 * @param position location of the position text will be inserted at
+                 */
+                vfunc_insert_text(text: string, length: number, position: number): number;
+                /**
+                 * Selects a region of text.
+                 *
+                 * The characters that are selected are those characters at positions
+                 * from `start_pos` up to, but not including `end_pos`. If `end_pos` is
+                 * negative, then the characters selected are those characters from
+                 * `start_pos` to  the end of the text.
+                 *
+                 * Note that positions are specified in characters, not bytes.
+                 * @param start_pos start of region
+                 * @param end_pos end of region
+                 */
+                vfunc_set_selection_bounds(start_pos: number, end_pos: number): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Widget.ConstructorProps {
@@ -271251,7 +271423,7 @@ declare module 'gi://Gtk?version=4.0' {
             install_properties(object_class: typeof GObject.Object, first_prop: number): number;
             install_properties(...args: never[]): any;
         }
-        interface Editable extends Widget {
+        interface Editable extends Widget, Editable.Interface {
             // Properties
 
             /**
@@ -271548,96 +271720,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param n_chars width in chars
              */
             set_width_chars(n_chars: number): void;
-
-            // Virtual methods
-
-            vfunc_changed(): void;
-            /**
-             * Deletes a sequence of characters.
-             *
-             * The characters that are deleted are those characters at positions
-             * from `start_pos` up to, but not including `end_pos`. If `end_pos` is
-             * negative, then the characters deleted are those from `start_pos` to
-             * the end of the text.
-             *
-             * Note that the positions are specified in characters, not bytes.
-             * @param start_pos start position
-             * @param end_pos end position
-             */
-            vfunc_delete_text(start_pos: number, end_pos: number): void;
-            /**
-             * Deletes a sequence of characters.
-             *
-             * The characters that are deleted are those characters at positions
-             * from `start_pos` up to, but not including `end_pos`. If `end_pos` is
-             * negative, then the characters deleted are those from `start_pos` to
-             * the end of the text.
-             *
-             * Note that the positions are specified in characters, not bytes.
-             * @param start_pos start position
-             * @param end_pos end position
-             */
-            vfunc_do_delete_text(start_pos: number, end_pos: number): void;
-            /**
-             * Inserts `length` bytes of `text` into the contents of the
-             * widget, at position `position`.
-             *
-             * Note that the position is in characters, not in bytes.
-             * The function updates `position` to point after the newly
-             * inserted text.
-             * @param text the text to insert
-             * @param length the length of the text in bytes, or -1
-             * @param position location of the position text will be inserted at
-             */
-            vfunc_do_insert_text(text: string, length: number, position: number): number;
-            /**
-             * Gets the `GtkEditable` that `editable` is delegating its
-             * implementation to.
-             *
-             * Typically, the delegate is a [class`Gtk`.Text] widget.
-             */
-            vfunc_get_delegate(): Editable | null;
-            /**
-             * Retrieves the selection bound of the editable.
-             *
-             * `start_pos` will be filled with the start of the selection and
-             * `end_pos` with end. If no text was selected both will be identical
-             * and %FALSE will be returned.
-             *
-             * Note that positions are specified in characters, not bytes.
-             */
-            vfunc_get_selection_bounds(): [boolean, number, number];
-            /**
-             * Retrieves the contents of `editable`.
-             *
-             * The returned string is owned by GTK and must not be modified or freed.
-             */
-            vfunc_get_text(): string;
-            /**
-             * Inserts `length` bytes of `text` into the contents of the
-             * widget, at position `position`.
-             *
-             * Note that the position is in characters, not in bytes.
-             * The function updates `position` to point after the newly
-             * inserted text.
-             * @param text the text to insert
-             * @param length the length of the text in bytes, or -1
-             * @param position location of the position text will be inserted at
-             */
-            vfunc_insert_text(text: string, length: number, position: number): number;
-            /**
-             * Selects a region of text.
-             *
-             * The characters that are selected are those characters at positions
-             * from `start_pos` up to, but not including `end_pos`. If `end_pos` is
-             * negative, then the characters selected are those characters from
-             * `start_pos` to  the end of the text.
-             *
-             * Note that positions are specified in characters, not bytes.
-             * @param start_pos start of region
-             * @param end_pos end of region
-             */
-            vfunc_set_selection_bounds(start_pos: number, end_pos: number): void;
         }
 
         export const Editable: EditableNamespace & {
@@ -271979,6 +272061,75 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace FontChooser {
+            /**
+             * Interface for implementing FontChooser.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                vfunc_font_activated(fontname: string): void;
+                /**
+                 * Gets the `PangoFontFace` representing the selected font group
+                 * details (i.e. family, slant, weight, width, etc).
+                 *
+                 * If the selected font is not installed, returns %NULL.
+                 */
+                vfunc_get_font_face(): Pango.FontFace | null;
+                /**
+                 * Gets the `PangoFontFamily` representing the selected font family.
+                 *
+                 * Font families are a collection of font faces.
+                 *
+                 * If the selected font is not installed, returns %NULL.
+                 */
+                vfunc_get_font_family(): Pango.FontFamily | null;
+                /**
+                 * Gets the custom font map of this font chooser widget,
+                 * or %NULL if it does not have one.
+                 */
+                vfunc_get_font_map(): Pango.FontMap | null;
+                /**
+                 * The selected font size.
+                 */
+                vfunc_get_font_size(): number;
+                /**
+                 * Adds a filter function that decides which fonts to display
+                 * in the font chooser.
+                 * @param filter a `GtkFontFilterFunc`
+                 */
+                vfunc_set_filter_func(filter?: FontFilterFunc | null): void;
+                /**
+                 * Sets a custom font map to use for this font chooser widget.
+                 *
+                 * A custom font map can be used to present application-specific
+                 * fonts instead of or in addition to the normal system fonts.
+                 *
+                 * ```c
+                 * FcConfig *config;
+                 * PangoFontMap *fontmap;
+                 *
+                 * config = FcInitLoadConfigAndFonts ();
+                 * FcConfigAppFontAddFile (config, my_app_font_file);
+                 *
+                 * fontmap = pango_cairo_font_map_new_for_font_type (CAIRO_FONT_TYPE_FT);
+                 * pango_fc_font_map_set_config (PANGO_FC_FONT_MAP (fontmap), config);
+                 *
+                 * gtk_font_chooser_set_font_map (font_chooser, fontmap);
+                 * ```
+                 *
+                 * Note that other GTK widgets will only be able to use the
+                 * application-specific font if it is present in the font map they use:
+                 *
+                 * ```c
+                 * context = gtk_widget_get_pango_context (label);
+                 * pango_context_set_font_map (context, fontmap);
+                 * ```
+                 * @param fontmap a `PangoFontMap`
+                 */
+                vfunc_set_font_map(fontmap?: Pango.FontMap | null): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -272000,7 +272151,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<FontChooser>;
             prototype: FontChooser;
         }
-        interface FontChooser extends GObject.Object {
+        interface FontChooser extends GObject.Object, FontChooser.Interface {
             // Properties
 
             /**
@@ -272217,69 +272368,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param show_preview_entry whether to show the editable preview entry or not
              */
             set_show_preview_entry(show_preview_entry: boolean): void;
-
-            // Virtual methods
-
-            vfunc_font_activated(fontname: string): void;
-            /**
-             * Gets the `PangoFontFace` representing the selected font group
-             * details (i.e. family, slant, weight, width, etc).
-             *
-             * If the selected font is not installed, returns %NULL.
-             */
-            vfunc_get_font_face(): Pango.FontFace | null;
-            /**
-             * Gets the `PangoFontFamily` representing the selected font family.
-             *
-             * Font families are a collection of font faces.
-             *
-             * If the selected font is not installed, returns %NULL.
-             */
-            vfunc_get_font_family(): Pango.FontFamily | null;
-            /**
-             * Gets the custom font map of this font chooser widget,
-             * or %NULL if it does not have one.
-             */
-            vfunc_get_font_map(): Pango.FontMap | null;
-            /**
-             * The selected font size.
-             */
-            vfunc_get_font_size(): number;
-            /**
-             * Adds a filter function that decides which fonts to display
-             * in the font chooser.
-             * @param filter a `GtkFontFilterFunc`
-             */
-            vfunc_set_filter_func(filter?: FontFilterFunc | null): void;
-            /**
-             * Sets a custom font map to use for this font chooser widget.
-             *
-             * A custom font map can be used to present application-specific
-             * fonts instead of or in addition to the normal system fonts.
-             *
-             * ```c
-             * FcConfig *config;
-             * PangoFontMap *fontmap;
-             *
-             * config = FcInitLoadConfigAndFonts ();
-             * FcConfigAppFontAddFile (config, my_app_font_file);
-             *
-             * fontmap = pango_cairo_font_map_new_for_font_type (CAIRO_FONT_TYPE_FT);
-             * pango_fc_font_map_set_config (PANGO_FC_FONT_MAP (fontmap), config);
-             *
-             * gtk_font_chooser_set_font_map (font_chooser, fontmap);
-             * ```
-             *
-             * Note that other GTK widgets will only be able to use the
-             * application-specific font if it is present in the font map they use:
-             *
-             * ```c
-             * context = gtk_widget_get_pango_context (label);
-             * pango_context_set_font_map (context, fontmap);
-             * ```
-             * @param fontmap a `PangoFontMap`
-             */
-            vfunc_set_font_map(fontmap?: Pango.FontMap | null): void;
         }
 
         export const FontChooser: FontChooserNamespace & {
@@ -272380,6 +272468,44 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace PrintOperationPreview {
+            /**
+             * Interface for implementing PrintOperationPreview.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Ends a preview.
+                 *
+                 * This function must be called to finish a custom print preview.
+                 */
+                vfunc_end_preview(): void;
+                vfunc_got_page_size(context: PrintContext, page_setup: PageSetup): void;
+                /**
+                 * Returns whether the given page is included in the set of pages that
+                 * have been selected for printing.
+                 * @param page_nr a page number
+                 */
+                vfunc_is_selected(page_nr: number): boolean;
+                vfunc_ready(context: PrintContext): void;
+                /**
+                 * Renders a page to the preview.
+                 *
+                 * This is using the print context that was passed to the
+                 * [signal`Gtk`.PrintOperation::preview] handler together
+                 * with `preview`.
+                 *
+                 * A custom print preview should use this function to render
+                 * the currently selected page.
+                 *
+                 * Note that this function requires a suitable cairo context to
+                 * be associated with the print context.
+                 * @param page_nr the page to render
+                 */
+                vfunc_render_page(page_nr: number): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -272389,7 +272515,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<PrintOperationPreview>;
             prototype: PrintOperationPreview;
         }
-        interface PrintOperationPreview extends GObject.Object {
+        interface PrintOperationPreview extends GObject.Object, PrintOperationPreview.Interface {
             // Methods
 
             /**
@@ -272420,38 +272546,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param page_nr the page to render
              */
             render_page(page_nr: number): void;
-
-            // Virtual methods
-
-            /**
-             * Ends a preview.
-             *
-             * This function must be called to finish a custom print preview.
-             */
-            vfunc_end_preview(): void;
-            vfunc_got_page_size(context: PrintContext, page_setup: PageSetup): void;
-            /**
-             * Returns whether the given page is included in the set of pages that
-             * have been selected for printing.
-             * @param page_nr a page number
-             */
-            vfunc_is_selected(page_nr: number): boolean;
-            vfunc_ready(context: PrintContext): void;
-            /**
-             * Renders a page to the preview.
-             *
-             * This is using the print context that was passed to the
-             * [signal`Gtk`.PrintOperation::preview] handler together
-             * with `preview`.
-             *
-             * A custom print preview should use this function to render
-             * the currently selected page.
-             *
-             * Note that this function requires a suitable cairo context to
-             * be associated with the print context.
-             * @param page_nr the page to render
-             */
-            vfunc_render_page(page_nr: number): void;
         }
 
         export const PrintOperationPreview: PrintOperationPreviewNamespace & {
@@ -272505,6 +272599,24 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace Scrollable {
+            /**
+             * Interface for implementing Scrollable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Returns the size of a non-scrolling border around the
+                 * outside of the scrollable.
+                 *
+                 * An example for this would be treeview headers. GTK can use
+                 * this information to display overlaid graphics, like the
+                 * overshoot indication, at the right position.
+                 */
+                vfunc_get_border(): [boolean, Border];
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -272521,7 +272633,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<Scrollable>;
             prototype: Scrollable;
         }
-        interface Scrollable extends GObject.Object {
+        interface Scrollable extends GObject.Object, Scrollable.Interface {
             // Properties
 
             /**
@@ -272617,18 +272729,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param policy the vertical `GtkScrollablePolicy`
              */
             set_vscroll_policy(policy: ScrollablePolicy | null): void;
-
-            // Virtual methods
-
-            /**
-             * Returns the size of a non-scrolling border around the
-             * outside of the scrollable.
-             *
-             * An example for this would be treeview headers. GTK can use
-             * this information to display overlaid graphics, like the
-             * overshoot indication, at the right position.
-             */
-            vfunc_get_border(): [boolean, Border];
         }
 
         export const Scrollable: ScrollableNamespace & {
@@ -272636,6 +272736,24 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace SectionModel {
+            /**
+             * Interface for implementing SectionModel.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface<A extends GObject.Object = GObject.Object> extends Gio.ListModel.Interface {
+                // Virtual methods
+
+                /**
+                 * Query the section that covers the given position. The number of
+                 * items in the section can be computed by `out_end - out_start`.
+                 *
+                 * If the position is larger than the number of items, a single
+                 * range from n_items to G_MAXUINT will be returned.
+                 * @param position the position of the item to query
+                 */
+                vfunc_get_section(position: number): [number, number];
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -272646,7 +272764,9 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<SectionModel>;
             prototype: SectionModel;
         }
-        interface SectionModel<A extends GObject.Object = GObject.Object> extends Gio.ListModel {
+        interface SectionModel<A extends GObject.Object = GObject.Object>
+            extends Gio.ListModel,
+                SectionModel.Interface<A> {
             // Methods
 
             /**
@@ -272678,18 +272798,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param n_items the number of changed items
              */
             sections_changed(position: number, n_items: number): void;
-
-            // Virtual methods
-
-            /**
-             * Query the section that covers the given position. The number of
-             * items in the section can be computed by `out_end - out_start`.
-             *
-             * If the position is larger than the number of items, a single
-             * range from n_items to G_MAXUINT will be returned.
-             * @param position the position of the item to query
-             */
-            vfunc_get_section(position: number): [number, number];
         }
 
         export const SectionModel: SectionModelNamespace & {
@@ -272697,6 +272805,102 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace SelectionModel {
+            /**
+             * Interface for implementing SelectionModel.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface<A extends GObject.Object = GObject.Object> extends Gio.ListModel.Interface {
+                // Virtual methods
+
+                /**
+                 * Gets the set of selected items in a range.
+                 *
+                 * This function is an optimization for
+                 * [method`Gtk`.SelectionModel.get_selection] when you are only
+                 * interested in part of the model's selected state. A common use
+                 * case is in response to the [signal`Gtk`.SelectionModel::selection-changed]
+                 * signal.
+                 * @param position start of the queried range
+                 * @param n_items number of items in the queried range
+                 */
+                vfunc_get_selection_in_range(position: number, n_items: number): Bitset;
+                /**
+                 * Checks if the given item is selected.
+                 * @param position the position of the item to query
+                 */
+                vfunc_is_selected(position: number): boolean;
+                /**
+                 * Requests to select all items in the model.
+                 */
+                vfunc_select_all(): boolean;
+                /**
+                 * Requests to select an item in the model.
+                 * @param position the position of the item to select
+                 * @param unselect_rest whether previously selected items should be unselected
+                 */
+                vfunc_select_item(position: number, unselect_rest: boolean): boolean;
+                /**
+                 * Requests to select a range of items in the model.
+                 * @param position the first item to select
+                 * @param n_items the number of items to select
+                 * @param unselect_rest whether previously selected items should be unselected
+                 */
+                vfunc_select_range(position: number, n_items: number, unselect_rest: boolean): boolean;
+                /**
+                 * Make selection changes.
+                 *
+                 * This is the most advanced selection updating method that allows
+                 * the most fine-grained control over selection changes. If you can,
+                 * you should try the simpler versions, as implementations are more
+                 * likely to implement support for those.
+                 *
+                 * Requests that the selection state of all positions set in `mask`
+                 * be updated to the respective value in the `selected` bitmask.
+                 *
+                 * In pseudocode, it would look something like this:
+                 *
+                 * ```c
+                 * for (i = 0; i < n_items; i++)
+                 *   {
+                 *     // don't change values not in the mask
+                 *     if (!gtk_bitset_contains (mask, i))
+                 *       continue;
+                 *
+                 *     if (gtk_bitset_contains (selected, i))
+                 *       select_item (i);
+                 *     else
+                 *       unselect_item (i);
+                 *   }
+                 *
+                 * gtk_selection_model_selection_changed (model,
+                 *                                        first_changed_item,
+                 *                                        n_changed_items);
+                 * ```
+                 *
+                 * `mask` and `selected` must not be modified. They may refer to the
+                 * same bitset, which would mean that every item in the set should
+                 * be selected.
+                 * @param selected bitmask specifying if items should be selected or unselected
+                 * @param mask bitmask specifying which items should be updated
+                 */
+                vfunc_set_selection(selected: Bitset, mask: Bitset): boolean;
+                /**
+                 * Requests to unselect all items in the model.
+                 */
+                vfunc_unselect_all(): boolean;
+                /**
+                 * Requests to unselect an item in the model.
+                 * @param position the position of the item to unselect
+                 */
+                vfunc_unselect_item(position: number): boolean;
+                /**
+                 * Requests to unselect a range of items in the model.
+                 * @param position the first item to unselect
+                 * @param n_items the number of items to unselect
+                 */
+                vfunc_unselect_range(position: number, n_items: number): boolean;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -272707,7 +272911,9 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<SelectionModel>;
             prototype: SelectionModel;
         }
-        interface SelectionModel<A extends GObject.Object = GObject.Object> extends Gio.ListModel {
+        interface SelectionModel<A extends GObject.Object = GObject.Object>
+            extends Gio.ListModel,
+                SelectionModel.Interface<A> {
             // Methods
 
             /**
@@ -272824,96 +273030,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @returns %TRUE if this action was supported and no fallback should be   tried. This does not mean the range was unselected.
              */
             unselect_range(position: number, n_items: number): boolean;
-
-            // Virtual methods
-
-            /**
-             * Gets the set of selected items in a range.
-             *
-             * This function is an optimization for
-             * [method`Gtk`.SelectionModel.get_selection] when you are only
-             * interested in part of the model's selected state. A common use
-             * case is in response to the [signal`Gtk`.SelectionModel::selection-changed]
-             * signal.
-             * @param position start of the queried range
-             * @param n_items number of items in the queried range
-             */
-            vfunc_get_selection_in_range(position: number, n_items: number): Bitset;
-            /**
-             * Checks if the given item is selected.
-             * @param position the position of the item to query
-             */
-            vfunc_is_selected(position: number): boolean;
-            /**
-             * Requests to select all items in the model.
-             */
-            vfunc_select_all(): boolean;
-            /**
-             * Requests to select an item in the model.
-             * @param position the position of the item to select
-             * @param unselect_rest whether previously selected items should be unselected
-             */
-            vfunc_select_item(position: number, unselect_rest: boolean): boolean;
-            /**
-             * Requests to select a range of items in the model.
-             * @param position the first item to select
-             * @param n_items the number of items to select
-             * @param unselect_rest whether previously selected items should be unselected
-             */
-            vfunc_select_range(position: number, n_items: number, unselect_rest: boolean): boolean;
-            /**
-             * Make selection changes.
-             *
-             * This is the most advanced selection updating method that allows
-             * the most fine-grained control over selection changes. If you can,
-             * you should try the simpler versions, as implementations are more
-             * likely to implement support for those.
-             *
-             * Requests that the selection state of all positions set in `mask`
-             * be updated to the respective value in the `selected` bitmask.
-             *
-             * In pseudocode, it would look something like this:
-             *
-             * ```c
-             * for (i = 0; i < n_items; i++)
-             *   {
-             *     // don't change values not in the mask
-             *     if (!gtk_bitset_contains (mask, i))
-             *       continue;
-             *
-             *     if (gtk_bitset_contains (selected, i))
-             *       select_item (i);
-             *     else
-             *       unselect_item (i);
-             *   }
-             *
-             * gtk_selection_model_selection_changed (model,
-             *                                        first_changed_item,
-             *                                        n_changed_items);
-             * ```
-             *
-             * `mask` and `selected` must not be modified. They may refer to the
-             * same bitset, which would mean that every item in the set should
-             * be selected.
-             * @param selected bitmask specifying if items should be selected or unselected
-             * @param mask bitmask specifying which items should be updated
-             */
-            vfunc_set_selection(selected: Bitset, mask: Bitset): boolean;
-            /**
-             * Requests to unselect all items in the model.
-             */
-            vfunc_unselect_all(): boolean;
-            /**
-             * Requests to unselect an item in the model.
-             * @param position the position of the item to unselect
-             */
-            vfunc_unselect_item(position: number): boolean;
-            /**
-             * Requests to unselect a range of items in the model.
-             * @param position the first item to unselect
-             * @param n_items the number of items to unselect
-             */
-            vfunc_unselect_range(position: number, n_items: number): boolean;
         }
 
         export const SelectionModel: SelectionModelNamespace & {
@@ -272921,6 +273037,26 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace ShortcutManager {
+            /**
+             * Interface for implementing ShortcutManager.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Add a `GtkShortcutController` to be managed.
+                 * @param controller
+                 */
+                vfunc_add_controller(controller: ShortcutController): void;
+                /**
+                 * Remove a `GtkShortcutController` that had previously
+                 *   been added
+                 * @param controller
+                 */
+                vfunc_remove_controller(controller: ShortcutController): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -272930,21 +273066,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<ShortcutManager>;
             prototype: ShortcutManager;
         }
-        interface ShortcutManager extends GObject.Object {
-            // Virtual methods
-
-            /**
-             * Add a `GtkShortcutController` to be managed.
-             * @param controller
-             */
-            vfunc_add_controller(controller: ShortcutController): void;
-            /**
-             * Remove a `GtkShortcutController` that had previously
-             *   been added
-             * @param controller
-             */
-            vfunc_remove_controller(controller: ShortcutController): void;
-        }
+        interface ShortcutManager extends GObject.Object, ShortcutManager.Interface {}
 
         export const ShortcutManager: ShortcutManagerNamespace & {
             new (): ShortcutManager; // This allows `obj instanceof ShortcutManager`
@@ -272967,6 +273089,31 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace SymbolicPaintable {
+            /**
+             * Interface for implementing SymbolicPaintable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface extends Gdk.Paintable.Interface {
+                // Virtual methods
+
+                /**
+                 * Snapshots the paintable with the given colors.
+                 *
+                 * If less than 4 colors are provided, GTK will pad the array with default
+                 * colors.
+                 * @param snapshot a `GdkSnapshot` to snapshot to
+                 * @param width width to snapshot in
+                 * @param height height to snapshot in
+                 * @param colors a pointer to an array of colors
+                 */
+                vfunc_snapshot_symbolic(
+                    snapshot: Gdk.Snapshot,
+                    width: number,
+                    height: number,
+                    colors: Gdk.RGBA[],
+                ): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gdk.Paintable.ConstructorProps {}
@@ -272976,7 +273123,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<SymbolicPaintable>;
             prototype: SymbolicPaintable;
         }
-        interface SymbolicPaintable extends Gdk.Paintable {
+        interface SymbolicPaintable extends Gdk.Paintable, SymbolicPaintable.Interface {
             // Methods
 
             /**
@@ -272990,20 +273137,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param colors a pointer to an array of colors
              */
             snapshot_symbolic(snapshot: Gdk.Snapshot, width: number, height: number, colors: Gdk.RGBA[]): void;
-
-            // Virtual methods
-
-            /**
-             * Snapshots the paintable with the given colors.
-             *
-             * If less than 4 colors are provided, GTK will pad the array with default
-             * colors.
-             * @param snapshot a `GdkSnapshot` to snapshot to
-             * @param width width to snapshot in
-             * @param height height to snapshot in
-             * @param colors a pointer to an array of colors
-             */
-            vfunc_snapshot_symbolic(snapshot: Gdk.Snapshot, width: number, height: number, colors: Gdk.RGBA[]): void;
         }
 
         export const SymbolicPaintable: SymbolicPaintableNamespace & {
@@ -273011,6 +273144,36 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace TreeDragDest {
+            /**
+             * Interface for implementing TreeDragDest.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Asks the `GtkTreeDragDest` to insert a row before the path `dest,`
+                 * deriving the contents of the row from `value`. If `dest` is
+                 * outside the tree so that inserting before it is impossible, %FALSE
+                 * will be returned. Also, %FALSE may be returned if the new row is
+                 * not created for some model-specific reason.  Should robustly handle
+                 * a `dest` no longer found in the model!
+                 * @param dest row to drop in front of
+                 * @param value data to drop
+                 */
+                vfunc_drag_data_received(dest: TreePath, value: GObject.Value | any): boolean;
+                /**
+                 * Determines whether a drop is possible before the given `dest_path,`
+                 * at the same depth as `dest_path`. i.e., can we drop the data in
+                 * `value` at that location. `dest_path` does not have to
+                 * exist; the return value will almost certainly be %FALSE if the
+                 * parent of `dest_path` doesn’t exist, though.
+                 * @param dest_path destination row
+                 * @param value the data being dropped
+                 */
+                vfunc_row_drop_possible(dest_path: TreePath, value: GObject.Value | any): boolean;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -273020,7 +273183,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<TreeDragDest>;
             prototype: TreeDragDest;
         }
-        interface TreeDragDest extends GObject.Object {
+        interface TreeDragDest extends GObject.Object, TreeDragDest.Interface {
             // Methods
 
             /**
@@ -273046,30 +273209,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @returns %TRUE if a drop is possible before @dest_path
              */
             row_drop_possible(dest_path: TreePath, value: GObject.Value | any): boolean;
-
-            // Virtual methods
-
-            /**
-             * Asks the `GtkTreeDragDest` to insert a row before the path `dest,`
-             * deriving the contents of the row from `value`. If `dest` is
-             * outside the tree so that inserting before it is impossible, %FALSE
-             * will be returned. Also, %FALSE may be returned if the new row is
-             * not created for some model-specific reason.  Should robustly handle
-             * a `dest` no longer found in the model!
-             * @param dest row to drop in front of
-             * @param value data to drop
-             */
-            vfunc_drag_data_received(dest: TreePath, value: GObject.Value | any): boolean;
-            /**
-             * Determines whether a drop is possible before the given `dest_path,`
-             * at the same depth as `dest_path`. i.e., can we drop the data in
-             * `value` at that location. `dest_path` does not have to
-             * exist; the return value will almost certainly be %FALSE if the
-             * parent of `dest_path` doesn’t exist, though.
-             * @param dest_path destination row
-             * @param value the data being dropped
-             */
-            vfunc_row_drop_possible(dest_path: TreePath, value: GObject.Value | any): boolean;
         }
 
         export const TreeDragDest: TreeDragDestNamespace & {
@@ -273077,6 +273216,38 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace TreeDragSource {
+            /**
+             * Interface for implementing TreeDragSource.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Asks the `GtkTreeDragSource` to delete the row at `path,` because
+                 * it was moved somewhere else via drag-and-drop. Returns %FALSE
+                 * if the deletion fails because `path` no longer exists, or for
+                 * some model-specific reason. Should robustly handle a `path` no
+                 * longer found in the model!
+                 * @param path row that was being dragged
+                 */
+                vfunc_drag_data_delete(path: TreePath): boolean;
+                /**
+                 * Asks the `GtkTreeDragSource` to return a `GdkContentProvider` representing
+                 * the row at `path`. Should robustly handle a `path` no
+                 * longer found in the model!
+                 * @param path row that was dragged
+                 */
+                vfunc_drag_data_get(path: TreePath): Gdk.ContentProvider | null;
+                /**
+                 * Asks the `GtkTreeDragSource` whether a particular row can be used as
+                 * the source of a DND operation. If the source doesn’t implement
+                 * this interface, the row is assumed draggable.
+                 * @param path row on which user is initiating a drag
+                 */
+                vfunc_row_draggable(path: TreePath): boolean;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -273086,7 +273257,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<TreeDragSource>;
             prototype: TreeDragSource;
         }
-        interface TreeDragSource extends GObject.Object {
+        interface TreeDragSource extends GObject.Object, TreeDragSource.Interface {
             // Methods
 
             /**
@@ -273115,32 +273286,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @returns %TRUE if the row can be dragged
              */
             row_draggable(path: TreePath): boolean;
-
-            // Virtual methods
-
-            /**
-             * Asks the `GtkTreeDragSource` to delete the row at `path,` because
-             * it was moved somewhere else via drag-and-drop. Returns %FALSE
-             * if the deletion fails because `path` no longer exists, or for
-             * some model-specific reason. Should robustly handle a `path` no
-             * longer found in the model!
-             * @param path row that was being dragged
-             */
-            vfunc_drag_data_delete(path: TreePath): boolean;
-            /**
-             * Asks the `GtkTreeDragSource` to return a `GdkContentProvider` representing
-             * the row at `path`. Should robustly handle a `path` no
-             * longer found in the model!
-             * @param path row that was dragged
-             */
-            vfunc_drag_data_get(path: TreePath): Gdk.ContentProvider | null;
-            /**
-             * Asks the `GtkTreeDragSource` whether a particular row can be used as
-             * the source of a DND operation. If the source doesn’t implement
-             * this interface, the row is assumed draggable.
-             * @param path row on which user is initiating a drag
-             */
-            vfunc_row_draggable(path: TreePath): boolean;
         }
 
         export const TreeDragSource: TreeDragSourceNamespace & {
@@ -273148,6 +273293,196 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace TreeModel {
+            /**
+             * Interface for implementing TreeModel.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Returns the type of the column.
+                 * @param index_ the column index
+                 */
+                vfunc_get_column_type(index_: number): GObject.GType;
+                /**
+                 * Returns a set of flags supported by this interface.
+                 *
+                 * The flags are a bitwise combination of `GtkTreeModel`Flags.
+                 * The flags supported should not change during the lifetime
+                 * of the `tree_model`.
+                 */
+                vfunc_get_flags(): TreeModelFlags;
+                /**
+                 * Sets `iter` to a valid iterator pointing to `path`.
+                 *
+                 * If `path` does not exist, `iter` is set to an invalid
+                 * iterator and %FALSE is returned.
+                 * @param path the `GtkTreePath`
+                 */
+                vfunc_get_iter(path: TreePath): [boolean, TreeIter];
+                /**
+                 * Returns the number of columns supported by `tree_model`.
+                 */
+                vfunc_get_n_columns(): number;
+                /**
+                 * Returns a newly-created `GtkTreePath` referenced by `iter`.
+                 *
+                 * This path should be freed with gtk_tree_path_free().
+                 * @param iter the `GtkTreeIter`
+                 */
+                vfunc_get_path(iter: TreeIter): TreePath;
+                /**
+                 * Initializes and sets `value` to that at `column`.
+                 *
+                 * When done with `value,` g_value_unset() needs to be called
+                 * to free any allocated memory.
+                 * @param iter the `GtkTreeIter`
+                 * @param column the column to lookup the value at
+                 */
+                vfunc_get_value(iter: TreeIter, column: number): unknown;
+                /**
+                 * Sets `iter` to point to the first child of `parent`.
+                 *
+                 * If `parent` has no children, %FALSE is returned and `iter` is
+                 * set to be invalid. `parent` will remain a valid node after this
+                 * function has been called.
+                 *
+                 * If `parent` is %NULL returns the first node, equivalent to
+                 * `gtk_tree_model_get_iter_first (tree_model, iter);`
+                 * @param parent the `GtkTreeIter`
+                 */
+                vfunc_iter_children(parent?: TreeIter | null): [boolean, TreeIter];
+                /**
+                 * Returns %TRUE if `iter` has children, %FALSE otherwise.
+                 * @param iter the `GtkTreeIter` to test for children
+                 */
+                vfunc_iter_has_child(iter: TreeIter): boolean;
+                /**
+                 * Returns the number of children that `iter` has.
+                 *
+                 * As a special case, if `iter` is %NULL, then the number
+                 * of toplevel nodes is returned.
+                 * @param iter the `GtkTreeIter`
+                 */
+                vfunc_iter_n_children(iter?: TreeIter | null): number;
+                /**
+                 * Sets `iter` to point to the node following it at the current level.
+                 *
+                 * If there is no next `iter,` %FALSE is returned and `iter` is set
+                 * to be invalid.
+                 * @param iter the `GtkTreeIter`
+                 */
+                vfunc_iter_next(iter: TreeIter): boolean;
+                /**
+                 * Sets `iter` to be the child of `parent,` using the given index.
+                 *
+                 * The first index is 0. If `n` is too big, or `parent` has no children,
+                 * `iter` is set to an invalid iterator and %FALSE is returned. `parent`
+                 * will remain a valid node after this function has been called. As a
+                 * special case, if `parent` is %NULL, then the `n-th` root node
+                 * is set.
+                 * @param parent the `GtkTreeIter` to get the child from
+                 * @param n the index of the desired child
+                 */
+                vfunc_iter_nth_child(parent: TreeIter | null, n: number): [boolean, TreeIter];
+                /**
+                 * Sets `iter` to be the parent of `child`.
+                 *
+                 * If `child` is at the toplevel, and doesn’t have a parent, then
+                 * `iter` is set to an invalid iterator and %FALSE is returned.
+                 * `child` will remain a valid node after this function has been
+                 * called.
+                 *
+                 * `iter` will be initialized before the lookup is performed, so `child`
+                 * and `iter` cannot point to the same memory location.
+                 * @param child the `GtkTreeIter`
+                 */
+                vfunc_iter_parent(child: TreeIter): [boolean, TreeIter];
+                /**
+                 * Sets `iter` to point to the previous node at the current level.
+                 *
+                 * If there is no previous `iter,` %FALSE is returned and `iter` is
+                 * set to be invalid.
+                 * @param iter the `GtkTreeIter`
+                 */
+                vfunc_iter_previous(iter: TreeIter): boolean;
+                /**
+                 * Lets the tree ref the node.
+                 *
+                 * This is an optional method for models to implement.
+                 * To be more specific, models may ignore this call as it exists
+                 * primarily for performance reasons.
+                 *
+                 * This function is primarily meant as a way for views to let
+                 * caching models know when nodes are being displayed (and hence,
+                 * whether or not to cache that node). Being displayed means a node
+                 * is in an expanded branch, regardless of whether the node is currently
+                 * visible in the viewport. For example, a file-system based model
+                 * would not want to keep the entire file-hierarchy in memory,
+                 * just the sections that are currently being displayed by
+                 * every current view.
+                 *
+                 * A model should be expected to be able to get an iter independent
+                 * of its reffed state.
+                 * @param iter the `GtkTreeIter`
+                 */
+                vfunc_ref_node(iter: TreeIter): void;
+                /**
+                 * Emits the ::row-changed signal on `tree_model`.
+                 *
+                 * See [signal`Gtk`.TreeModel::row-changed].
+                 * @param path a `GtkTreePath` pointing to the changed row
+                 * @param iter a valid `GtkTreeIter` pointing to the changed row
+                 */
+                vfunc_row_changed(path: TreePath, iter: TreeIter): void;
+                /**
+                 * Emits the ::row-deleted signal on `tree_model`.
+                 *
+                 * See [signal`Gtk`.TreeModel::row-deleted].
+                 *
+                 * This should be called by models after a row has been removed.
+                 * The location pointed to by `path` should be the location that
+                 * the row previously was at. It may not be a valid location anymore.
+                 *
+                 * Nodes that are deleted are not unreffed, this means that any
+                 * outstanding references on the deleted node should not be released.
+                 * @param path a `GtkTreePath` pointing to the previous location of   the deleted row
+                 */
+                vfunc_row_deleted(path: TreePath): void;
+                /**
+                 * Emits the ::row-has-child-toggled signal on `tree_model`.
+                 *
+                 * See [signal`Gtk`.TreeModel::row-has-child-toggled].
+                 *
+                 * This should be called by models after the child
+                 * state of a node changes.
+                 * @param path a `GtkTreePath` pointing to the changed row
+                 * @param iter a valid `GtkTreeIter` pointing to the changed row
+                 */
+                vfunc_row_has_child_toggled(path: TreePath, iter: TreeIter): void;
+                /**
+                 * Emits the ::row-inserted signal on `tree_model`.
+                 *
+                 * See [signal`Gtk`.TreeModel::row-inserted].
+                 * @param path a `GtkTreePath` pointing to the inserted row
+                 * @param iter a valid `GtkTreeIter` pointing to the inserted row
+                 */
+                vfunc_row_inserted(path: TreePath, iter: TreeIter): void;
+                /**
+                 * Lets the tree unref the node.
+                 *
+                 * This is an optional method for models to implement.
+                 * To be more specific, models may ignore this call as it exists
+                 * primarily for performance reasons. For more information on what
+                 * this means, see gtk_tree_model_ref_node().
+                 *
+                 * Please note that nodes that are deleted are not unreffed.
+                 * @param iter the `GtkTreeIter`
+                 */
+                vfunc_unref_node(iter: TreeIter): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -273157,7 +273492,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<TreeModel>;
             prototype: TreeModel;
         }
-        interface TreeModel extends GObject.Object {
+        interface TreeModel extends GObject.Object, TreeModel.Interface {
             // Methods
 
             /**
@@ -273407,190 +273742,6 @@ declare module 'gi://Gtk?version=4.0' {
              * @param iter the `GtkTreeIter`
              */
             unref_node(iter: TreeIter): void;
-
-            // Virtual methods
-
-            /**
-             * Returns the type of the column.
-             * @param index_ the column index
-             */
-            vfunc_get_column_type(index_: number): GObject.GType;
-            /**
-             * Returns a set of flags supported by this interface.
-             *
-             * The flags are a bitwise combination of `GtkTreeModel`Flags.
-             * The flags supported should not change during the lifetime
-             * of the `tree_model`.
-             */
-            vfunc_get_flags(): TreeModelFlags;
-            /**
-             * Sets `iter` to a valid iterator pointing to `path`.
-             *
-             * If `path` does not exist, `iter` is set to an invalid
-             * iterator and %FALSE is returned.
-             * @param path the `GtkTreePath`
-             */
-            vfunc_get_iter(path: TreePath): [boolean, TreeIter];
-            /**
-             * Returns the number of columns supported by `tree_model`.
-             */
-            vfunc_get_n_columns(): number;
-            /**
-             * Returns a newly-created `GtkTreePath` referenced by `iter`.
-             *
-             * This path should be freed with gtk_tree_path_free().
-             * @param iter the `GtkTreeIter`
-             */
-            vfunc_get_path(iter: TreeIter): TreePath;
-            /**
-             * Initializes and sets `value` to that at `column`.
-             *
-             * When done with `value,` g_value_unset() needs to be called
-             * to free any allocated memory.
-             * @param iter the `GtkTreeIter`
-             * @param column the column to lookup the value at
-             */
-            vfunc_get_value(iter: TreeIter, column: number): unknown;
-            /**
-             * Sets `iter` to point to the first child of `parent`.
-             *
-             * If `parent` has no children, %FALSE is returned and `iter` is
-             * set to be invalid. `parent` will remain a valid node after this
-             * function has been called.
-             *
-             * If `parent` is %NULL returns the first node, equivalent to
-             * `gtk_tree_model_get_iter_first (tree_model, iter);`
-             * @param parent the `GtkTreeIter`
-             */
-            vfunc_iter_children(parent?: TreeIter | null): [boolean, TreeIter];
-            /**
-             * Returns %TRUE if `iter` has children, %FALSE otherwise.
-             * @param iter the `GtkTreeIter` to test for children
-             */
-            vfunc_iter_has_child(iter: TreeIter): boolean;
-            /**
-             * Returns the number of children that `iter` has.
-             *
-             * As a special case, if `iter` is %NULL, then the number
-             * of toplevel nodes is returned.
-             * @param iter the `GtkTreeIter`
-             */
-            vfunc_iter_n_children(iter?: TreeIter | null): number;
-            /**
-             * Sets `iter` to point to the node following it at the current level.
-             *
-             * If there is no next `iter,` %FALSE is returned and `iter` is set
-             * to be invalid.
-             * @param iter the `GtkTreeIter`
-             */
-            vfunc_iter_next(iter: TreeIter): boolean;
-            /**
-             * Sets `iter` to be the child of `parent,` using the given index.
-             *
-             * The first index is 0. If `n` is too big, or `parent` has no children,
-             * `iter` is set to an invalid iterator and %FALSE is returned. `parent`
-             * will remain a valid node after this function has been called. As a
-             * special case, if `parent` is %NULL, then the `n-th` root node
-             * is set.
-             * @param parent the `GtkTreeIter` to get the child from
-             * @param n the index of the desired child
-             */
-            vfunc_iter_nth_child(parent: TreeIter | null, n: number): [boolean, TreeIter];
-            /**
-             * Sets `iter` to be the parent of `child`.
-             *
-             * If `child` is at the toplevel, and doesn’t have a parent, then
-             * `iter` is set to an invalid iterator and %FALSE is returned.
-             * `child` will remain a valid node after this function has been
-             * called.
-             *
-             * `iter` will be initialized before the lookup is performed, so `child`
-             * and `iter` cannot point to the same memory location.
-             * @param child the `GtkTreeIter`
-             */
-            vfunc_iter_parent(child: TreeIter): [boolean, TreeIter];
-            /**
-             * Sets `iter` to point to the previous node at the current level.
-             *
-             * If there is no previous `iter,` %FALSE is returned and `iter` is
-             * set to be invalid.
-             * @param iter the `GtkTreeIter`
-             */
-            vfunc_iter_previous(iter: TreeIter): boolean;
-            /**
-             * Lets the tree ref the node.
-             *
-             * This is an optional method for models to implement.
-             * To be more specific, models may ignore this call as it exists
-             * primarily for performance reasons.
-             *
-             * This function is primarily meant as a way for views to let
-             * caching models know when nodes are being displayed (and hence,
-             * whether or not to cache that node). Being displayed means a node
-             * is in an expanded branch, regardless of whether the node is currently
-             * visible in the viewport. For example, a file-system based model
-             * would not want to keep the entire file-hierarchy in memory,
-             * just the sections that are currently being displayed by
-             * every current view.
-             *
-             * A model should be expected to be able to get an iter independent
-             * of its reffed state.
-             * @param iter the `GtkTreeIter`
-             */
-            vfunc_ref_node(iter: TreeIter): void;
-            /**
-             * Emits the ::row-changed signal on `tree_model`.
-             *
-             * See [signal`Gtk`.TreeModel::row-changed].
-             * @param path a `GtkTreePath` pointing to the changed row
-             * @param iter a valid `GtkTreeIter` pointing to the changed row
-             */
-            vfunc_row_changed(path: TreePath, iter: TreeIter): void;
-            /**
-             * Emits the ::row-deleted signal on `tree_model`.
-             *
-             * See [signal`Gtk`.TreeModel::row-deleted].
-             *
-             * This should be called by models after a row has been removed.
-             * The location pointed to by `path` should be the location that
-             * the row previously was at. It may not be a valid location anymore.
-             *
-             * Nodes that are deleted are not unreffed, this means that any
-             * outstanding references on the deleted node should not be released.
-             * @param path a `GtkTreePath` pointing to the previous location of   the deleted row
-             */
-            vfunc_row_deleted(path: TreePath): void;
-            /**
-             * Emits the ::row-has-child-toggled signal on `tree_model`.
-             *
-             * See [signal`Gtk`.TreeModel::row-has-child-toggled].
-             *
-             * This should be called by models after the child
-             * state of a node changes.
-             * @param path a `GtkTreePath` pointing to the changed row
-             * @param iter a valid `GtkTreeIter` pointing to the changed row
-             */
-            vfunc_row_has_child_toggled(path: TreePath, iter: TreeIter): void;
-            /**
-             * Emits the ::row-inserted signal on `tree_model`.
-             *
-             * See [signal`Gtk`.TreeModel::row-inserted].
-             * @param path a `GtkTreePath` pointing to the inserted row
-             * @param iter a valid `GtkTreeIter` pointing to the inserted row
-             */
-            vfunc_row_inserted(path: TreePath, iter: TreeIter): void;
-            /**
-             * Lets the tree unref the node.
-             *
-             * This is an optional method for models to implement.
-             * To be more specific, models may ignore this call as it exists
-             * primarily for performance reasons. For more information on what
-             * this means, see gtk_tree_model_ref_node().
-             *
-             * Please note that nodes that are deleted are not unreffed.
-             * @param iter the `GtkTreeIter`
-             */
-            vfunc_unref_node(iter: TreeIter): void;
         }
 
         export const TreeModel: TreeModelNamespace & {
@@ -273598,6 +273749,73 @@ declare module 'gi://Gtk?version=4.0' {
         };
 
         namespace TreeSortable {
+            /**
+             * Interface for implementing TreeSortable.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface extends TreeModel.Interface {
+                // Virtual methods
+
+                /**
+                 * Fills in `sort_column_id` and `order` with the current sort column and the
+                 * order. It returns %TRUE unless the `sort_column_id` is
+                 * %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID or
+                 * %GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID.
+                 */
+                vfunc_get_sort_column_id(): [boolean, number, SortType];
+                /**
+                 * Returns %TRUE if the model has a default sort function. This is used
+                 * primarily by GtkTreeViewColumns in order to determine if a model can
+                 * go back to the default state, or not.
+                 */
+                vfunc_has_default_sort_func(): boolean;
+                /**
+                 * Sets the default comparison function used when sorting to be `sort_func`.
+                 * If the current sort column id of `sortable` is
+                 * %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, then the model will sort using
+                 * this function.
+                 *
+                 * If `sort_func` is %NULL, then there will be no default comparison function.
+                 * This means that once the model  has been sorted, it can’t go back to the
+                 * default state. In this case, when the current sort column id of `sortable`
+                 * is %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, the model will be unsorted.
+                 * @param sort_func The comparison function
+                 * @param destroy Destroy notifier of @user_data
+                 */
+                vfunc_set_default_sort_func(sort_func: TreeIterCompareFunc, destroy?: GLib.DestroyNotify | null): void;
+                /**
+                 * Sets the current sort column to be `sort_column_id`. The `sortable` will
+                 * resort itself to reflect this change, after emitting a
+                 * `GtkTreeSortable::sort-column-changed` signal. `sort_column_id` may either be
+                 * a regular column id, or one of the following special values:
+                 *
+                 * - %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID: the default sort function
+                 *   will be used, if it is set
+                 *
+                 * - %GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID: no sorting will occur
+                 * @param sort_column_id the sort column id to set
+                 * @param order The sort order of the column
+                 */
+                vfunc_set_sort_column_id(sort_column_id: number, order: SortType): void;
+                /**
+                 * Sets the comparison function used when sorting to be `sort_func`. If the
+                 * current sort column id of `sortable` is the same as `sort_column_id,` then
+                 * the model will sort using this function.
+                 * @param sort_column_id the sort column id to set the function for
+                 * @param sort_func The comparison function
+                 * @param destroy Destroy notifier of @user_data
+                 */
+                vfunc_set_sort_func(
+                    sort_column_id: number,
+                    sort_func: TreeIterCompareFunc,
+                    destroy?: GLib.DestroyNotify | null,
+                ): void;
+                /**
+                 * Emits a `GtkTreeSortable::sort-column-changed` signal on `sortable`.
+                 */
+                vfunc_sort_column_changed(): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends TreeModel.ConstructorProps {}
@@ -273607,7 +273825,7 @@ declare module 'gi://Gtk?version=4.0' {
             $gtype: GObject.GType<TreeSortable>;
             prototype: TreeSortable;
         }
-        interface TreeSortable extends TreeModel {
+        interface TreeSortable extends TreeModel, TreeSortable.Interface {
             // Methods
 
             /**
@@ -273670,67 +273888,6 @@ declare module 'gi://Gtk?version=4.0' {
              * Emits a `GtkTreeSortable::sort-column-changed` signal on `sortable`.
              */
             sort_column_changed(): void;
-
-            // Virtual methods
-
-            /**
-             * Fills in `sort_column_id` and `order` with the current sort column and the
-             * order. It returns %TRUE unless the `sort_column_id` is
-             * %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID or
-             * %GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID.
-             */
-            vfunc_get_sort_column_id(): [boolean, number, SortType];
-            /**
-             * Returns %TRUE if the model has a default sort function. This is used
-             * primarily by GtkTreeViewColumns in order to determine if a model can
-             * go back to the default state, or not.
-             */
-            vfunc_has_default_sort_func(): boolean;
-            /**
-             * Sets the default comparison function used when sorting to be `sort_func`.
-             * If the current sort column id of `sortable` is
-             * %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, then the model will sort using
-             * this function.
-             *
-             * If `sort_func` is %NULL, then there will be no default comparison function.
-             * This means that once the model  has been sorted, it can’t go back to the
-             * default state. In this case, when the current sort column id of `sortable`
-             * is %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, the model will be unsorted.
-             * @param sort_func The comparison function
-             * @param destroy Destroy notifier of @user_data
-             */
-            vfunc_set_default_sort_func(sort_func: TreeIterCompareFunc, destroy?: GLib.DestroyNotify | null): void;
-            /**
-             * Sets the current sort column to be `sort_column_id`. The `sortable` will
-             * resort itself to reflect this change, after emitting a
-             * `GtkTreeSortable::sort-column-changed` signal. `sort_column_id` may either be
-             * a regular column id, or one of the following special values:
-             *
-             * - %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID: the default sort function
-             *   will be used, if it is set
-             *
-             * - %GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID: no sorting will occur
-             * @param sort_column_id the sort column id to set
-             * @param order The sort order of the column
-             */
-            vfunc_set_sort_column_id(sort_column_id: number, order: SortType): void;
-            /**
-             * Sets the comparison function used when sorting to be `sort_func`. If the
-             * current sort column id of `sortable` is the same as `sort_column_id,` then
-             * the model will sort using this function.
-             * @param sort_column_id the sort column id to set the function for
-             * @param sort_func The comparison function
-             * @param destroy Destroy notifier of @user_data
-             */
-            vfunc_set_sort_func(
-                sort_column_id: number,
-                sort_func: TreeIterCompareFunc,
-                destroy?: GLib.DestroyNotify | null,
-            ): void;
-            /**
-             * Emits a `GtkTreeSortable::sort-column-changed` signal on `sortable`.
-             */
-            vfunc_sort_column_changed(): void;
         }
 
         export const TreeSortable: TreeSortableNamespace & {

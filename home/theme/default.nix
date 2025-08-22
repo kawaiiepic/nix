@@ -35,8 +35,8 @@
     };
 
     iconTheme = {
-      name = "rose-pine";
-      package = pkgs.rose-pine-icon-theme;
+      name = "Arashi";
+      package = (pkgs.callPackage ./arashi-icon-theme.nix { });
     };
   };
 }

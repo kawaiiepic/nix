@@ -47,7 +47,7 @@
         }
       '')
       (pkgs.writeShellScriptBin "start" ''
-        hyprctl dispatch exec "[workspace 3] uwsm app -- zen"
+        hyprctl dispatch exec "[workspace 1] uwsm app -- zen"
         hyprctl dispatch exec "[workspace 3] uwsm app -- discordcanary"
         hyprctl dispatch exec "[workspace 5] uwsm app -- steam"
       '')
@@ -77,12 +77,12 @@
     xdgOpenUsePortal = true;
 
     extraPortals = with pkgs; [
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
     
     configPackages = with pkgs; [
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
@@ -94,9 +94,6 @@
   # enable hyprland
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     systemd.enable = false;
   };
 

@@ -5382,13 +5382,18 @@ declare module 'gi://NM?version=1.0' {
             ): boolean;
         }
         interface SecretAgentOldDeleteSecretsFunc {
-            (agent: SecretAgentOld, connection: Connection, error: GLib.Error): void;
+            (agent: SecretAgentOld, connection: Connection, error?: GLib.Error | null): void;
         }
         interface SecretAgentOldGetSecretsFunc {
-            (agent: SecretAgentOld, connection: Connection, secrets: GLib.Variant, error: GLib.Error): void;
+            (
+                agent: SecretAgentOld,
+                connection: Connection,
+                secrets?: GLib.Variant | null,
+                error?: GLib.Error | null,
+            ): void;
         }
         interface SecretAgentOldSaveSecretsFunc {
-            (agent: SecretAgentOld, connection: Connection, error: GLib.Error): void;
+            (agent: SecretAgentOld, connection: Connection, error?: GLib.Error | null): void;
         }
         interface SettingClearSecretsWithFlagsFn {
             (setting: Setting, secret: string, flags: SettingSecretFlags): boolean;
@@ -8099,7 +8104,7 @@ declare module 'gi://NM?version=1.0' {
                 device?: Device | null,
                 specific_object?: string | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<ActiveConnection>;
+            ): globalThis.Promise<ActiveConnection>;
             /**
              * Asynchronously starts a connection to a particular network using the
              * configuration settings from `connection` and the network device `device`.
@@ -8159,7 +8164,7 @@ declare module 'gi://NM?version=1.0' {
                 specific_object?: string | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<ActiveConnection> | void;
+            ): globalThis.Promise<ActiveConnection> | void;
             /**
              * Gets the result of a call to nm_client_activate_connection_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8200,7 +8205,7 @@ declare module 'gi://NM?version=1.0' {
                 specific_object: string | null,
                 options: GLib.Variant,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[ActiveConnection, GLib.Variant | null]>;
+            ): globalThis.Promise<[ActiveConnection, GLib.Variant | null]>;
             /**
              * Adds a new connection using the given details (if any) as a template,
              * automatically filling in missing settings with the capabilities of the given
@@ -8274,7 +8279,7 @@ declare module 'gi://NM?version=1.0' {
                 options: GLib.Variant,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[ActiveConnection, GLib.Variant | null]> | void;
+            ): globalThis.Promise<[ActiveConnection, GLib.Variant | null]> | void;
             /**
              * Gets the result of a call to nm_client_add_and_activate_connection2().
              *
@@ -8305,7 +8310,7 @@ declare module 'gi://NM?version=1.0' {
                 device?: Device | null,
                 specific_object?: string | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<ActiveConnection>;
+            ): globalThis.Promise<ActiveConnection>;
             /**
              * Adds a new connection using the given details (if any) as a template,
              * automatically filling in missing settings with the capabilities of the given
@@ -8353,7 +8358,7 @@ declare module 'gi://NM?version=1.0' {
                 specific_object?: string | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<ActiveConnection> | void;
+            ): globalThis.Promise<ActiveConnection> | void;
             /**
              * Gets the result of a call to nm_client_add_and_activate_connection_async().
              *
@@ -8377,7 +8382,7 @@ declare module 'gi://NM?version=1.0' {
                 args: GLib.Variant | null,
                 ignore_out_result: boolean,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[RemoteConnection, GLib.Variant | null]>;
+            ): globalThis.Promise<[RemoteConnection, GLib.Variant | null]>;
             /**
              * Call AddConnection2() D-Bus API asynchronously.
              * @param settings the "a{sa{sv}}" #GVariant with the content of the setting.
@@ -8411,7 +8416,7 @@ declare module 'gi://NM?version=1.0' {
                 ignore_out_result: boolean,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[RemoteConnection, GLib.Variant | null]> | void;
+            ): globalThis.Promise<[RemoteConnection, GLib.Variant | null]> | void;
             add_connection2_finish(result: Gio.AsyncResult): [RemoteConnection, GLib.Variant | null];
             /**
              * Requests that the remote settings service add the given settings to a new
@@ -8436,7 +8441,7 @@ declare module 'gi://NM?version=1.0' {
                 connection: Connection,
                 save_to_disk: boolean,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<RemoteConnection>;
+            ): globalThis.Promise<RemoteConnection>;
             /**
              * Requests that the remote settings service add the given settings to a new
              * connection.  If `save_to_disk` is %TRUE, the connection is immediately written
@@ -8488,7 +8493,7 @@ declare module 'gi://NM?version=1.0' {
                 save_to_disk: boolean,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<RemoteConnection> | void;
+            ): globalThis.Promise<RemoteConnection> | void;
             /**
              * Gets the result of a call to nm_client_add_connection_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8513,7 +8518,7 @@ declare module 'gi://NM?version=1.0' {
              * re-checking, and nm_client_check_connectivity(), which blocks.
              * @param cancellable a #GCancellable
              */
-            check_connectivity_async(cancellable?: Gio.Cancellable | null): Promise<ConnectivityState>;
+            check_connectivity_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<ConnectivityState>;
             /**
              * Asynchronously updates the network connectivity state and invokes
              * `callback` when complete. Contrast nm_client_get_connectivity(),
@@ -8537,7 +8542,7 @@ declare module 'gi://NM?version=1.0' {
             check_connectivity_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<ConnectivityState> | void;
+            ): globalThis.Promise<ConnectivityState> | void;
             /**
              * Retrieves the result of an nm_client_check_connectivity_async()
              * call.
@@ -8556,7 +8561,7 @@ declare module 'gi://NM?version=1.0' {
                 checkpoint_path: string,
                 add_timeout: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<boolean>;
+            ): globalThis.Promise<boolean>;
             /**
              * Resets the timeout for the checkpoint with path `checkpoint_path`
              * to `timeout_add`.
@@ -8584,7 +8589,7 @@ declare module 'gi://NM?version=1.0' {
                 add_timeout: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_client_checkpoint_adjust_rollback_timeout().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8606,7 +8611,7 @@ declare module 'gi://NM?version=1.0' {
                 rollback_timeout: number,
                 flags: CheckpointCreateFlags | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<Checkpoint>;
+            ): globalThis.Promise<Checkpoint>;
             /**
              * Creates a checkpoint of the current networking configuration
              * for given interfaces. An empty `devices` argument means all
@@ -8642,7 +8647,7 @@ declare module 'gi://NM?version=1.0' {
                 flags: CheckpointCreateFlags | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<Checkpoint> | void;
+            ): globalThis.Promise<Checkpoint> | void;
             /**
              * Gets the result of a call to nm_client_checkpoint_create().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8654,7 +8659,10 @@ declare module 'gi://NM?version=1.0' {
              * @param checkpoint_path the D-Bus path for the checkpoint
              * @param cancellable a #GCancellable, or %NULL
              */
-            checkpoint_destroy(checkpoint_path: string, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            checkpoint_destroy(
+                checkpoint_path: string,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<boolean>;
             /**
              * Destroys an existing checkpoint without performing a rollback.
              * @param checkpoint_path the D-Bus path for the checkpoint
@@ -8676,7 +8684,7 @@ declare module 'gi://NM?version=1.0' {
                 checkpoint_path: string,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_client_checkpoint_destroy().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8691,7 +8699,7 @@ declare module 'gi://NM?version=1.0' {
             checkpoint_rollback(
                 checkpoint_path: string,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<GLib.HashTable<string, number>>;
+            ): globalThis.Promise<GLib.HashTable<string, number>>;
             /**
              * Performs the rollback of a checkpoint before the timeout is reached.
              * @param checkpoint_path the D-Bus path to the checkpoint
@@ -8713,7 +8721,7 @@ declare module 'gi://NM?version=1.0' {
                 checkpoint_path: string,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<GLib.HashTable<string, number>> | void;
+            ): globalThis.Promise<GLib.HashTable<string, number>> | void;
             /**
              * Gets the result of a call to nm_client_checkpoint_rollback().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8770,7 +8778,7 @@ declare module 'gi://NM?version=1.0' {
                 reply_type: GLib.VariantType | null,
                 timeout_msec: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<GLib.Variant>;
+            ): globalThis.Promise<GLib.Variant>;
             /**
              * Call g_dbus_connection_call() on the current name owner with the specified
              * arguments. Most importantly, this invokes g_dbus_connection_call() with the
@@ -8826,7 +8834,7 @@ declare module 'gi://NM?version=1.0' {
                 timeout_msec: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<GLib.Variant> | void;
+            ): globalThis.Promise<GLib.Variant> | void;
             /**
              * Gets the result of a call to nm_client_dbus_call().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8850,7 +8858,7 @@ declare module 'gi://NM?version=1.0' {
                 value: GLib.Variant,
                 timeout_msec: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<boolean>;
+            ): globalThis.Promise<boolean>;
             /**
              * Like nm_client_dbus_call() but calls "Set" on the standard "org.freedesktop.DBus.Properties"
              * D-Bus interface.
@@ -8890,7 +8898,7 @@ declare module 'gi://NM?version=1.0' {
                 timeout_msec: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_client_dbus_set_property().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -8912,7 +8920,7 @@ declare module 'gi://NM?version=1.0' {
             deactivate_connection_async(
                 active: ActiveConnection,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<boolean>;
+            ): globalThis.Promise<boolean>;
             /**
              * Asynchronously deactivates an active #NMActiveConnection.
              * @param active the #NMActiveConnection to deactivate
@@ -8934,7 +8942,7 @@ declare module 'gi://NM?version=1.0' {
                 active: ActiveConnection,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_client_deactivate_connection_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -9146,7 +9154,10 @@ declare module 'gi://NM?version=1.0' {
              * @param filenames %NULL-terminated array of filenames to load
              * @param cancellable a #GCancellable, or %NULL
              */
-            load_connections_async(filenames: string[], cancellable?: Gio.Cancellable | null): Promise<string[]>;
+            load_connections_async(
+                filenames: string[],
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<string[]>;
             /**
              * Requests that the remote settings service asynchronously load or reload the
              * given files, adding or updating the connections described within.
@@ -9174,7 +9185,7 @@ declare module 'gi://NM?version=1.0' {
                 filenames: string[],
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<string[]> | void;
+            ): globalThis.Promise<string[]> | void;
             /**
              * Gets the result of an nm_client_load_connections_async() call.
              *
@@ -9205,7 +9216,7 @@ declare module 'gi://NM?version=1.0' {
              * @param flags flags indicating what to reload.
              * @param cancellable a #GCancellable, or %NULL
              */
-            reload(flags: ManagerReloadFlags | null, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            reload(flags: ManagerReloadFlags | null, cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Reload NetworkManager's configuration and perform certain updates, like
              * flushing caches or rewriting external state to disk. This is similar to
@@ -9235,7 +9246,7 @@ declare module 'gi://NM?version=1.0' {
                 flags: ManagerReloadFlags | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Requests that the remote settings service reload all connection
              * files from disk, adding, updating, and removing connections until
@@ -9250,7 +9261,7 @@ declare module 'gi://NM?version=1.0' {
              * in-memory state matches the on-disk state.
              * @param cancellable a #GCancellable, or %NULL
              */
-            reload_connections_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            reload_connections_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Requests that the remote settings service begin reloading all connection
              * files from disk, adding, updating, and removing connections until the
@@ -9272,7 +9283,7 @@ declare module 'gi://NM?version=1.0' {
             reload_connections_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of an nm_client_reload_connections_async() call.
              * @param result the result passed to the #GAsyncReadyCallback
@@ -9299,7 +9310,10 @@ declare module 'gi://NM?version=1.0' {
              * @param hostname the new persistent hostname to set, or %NULL to   clear any existing persistent hostname
              * @param cancellable a #GCancellable, or %NULL
              */
-            save_hostname_async(hostname?: string | null, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            save_hostname_async(
+                hostname?: string | null,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<boolean>;
             /**
              * Requests that the machine's persistent hostname be set to the specified value
              * or cleared.
@@ -9323,7 +9337,7 @@ declare module 'gi://NM?version=1.0' {
                 hostname?: string | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of an nm_client_save_hostname_async() call.
              * @param result the result passed to the #GAsyncReadyCallback
@@ -9481,7 +9495,7 @@ declare module 'gi://NM?version=1.0' {
              * @param io_priority the [I/O priority](iface.AsyncResult.html#io-priority) of the operation
              * @param cancellable optional #GCancellable object, %NULL to ignore.
              */
-            init_async(io_priority: number, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            init_async(io_priority: number, cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Starts asynchronous initialization of the object implementing the
              * interface. This must be done before any real use of the object after
@@ -9573,7 +9587,7 @@ declare module 'gi://NM?version=1.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes asynchronous initialization and returns the result.
              * See g_async_initable_init_async().
@@ -10584,7 +10598,7 @@ declare module 'gi://NM?version=1.0' {
              * be deleted.
              * @param cancellable a #GCancellable, or %NULL
              */
-            delete_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            delete_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Asynchronously begins deleting the software device. Hardware devices can't
              * be deleted.
@@ -10601,7 +10615,7 @@ declare module 'gi://NM?version=1.0' {
             delete_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_device_delete_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -10624,7 +10638,7 @@ declare module 'gi://NM?version=1.0' {
              * manual network connection request.
              * @param cancellable a #GCancellable, or %NULL
              */
-            disconnect_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            disconnect_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Asynchronously begins disconnecting the device if currently connected, and
              * prevents the device from automatically connecting to networks until the next
@@ -10643,7 +10657,7 @@ declare module 'gi://NM?version=1.0' {
             disconnect_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_device_disconnect_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -10683,7 +10697,7 @@ declare module 'gi://NM?version=1.0' {
             get_applied_connection_async(
                 flags: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<[Connection, number]>;
+            ): globalThis.Promise<[Connection, number]>;
             /**
              * Asynchronously begins and gets the currently applied connection.
              * @param flags the flags argument. See #NMDeviceReapplyFlags.
@@ -10705,7 +10719,7 @@ declare module 'gi://NM?version=1.0' {
                 flags: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<[Connection, number]> | void;
+            ): globalThis.Promise<[Connection, number]> | void;
             /**
              * Gets the result of a call to nm_device_get_applied_connection_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -10934,7 +10948,7 @@ declare module 'gi://NM?version=1.0' {
                 version_id: number,
                 flags: number,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<boolean>;
+            ): globalThis.Promise<boolean>;
             /**
              * Asynchronously begins an attempt to update device with changes to the
              * currently active connection made since it was last applied.
@@ -10966,7 +10980,7 @@ declare module 'gi://NM?version=1.0' {
                 flags: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_device_reapply_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -14600,7 +14614,7 @@ declare module 'gi://NM?version=1.0' {
              * that for the scan to complete.
              * @param cancellable a #GCancellable, or %NULL
              */
-            request_scan_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            request_scan_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Request NM to scan for access points on `device`. Note that `callback` will be
              * called immediately after requesting the scan, and it may take some time after
@@ -14622,7 +14636,7 @@ declare module 'gi://NM?version=1.0' {
             request_scan_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_device_wifi_request_scan_async() and
              * nm_device_wifi_request_scan_options_async().
@@ -14779,7 +14793,10 @@ declare module 'gi://NM?version=1.0' {
              * @param options optional options passed to StartFind.
              * @param cancellable a #GCancellable, or %NULL
              */
-            start_find(options?: GLib.Variant | null, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            start_find(
+                options?: GLib.Variant | null,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<boolean>;
             /**
              * Request NM to search for Wi-Fi P2P peers on `device`. Note that the call
              * returns immediately after requesting the find, and it may take some time
@@ -14811,7 +14828,7 @@ declare module 'gi://NM?version=1.0' {
                 options?: GLib.Variant | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finish an operation started by nm_device_wifi_p2p_start_find().
              * @param result the #GAsyncResult
@@ -14822,7 +14839,7 @@ declare module 'gi://NM?version=1.0' {
              * Request NM to stop any ongoing find operation for Wi-Fi P2P peers on `device`.
              * @param cancellable a #GCancellable, or %NULL
              */
-            stop_find(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            stop_find(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Request NM to stop any ongoing find operation for Wi-Fi P2P peers on `device`.
              * @param cancellable a #GCancellable, or %NULL
@@ -14837,7 +14854,7 @@ declare module 'gi://NM?version=1.0' {
             stop_find(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finish an operation started by nm_device_wifi_p2p_stop_find().
              * @param result the #GAsyncResult
@@ -15736,7 +15753,10 @@ declare module 'gi://NM?version=1.0' {
              * @param save_to_disk whether to save the changes to persistent storage
              * @param cancellable a #GCancellable, or %NULL
              */
-            commit_changes_async(save_to_disk: boolean, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            commit_changes_async(
+                save_to_disk: boolean,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<boolean>;
             /**
              * Asynchronously sends any local changes to the settings and properties of
              * `connection` to NetworkManager. If `save` is %TRUE, the updated connection will
@@ -15764,7 +15784,7 @@ declare module 'gi://NM?version=1.0' {
                 save_to_disk: boolean,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_remote_connection_commit_changes_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -15781,7 +15801,7 @@ declare module 'gi://NM?version=1.0' {
              * Asynchronously deletes the connection.
              * @param cancellable a #GCancellable, or %NULL
              */
-            delete_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            delete_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Asynchronously deletes the connection.
              * @param cancellable a #GCancellable, or %NULL
@@ -15796,7 +15816,7 @@ declare module 'gi://NM?version=1.0' {
             delete_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_remote_connection_delete_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -15818,7 +15838,10 @@ declare module 'gi://NM?version=1.0' {
              * @param setting_name the #NMSetting object name to get secrets for
              * @param cancellable a #GCancellable, or %NULL
              */
-            get_secrets_async(setting_name: string, cancellable?: Gio.Cancellable | null): Promise<GLib.Variant>;
+            get_secrets_async(
+                setting_name: string,
+                cancellable?: Gio.Cancellable | null,
+            ): globalThis.Promise<GLib.Variant>;
             /**
              * Asynchronously requests the connection's secrets.
              * @param setting_name the #NMSetting object name to get secrets for
@@ -15840,7 +15863,7 @@ declare module 'gi://NM?version=1.0' {
                 setting_name: string,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<GLib.Variant> | void;
+            ): globalThis.Promise<GLib.Variant> | void;
             /**
              * Gets the result of a call to nm_remote_connection_get_secrets_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -15873,7 +15896,7 @@ declare module 'gi://NM?version=1.0' {
              * been written to disk, or if the connection has never been saved.
              * @param cancellable a #GCancellable, or %NULL
              */
-            save_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            save_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Saves the connection to disk if the connection has changes that have not yet
              * been written to disk, or if the connection has never been saved.
@@ -15890,7 +15913,7 @@ declare module 'gi://NM?version=1.0' {
             save_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_remote_connection_save_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -15909,7 +15932,7 @@ declare module 'gi://NM?version=1.0' {
                 flags: SettingsUpdate2Flags | null,
                 args?: GLib.Variant | null,
                 cancellable?: Gio.Cancellable | null,
-            ): Promise<GLib.Variant>;
+            ): globalThis.Promise<GLib.Variant>;
             /**
              * Asynchronously calls the Update2() D-Bus method.
              * @param settings optional connection to update the settings.
@@ -15939,7 +15962,7 @@ declare module 'gi://NM?version=1.0' {
                 args?: GLib.Variant | null,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<GLib.Variant> | void;
+            ): globalThis.Promise<GLib.Variant> | void;
             /**
              * Gets the result of a call to nm_remote_connection_commit_changes_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -17100,7 +17123,7 @@ declare module 'gi://NM?version=1.0' {
              * you want to check and ensure that the agent is registered.
              * @param cancellable a #GCancellable, or %NULL
              */
-            register_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            register_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Asynchronously registers the #NMSecretAgentOld with the NetworkManager secret
              * manager, indicating to NetworkManager that the agent is able to provide and
@@ -17141,7 +17164,7 @@ declare module 'gi://NM?version=1.0' {
             register_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_secret_agent_old_register_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -17173,7 +17196,7 @@ declare module 'gi://NM?version=1.0' {
              * or nm_secret_agent_old_enable().
              * @param cancellable a #GCancellable, or %NULL
              */
-            unregister_async(cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            unregister_async(cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Asynchronously unregisters the #NMSecretAgentOld with the NetworkManager secret
              * manager, indicating to NetworkManager that the agent will no longer provide
@@ -17200,7 +17223,7 @@ declare module 'gi://NM?version=1.0' {
             unregister_async(
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Gets the result of a call to nm_secret_agent_old_unregister_async().
              * @param result the result passed to the #GAsyncReadyCallback
@@ -17249,7 +17272,7 @@ declare module 'gi://NM?version=1.0' {
              * @param io_priority the [I/O priority](iface.AsyncResult.html#io-priority) of the operation
              * @param cancellable optional #GCancellable object, %NULL to ignore.
              */
-            init_async(io_priority: number, cancellable?: Gio.Cancellable | null): Promise<boolean>;
+            init_async(io_priority: number, cancellable?: Gio.Cancellable | null): globalThis.Promise<boolean>;
             /**
              * Starts asynchronous initialization of the object implementing the
              * interface. This must be done before any real use of the object after
@@ -17341,7 +17364,7 @@ declare module 'gi://NM?version=1.0' {
                 io_priority: number,
                 cancellable?: Gio.Cancellable | null,
                 callback?: Gio.AsyncReadyCallback<this> | null,
-            ): Promise<boolean> | void;
+            ): globalThis.Promise<boolean> | void;
             /**
              * Finishes asynchronous initialization and returns the result.
              * See g_async_initable_init_async().
@@ -26549,7 +26572,7 @@ declare module 'gi://NM?version=1.0' {
             get parent(): string;
             set parent(val: string);
             /**
-             * Whether the interface should be put in promiscuous mode.
+             * Whether the parent interface should be put in promiscuous mode (true by default).
              */
             get promiscuous(): boolean;
             set promiscuous(val: boolean);
@@ -37328,6 +37351,28 @@ declare module 'gi://NM?version=1.0' {
         }
 
         namespace Connection {
+            /**
+             * Interface for implementing Connection.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * emitted when any change to the connection's settings occurs
+                 */
+                vfunc_changed(): void;
+                /**
+                 * emitted when the connection's secrets are cleared
+                 */
+                vfunc_secrets_cleared(): void;
+                /**
+                 * emitted when the connection's secrets are updated
+                 * @param setting
+                 */
+                vfunc_secrets_updated(setting: string): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -37337,7 +37382,7 @@ declare module 'gi://NM?version=1.0' {
             $gtype: GObject.GType<Connection>;
             prototype: Connection;
         }
-        interface Connection extends GObject.Object {
+        interface Connection extends GObject.Object, Connection.Interface {
             // Methods
 
             /**
@@ -37741,22 +37786,6 @@ declare module 'gi://NM?version=1.0' {
              * @returns %TRUE if the secrets are valid, %FALSE if they are not
              */
             verify_secrets(): boolean;
-
-            // Virtual methods
-
-            /**
-             * emitted when any change to the connection's settings occurs
-             */
-            vfunc_changed(): void;
-            /**
-             * emitted when the connection's secrets are cleared
-             */
-            vfunc_secrets_cleared(): void;
-            /**
-             * emitted when the connection's secrets are updated
-             * @param setting
-             */
-            vfunc_secrets_updated(setting: string): void;
         }
 
         export const Connection: ConnectionNamespace & {
@@ -37764,6 +37793,34 @@ declare module 'gi://NM?version=1.0' {
         };
 
         namespace VpnEditor {
+            /**
+             * Interface for implementing VpnEditor.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * emitted when the value of a UI widget changes.  May trigger a
+                 *   validity check via `update_connection` to write values to the connection.
+                 */
+                vfunc_changed(): void;
+                /**
+                 * return the #GtkWidget for the VPN editor's UI
+                 */
+                vfunc_get_widget<T = GObject.Object>(): T;
+                /**
+                 * called to save the user-entered options to the connection
+                 *   object.  Should return %FALSE and set `error` if the current options are
+                 *   invalid.  `error` should contain enough information for the plugin to
+                 *   determine which UI widget is invalid at a later point in time.  For
+                 *   example, creating unique error codes for what error occurred and populating
+                 *   the message field of `error` with the name of the invalid property.
+                 * @param connection
+                 */
+                vfunc_update_connection(connection: Connection): boolean;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -37773,33 +37830,11 @@ declare module 'gi://NM?version=1.0' {
             $gtype: GObject.GType<VpnEditor>;
             prototype: VpnEditor;
         }
-        interface VpnEditor extends GObject.Object {
+        interface VpnEditor extends GObject.Object, VpnEditor.Interface {
             // Methods
 
             get_widget<T = GObject.Object>(): T;
             update_connection(connection: Connection): boolean;
-
-            // Virtual methods
-
-            /**
-             * emitted when the value of a UI widget changes.  May trigger a
-             *   validity check via `update_connection` to write values to the connection.
-             */
-            vfunc_changed(): void;
-            /**
-             * return the #GtkWidget for the VPN editor's UI
-             */
-            vfunc_get_widget<T = GObject.Object>(): T;
-            /**
-             * called to save the user-entered options to the connection
-             *   object.  Should return %FALSE and set `error` if the current options are
-             *   invalid.  `error` should contain enough information for the plugin to
-             *   determine which UI widget is invalid at a later point in time.  For
-             *   example, creating unique error codes for what error occurred and populating
-             *   the message field of `error` with the name of the invalid property.
-             * @param connection
-             */
-            vfunc_update_connection(connection: Connection): boolean;
         }
 
         export const VpnEditor: VpnEditorNamespace & {
@@ -37807,6 +37842,52 @@ declare module 'gi://NM?version=1.0' {
         };
 
         namespace VpnEditorPlugin {
+            /**
+             * Interface for implementing VpnEditorPlugin.
+             * Contains only the virtual methods that need to be implemented.
+             */
+            interface Interface {
+                // Virtual methods
+
+                /**
+                 * Export the given connection to the specified path.  Return
+                 *   %TRUE on success.  On error, return %FALSE and set `error` with additional
+                 *   error information.  Note that `error` can be %NULL, in which case no
+                 *   additional error information should be provided.
+                 * @param path
+                 * @param connection
+                 */
+                vfunc_export_to_file(path: string, connection: Connection): boolean;
+                /**
+                 * returns a bitmask of capabilities.
+                 */
+                vfunc_get_capabilities(): VpnEditorPluginCapability;
+                /**
+                 * returns an #NMVpnEditor, pre-filled with values from `connection`
+                 *   if non-%NULL.
+                 * @param connection the #NMConnection to be edited
+                 */
+                vfunc_get_editor(connection: Connection): VpnEditor;
+                /**
+                 * For a given connection, return a suggested file
+                 *   name.  Returned value will be %NULL or a suggested file name to be freed by
+                 *   the caller.
+                 * @param connection
+                 */
+                vfunc_get_suggested_filename(connection: Connection): string;
+                /**
+                 * return a virtual function table to implement further functions in
+                 *   the plugin, without requiring to update libnm. Used by nm_vpn_editor_plugin_get_vt().
+                 * @param out_vt_size
+                 */
+                vfunc_get_vt(out_vt_size: number): VpnEditorPluginVT;
+                /**
+                 * A callback to be called when the plugin info is set.
+                 * @param plugin_info
+                 */
+                vfunc_notify_plugin_info_set(plugin_info: VpnPluginInfo): void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -37855,7 +37936,7 @@ declare module 'gi://NM?version=1.0' {
                 check_file: UtilsCheckFilePredicate,
             ): VpnEditorPlugin;
         }
-        interface VpnEditorPlugin extends GObject.Object {
+        interface VpnEditorPlugin extends GObject.Object, VpnEditorPlugin.Interface {
             // Properties
 
             /**
@@ -37896,46 +37977,6 @@ declare module 'gi://NM?version=1.0' {
              * @param plugin_info a #NMVpnPluginInfo instance or %NULL
              */
             set_plugin_info(plugin_info?: VpnPluginInfo | null): void;
-
-            // Virtual methods
-
-            /**
-             * Export the given connection to the specified path.  Return
-             *   %TRUE on success.  On error, return %FALSE and set `error` with additional
-             *   error information.  Note that `error` can be %NULL, in which case no
-             *   additional error information should be provided.
-             * @param path
-             * @param connection
-             */
-            vfunc_export_to_file(path: string, connection: Connection): boolean;
-            /**
-             * returns a bitmask of capabilities.
-             */
-            vfunc_get_capabilities(): VpnEditorPluginCapability;
-            /**
-             * returns an #NMVpnEditor, pre-filled with values from `connection`
-             *   if non-%NULL.
-             * @param connection the #NMConnection to be edited
-             */
-            vfunc_get_editor(connection: Connection): VpnEditor;
-            /**
-             * For a given connection, return a suggested file
-             *   name.  Returned value will be %NULL or a suggested file name to be freed by
-             *   the caller.
-             * @param connection
-             */
-            vfunc_get_suggested_filename(connection: Connection): string;
-            /**
-             * return a virtual function table to implement further functions in
-             *   the plugin, without requiring to update libnm. Used by nm_vpn_editor_plugin_get_vt().
-             * @param out_vt_size
-             */
-            vfunc_get_vt(out_vt_size: number): VpnEditorPluginVT;
-            /**
-             * A callback to be called when the plugin info is set.
-             * @param plugin_info
-             */
-            vfunc_notify_plugin_info_set(plugin_info: VpnPluginInfo): void;
         }
 
         export const VpnEditorPlugin: VpnEditorPluginNamespace & {

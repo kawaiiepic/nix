@@ -137,7 +137,7 @@ declare module 'gi://AstalNetwork?version=0.1' {
                 iconName: string;
                 mode: NM.__80211Mode;
                 flags: NM.__80211ApFlags;
-                rsn_flags: NM.__80211Ap.Flags;
+                rsn_flags: NM.__80211ApSecurityFlags;
                 rsnFlags: NM.__80211ApSecurityFlags;
                 wpa_flags: NM.__80211ApSecurityFlags;
                 wpaFlags: NM.__80211ApSecurityFlags;
@@ -216,7 +216,7 @@ declare module 'gi://AstalNetwork?version=0.1' {
              * Returns whether the connection is the new active connection.
              * @param password
              */
-            activate(password?: string | null): Promise<void>;
+            activate(password?: string | null): globalThis.Promise<void>;
             /**
              * Activates the first connection associated with this AccessPoint or creates a new SimpleConnection using "wpa-psk" and activates it.
              * Returns whether the connection is the new active connection.
@@ -230,7 +230,10 @@ declare module 'gi://AstalNetwork?version=0.1' {
              * @param password
              * @param _callback_
              */
-            activate(password?: string | null, _callback_?: Gio.AsyncReadyCallback<this> | null): Promise<void> | void;
+            activate(
+                password?: string | null,
+                _callback_?: Gio.AsyncReadyCallback<this> | null,
+            ): globalThis.Promise<void> | void;
             activate_finish(_res_: Gio.AsyncResult): void;
             get_bandwidth(): number;
             get_bssid(): string;
@@ -458,9 +461,9 @@ declare module 'gi://AstalNetwork?version=0.1' {
             // Methods
 
             scan(): void;
-            deactivate_connection(): Promise<void>;
+            deactivate_connection(): globalThis.Promise<void>;
             deactivate_connection(_callback_: Gio.AsyncReadyCallback<this> | null): void;
-            deactivate_connection(_callback_?: Gio.AsyncReadyCallback<this> | null): Promise<void> | void;
+            deactivate_connection(_callback_?: Gio.AsyncReadyCallback<this> | null): globalThis.Promise<void> | void;
             deactivate_connection_finish(_res_: Gio.AsyncResult): void;
             get_device(): NM.DeviceWifi;
             set_device(value: NM.DeviceWifi): void;

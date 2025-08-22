@@ -6,6 +6,8 @@
      lfs.enable = true;
    };
    
+   nix.package = pkgs.lixPackageSets.git.lix;
+   
   documentation.nixos.enable = false;
 
   # Remove xterm

@@ -30,11 +30,6 @@
       url = "github:avih7531/hyprfocus";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,11 +38,10 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    lix-module = {
-          url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.3-1.tar.gz";
-          inputs.nixpkgs.follows = "nixpkgs";
-        };
+    zen-browser = {
+        url = "github:0xc000022070/zen-browser-flake";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
 
     nixcord = {
       url = "github:kaylorben/nixcord";
@@ -77,7 +71,6 @@
           system = "x86_64-linux";
           modules = [
             inputs.chaotic.nixosModules.default
-            inputs.lix-module.nixosModules.default
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {
@@ -98,7 +91,6 @@
           system = "x86_64-linux";
           modules = [
             inputs.chaotic.nixosModules.default
-            inputs.lix-module.nixosModules.default
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {
@@ -120,7 +112,6 @@
           modules = [
             inputs.chaotic.nixosModules.default
             inputs.jovian-nixos.nixosModules.default
-            inputs.lix-module.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

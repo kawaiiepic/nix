@@ -131,7 +131,7 @@ declare module 'gi://AstalWp?version=0.1' {
          * gets the default wireplumber object.
          * @returns gets the default wireplumber object.
          */
-        function get_default(): Wp | null;
+        function get_default(): Wp;
         function media_category_from_string(string: string): MediaCategory;
         function media_category_to_string(category: MediaCategory | null): string;
         function media_class_from_string(string: string): MediaClass;
@@ -176,9 +176,9 @@ declare module 'gi://AstalWp?version=0.1' {
         }
 
         /**
-         * is instanciated by [class`AstalWp`.Wp]. An instance of class can only be received there.
+         * is instanciated by [class`AstalWp`.Wp]. An instance of this class can only be received there.
          *
-         *  This is a convinience class and acts as a filter for [class`AstalWp`.Wp] to filter for audio
+         *  This is a convenience class and acts as a filter for [class`AstalWp`.Wp] to filter for audio
          * endpoints and devices.
          */
         class Audio extends GObject.Object {
@@ -187,19 +187,19 @@ declare module 'gi://AstalWp?version=0.1' {
             // Properties
 
             /**
-             * The AstalWndpoint object representing the default speaker
+             * The AstalEndpoint object representing the default microphone
              */
             get default_microphone(): Endpoint;
             /**
-             * The AstalWndpoint object representing the default speaker
+             * The AstalEndpoint object representing the default microphone
              */
             get defaultMicrophone(): Endpoint;
             /**
-             * The AstalWndpoint object representing the default speaker
+             * The AstalEndpoint object representing the default speaker
              */
             get default_speaker(): Endpoint;
             /**
-             * The AstalWndpoint object representing the default speaker
+             * The AstalEndpoint object representing the default speaker
              */
             get defaultSpeaker(): Endpoint;
             /**
@@ -263,11 +263,11 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * gets the default microphone object
              */
-            get_default_microphone(): Endpoint | null;
+            get_default_microphone(): Endpoint;
             /**
              * gets the default speaker object
              */
-            get_default_speaker(): Endpoint | null;
+            get_default_speaker(): Endpoint;
             /**
              * gets the device with the given id
              * @param id the id of the device
@@ -387,7 +387,7 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * the name of the channel
              */
-            get_name(): string | null;
+            get_name(): string;
             /**
              * the volume of the channel
              */
@@ -570,7 +570,7 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * gets the description of this device
              */
-            get_description(): string;
+            get_description(): string | null;
             /**
              * gets the type of this device
              */
@@ -578,7 +578,7 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * gets the form factor of this device.
              */
-            get_form_factor(): string;
+            get_form_factor(): string | null;
             /**
              * gets the icon of this device
              */
@@ -612,6 +612,12 @@ declare module 'gi://AstalWp?version=0.1' {
              * gets a GList containing the profiles
              */
             get_profiles(): Profile[] | null;
+            /**
+             * Gets the pipewire property with the give key. You should use the GObject properties of this node
+             * whereever possible, as you can get notified on changes, which is not the case here.
+             * @param key
+             */
+            get_pw_property(key: string): string | null;
             /**
              * gets the route with the given id
              * @param id the id of the route
@@ -953,7 +959,7 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * gets the description of this node
              */
-            get_description(): string;
+            get_description(): string | null;
             /**
              * gets the icon for this node
              */
@@ -974,17 +980,17 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * gets the name of this node
              */
-            get_name(): string;
+            get_name(): string | null;
             /**
              * gets the object path of this node
              */
-            get_path(): string;
+            get_path(): string | null;
             /**
              * Gets the pipewire property with the give key. You should use the GObject properties of this node
              * whereever possible, as you can get notified on changes, which is not the case here.
              * @param key
              */
-            get_pw_property(key: string): string;
+            get_pw_property(key: string): string | null;
             /**
              * gets the serial number of this node
              */
@@ -1286,9 +1292,13 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * get the target [class`AstalWp`.Endpoint]
              */
-            get_target_endpoint(): Endpoint;
+            get_target_endpoint(): Endpoint | null;
             get_target_serial(): number;
-            set_target_endpoint(target: Endpoint): void;
+            /**
+             * set the target [class`AstalWp`.Endpoint]
+             * @param target
+             */
+            set_target_endpoint(target?: Endpoint | null): void;
             set_target_serial(serial: number): void;
         }
 
@@ -1315,11 +1325,11 @@ declare module 'gi://AstalWp?version=0.1' {
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
-                devices: Endpoint[];
-                recorders: Endpoint[];
+                devices: Device[];
+                recorders: Stream[];
                 sinks: Endpoint[];
                 sources: Endpoint[];
-                streams: Endpoint[];
+                streams: Stream[];
             }
         }
 
@@ -1337,11 +1347,11 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * A list of AstalWpEndpoint objects
              */
-            get devices(): Endpoint[];
+            get devices(): Device[];
             /**
              * A list of AstalWpEndpoint objects
              */
-            get recorders(): Endpoint[];
+            get recorders(): Stream[];
             /**
              * A list of AstalWpEndpoint objects
              */
@@ -1353,7 +1363,7 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * A list of AstalWpEndpoint objects
              */
-            get streams(): Endpoint[];
+            get streams(): Stream[];
 
             /**
              * Compile-time signal type information.
@@ -1458,6 +1468,7 @@ declare module 'gi://AstalWp?version=0.1' {
                 'node-removed': (arg0: Node) => void;
                 ready: () => void;
                 'notify::audio': (pspec: GObject.ParamSpec) => void;
+                'notify::connected': (pspec: GObject.ParamSpec) => void;
                 'notify::default-microphone': (pspec: GObject.ParamSpec) => void;
                 'notify::default-speaker': (pspec: GObject.ParamSpec) => void;
                 'notify::devices': (pspec: GObject.ParamSpec) => void;
@@ -1470,6 +1481,7 @@ declare module 'gi://AstalWp?version=0.1' {
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
                 audio: Audio;
+                connected: boolean;
                 default_microphone: Endpoint;
                 defaultMicrophone: Endpoint;
                 default_speaker: Endpoint;
@@ -1492,11 +1504,15 @@ declare module 'gi://AstalWp?version=0.1' {
 
             get audio(): Audio;
             /**
-             * The [class`AstalWp`.Endpoint] representing the default speaker
+             * The connection status to the pipewire daemon
+             */
+            get connected(): boolean;
+            /**
+             * The [class`AstalWp`.Endpoint] representing the default micophone
              */
             get default_microphone(): Endpoint;
             /**
-             * The [class`AstalWp`.Endpoint] representing the default speaker
+             * The [class`AstalWp`.Endpoint] representing the default micophone
              */
             get defaultMicrophone(): Endpoint;
             /**
@@ -1560,7 +1576,7 @@ declare module 'gi://AstalWp?version=0.1' {
             /**
              * gets the default wireplumber object.
              */
-            static get_default(): Wp | null;
+            static get_default(): Wp;
 
             // Methods
 
@@ -1568,17 +1584,17 @@ declare module 'gi://AstalWp?version=0.1' {
              * gets the [class`AstalWp`.Audio] object
              * @returns gets the audio object
              */
-            get_audio(): Audio | null;
+            get_audio(): Audio;
             /**
              * gets the default microphone object
              * @returns gets the default microphone object
              */
-            get_default_microphone(): Endpoint | null;
+            get_default_microphone(): Endpoint;
             /**
              * gets the default speaker object
              * @returns gets the default speaker object
              */
-            get_default_speaker(): Endpoint | null;
+            get_default_speaker(): Endpoint;
             /**
              * the device with the given id
              * @param id the id of the device
@@ -1611,7 +1627,7 @@ declare module 'gi://AstalWp?version=0.1' {
              * gets the video object
              * @returns gets the video object
              */
-            get_video(): Video | null;
+            get_video(): Video;
             set_scale(scale: Scale | null): void;
         }
 
