@@ -7,9 +7,8 @@
   # greetd display manager
   services.greetd = let
     session = {
-      command = "Hyprland";
-      
-      user = if config.networking.hostName == "blossom" then "wyntor" else "mia";
+      command = "niri --session";
+      user = "mia";
     };
   in {
     enable = lib.mkDefault true;

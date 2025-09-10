@@ -17,6 +17,11 @@
   # nixpkgs.config.rocmSupport = true;
   nixpkgs.config.permittedInsecurePackages = [
     "freeimage-unstable-2021-11-01"
+    "qtwebengine-5.15.19"
+  ];
+  
+  nixpkgs.overlays = [
+    (import ../packages/overlay.nix)
   ];
 
   programs.nh = {
@@ -26,10 +31,7 @@
       enable = true;
       extraArgs = "--keep-since 4d --keep 3";
     };
-
   };
-
-  nix.gc.automatic = true;
 
   nix.settings = {
     auto-optimise-store = true;
@@ -49,6 +51,7 @@
       "https://miathetrain.cachix.org"
       "https://cache.soopy.moe"
       "https://cache.lix.systems"
+      "https://tsutsumi.cachix.org"
     ];
 
     trusted-public-keys = [
@@ -62,6 +65,7 @@
       "miathetrain.cachix.org-1:YnISmBIljKxDFkswh1GbvQFx3gN+7jfGFcgEPz635W8="
       "cache.soopy.moe-1:0RZVsQeR+GOh0VQI9rvnHz55nVXkFardDqfm4+afjPo="
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      "tsutsumi.cachix.org-1:MojIlGI60CT5EoyuTgjB4VRVgf/uUvakZVWoYJThQNk="
     ];
   };
 }

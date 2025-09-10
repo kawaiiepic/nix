@@ -1,0 +1,11 @@
+import { Gtk } from "ags/gtk4";
+
+export default () => new Gtk.Button({
+  cssClasses: ["profile-small-button", "circular"],
+  valign: Gtk.Align.CENTER,
+  tooltipText: "Shutdown",
+  child: new Gtk.Label({
+    cssClasses: ["profile-small-button-icon"],
+    label: "",
+  }),
+});

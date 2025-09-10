@@ -27,8 +27,12 @@
     ../../system/core/users.nix
 
     #../../system/desktop/greetd.nix
-    ../../system/desktop/hyprland.nix
-    ../../system/desktop/gnome.nix
+    # ../../system/desktop/hyprland.nix
+    # ../../system/desktop/gnome.nix
+    
+    ../../system/desktop/niri.nix
+    
+    ../../modules/gpu-screen-recorder-ui.nix
 
     ../../system/games
     
@@ -36,6 +40,8 @@
   ];
 
   networking.hostName = "steamdeck";
+  
+  programs.gsr.enable = true;
 
   jovian = {
     hardware.has.amd.gpu = true;

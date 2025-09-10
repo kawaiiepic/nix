@@ -29,6 +29,10 @@
     hyprfocus = {
       url = "github:avih7531/hyprfocus";
     };
+    tsutsumi = {
+      url = "github:Fuwn/tsutsumi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.2";
@@ -39,12 +43,16 @@
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     zen-browser = {
-        url = "github:0xc000022070/zen-browser-flake";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixcord = {
       url = "github:kaylorben/nixcord";
+    };
+    
+    niri = {
+      url = "github:sodiboo/niri-flake";
     };
   };
 
@@ -66,8 +74,6 @@
     {
       nixosConfigurations = {
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
-          # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
-          # nixpkgs.config = {allowUnfree=true;};
           system = "x86_64-linux";
           modules = [
             inputs.chaotic.nixosModules.default
@@ -81,26 +87,6 @@
               home-manager.users.mia = import ./home;
             }
             ./systems/dreamhouse/config.nix
-          ];
-          specialArgs = { inherit inputs; };
-        };
-
-        blossom = inputs.nixpkgs.lib.nixosSystem {
-          # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
-          # nixpkgs.config = {allowUnfree=true;};
-          system = "x86_64-linux";
-          modules = [
-            inputs.chaotic.nixosModules.default
-            inputs.lanzaboote.nixosModules.lanzaboote
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-
-              home-manager.users.wyntor = import ./home;
-            }
-            ./systems/blossom/config.nix
           ];
           specialArgs = { inherit inputs; };
         };

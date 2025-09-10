@@ -157,7 +157,7 @@
           "$MOD, P, pin"
           "$MOD, S, togglesplit"
 
-          "$MOD, Tab, focusCurrentOrLast"
+          "$MOD, Tab, cyclenext, hist"
           "$MOD, Tab, bringactivetotop"
           "$MOD, A, togglespecialworkspace"
           "$MODSHIFT, A, movetoworkspace, special"

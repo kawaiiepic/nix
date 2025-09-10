@@ -6,7 +6,6 @@
 {
   programs.kitty = {
     enable = true;
-    shellIntegration.enableFishIntegration = true;
 
     font = {
       name = "SpaceMono Nerd Font Mono";
@@ -29,6 +28,8 @@
     };
 
     settings = {
+      window_border_width = "0px";
+      hide_window_decorations = true;
       enable_audio_bell = true;
       window_padding_width = 20;
       strip_trailing_spaces = "smart";

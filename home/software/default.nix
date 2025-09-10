@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 {
   imports = [
+    ./ags
     ./kitty
     ./vesktop
     ./discord
@@ -8,7 +9,8 @@
     ./spotify
     ./vscode
     ./helix
-    ./nextcloud.nix
+    ./nautilus
+    # ./nextcloud.nix
     ./gopass.nix
   ];
 
@@ -18,9 +20,10 @@
     (callPackage ./vicinae.nix { })
     (callPackage ./nyaashows { })
     stremio
-    mpv
-    wootility
+    godot
+    
   ];
+
   
   
 

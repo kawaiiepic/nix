@@ -4,10 +4,6 @@
   ...
 }:
 {
-  
-  # imports = [
-  #   ./wallust
-  # ];
 
   home.file = {
     ".icons/GoogleDot-Violet" = {
@@ -36,7 +32,7 @@
 
     iconTheme = {
       name = "Arashi";
-      package = (pkgs.callPackage ./arashi-icon-theme.nix { });
+      package = (pkgs.callPackage ./icons/arashi-icon-theme.nix { });
     };
   };
 }

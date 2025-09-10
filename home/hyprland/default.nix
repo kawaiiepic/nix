@@ -77,14 +77,20 @@
     xdgOpenUsePortal = true;
 
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
+      xdg-desktop-portal-wlr
     ];
-    
-    configPackages = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
+
+    config = {
+      niri = {
+        default = [ "gtk" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+      };
+    };
+    # configPackages = with pkgs; [
+    #   xdg-desktop-portal-gtk
+    # ];
   };
 
   xdg.userDirs = {
