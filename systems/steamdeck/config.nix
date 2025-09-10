@@ -58,5 +58,5 @@
   };
 
   jovian.steam.autoStart = true;
-  jovian.steam.desktopSession = "gnome";
+  jovian.steam.desktopSession = "niri";
 }

@@ -5,12 +5,6 @@
 }:
 {
 
-  home.file = {
-    ".icons/GoogleDot-Violet" = {
-      source = files/GoogleDot-Violet;
-    };
-  };
-
   gtk = {
     enable = true;
 
@@ -19,15 +13,15 @@
       package = pkgs.lexend;
       size = 10;
     };
-    
+
     cursorTheme = {
       name = "GoogleDot-Blue";
       package = pkgs.google-cursor;
     };
-    
+
     theme = {
-      name = "Catppuccin-GTK-Dark";
-      package = pkgs.magnetic-catppuccin-gtk;
+      name = "Colloid";
+      package = (pkgs.callPackage ./gtk/colloid-theme.nix { });
     };
 
     iconTheme = {
