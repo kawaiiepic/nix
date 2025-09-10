@@ -43,6 +43,7 @@
         ];
       }
       { argv = ["gsr-ui" "launch-demon"];}
+      { argv = "wvkbd-mobintl";}
     ];
 
     overview.backdrop-color = "#003300";
@@ -162,6 +163,8 @@
       "Mod+Insert".action = set-dynamic-cast-window;
       "Mod+Shift+Insert".action = set-dynamic-cast-monitor;
       "Mod+Delete".action = clear-dynamic-cast-target;
+      
+      "Mod+I".action = spawn ["pkill" "-x" "wvkbd-mobintl" "||" "wvkbd-mobintl"];
 
       "Mod+Q".action = close-window;
       "Mod+T".action = toggle-window-floating;

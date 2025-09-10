@@ -21,7 +21,7 @@
     (callPackage ./nyaashows { })
     stremio
     godot
-    
+    wvkbd
   ];
 
   
