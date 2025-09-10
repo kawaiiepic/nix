@@ -43,7 +43,7 @@
         ];
       }
       { argv = ["gsr-ui" "launch-demon"];}
-      { argv = "wvkbd-mobintl";}
+      { argv = ["wvkbd-mobintl"];}
     ];
 
     overview.backdrop-color = "#003300";
