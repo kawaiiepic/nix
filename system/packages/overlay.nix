@@ -10,7 +10,9 @@
   steam = (
     prev.steam.override {
       extraEnv = {
-        LD_PRELOAD = "${prev.pkgs.extest}/lib/libextest.so:${prev.pkgsi686Linux.extest}/lib/libextest.so";
+        # LD_PRELOAD = "${prev.pkgs.extest}/lib/libextest.so:${prev.pkgsi686Linux.extest}/lib/libextest.so";
+        LD_PRELOAD = "${prev.pkgsi686Linux.callPackage ./extest.nix { }
+        }/lib/libextest.so";
       };
     }
   );
