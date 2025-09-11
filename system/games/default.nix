@@ -10,8 +10,7 @@
     inputs.aagl.nixosModules.default
   ];
 
-  programs.steam.extest.enable = true;
-
+  # programs.steam.extest.enable = true;
   # boot.kernelPatches = lib.mkIf (config.networking.hostName == "dreamhouse") [
   #   {
   #     name = "amdgpu-ignore-ctx-privileges";
@@ -45,7 +44,7 @@
       };
     })
   ];
-  
+
   # programs.gamescope = {
   #     enable = true;
   #     capSysNice = true;

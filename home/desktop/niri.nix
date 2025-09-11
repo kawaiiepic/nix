@@ -4,12 +4,10 @@
   ...
 }:
 {
-  
+
   home.file.".config/niri/config-dark.kdl".text =
-      builtins.replaceStrings
-        [ "#000000" "#ffffff" ]
-        [ "#ffffff" "#000000" ]
-        (config.programs.niri.finalConfig);
+    builtins.replaceStrings [ "#000000" "#ffffff" ] [ "#ffffff" "#000000" ]
+      (config.programs.niri.finalConfig);
 
   xdg.enable = true;
   xdg.portal = {
@@ -42,8 +40,13 @@
           "4"
         ];
       }
-      { argv = ["gsr-ui" "launch-demon"];}
-      { argv = ["wvkbd-mobintl"];}
+      {
+        argv = [
+          "gsr-ui"
+          "launch-demon"
+        ];
+      }
+      { argv = [ "wvkbd-mobintl" ]; }
     ];
 
     overview.backdrop-color = "#003300";
@@ -70,6 +73,10 @@
         mode.width = 1920;
         mode.height = 1080;
         mode.refresh = 74.986;
+      };
+
+      "e-DP1" = {
+        transform.rotation = 270;
       };
     };
 
@@ -102,7 +109,7 @@
           };
         };
       };
-      
+
       shadow = {
         enable = true;
         draw-behind-window = true;
@@ -163,8 +170,14 @@
       "Mod+Insert".action = set-dynamic-cast-window;
       "Mod+Shift+Insert".action = set-dynamic-cast-monitor;
       "Mod+Delete".action = clear-dynamic-cast-target;
-      
-      "Mod+I".action = spawn ["pkill" "-x" "wvkbd-mobintl" "||" "wvkbd-mobintl"];
+
+      "Mod+I".action = spawn [
+        "pkill"
+        "-x"
+        "wvkbd-mobintl"
+        "||"
+        "wvkbd-mobintl"
+      ];
 
       "Mod+Q".action = close-window;
       "Mod+T".action = toggle-window-floating;
@@ -183,9 +196,17 @@
       "Mod+Shift+Tab".action = focus-window-up-or-column-left;
 
       "Mod+L".action = spawn "hyprlock";
-      
-      "Mod+Escape".action = spawn ["ags" "toggle" "logout"];
-      "Mod+E".action = spawn ["ags" "toggle" "launcher"];
+
+      "Mod+Escape".action = spawn [
+        "ags"
+        "toggle"
+        "logout"
+      ];
+      "Mod+E".action = spawn [
+        "ags"
+        "toggle"
+        "launcher"
+      ];
       "Mod+G".action = spawn "nautilus";
       "Mod+H".action = show-hotkey-overlay;
 
