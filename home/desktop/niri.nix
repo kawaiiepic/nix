@@ -75,7 +75,7 @@
         mode.refresh = 74.986;
       };
 
-      "e-DP1" = {
+      "eDP-1" = {
         transform.rotation = 270;
       };
     };
