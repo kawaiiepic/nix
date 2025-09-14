@@ -10,5 +10,10 @@
     enable = true;
     ports = [ 22 ];
   };
+  
+  services.geoclue2 = {
+    enable = true;
+    # enableStatic = true;
+  };
 
 }

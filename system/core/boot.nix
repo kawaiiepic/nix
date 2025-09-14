@@ -10,10 +10,6 @@
   # };
 
   time.timeZone = "America/Chicago";
-  services.geoclue2 = {
-    enable = true;
-    enableStatic = true;
-  };
 
   zramSwap.enable = true;
 
