@@ -8,12 +8,12 @@
 }:
 {
   imports = [
-    ../system/core/boot/cachyos.nix
-    ../system/core/boot.nix
-    ../system/core/packages.nix
-    ../system/core/shell.nix
-    ../system/core/users.nix
-    ../system/nix
+    ../../system/core/boot/cachyos.nix
+    ../../system/core/boot.nix
+    ../../system/core/packages.nix
+    ../../system/core/shell.nix
+    ../../system/core/users.nix
+    ../../system/nix
   ];
 
   networking.hostName = "binarybarbie";
