@@ -14,6 +14,8 @@
     ../../system/core/shell.nix
     ../../system/core/users.nix
     ../../system/nix
+    
+    ./hardware.nix
   ];
 
   networking.hostName = "binarybarbie";
