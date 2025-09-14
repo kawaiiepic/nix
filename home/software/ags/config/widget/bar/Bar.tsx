@@ -45,10 +45,18 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     cssClasses: ["clean", "surface1"],
     valign: Gtk.Align.CENTER,
   });
-  mb.popover = new Gtk.Popover({ child: Profile() });
+  const popover = new Gtk.Popover({ child: Profile() });
 
-  const mbBox = new Gtk.Box({ spacing: 8 });
+  const mbBox = new Gtk.Box({ cssClasses: ["systray"], spacing: 8 });
+  
+  const clickBox = new Gtk.GestureClick();
+  clickBox.connect("pressed", () => {
+    popover.popup();
+  });
+  
+  mbBox.add_controller(clickBox);
 
+  mbBox.append(popover);
   mbBox.append(Audio());
   mbBox.append(Bluetooth());
   mbBox.append(Battery());
@@ -59,9 +67,9 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
   notificationsWrapper.append(Notifications());
   mbBox.append(notificationsWrapper);
 
-  mb.child = mbBox;
+  // mb.child = mbBox;
 
-  end.append(mb);
+  end.append(mbBox);
 
   end.append(SysTray());
 

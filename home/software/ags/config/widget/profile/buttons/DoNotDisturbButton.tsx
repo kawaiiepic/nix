@@ -1,5 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import Notifd from "gi://AstalNotifd";
+import { send_notification } from "../../utils";
 
 export default () => {
   const notifd = Notifd.get_default();
@@ -22,6 +23,7 @@ export default () => {
 
   notifd.connect("notify::dont-disturb", () => {
     toggleButton.active = notifd.dontDisturb;
+    send_notification("Do Not Disturb", "Status changed");
   });
 
   toggleButton.connect("toggled", () => {

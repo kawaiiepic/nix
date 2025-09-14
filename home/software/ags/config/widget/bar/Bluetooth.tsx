@@ -4,7 +4,7 @@ import AstalBluetooth from "gi://AstalBluetooth?version=0.1";
 export default () => {
   const bluetooth = AstalBluetooth.get_default();
   
-  const box = new Gtk.Box({tooltipText: "Bluetooth"});
+  const box = new Gtk.Box({cssClasses: ["entry"], tooltipText: "Bluetooth"});
   
   box.append(new Gtk.Image({iconName: "bluetooth-symbolic", pixelSize: 14}));
   

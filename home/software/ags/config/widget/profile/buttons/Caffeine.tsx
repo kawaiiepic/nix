@@ -1,4 +1,5 @@
 import { Gtk } from "ags/gtk4";
+import { send_notification } from "../../utils";
 
 export default () => {
   var caffeine = false;
@@ -17,6 +18,11 @@ export default () => {
       cssClasses: ["profile-normal-button-label"],
       label: "",
     }),
+  });
+  
+  toggleButton.connect("toggled", () => {
+    caffeine = !caffeine;
+    send_notification("Caffeine", "Caffeine toggled");
   });
 
   box.append(toggleButton);

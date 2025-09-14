@@ -150,7 +150,7 @@
 }
 
 @mixin themed {
-    background-color: theme-get("base");
+    background-color: theme-get("mantle");
     color: theme-get("text");
 
     box.Notification {

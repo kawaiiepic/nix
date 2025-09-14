@@ -1,19 +1,19 @@
 @use "sass:map";
 
 $themes: (
-    macchiato: (
-        text: #cad3f5,
-        subtext1: #b8c0e0,
-        subtext0: #a5adcb,
-        overlay2: #939ab7,
-        overlay1: #8087a2,
-        overlay0: #6e738d,
-        surface2: #5b6078,
-        surface1: #494d64,
-        surface0: #363a4f,
-        base: #24273a,
-        mantle: #1e2030,
-        crust: #181926,
+    frappe: (
+        text: #c6d0f5,
+        subtext1: #b5bfe2,
+        subtext0: #a5adce,
+        overlay2: #949cbb,
+        overlay1: #838ba7,
+        overlay0: #737994,
+        surface2: #626880,
+        surface1: #51576d,
+        surface0: #414559,
+        base: #303446,
+        mantle: #292c3c,
+        crust: #232634,
         color0: #f4dbd6,
         color1: #f0c6c6,
         color2: #f5bde6,

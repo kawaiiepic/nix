@@ -90,6 +90,23 @@
           ];
           specialArgs = { inherit inputs; };
         };
+        
+        binarybarbie = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            inputs.chaotic.nixosModules.default
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+
+              home-manager.users.mia = import ./home/server.nix;
+            }
+            ./systems/binarybarbie/config.nix
+          ];
+          specialArgs = { inherit inputs; };
+        };
 
         steamdeck = inputs.nixpkgs.lib.nixosSystem {
           # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;

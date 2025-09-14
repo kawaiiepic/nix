@@ -73,7 +73,7 @@ window.bar {
     }
 
     @include theme() {
-        background-color: theme-get("base");
+        background-color: theme-get("mantle");
         color: theme-get("text");
 
         button {

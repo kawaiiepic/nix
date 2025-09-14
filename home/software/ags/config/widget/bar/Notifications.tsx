@@ -10,7 +10,7 @@ export default function Notifications(): Gtk.Box {
   const notificationsBinding = createBinding(notifd, "notifications");
 
   const button = new Gtk.Box({
-    cssClasses: ["notifications-toggle"],
+    cssClasses: ["entry", "notifications-toggle"],
   });
 
   // Create overlay for notification count badge
@@ -59,7 +59,7 @@ export default function Notifications(): Gtk.Box {
       button.remove_css_class("has-notifications");
       countLabel.set_visible(false);
     } else {
-      icon.set_from_icon_name("notification-1-symbolic");
+      icon.set_from_icon_name("notification-symbolic");
       button.remove_css_class("dnd-active");
 
       if (count > 0) {

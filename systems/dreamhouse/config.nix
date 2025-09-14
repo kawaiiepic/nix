@@ -8,37 +8,15 @@
 }:
 {
   imports = [
-    # ../../system/desktop/greetd.nix
-    ./hardware.nix
-    ../default.nix
-    ./storage.nix
-    ../../system/desktop/greetd.nix
-    ../../system/desktop/niri.nix
-    
-    ../../modules/gpu-screen-recorder-ui.nix
-
-    inputs.nixos-hardware.nixosModules.common-pc-ssd
-    inputs.nixos-hardware.nixosModules.common-gpu-amd
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
-  ];
-  
-  programs.gsr.enable = true;
-
-  networking.hostName = "dreamhouse";
-
-  hardware.opentabletdriver.enable = true;
-
-  environment.systemPackages = with pkgs; [
-
+    ../system/core/boot/cachyos.nix
+    ../system/core/boot.nix
+    ../system/core/packages.nix
+    ../system/core/shell.nix
+    ../system/core/users.nix
+    ../system/nix
   ];
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
+  networking.hostName = "binarybarbie";
 
   system.stateVersion = "23.11"; # Did you read the comment?
 }

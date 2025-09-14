@@ -6,9 +6,6 @@
   environment.systemPackages = with pkgs; [
     wget
     unrar
-    wineWowPackages.staging
-    toybox
-    comma
     # (pkgs.efibootmgr.overrideAttrs {
     #   version = "git";
     #   src = fetchFromGitHub {

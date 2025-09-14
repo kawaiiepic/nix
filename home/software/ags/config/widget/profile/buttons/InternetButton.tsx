@@ -86,10 +86,11 @@ const imageWired = new Gtk.Image({
   iconName: wired?.iconName || "network-wired-disconnected",
 });
 
-const toggleButtonWired = new Gtk.Button({
+const toggleButtonWired = new Gtk.ToggleButton({
   cssClasses: ["profile-normal-button", "circular"],
   halign: Gtk.Align.CENTER,
   child: imageWired,
+  active: wired?.state == Network.DeviceState.ACTIVATED,
 });
 
 // Wired connections are typically managed by the system
@@ -99,16 +100,22 @@ const labelWired = new Gtk.Label({
   cssClasses: ["small-font"],
   label:
     wired?.state == Network.DeviceState.ACTIVATED
-      ? "Connected "
-      : "No Connection ",
+      ? "Connected"
+      : "No Connection",
 });
 
 if (wired) {
+  
+  toggleButtonWired.connect("toggled", () => {
+    toggleButtonWired.active = wired.state == Network.DeviceState.ACTIVATED;
+  });
+  
   wired.connect("notify::state", () => {
+    toggleButtonWired.active = wired.state == Network.DeviceState.ACTIVATED;
     labelWired.label =
       wired.state == Network.DeviceState.ACTIVATED
-        ? "Connected "
-        : "No Connection ";
+        ? "Connected"
+        : "No Connection";
   });
 
   wired.connect("notify::icon-name", (source) => {

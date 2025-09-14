@@ -53,6 +53,7 @@ function mprisRebuild(mprisBox: Gtk.Box) {
   rebuild();
 
   mpris.connect("notify::players", () => {
+    print("Rebuild???");
     rebuild();
   });
 
@@ -76,8 +77,14 @@ function mprisRebuild(mprisBox: Gtk.Box) {
       spacing: 8,
     });
     const titleBox = new Gtk.Box({ cssClasses: ["title"], spacing: 6 });
-    const title = new Gtk.Label({max_width_chars: 20, ellipsize: Pango.EllipsizeMode.END});
-    const artist = new Gtk.Label({max_width_chars: 20, ellipsize: Pango.EllipsizeMode.END});
+    const title = new Gtk.Label({
+      max_width_chars: 20,
+      ellipsize: Pango.EllipsizeMode.END,
+    });
+    const artist = new Gtk.Label({
+      max_width_chars: 20,
+      ellipsize: Pango.EllipsizeMode.END,
+    });
     const scale = new Gtk.Scale();
     scale.set_range(0, 1);
     const playerIcon = new Gtk.Image();
@@ -102,15 +109,17 @@ function mprisRebuild(mprisBox: Gtk.Box) {
 
     const prevClick = new Gtk.GestureClick();
     prevClick.connect("pressed", () => player.previous());
-    previous.add_controller(prevClick);
+    previous.child.add_controller(prevClick);
 
     const playPauseClick = new Gtk.GestureClick();
-    playPauseClick.connect("pressed", () => player.play_pause());
-    playPause.add_controller(playPauseClick);
+    playPauseClick.connect("pressed", () => {
+      player.play_pause();
+    });
+    playPauseImage.add_controller(playPauseClick);
 
     const nextClick = new Gtk.GestureClick();
     nextClick.connect("pressed", () => player.next());
-    previous.add_controller(nextClick);
+    next.child.add_controller(nextClick);
 
     actions.append(previous);
     actions.append(playPause);
@@ -130,6 +139,7 @@ function mprisRebuild(mprisBox: Gtk.Box) {
     updateScale();
     updatePlayerIcon();
     updateCoverArt();
+    updatePlayPauseImage();
 
     playerBox.append(coverArt);
     playerBox.append(content);
@@ -156,7 +166,7 @@ function mprisRebuild(mprisBox: Gtk.Box) {
 
     connectIds.push(
       player.connect("notify::entry", () => {
-        updatePlayerIcon();
+        // updatePlayerIcon();
       }),
     );
 
@@ -168,7 +178,7 @@ function mprisRebuild(mprisBox: Gtk.Box) {
 
     connectIds.push(
       player.connect("notify::playback-status", (source) => {
-        print("Identity: " + player.identity);
+        updatePlayPauseImage();
       }),
     );
 

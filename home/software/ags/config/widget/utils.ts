@@ -1,10 +1,6 @@
-import { Variable } from "astal";
-import { Gtk, Widget } from "astal/gtk4";
+import { execAsync } from "ags/process";
 
-export function onHover(widget: Gtk.Widget) {
-  widget.add_css_class("hover");
-}
 
-export function onHoverLost(widget: Gtk.Widget) {
-  widget.remove_css_class("hover");
+export function send_notification(title: string, message: string) {
+  execAsync(["notify-send", "-i", "dialog-information-symbolic", title, message]);
 }

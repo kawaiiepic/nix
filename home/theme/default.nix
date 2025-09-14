@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 {
@@ -25,8 +24,8 @@
     };
 
     iconTheme = {
-      name = "Arashi";
-      package = (pkgs.callPackage ./icons/arashi-icon-theme.nix { });
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
     };
   };
 }

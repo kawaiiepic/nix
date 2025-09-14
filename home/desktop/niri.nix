@@ -32,14 +32,14 @@
 
   programs.niri.settings = {
     spawn-at-startup = [
-      {
-        argv = [
-          "ags"
-          "run"
-          "--gtk"
-          "4"
-        ];
-      }
+      # {
+      #   argv = [
+      #     "ags"
+      #     "run"
+      #     "--gtk"
+      #     "4"
+      #   ];
+      # }
       {
         argv = [
           "gsr-ui"
@@ -78,10 +78,6 @@
       "eDP-1" = {
         transform.rotation = 270;
       };
-    };
-
-    workspaces = {
-
     };
 
     layout = {
@@ -173,10 +169,8 @@
 
       "Mod+I".action = spawn [
         "pkill"
-        "-x"
-        "wvkbd-mobintl"
-        "||"
-        "wvkbd-mobintl"
+        "-RTMIN"
+        "wvkbd"
       ];
 
       "Mod+Q".action = close-window;

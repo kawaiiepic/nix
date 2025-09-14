@@ -4,7 +4,7 @@ import AstalWp from "gi://AstalWp?version=0.1";
 export default () => {
   const speaker = AstalWp.get_default()?.audio.defaultSpeaker!;
   
-  const box = new Gtk.Box();
+  const box = new Gtk.Box({cssClasses: ["entry"]});
   const image = new Gtk.Image({pixelSize: 14});
   
   box.append(image);

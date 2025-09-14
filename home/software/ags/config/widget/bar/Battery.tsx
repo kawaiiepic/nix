@@ -4,7 +4,7 @@ import AstalBattery from "gi://AstalBattery?version=0.1";
 export default () => {
   const battery = AstalBattery.get_default();
 
-  const menuButton = new Gtk.MenuButton({visible: battery.isPresent});
+  const menuButton = new Gtk.MenuButton({cssClasses: ["entry"], visible: battery.isPresent});
   const box = new Gtk.Box();
   
   const image = new Gtk.Image();

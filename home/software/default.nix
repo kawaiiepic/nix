@@ -22,6 +22,7 @@
     stremio
     godot
     wvkbd
+    gammastep
   ];
 
   

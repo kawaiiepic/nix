@@ -19,7 +19,7 @@ NotificationUtils.registerKeybinds();
 // 
 
 app.start({
-  icons: `./icons`,
+  // icons: `./icons`,
   css: style,
   main() {
     Applauncher(app.get_monitors()[1]);

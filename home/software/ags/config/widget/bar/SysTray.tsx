@@ -23,7 +23,7 @@ export default (): Gtk.Widget => {
   
   tray.connect("item-added", (tray, itemId) => {
     const item = tray.get_item(itemId);
-    const btn = new Gtk.MenuButton();
+    const btn = new Gtk.MenuButton({cssClasses: ["entry"]});
     init(btn, item);
     btn.child = new Gtk.Image({ gicon: item.gicon, pixelSize: 14 });
     trayWidgets.set(itemId, btn);
