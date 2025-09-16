@@ -132,6 +132,7 @@
         nano = "hx";
       };
     };
+    
     carapace.enable = true;
     carapace.enableNushellIntegration = true;
 

@@ -11,6 +11,11 @@
     ports = [ 22 ];
   };
   
+  networking.extraHosts =
+    ''
+      192.168.1.126 whoami.blossomvale.dev dashboard.blossomvale.dev cloud.blossomvale.dev watch.blossomvale.dev panel.blossomvale.dev
+    '';
+  
   services.geoclue2 = {
     enable = true;
     # enableStatic = true;

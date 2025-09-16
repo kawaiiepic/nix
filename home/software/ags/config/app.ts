@@ -22,11 +22,11 @@ app.start({
   // icons: `./icons`,
   css: style,
   main() {
-    Applauncher(app.get_monitors()[1]);
-    NotificationPopups(app.get_monitors()[1]);
-    Logout(app.get_monitors()[1]);
+    Applauncher(app.get_monitors()[0]);
+    NotificationPopups(app.get_monitors()[0]);
+    Logout(app.get_monitors()[0]);
     
-    Bar(app.get_monitors()[1])
+    Bar(app.get_monitors()[0])
     app.get_monitors().map(Desktop);
     app.get_monitors().map(OSD);
   },

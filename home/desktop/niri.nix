@@ -183,6 +183,8 @@
       "Mod+1".action = focus-workspace 1;
       "Mod+2".action = focus-workspace 2;
       "Mod+3".action = focus-workspace 3;
+      "Mod+4".action = focus-workspace 4;
+      "Mod+5".action = focus-workspace 5;
 
       "Mod+A".action = focus-column-left;
       "Mod+D".action = focus-column-right;
