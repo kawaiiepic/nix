@@ -32,14 +32,14 @@
 
   programs.niri.settings = {
     spawn-at-startup = [
-      # {
-      #   argv = [
-      #     "ags"
-      #     "run"
-      #     "--gtk"
-      #     "4"
-      #   ];
-      # }
+      {
+        argv = [
+          "ags"
+          "run"
+          "--gtk"
+          "4"
+        ];
+      }
       {
         argv = [
           "gsr-ui"
@@ -185,6 +185,8 @@
       "Mod+3".action = focus-workspace 3;
       "Mod+4".action = focus-workspace 4;
       "Mod+5".action = focus-workspace 5;
+    
+      # "Mod+Shift+5".action = "move-window-to-workspace 5";
 
       "Mod+A".action = focus-column-left;
       "Mod+D".action = focus-column-right;

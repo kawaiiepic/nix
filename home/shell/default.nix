@@ -6,9 +6,9 @@
 
   home.packages = with pkgs; [
     eza
-    fzf
-    fd
-    bat
+    # fzf
+    # fd
+    # bat
     btop
     nushell
   ];

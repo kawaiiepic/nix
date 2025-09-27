@@ -3,11 +3,11 @@
   imports = [
     ./ags
     ./kitty
-    ./vesktop
+    # ./vesktop
     ./discord
-    ./obs
+    # ./obs
     ./spotify
-    ./vscode
+    # ./vscode
     ./helix
     ./nautilus
     # ./nextcloud.nix
@@ -17,15 +17,12 @@
   home.packages = with pkgs; [
     inputs.zen-browser.packages.${system}.twilight
     # (callPackage ./wvkbd.nix { })
-    (callPackage ./vicinae.nix { })
-    (callPackage ./nyaashows { })
-    stremio
+    # (callPackage ./vicinae.nix { })
+    # (callPackage ./nyaashows { })
+    # stremio
     godot
     wvkbd
-    gammastep
+    # gammastep
   ];
-
-  
-  
 
 }

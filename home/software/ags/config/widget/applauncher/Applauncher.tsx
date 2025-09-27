@@ -57,7 +57,7 @@ Categories=${app.categories?.join(";") || ""}
 
 function AppButton({ app }: { app: AstalApps.Application }) {
   const button = new Gtk.Button({ cssClasses: ["AppButton"] });
-  const box = new Gtk.Box();
+  const box = new Gtk.Box({spacing: 8});
 
   const image = new Gtk.Image({ pixelSize: 28, iconName: app.iconName });
   const innerBox = new Gtk.Box({ valign: Gtk.Align.CENTER });
