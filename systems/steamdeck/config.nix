@@ -17,7 +17,7 @@
 
     ../../system/core/boot/plymouth.nix
 
-    ../../system/core/audio.nix 
+    ../../system/core/audio.nix
     ../../system/core/boot.nix
     ../../system/core/fonts.nix
     #../../system/core/graphics.nix
@@ -29,18 +29,18 @@
     #../../system/desktop/greetd.nix
     # ../../system/desktop/hyprland.nix
     # ../../system/desktop/gnome.nix
-    
-    # ../../system/desktop/niri.nix
-    
+
+    ../../system/desktop/niri.nix
+
     # ../../modules/gpu-screen-recorder-ui.nix
 
     ../../system/games
-    
+
     ../../system/nix
   ];
 
   networking.hostName = "steamdeck";
-  
+
   # programs.gsr.enable = true;
 
   jovian = {
@@ -56,15 +56,15 @@
       autoUpdate = true;
     };
   };
-  
+
   services = {
     desktopManager.plasma6.enable = true;
-  
+
     displayManager.sddm.enable = true;
-  
+
     displayManager.sddm.wayland.enable = true;
   };
-  
+
   # environment.systemPackages = with pkgs;
   #   [
   #     # KDE
