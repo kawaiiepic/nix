@@ -1,24 +1,15 @@
-import { createBinding } from "ags";
 import { Gtk } from "ags/gtk4";
 import AstalApps from "gi://AstalApps?version=0.1";
-import AstalHyprland from "gi://AstalHyprland?version=0.1";
 import Pango from "gi://Pango?version=1.0";
+import {
+  focusedWindow,
+  Window,
+  windows,
+  workspaceName,
+} from "../services/niri";
 
 export default () => {
-  const hypr = AstalHyprland.get_default();
-  const client = createBinding(hypr, "focusedClient");
-
-  const apps = new AstalApps.Apps({
-    nameMultiplier: 2,
-    entryMultiplier: 0,
-    executableMultiplier: 2,
-  });
-
-  const currentClient = client.get();
-  
-  const app = currentClient ? apps.fuzzy_query(currentClient.class)[0] : null;
-  const appName = app?.name || currentClient?.class || "Desktop";
-  const title = currentClient?.title || "No Window";
+  const apps = new AstalApps.Apps();
 
   const box = new Gtk.Box({
     cssClasses: ["focused-client"],
@@ -31,8 +22,8 @@ export default () => {
   });
 
   const icon = new Gtk.Image({
-    iconName: app?.iconName || "desktop",
-    pixelSize: 16,
+    iconName: "desktop",
+    pixelSize: 18,
     valign: Gtk.Align.CENTER,
   });
 
@@ -45,7 +36,7 @@ export default () => {
 
   // App name
   const appLabel = new Gtk.Label({
-    label: appName,
+    label: "Desktop",
     cssClasses: ["app-name"],
     halign: Gtk.Align.START,
     ellipsize: 3, // ELLIPSIZE_END
@@ -55,8 +46,8 @@ export default () => {
 
   // Window title (only if different from app name)
   const titleLabel = new Gtk.Label({
-    label: title,
-    visible: title !== appName && title !== "No Window",
+    label: "No Window",
+    visible: false,
     cssClasses: ["window-title"],
     halign: Gtk.Align.START,
     ellipsize: Pango.EllipsizeMode.END, // ELLIPSIZE_END
@@ -64,33 +55,21 @@ export default () => {
   });
   textBox.append(titleLabel);
 
-  const tooltipText = currentClient
-    ? [
-        `App: ${appName}`,
-        `Title: ${title}`,
-        `Class: ${currentClient.class}`,
-        `Workspace: ${currentClient.workspace?.name || currentClient.workspace?.id || "Unknown"}`,
-        `PID: ${currentClient.pid}`,
-        `Address: ${currentClient.address}`,
-        currentClient.fullscreen ? "Fullscreen: Yes" : "Fullscreen: No",
-        currentClient.floating ? "Floating: Yes" : "Floating: No",
-      ].join("\n")
-    : "No focused window";
-  box.set_tooltip_text(tooltipText);
-
   box.append(icon);
   box.append(textBox);
 
-  client.subscribe(() => {
-    const currentClient = client.get();
-    const app = currentClient ? apps.fuzzy_query(currentClient.class)[0] : null;
-    const appName = app?.name || currentClient?.class || "Desktop";
-    const title = currentClient?.title || "No Window";
+  windows.subscribe(() => {
+    const window: Window | null = focusedWindow();
+    const app = apps.list.find(
+      (a) => a.entry.replace(/\.desktop$/, "") === window?.app_id,
+    );
+    const appName = app?.name || window?.app_id || "Desktop";
+    const title = window?.title || "No Window";
 
     // App icon
     if (app?.iconName) {
       icon.iconName = app.iconName;
-    } else if (currentClient) {
+    } else if (window) {
       icon.iconName = "application-x-executable";
     } else {
       icon.iconName = "desktop";
@@ -99,21 +78,19 @@ export default () => {
     appLabel.label = appName;
 
     titleLabel.label = title;
-    titleLabel.visible = title !== appName && title !== "No Window";
+    titleLabel.visible = window != null ? true : false;
 
     // Set up tooltip with detailed information
-    const tooltipText = currentClient
+    const tooltipText = window
       ? [
           `App: ${appName}`,
           `Title: ${title}`,
-          `Class: ${currentClient.class}`,
-          `Workspace: ${currentClient.workspace?.name || currentClient.workspace?.id || "Unknown"}`,
-          `PID: ${currentClient.pid}`,
-          `Address: ${currentClient.address}`,
-          currentClient.fullscreen ? "Fullscreen: Yes" : "Fullscreen: No",
-          currentClient.floating ? "Floating: Yes" : "Floating: No",
+          `Class: ${window?.app_id}`,
+          `Workspace: ${workspaceName(window.workspace_id)}`,
+          `PID: ${window?.pid}`,
+          window?.is_floating ? "Floating: Yes" : "Floating: No",
         ].join("\n")
-      : "No focused window";
+      : "";
 
     box.set_tooltip_text(tooltipText);
   });

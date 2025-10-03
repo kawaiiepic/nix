@@ -6,6 +6,7 @@ import GObject from "gi://GObject";
 import { execAsync, exec } from "ags/process";
 import { readFile, writeFile } from "ags/file";
 import Pango from "gi://Pango?version=1.0";
+import { backgroundImage } from "./WallpaperManager";
 
 interface DesktopFile {
   name: string;
@@ -88,7 +89,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
     child: iconBox,
     tooltipText: file.name === "trash" ? "Open Trash" : file.path,
     focusOnClick: true,
-    hasFrame: false
+    hasFrame: false,
   });
 
   iconBox.append(icon);
@@ -1057,21 +1058,19 @@ function createDesktopContextMenu(): Gtk.Popover {
     const desktopPath = GLib.get_user_special_dir(
       GLib.UserDirectory.DIRECTORY_DESKTOP,
     );
-    execAsync([
-      "gnome-terminal",
-      "--working-directory",
-      desktopPath || "~",
-    ]).catch(() => {
-      execAsync(["kitty", "--directory", desktopPath || "~"]).catch(() => {
-        execAsync([
-          "alacritty",
-          "--working-directory",
-          desktopPath || "~",
-        ]).catch(() => {
-          // Silently ignore terminal not found errors
+    execAsync(["kitty", "--working-directory", desktopPath || "~"]).catch(
+      () => {
+        execAsync(["kitty", "--directory", desktopPath || "~"]).catch(() => {
+          execAsync([
+            "alacritty",
+            "--working-directory",
+            desktopPath || "~",
+          ]).catch(() => {
+            // Silently ignore terminal not found errors
+          });
         });
-      });
-    });
+      },
+    );
   });
 
   // Open file manager
@@ -1117,12 +1116,19 @@ function createDesktopContextMenu(): Gtk.Popover {
     popover.popdown();
   });
 
+  const wallpaperLabel = new Gtk.Label({ label: backgroundImage.get() });
+
+  menuBox.append(wallpaperLabel);
   menuBox.append(refreshBtn);
   menuBox.append(new Gtk.Separator());
   menuBox.append(terminalBtn);
   menuBox.append(fileManagerBtn);
   menuBox.append(new Gtk.Separator());
   menuBox.append(newFolderBtn);
+
+  backgroundImage.subscribe(() => {
+    wallpaperLabel.set_label(backgroundImage.get());
+  });
 
   popover.set_child(menuBox);
   return popover;
@@ -1157,6 +1163,8 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
   });
 
   overlay.set_child(backgroundBox);
+
+  overlay.add_overlay(new Gtk.Label({ label: "Hello" }));
 
   // Desktop icons grid - only on primary monitor
   if (isPrimaryMonitor) {

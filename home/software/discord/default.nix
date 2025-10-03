@@ -52,7 +52,7 @@ in
     enable = true; # enable Nixcord. Also installs discord package
     # vesktop.enable = true; # Vesktop
     # dorion.enable = true; # Dorion
-    discord.package = pkgs.discord-canary;
+    # discord.package = pkgs.discord-canary;
     # 
     config = {
       themeLinks = [

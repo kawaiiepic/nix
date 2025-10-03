@@ -1,9 +1,18 @@
-import { subprocess, exec, execAsync, createSubprocess } from "ags/process";
+import { Gtk } from "ags/gtk4";
+import { execAsync } from "ags/process";
 
-export default () => (
-  <box onButtonPressed={() => {
-   exec("pkill -RTMIN wvkbd");
-  }}>
-    <label label="" tooltipText="on-screen Keyboard" />
-  </box>
-);
+export default () => {
+  const label = new Gtk.Label({
+    label: "",
+    tooltipText: "Toggle on-screen Keyboard",
+  });
+
+  const onClick = Gtk.GestureClick.new();
+  onClick.connect("pressed", () => {
+    execAsync("pkill -RTMIN wvkbd");
+  });
+
+  label.add_controller(onClick);
+
+  return label;
+};

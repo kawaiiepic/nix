@@ -13,6 +13,7 @@
     linux-wallpaperengine
     libnotify
     brightnessctl
+    jq
   ];
 
   programs.ags = {

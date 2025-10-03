@@ -4,8 +4,14 @@ import { createState } from "ags";
 import { Gtk } from "ags/gtk4";
 
 export function setup_theme(widget: Gtk.Widget) {
-  widget.add_css_class(theme.get());
+  let currentClass = theme.get();
+
+  widget.add_css_class(currentClass);
+
   theme.subscribe(() => {
-    widget.add_css_class(theme.get());
+    widget.remove_css_class(currentClass);
+
+    currentClass = theme.get();
+    widget.add_css_class(currentClass);
   });
 }

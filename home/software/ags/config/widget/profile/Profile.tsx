@@ -17,7 +17,6 @@ import Uptime from "./Uptime";
 import Mpris from "gi://AstalMpris";
 import Notifd from "gi://AstalNotifd";
 import { setup_theme } from "../theme";
-import { onHover, onHoverLost } from "../utils";
 import { Notification } from "./notification/Not";
 import { Gtk } from "ags/gtk4";
 import GLib from "gi://GLib?version=2.0";
@@ -35,10 +34,6 @@ function lengthStr(length: number) {
   return `${min}:${sec0}${sec}`;
 }
 
-function MediaPlayer({ player }: { player: Mpris.Player }) {
-  const title = createBinding(player, "title");
-}
-
 function face() {
   var image = Gtk.Image.new_from_file(GLib.getenv("HOME") + "/.face");
   image.add_css_class("profile-pfp");
@@ -53,7 +48,6 @@ function mprisRebuild(mprisBox: Gtk.Box) {
   rebuild();
 
   mpris.connect("notify::players", () => {
-    print("Rebuild???");
     rebuild();
   });
 
@@ -70,7 +64,6 @@ function mprisRebuild(mprisBox: Gtk.Box) {
 
   function mprisWidget(player: Mpris.Player) {
     const connectIds: number[] = [];
-    print("Player: " + player.busName + " | Title: " + player.title);
 
     const playerBox = new Gtk.Box({
       cssClasses: ["MediaPlayer", "surface1"],
@@ -413,8 +406,7 @@ function notificationList() {
     box.append(header);
 
     const content = new Gtk.Box({ cssClasses: ["content"], spacing: 6 });
-
-    print("Notification Image: " + notification.image);
+    
     if (
       notification.image &&
       GLib.file_test(notification.image, GLib.FileTest.EXISTS)

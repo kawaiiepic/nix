@@ -17,25 +17,34 @@ export default (): Gtk.Widget => {
   const box = new Gtk.Box({
     orientation: Gtk.Orientation.HORIZONTAL,
     cssClasses: ["systray"],
+    visible: trayWidgets.size > 0,
     spacing: 2,
-    valign: Gtk.Align.CENTER
+    valign: Gtk.Align.CENTER,
   });
-  
+
   tray.connect("item-added", (tray, itemId) => {
     const item = tray.get_item(itemId);
-    const btn = new Gtk.MenuButton({cssClasses: ["entry"]});
+    const btn = new Gtk.MenuButton({ cssClasses: ["entry"] });
     init(btn, item);
     btn.child = new Gtk.Image({ gicon: item.gicon, pixelSize: 14 });
     trayWidgets.set(itemId, btn);
+
+    if (!box.visible) {
+      box.visible = true;
+    }
     box.append(btn);
   });
-  
+
   tray.connect("item-removed", (tray, itemId) => {
     if (trayWidgets.has(itemId)) {
       box.remove(trayWidgets.get(itemId)!);
       trayWidgets.delete(itemId);
+
+      if (trayWidgets.size === 0) {
+        box.visible = false;
+      }
     }
   });
-  
+
   return box;
 };

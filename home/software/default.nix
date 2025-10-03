@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 {
   imports = [
+    ./zen
     ./ags
     ./kitty
     # ./vesktop
@@ -15,7 +16,6 @@
   ];
 
   home.packages = with pkgs; [
-    inputs.zen-browser.packages.${system}.twilight
     # (callPackage ./wvkbd.nix { })
     # (callPackage ./vicinae.nix { })
     # (callPackage ./nyaashows { })

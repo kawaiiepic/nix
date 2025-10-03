@@ -43,14 +43,15 @@
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+       url = "github:0xc000022070/zen-browser-flake";
+       inputs.nixpkgs.follows = "nixpkgs";
+       inputs.home-manager.follows = "home-manager";
+     };
 
     nixcord = {
       url = "github:kaylorben/nixcord";
     };
-    
+
     niri = {
       url = "github:sodiboo/niri-flake";
     };
@@ -59,6 +60,13 @@
   outputs =
     inputs:
     let
+      system = "x86_64-linux";
+      overlays = [ (import ./system/packages/overlay.nix) ];
+      pkgs = import inputs.nixpkgs {
+        system = "x86_64-linux";
+        overlays = overlays;
+      };
+
       ignoreme =
         {
           config,
@@ -72,6 +80,18 @@
         };
     in
     {
+
+      packages.${system}.zen-theme-switch = pkgs.zen-theme-switch;
+
+      homeConfigurations = {
+        mia = inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgs;
+          modules = [ ./home ];
+          # optional: extra arguments
+          extraSpecialArgs = { inherit inputs pkgs; };
+        };
+      };
+      
       nixosConfigurations = {
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -90,7 +110,7 @@
           ];
           specialArgs = { inherit inputs; };
         };
-        
+
         binarybarbie = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

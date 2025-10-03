@@ -7,7 +7,7 @@
   # greetd display manager
   services.greetd = let
     session = {
-      command = "niri --session";
+      command = "niri -c /home/mia/.config/niri/a-config.kdl --session";
       user = "mia";
     };
   in {

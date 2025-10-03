@@ -60,7 +60,7 @@ function AppButton({ app }: { app: AstalApps.Application }) {
   const box = new Gtk.Box({spacing: 8});
 
   const image = new Gtk.Image({ pixelSize: 28, iconName: app.iconName });
-  const innerBox = new Gtk.Box({ valign: Gtk.Align.CENTER });
+  const innerBox = new Gtk.Box({ valign: Gtk.Align.CENTER, spacing: 8 });
   innerBox.append(
     new Gtk.Label({ cssClasses: ["name"], xalign: 0, label: app.name }),
   );
@@ -263,7 +263,10 @@ export default (gdkmonitor: Gdk.Monitor) => {
     hide();
   };
 
-  const entry = new Gtk.Entry({ placeholderText: "Search" });
+  const entry = new Gtk.Entry({ placeholderText: "Search", placeholder_text: "Search", canFocus: true,});
+  
+  entry.grab_focus();
+  entry.grab_focus_without_selecting();
 
   // const entry: Gtk.Entry = (<entry
   //   placeholderText="Search"
@@ -277,7 +280,8 @@ export default (gdkmonitor: Gdk.Monitor) => {
     gdkmonitor: gdkmonitor,
     application: app,
     exclusivity: Astal.Exclusivity.IGNORE,
-    keymode: Astal.Keymode.ON_DEMAND,
+    keymode: Astal.Keymode.EXCLUSIVE,
+    canFocus: true,
     anchor:
       Astal.WindowAnchor.TOP |
       Astal.WindowAnchor.LEFT |
@@ -354,6 +358,8 @@ export default (gdkmonitor: Gdk.Monitor) => {
     orientation: Gtk.Orientation.VERTICAL,
   });
   appLauncher.append(entry);
+  
+  entry.grab_focus();
 
   var appButtonList: Gtk.Button[] = [];
 

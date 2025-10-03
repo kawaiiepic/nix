@@ -1,0 +1,7 @@
+{
+  "name": "themeswitch",
+  "description": "Toggle Firefox theme",
+  "path": "PLACEHOLDER",
+  "type": "stdio",
+  "allowed_extensions": ["@theme-switcher.mia"]
+}

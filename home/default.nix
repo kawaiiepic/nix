@@ -15,7 +15,13 @@
     ./services/hyprlock.nix
   ];
   
+  home.username = "mia";
+  home.homeDirectory = "/home/mia";
+  
+   programs.home-manager.enable = true;
+  
   home.packages = [
+    
     # (pkgs.rustPlatform.buildRustPackage rec {
     #   pname = "discord-presence-lsp";
     #   version = "b5c89758c0564814fd70fc704f5347e5feaa20a3";

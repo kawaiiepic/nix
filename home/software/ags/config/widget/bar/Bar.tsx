@@ -10,6 +10,9 @@ import Battery from "./Battery";
 import Bluetooth from "./Bluetooth";
 import Audio from "./Audio";
 import Profile from "../profile/Profile";
+import Workspaces from "./Workspaces";
+import FocusedClient from "./FocusedClient";
+import Keyboard from "./Keyboard";
 
 const time = createPoll("", 1000, (prev) => "Fake Date");
 export default function Bar(gdkmonitor: Gdk.Monitor) {
@@ -30,7 +33,8 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     spacing: 8,
   });
   start.append(Launcher());
-  // start.append(FocusedClient());
+  start.append(Workspaces());
+  start.append(FocusedClient());
 
   const center = new Gtk.Box({ hexpand: false });
   // center.append(Workspaces());
@@ -74,6 +78,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
   end.append(SysTray());
 
   end.append(Time());
+  end.append(Keyboard());
   end.append(Wallpaper());
   // end.append(ShowDesktop());
 
