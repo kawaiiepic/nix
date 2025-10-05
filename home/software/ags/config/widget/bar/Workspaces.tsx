@@ -25,7 +25,7 @@ Array.from({ length: 5 }, (_, i) => i + 1).forEach((i) => {
   // Click gesture for workspace switching
   var gesture = new Gtk.GestureClick();
   gesture.connect("pressed", () => {
-    execAsync(``)
+    execAsync(`niri msg action focus-workspace ${i}`);
     // hypr.message_async(`dispatch workspace ${i}`, null);
   });
   innerBox.add_controller(gesture);

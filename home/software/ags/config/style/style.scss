@@ -1,6 +1,13 @@
+@use "./themes/theme" as *;
 @use "./bar/bar.scss";
 @use "./desktop/desktop.scss";
-@use "./launcher/launcher.scss"; 
+@use "./launcher/launcher.scss";
 @use "notification/notification.scss";
 @use "./osd/OSD.scss";
 @use "./logout/logout.scss";
+
+
+
+@include theme() {
+    
+}

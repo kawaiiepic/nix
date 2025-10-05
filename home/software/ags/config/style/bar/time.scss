@@ -20,4 +20,9 @@
     button {
         color: theme-get("text");
     }
+    
+    calendar {
+        background-color: theme-get("background");
+        color: theme-get("text");
+    }
 }

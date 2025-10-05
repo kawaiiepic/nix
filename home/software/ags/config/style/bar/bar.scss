@@ -19,9 +19,16 @@ window.bar {
         }
     }
 
-    box .launcher {
+    .launcher {
         &:hover {
-            filter: grayscale(80%);
+            filter: grayscale(100%);
+            transform: translateY(-1px);
+        }
+    }
+
+    label {
+        &:hover {
+            transform: translateY(-1px);
         }
     }
 

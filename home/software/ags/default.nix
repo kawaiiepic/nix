@@ -14,6 +14,7 @@
     libnotify
     brightnessctl
     jq
+    glib
   ];
 
   programs.ags = {

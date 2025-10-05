@@ -6,12 +6,12 @@ import Applauncher from "./widget/applauncher/Applauncher";
 import NotificationPopups from "./widget/notifications/NotificationPopups";
 import Logout from "./widget/logout/Logout";
 import OSD from "./widget/osd/OSD";
-import { previousProcess, WallpaperManager } from "./widget/desktop/WallpaperManager";
+import { previousProcess, shutdown, WallpaperManager } from "./widget/desktop/WallpaperManager";
 import { NotificationUtils } from "./widget/notifications/NotificationUtils";
 import { Niri } from "./widget/services/niri";
 import { writeFile, writeFileAsync } from "ags/file";
 
-WallpaperManager();
+const wm = WallpaperManager();
 Niri();
 
 // Initialize notification utilities and log keybind information
@@ -32,6 +32,7 @@ app.start({
 });
 
 app.connect("shutdown", () => {
+  shutdown();
   console.log("Application closed");
 });
 

@@ -1,4 +1,4 @@
-export const [theme, setTheme] = createState("frappe");
+export const [theme, setTheme] = createState("latte");
 
 import { createState } from "ags";
 import { Gtk } from "ags/gtk4";

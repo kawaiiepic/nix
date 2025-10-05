@@ -490,6 +490,7 @@ export default () => {
   const box = new Gtk.Box({
     cssClasses: ["profile"],
     orientation: Gtk.Orientation.VERTICAL,
+    spacing: 8,
   });
 
   const topBox = new Gtk.Box();

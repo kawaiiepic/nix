@@ -152,6 +152,13 @@ in
   home.file.".local/bin/change-niri-theme".executable = true;
 
   xdg.enable = true;
+
+  xdg.mimeApps.enable = true;
+  xdg.mimeApps.defaultApplications = {
+    "inode/directory" = "org.gnome.Nautilus.desktop"; # or thunar.desktop, dolphin.desktop
+    #"x-special/gnome-trash" = "org.gnome.Nautilus.desktop";
+  };
+
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
@@ -231,7 +238,7 @@ in
       focus-ring.enable = false;
       border = {
         enable = true;
-        width = 4;
+        width = 2;
         active.gradient = {
           relative-to = "workspace-view";
           from = palette.default.crust;

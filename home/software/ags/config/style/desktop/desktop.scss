@@ -1,195 +1,104 @@
 @use "../themes/theme" as *;
 @use "../util.scss" as *;
 
-    .desktop-icon-button {
-        padding: 0px;
+.desktop-icon-button {
+    padding: 0px;
+}
+
+.desktop-icon {
+    padding: 0px;
+    margin: 4px;
+    border-radius: 8px;
+    transition: all 200ms ease;
+
+    &:hover {
+        transform: scale(1.05);
     }
-    
-    .desktop-icon {
-        padding: 0px;
-        margin: 4px;
-        background-color: gray;
-        border-radius: 8px;
+
+    &.selected {
+        transform: scale(1.1);
+    }
+
+    .icon {
         transition: all 200ms ease;
-
-        &:hover {
-            transform: scale(1.05);
-        }
-
-        &.selected {
-            transform: scale(1.1);
-        }
-
-        .icon {
-            transition: all 200ms ease;
-        }
-
-        .label {
-            font-size: 11px;
-            font-weight: 600;
-            text-shadow:
-                0 1px 3px rgba(0, 0, 0, 0.9),
-                0 0 6px rgba(0, 0, 0, 0.7),
-                1px 1px 0 rgba(0, 0, 0, 0.8),
-                -1px -1px 0 rgba(0, 0, 0, 0.8),
-                1px -1px 0 rgba(0, 0, 0, 0.8),
-                -1px 1px 0 rgba(0, 0, 0, 0.8);
-        }
     }
 
-    .wallpaper-overlay {
-        background: transparent;
+    .label {
+        font-size: 11px;
+        font-weight: 600;
     }
+}
 
-    .wallpaper-buttons {
-        margin: 12px;
+.context-menu-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 150ms ease;
+    font-weight: 500;
+
+    &:hover {
+        transform: translateX(2px);
     }
+}
 
-    .wallpaper-button {
-        padding: 8px 12px;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 200ms ease;
+/* Grid overlay for drag feedback */
+.grid-overlay {
+    background-color: transparent;
+}
 
-        &:hover {
-            transform: translateY(-1px);
-        }
+.grid-fade-in {
+    animation: gridFadeIn 300ms ease-out;
+}
+
+.grid-fade-out {
+    animation: gridFadeOut 200ms ease-in;
+}
+
+@keyframes gridFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
     }
-
-    .context-menu {
-        background: rgba(0, 0, 0, 0.9);
-        border-radius: 12px;
-        padding: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
+}
 
+@keyframes gridFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* Context menus and dialogs */
+popover {
     .context-menu-item {
         padding: 8px 12px;
         border-radius: 6px;
         transition: all 150ms ease;
-        font-weight: 500;
-
-        &:hover {
-            transform: translateX(2px);
-        }
     }
 
-    .blur-overlay {
-        background: rgba(0, 0, 0, 0.3);
+    separator {
+        margin: 4px 8px;
+        min-height: 1px;
     }
+}
 
-    .clock-widget {
-        background: rgba(0, 0, 0, 0.6);
-        border-radius: 16px;
-        padding: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .weather-widget {
-        background: rgba(0, 0, 0, 0.6);
-        border-radius: 16px;
-        padding: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .widget-container {
-        margin: 20px;
-    }
-
-    /* Minimal Cava audio visualizer */
-    .cava-minimal {
-        background: transparent;
-        padding: 4px;
-        border-radius: 4px;
-    }
-
-    .cava-bar-minimal {
-        background: rgba(255, 255, 255, 0.7);
-        border-radius: 2px;
-        transition: all 0.1s ease;
-        min-height: 2px;
-        margin: 0 1px;
-    }
-
-    /* Grid overlay for drag feedback */
-    .grid-overlay {
-        background-color: transparent;
-    }
-
-    @keyframes dropPulse {
-        0% {
-            transform: scale(1.05);
-            background: rgba(0, 120, 215, 0.4);
-        }
-        50% {
-            transform: scale(1.2);
-            background: rgba(0, 255, 0, 0.8);
-        }
-        100% {
-            transform: scale(1.15);
-            background: rgba(0, 255, 0, 0.6);
-        }
-    }
-
-    .grid-fade-in {
-        animation: gridFadeIn 300ms ease-out;
-    }
-
-    .grid-fade-out {
-        animation: gridFadeOut 200ms ease-in;
-    }
-
-    @keyframes gridFadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    @keyframes gridFadeOut {
-        from {
-            opacity: 1;
-            transform: scale(1);
-        }
-        to {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-    }
-
-    .drop-target-highlight {
-        background: rgba(0, 255, 0, 0.2);
-        border: 2px solid rgba(0, 255, 0, 0.8);
-        border-radius: 8px;
-    }
-
-    /* Context menus and dialogs */
-    popover {
-        .context-menu-item {
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: all 150ms ease;
-        }
-
-        separator {
-            margin: 4px 8px;
-            min-height: 1px;
-        }
-    }
-
-    @include theme() {
+@include theme() {
     .desktop {
         background: transparent;
-        color: theme-get("text");
+        color: theme-get("surface0");
     }
 
     .desktop-icon {
+        background-color: gtkalpha(theme-get("base"), 0.1);
         &:hover {
-            background: gtkalpha(theme-get("surface0"), 0.7);
+            background: gtkalpha(theme-get("base"), 0.7);
         }
 
         &.selected {
@@ -198,35 +107,8 @@
 
         .label {
             color: theme-get("text");
-            text-shadow:
-                0 1px 3px gtkalpha(theme-get("base"), 0.9),
-                0 0 6px gtkalpha(theme-get("base"), 0.7),
-                1px 1px 0 gtkalpha(theme-get("base"), 0.8),
-                -1px -1px 0 gtkalpha(theme-get("base"), 0.8),
-                1px -1px 0 gtkalpha(theme-get("base"), 0.8),
-                -1px 1px 0 gtkalpha(theme-get("base"), 0.8);
+            filter: drop-shadow(1px 1px 0 gtkalpha(theme-get("base"), 1));
         }
-    }
-
-    .wallpaper-button {
-        background: gtkalpha(theme-get("surface0"), 0.8);
-        color: theme-get("text");
-        border: 1px solid theme-get("surface2");
-
-        &:hover {
-            background: gtkalpha(theme-get("surface1"), 0.9);
-            color: theme-get("accent");
-        }
-
-        &.active {
-            background: gtkalpha(theme-get("color12"), 0.8);
-            color: theme-get("base");
-        }
-    }
-
-    .context-menu {
-        background: gtkalpha(theme-get("surface0"), 0.95);
-        border: 1px solid theme-get("surface2");
     }
 
     .context-menu-item {
@@ -238,59 +120,32 @@
         }
     }
 
-    .clock-widget {
-        background: gtkalpha(theme-get("surface0"), 0.9);
-        border: 1px solid theme-get("surface2");
-        color: theme-get("text");
-
-        .time {
-            color: theme-get("color12");
-            font-size: 2em;
-            font-weight: 300;
-        }
-
-        .date {
-            color: theme-get("subtext1");
-            font-size: 1.1em;
-        }
-    }
-
-    .weather-widget {
-        background: gtkalpha(theme-get("surface0"), 0.9);
-        border: 1px solid theme-get("surface2");
-        color: theme-get("text");
-
-        .temperature {
-            color: theme-get("color6");
-            font-size: 1.5em;
-            font-weight: 500;
-        }
-
-        .condition {
-            color: theme-get("subtext1");
-        }
-    }
-    
     /* Themed grid overlay styles */
-    .grid-cell {
-        /* border: 1px solid theme-get("surface2");
-        border-color: theme-get("surface2"); */
-    }
-    
+
     .grid-cell-target {
-        border: 1px solid pink;
-        border-color: pink;
+        border: 1px solid theme-get("color5");
+        border-color: theme-get("color5");
     }
-    
+
     .grid-cell-hover {
-        border: 1px solid white;
-        border-color: white;
+        border: 1px solid gtkalpha(theme-get("base"), 0.1);
+        border-color: gtkalpha(theme-get("base"), 0.1);
     }
 
     /* Context menus and dialogs */
     popover {
         .context-menu-item {
             color: theme-get("text");
+        }
+        
+        contents {
+            background-color:  gtkalpha(theme-get("surface0"), 0.95);
+            border: 1px solid theme-get("surface2");
+        }
+        
+        arrow {
+            background-color:  gtkalpha(theme-get("surface0"), 0.95);
+            border: 1px solid theme-get("surface2");
         }
 
         separator {

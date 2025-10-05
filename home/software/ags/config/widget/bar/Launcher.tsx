@@ -5,7 +5,7 @@ import GLib from "gi://GLib";
 
 export default () => {
   //TODO: Subscribe to /.face
-  var box = new Gtk.Box();
+  var box = new Gtk.Box({cssClasses: ["launcher"]});
   app.apply_css(`
            window.bar .launcher {
            background-image: url(file://${GLib.getenv("HOME") + "/.face"});
@@ -21,7 +21,6 @@ export default () => {
   box.hexpand = false;
   box.vexpand = false;
   box.valign = Gtk.Align.CENTER;
-  box.cssClasses = ["launcher"];
   box.tooltip_text = "NixOS " + Process.exec("uname -r");
   return box;
 };

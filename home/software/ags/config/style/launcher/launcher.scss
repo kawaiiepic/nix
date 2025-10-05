@@ -148,10 +148,16 @@ window.launcher {
 
         box.Applauncher {
             background-color: gtkalpha(theme-get("base"), 0.8);
-
+            color: gtkalpha(theme-get("text"), 0.8);
+            
             entry {
                 background-color: gtkalpha(theme-get("surface0"), 0.7);
+                color: gtkalpha(theme-get("text"), 0.8);
                 border: 1px solid rgba(255, 255, 255, 0.15);
+            }
+            
+            .description {
+                color: gtkalpha(theme-get("subtext0"), 0.8);
             }
         }
 

@@ -6,6 +6,7 @@
   environment.systemPackages = with pkgs; [
     wget
     unrar
+    file
     home-manager
     # (pkgs.efibootmgr.overrideAttrs {
     #   version = "git";

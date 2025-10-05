@@ -4,7 +4,7 @@ import GLib from "gi://GLib";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
 import { execAsync, exec } from "ags/process";
-import { readFile, writeFile } from "ags/file";
+import { monitorFile, readFile, writeFile } from "ags/file";
 import Pango from "gi://Pango?version=1.0";
 import { backgroundImage } from "./WallpaperManager";
 
@@ -25,15 +25,18 @@ interface DesktopIconProps {
 }
 
 // Position tracking system
-let desktopPositions: { [fileName: string]: number } = {};
+var desktopPositions: Map<string, number> = new Map<string, number>();
 const positionsFile = `${GLib.get_home_dir()}/.desktop-positions.json`;
 
 function loadDesktopPositions() {
   try {
     const content = readFile(positionsFile);
-    desktopPositions = JSON.parse(content);
+    const tempJson: { [fileName: string]: number } = JSON.parse(content);
+    Object.entries(tempJson).forEach(([key, value]) => {
+      desktopPositions.set(key, value);
+    });
   } catch {
-    desktopPositions = {};
+    desktopPositions = new Map<string, number>();
   }
 }
 
@@ -103,6 +106,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
     rightClick.connect("pressed", () => {
       const popover = new Gtk.Popover();
       const menuBox = new Gtk.Box({
+        cssClasses: ["context-menu"],
         orientation: Gtk.Orientation.VERTICAL,
         spacing: 4,
         marginTop: 8,
@@ -125,7 +129,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
 
       openButton.connect("clicked", () => {
         popover.popdown();
-        execAsync(["xdg-open", "trash:///"]).catch((error) => {
+        execAsync(["gio", "open", "trash:///"]).catch((error) => {
           // Silently ignore open trash errors
         });
       });
@@ -284,7 +288,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
 
       propertiesButton.connect("clicked", () => {
         popover.popdown();
-        execAsync(["nautilus", "--properties", file.path]).catch((error) => {
+        execAsync(["nautilus", "--select", file.path]).catch((error) => {
           // Silently ignore properties errors
         });
       });
@@ -402,7 +406,7 @@ function DesktopIcon({ file, onLaunch }: DesktopIconProps): Gtk.Widget {
 
     if (file.name === "trash") {
       // Handle trash icon click - open file manager to trash
-      execPromise = execAsync(["xdg-open", "trash:///"]);
+      execPromise = execAsync(["gio", "open", "trash:///"]);
     } else if (file.isDesktopFile && file.execCommand) {
       // Launch application from .desktop file
       const command = file.execCommand.replace(/%[fFuU]/g, "").trim();
@@ -489,12 +493,12 @@ function swapDesktopPositions(file1Path: string, file2Path: string) {
   const file1Name = GLib.path_get_basename(file1Path);
   const file2Name = GLib.path_get_basename(file2Path);
 
-  const pos1 = desktopPositions[file1Name] ?? 0;
-  const pos2 = desktopPositions[file2Name] ?? 0;
+  const pos1 = desktopPositions.get(file1Name) ?? 0;
+  const pos2 = desktopPositions.get(file2Name) ?? 0;
 
   // Swap positions
-  desktopPositions[file1Name] = pos2;
-  desktopPositions[file2Name] = pos1;
+  desktopPositions.set(file1Name, pos2);
+  desktopPositions.set(file2Name, pos1);
 
   saveDesktopPositions();
 }
@@ -511,7 +515,7 @@ function moveFileToPosition(
   }
   // Check if target position is already occupied by another file
   const occupiedBy = Object.keys(desktopPositions).find(
-    (key) => key !== fileName && desktopPositions[key] === targetPosition,
+    (key) => key !== fileName && desktopPositions.get(key) === targetPosition,
   );
 
   if (occupiedBy) {
@@ -534,7 +538,8 @@ function moveFileToPosition(
             if (testGridX >= 0 && testGridY >= 0 && testGridX < maxColumns) {
               const testOccupied = Object.keys(desktopPositions).find(
                 (key) =>
-                  key !== fileName && desktopPositions[key] === testPosition,
+                  key !== fileName &&
+                  desktopPositions.get(key) === testPosition,
               );
 
               if (!testOccupied) {
@@ -552,8 +557,9 @@ function moveFileToPosition(
   }
 
   // Set the file to the final position
-  const oldPosition = desktopPositions[fileName];
-  desktopPositions[fileName] = targetPosition;
+  const oldPosition = desktopPositions.get(fileName);
+  desktopPositions.set(fileName, targetPosition);
+  print("Desktop file moved");
 
   saveDesktopPositions();
 }
@@ -562,7 +568,7 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
   // Calculate grid dimensions first for consistent use throughout
   const geometry = gdkmonitor.get_geometry();
   const desktopWidth = geometry.width;
-  const desktopHeight = geometry.height;
+  const desktopHeight = geometry.height - 35;
 
   // Calculate optimal grid size that divides evenly into monitor resolution
   // Start with desired size around 80px and find closest divisor
@@ -667,8 +673,8 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
 
     // Sort files by their stored positions
     files.sort((a, b) => {
-      const posA = desktopPositions[a.name] ?? 999;
-      const posB = desktopPositions[b.name] ?? 999;
+      const posA = desktopPositions.get(a.name) ?? 999;
+      const posB = desktopPositions.get(b.name) ?? 999;
       return posA - posB;
     });
 
@@ -690,12 +696,26 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
       if (file.name === "trash") return;
 
       // Store grid position for new files
-      if (!(file.name in desktopPositions)) {
-        desktopPositions[file.name] = nonTrashIndex;
+      if (!desktopPositions.has(file.name)) {
+        print("Desktop file isn't in desktopPositions");
+        desktopPositions.set(file.name, nonTrashIndex);
         saveDesktopPositions();
       }
 
-      const position = desktopPositions[file.name] ?? nonTrashIndex;
+      print(
+        file.name +
+          " | " +
+          desktopPositions.get(file.name) +
+          " | " +
+          nonTrashIndex,
+      );
+      nonTrashIndex++;
+      const position = desktopPositions.get(file.name) ?? nonTrashIndex;
+      desktopPositions.forEach((index, name) => {
+        if (index == position && name !== file.name) {
+          print("Position is alrady in use.");
+        }
+      });
       const gridX = position % maxColumns;
       const gridY = Math.floor(position / maxColumns);
 
@@ -705,6 +725,7 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
 
       // Only create new icon if it doesn't exist
       if (!existingIcons.has(file.name)) {
+        print("Creating new icon for file:", file.name);
         const iconWidget = DesktopIcon({
           file,
           onLaunch: () => {
@@ -744,6 +765,11 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
     // Note: Trash icon position doesn't change, so no need to move it
   };
 
+  monitorFile(GLib.getenv("HOME") + "/Desktop", () => {
+    print("Desktop file modified");
+    populateGrid();
+  });
+
   // Add drop target to the overlay container for better coverage
   const overlayDropTarget = new Gtk.DropTarget();
   overlayDropTarget.set_gtypes([GObject.TYPE_STRING]);
@@ -764,7 +790,6 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
   });
 
   overlayDropTarget.connect("enter", (target, x, y) => {
-    gridBox.add_css_class("grid-drop-target");
     gridOverlay.set_visible(true);
 
     // Show all grid cells with fade in effect
@@ -836,7 +861,6 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
       });
     }
 
-    gridBox.add_css_class("grid-drop-active");
     return Gdk.DragAction.MOVE;
   });
 
@@ -883,7 +907,6 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
         // Fade out grid overlay
         gridBox.add_css_class("grid-fade-out");
         setTimeout(() => {
-          gridBox.remove_css_class("grid-drop-target");
           gridBox.remove_css_class("grid-fade-out");
           gridOverlay.set_visible(false);
 
@@ -899,7 +922,6 @@ function createDesktopGrid(gdkmonitor: Gdk.Monitor): Gtk.Widget {
       // Fallback without animation
       moveFileToPosition(fileName, targetPosition, maxColumns);
       populateGrid();
-      gridBox.remove_css_class("grid-drop-target");
       gridOverlay.set_visible(false);
     }
 
@@ -1164,7 +1186,12 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
 
   overlay.set_child(backgroundBox);
 
-  overlay.add_overlay(new Gtk.Label({ label: "Hello" }));
+  const wallpaperLabel = new Gtk.Label({ label: backgroundImage.get() });
+  overlay.add_overlay(wallpaperLabel);
+  
+  backgroundImage.subscribe(() => {
+    wallpaperLabel.set_label(backgroundImage.get());
+  });
 
   // Desktop icons grid - only on primary monitor
   if (isPrimaryMonitor) {

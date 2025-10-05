@@ -30,6 +30,7 @@ window.OSD {
     
     @include theme() {
         box.OSD {
+            color: theme-get("text");
             background-color: theme-get("base");
         }
     }

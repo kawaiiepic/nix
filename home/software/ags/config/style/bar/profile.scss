@@ -2,10 +2,6 @@
 @use "../util.scss";
 
 @mixin default {
-    .profile {
-        border-radius: 11px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
 
     .profile-pfp {
         min-width: 40px;
@@ -150,11 +146,11 @@
 }
 
 @mixin themed {
-    background-color: theme-get("mantle");
+    background-color: gtkalpha(theme-get("surface0"), 0.95);
     color: theme-get("text");
 
     box.Notification {
-        background-color: theme-get("surface1");
+        background-color: theme-get("surface2");
 
         .header {
             .app-name {
@@ -182,11 +178,13 @@
     }
 
     .surface0 {
-        background-color: theme-get("surface0");
+        background-color: theme-get("surface1");
+        border: 0.5px solid theme-get("crust");
     }
 
     .surface1 {
-        background-color: theme-get("surface0");
+        background-color: theme-get("surface1");
+        border: 0.5px solid theme-get("crust");
     }
 
     .surface2 {
