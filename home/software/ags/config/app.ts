@@ -6,16 +6,27 @@ import Applauncher from "./widget/applauncher/Applauncher";
 import NotificationPopups from "./widget/notifications/NotificationPopups";
 import Logout from "./widget/logout/Logout";
 import OSD from "./widget/osd/OSD";
-import { previousProcess, shutdown, WallpaperManager } from "./widget/desktop/WallpaperManager";
+import {
+  previousProcess,
+  shutdown,
+  WallpaperManager,
+} from "./widget/desktop/WallpaperManager";
 import { NotificationUtils } from "./widget/notifications/NotificationUtils";
 import { Niri } from "./widget/services/niri";
 import { writeFile, writeFileAsync } from "ags/file";
+import GLib20 from "gi://GLib";
+import { gtkTheme, Theme } from "./widget/theme";
+import { execAsync } from "ags/process";
 
 const wm = WallpaperManager();
 Niri();
+Theme();
 
 // Initialize notification utilities and log keybind information
 NotificationUtils.registerKeybinds();
+
+GLib20.setenv("GTK_THEME", "Colloid-Light", true);
+print(GLib20.getenv("GTK_THEME"));
 
 app.start({
   // icons: `./icons`,

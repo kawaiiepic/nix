@@ -1,13 +1,12 @@
 { pkgs, ... }:
 {
 
-  # services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   environment.systemPackages = with pkgs; [
     wget
     unrar
     file
-    home-manager
     # (pkgs.efibootmgr.overrideAttrs {
     #   version = "git";
     #   src = fetchFromGitHub {

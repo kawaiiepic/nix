@@ -23,6 +23,8 @@ import GLib from "gi://GLib?version=2.0";
 import { createBinding, createConnection } from "ags";
 import app from "ags/gtk4/app";
 import Pango from "gi://Pango?version=1.0";
+import AstalNotifd from "gi://AstalNotifd?version=0.1";
+import { interval } from "ags/time";
 
 const mpris = Mpris.get_default();
 const notifd = Notifd.get_default();
@@ -32,6 +34,29 @@ function lengthStr(length: number) {
   const sec = Math.floor(length % 60);
   const sec0 = sec < 10 ? "0" : "";
   return `${min}:${sec0}${sec}`;
+}
+
+function timeAgo(timestamp: number) {
+  const now = GLib.DateTime.new_now_local();
+  const then = GLib.DateTime.new_from_unix_local(timestamp);
+
+  const diff = now.difference(then) / GLib.TIME_SPAN_SECOND; // seconds difference
+  const seconds = Math.floor(diff);
+
+  if (seconds < 5) return "now";
+  if (seconds < 60) return `${seconds} secs ago`;
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+
+  // fallback to date for older timestamps
+  return then.format("%b %d, %I:%M %p")!;
 }
 
 function face() {
@@ -238,9 +263,7 @@ function mprisRebuild(mprisBox: Gtk.Box) {
     }
 
     function updateCoverArt() {
-      if (!player.coverArt) {
-        print("Covert art missing");
-      } else {
+      if (player.coverArt) {
         app.apply_css(`
                 .coverArt-${player.busName.replaceAll(".", "-")} {
                   background-image: url(file://${player.coverArt});
@@ -305,7 +328,7 @@ function notificationList() {
   notificationBox.append(topBar);
 
   const scrollWindow = new Gtk.ScrolledWindow({
-    heightRequest: 100,
+    heightRequest: 150,
   });
 
   const notificationsList = new Gtk.Box({
@@ -350,15 +373,30 @@ function notificationList() {
     });
 
     const header = new Gtk.Box({ cssClasses: ["header"], spacing: 12 });
+    
+    if((
+      notification.image &&
+      Gtk.IconTheme.get_for_display(app.get_monitors()[1].display).has_icon(
+        notification.image,
+      )
+    )) {
+      header.append(
+        new Gtk.Image({
+          cssClasses: ["app-icon"],
+          iconName: notification.image,
+        }),
+      );
+    } else {
     header.append(
       new Gtk.Image({
         cssClasses: ["app-icon"],
         iconName:
-          notification.appIcon ||
+        notification.appIcon ||
           notification.desktopEntry ||
           "dialog-information",
       }),
     );
+  }
 
     header.append(
       new Gtk.Label({
@@ -367,14 +405,17 @@ function notificationList() {
       }),
     );
 
-    header.append(
-      new Gtk.Label({
-        cssClasses: ["time"],
-        halign: Gtk.Align.END,
-        hexpand: true,
-        label: notification.time.toString(),
-      }),
-    );
+    const timeLabel = new Gtk.Label({
+      cssClasses: ["time"],
+      halign: Gtk.Align.END,
+      hexpand: true,
+    });
+
+    header.append(timeLabel);
+
+    interval(1000, () => {
+      timeLabel.label = timeAgo(notification.time);
+    });
 
     const closeButton = new Gtk.Label({
       cssClasses: ["dismiss"],
@@ -399,6 +440,7 @@ function notificationList() {
     hover.connect("leave", () => {
       closeButton.visible = false;
     });
+
     box.add_controller(hover);
 
     header.append(closeButton);
@@ -406,9 +448,12 @@ function notificationList() {
     box.append(header);
 
     const content = new Gtk.Box({ cssClasses: ["content"], spacing: 6 });
-    
+
+    print(notification.image);
+
     if (
       notification.image &&
+      notification.get_hint("image-size") == null &&
       GLib.file_test(notification.image, GLib.FileTest.EXISTS)
     ) {
       app.apply_css(`
@@ -420,20 +465,29 @@ function notificationList() {
       content.append(
         new Gtk.Box({ cssClasses: ["image", `image-${notification.id}`] }),
       );
-    } else if (notification.image) {
-      const iconBox = new Gtk.Box({ cssClasses: ["icon-image"] });
-      iconBox.append(new Gtk.Image({ iconName: notification.image }));
-      content.append(iconBox);
     }
+    // } else if (
+    //   notification.image &&
+    //   Gtk.IconTheme.get_for_display(app.get_monitors()[1].display).has_icon(
+    //     notification.image,
+    //   )
+    // ) {
+    //   const iconBox = new Gtk.Box({ cssClasses: ["icon-image"] });
+    //   iconBox.append(new Gtk.Image({ iconName: notification.image }));
+    //   content.append(iconBox);
+    // }
 
     const innerContent = new Gtk.Box({
       orientation: Gtk.Orientation.VERTICAL,
+      halign: Gtk.Align.FILL,
     });
 
     innerContent.append(
       new Gtk.Label({
         cssClasses: ["summary"],
+        halign: Gtk.Align.START,
         wrap: true,
+        wrapMode: Pango.WrapMode.CHAR,
         useMarkup: true,
         label: notification.summary,
       }),
@@ -443,7 +497,9 @@ function notificationList() {
       innerContent.append(
         new Gtk.Label({
           cssClasses: ["body"],
+          halign: Gtk.Align.START,
           wrap: true,
+          wrapMode: Pango.WrapMode.CHAR,
           useMarkup: true,
           label: notification.body,
         }),
@@ -451,6 +507,22 @@ function notificationList() {
     }
 
     content.append(innerContent);
+
+    if (
+      notification.image &&
+      notification.get_hint("image-size")?.get_string()[0] == "huge" &&
+      GLib.file_test(notification.image, GLib.FileTest.EXISTS)
+    ) {
+      app.apply_css(`
+               .image-${notification.id} {
+               background-image: url(file://${notification.image});
+               }
+            `);
+
+      innerContent.append(
+        new Gtk.Box({ cssClasses: ["image-huge", `image-${notification.id}`], halign: Gtk.Align.FILL, hexpand: true, }),
+      );
+    }
 
     box.append(content);
 
@@ -469,14 +541,18 @@ function notificationList() {
       box.append(actions);
     }
 
-    outer.append(box);
+    outer.prepend(box);
 
-    const id = notification.connect("resolved", () => {
+    const id = notification.connect("resolved", (source) => {
       if (notifd.notifications.length === 1) {
         noNotification.visible = true;
       }
-      outer.remove(box);
-      notification.disconnect(id);
+
+      if (source === notification) {
+        print(`Removed notification ${notification.appName}`);
+        outer.remove(box);
+        notification.disconnect(id);
+      }
     });
   }
 

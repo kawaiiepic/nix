@@ -4,7 +4,6 @@
 window.NotificationPopups {
     box.Notification {
         padding: 7px;
-        min-width: 320px;
         border-radius: 15px;
 
         .header {
@@ -37,11 +36,31 @@ window.NotificationPopups {
                 background-repeat: no-repeat;
             }
         }
+        
+        .image {
+            border: none;
+            border-radius: 9px;
+            min-width: 64px;
+            min-height: 64px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .image-huge {
+            border: none;
+            border-radius: 9px;
+            min-width: 64px;
+            min-height: 150px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     }
 
     @include theme() {
         box.Notification {
-            background-color: theme-get("base");
+            background-color: gtkalpha(theme-get("base"), 0.95);
 
             .header {
                 .app-name {
@@ -60,9 +79,6 @@ window.NotificationPopups {
 
                 .body {
                     color: theme-get("text");
-                }
-
-                .image {
                 }
             }
         }

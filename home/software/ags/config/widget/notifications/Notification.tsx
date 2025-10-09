@@ -5,14 +5,33 @@ import Gtk from "gi://Gtk?version=4.0";
 import GLib from "gi://GLib?version=2.0";
 import { Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import { timeout } from "ags/time";
+import { interval, timeout } from "ags/time";
 
 export const fileExists = (path: string) =>
   GLib.file_test(path, GLib.FileTest.EXISTS);
 
-const time = (time: number, format = "%H:%M") => {
-  return GLib.DateTime.new_from_unix_local(time).format(format)!;
-};
+function timeAgo(timestamp: number) {
+  const now = GLib.DateTime.new_now_local();
+  const then = GLib.DateTime.new_from_unix_local(timestamp);
+
+  const diff = now.difference(then) / GLib.TIME_SPAN_SECOND; // seconds difference
+  const seconds = Math.floor(diff);
+
+  if (seconds < 5) return "now";
+  if (seconds < 60) return `${seconds} secs ago`;
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+
+  // fallback to date for older timestamps
+  return then.format("%b %d, %I:%M %p")!;
+}
 
 const urgency = (n: Notifd.Notification) => {
   const { LOW, NORMAL, CRITICAL } = Notifd.Urgency;
@@ -40,16 +59,16 @@ export default function Notification(props: Props): Gtk.Revealer {
   const isIcon = (icon: string) =>
     Gtk.IconTheme.get_for_display(display).has_icon(icon);
 
-  if (n.image && fileExists(n.image)) {
-    app.apply_css(`
-         .image-${n.id} {
-         background-image: url(file://${n.image});
-         }
-      `);
-  }
+  // if (n.image && fileExists(n.image)) {
+  //   app.apply_css(`
+  //        .image-${n.id} {
+  //        background-image: url(file://${n.image});
+  //        }
+  //     `);
+  // }
 
   // Create the main revealer
-  const revealer = new Gtk.Revealer({revealChild: true});
+  const revealer = new Gtk.Revealer({ revealChild: true });
   revealer.set_transition_type(Gtk.RevealerTransitionType.SWING_DOWN);
 
   // Setup the revealer to reveal after timeout
@@ -59,7 +78,11 @@ export default function Notification(props: Props): Gtk.Revealer {
   });
 
   // Create the main notification box
-  const notificationBox = new Gtk.Box();
+  const notificationBox = new Gtk.Box({
+    widthRequest: 320,
+    halign: Gtk.Align.CENTER,
+    hexpand: false,
+  });
   notificationBox.set_orientation(Gtk.Orientation.HORIZONTAL);
   notificationBox.add_css_class("Notification");
   notificationBox.add_css_class(urgency(n));
@@ -72,7 +95,7 @@ export default function Notification(props: Props): Gtk.Revealer {
   notificationBox.add_controller(hoverController);
 
   // Create the main vertical box for content
-  const mainBox = new Gtk.Box();
+  const mainBox = new Gtk.Box({ halign: START });
   mainBox.set_orientation(Gtk.Orientation.VERTICAL);
   mainBox.set_spacing(3);
 
@@ -81,7 +104,6 @@ export default function Notification(props: Props): Gtk.Revealer {
   headerBox.set_orientation(Gtk.Orientation.HORIZONTAL);
   headerBox.set_spacing(3);
   headerBox.set_halign(FILL);
-  headerBox.set_hexpand(true);
   headerBox.add_css_class("header");
 
   // App icon
@@ -101,26 +123,66 @@ export default function Notification(props: Props): Gtk.Revealer {
 
   // Time label
   const timeLabel = new Gtk.Label();
-  timeLabel.set_label(time(n.time));
+  timeLabel.set_label(timeAgo(n.time));
   timeLabel.set_hexpand(true);
   timeLabel.set_halign(END);
   timeLabel.add_css_class("time");
   headerBox.append(timeLabel);
 
+  interval(1000, () => {
+    timeLabel.set_label(timeAgo(n.time));
+  });
+
+  // Close button
+  const closeButton = new Gtk.Label({
+    cssClasses: ["dismiss"],
+    halign: Gtk.Align.END,
+    visible: false,
+    label: "󰎟",
+    tooltipText: "Dismiss Notification",
+  });
+
+  const click = new Gtk.GestureClick();
+  click.connect("pressed", () => {
+    n.dismiss();
+  });
+
+  closeButton.add_controller(click);
+
+  const hover = new Gtk.EventControllerMotion();
+  hover.connect("enter", () => {
+    closeButton.visible = true;
+  });
+
+  hover.connect("leave", () => {
+    closeButton.visible = false;
+  });
+
+  mainBox.add_controller(hover);
+
+  headerBox.append(closeButton);
+
   mainBox.append(headerBox);
 
   // Create content box
-  const contentBox = new Gtk.Box();
+  const contentBox = new Gtk.Box({ halign: START });
   contentBox.set_orientation(Gtk.Orientation.HORIZONTAL);
   contentBox.set_spacing(6);
   contentBox.add_css_class("content");
 
   // Add image if it exists as file
-  if (n.image && fileExists(n.image)) {
+  if (n.image && n.get_hint("image-size") == null && fileExists(n.image)) {
     const imageBox = new Gtk.Box();
     imageBox.set_valign(START);
     imageBox.add_css_class("image");
     imageBox.add_css_class(`image-${n.id}`);
+
+    app.apply_css(`
+           .image-${n.id} {
+            background-image: url(file://${n.image});
+          }
+        `);
+    print("Image is file!");
     contentBox.append(imageBox);
   }
 
@@ -140,30 +202,55 @@ export default function Notification(props: Props): Gtk.Revealer {
   }
 
   // Create text content box
-  const textBox = new Gtk.Box();
+  const textBox = new Gtk.Box({ halign: START, widthRequest: 320 });
   textBox.set_orientation(Gtk.Orientation.VERTICAL);
 
   // Summary label
-  const summaryLabel = new Gtk.Label();
-  summaryLabel.set_label(n.summary);
-  summaryLabel.set_halign(START);
-  summaryLabel.set_xalign(0);
+  const summaryLabel = new Gtk.Label({
+    halign: START,
+    wrap: true,
+    wrapMode: Pango.WrapMode.CHAR,
+    useMarkup: true,
+    label: n.summary,
+  });
   summaryLabel.add_css_class("summary");
   textBox.append(summaryLabel);
 
   // Body label (if exists)
   if (n.body) {
-    const bodyLabel = new Gtk.Label();
-    bodyLabel.set_markup(n.body);
-    bodyLabel.set_wrap(true);
-    bodyLabel.set_halign(START);
-    bodyLabel.set_xalign(0);
+    const bodyLabel = new Gtk.Label({
+      halign: START,
+      hexpand: false,
+      wrap: true,
+      wrapMode: Pango.WrapMode.CHAR,
+      useMarkup: true,
+      maxWidthChars: 50,
+      label: n.body,
+    });
     bodyLabel.add_css_class("body");
     textBox.append(bodyLabel);
   }
 
   contentBox.append(textBox);
   mainBox.append(contentBox);
+  if (
+    n.image &&
+    n.get_hint("image-size")?.get_string()[0] == "huge" &&
+    fileExists(n.image)
+  ) {
+    const imageBox = new Gtk.Box();
+    imageBox.set_valign(START);
+    imageBox.set_halign(FILL);
+    imageBox.add_css_class("image-huge");
+    imageBox.add_css_class(`image-${n.id}`);
+
+    app.apply_css(`
+           .image-${n.id} {
+            background-image: url(file://${n.image});
+          }
+        `);
+    mainBox.append(imageBox);
+  }
 
   // Add actions if they exist
   const actions = n.get_actions();

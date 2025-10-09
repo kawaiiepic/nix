@@ -1,17 +1,10 @@
 { inputs, pkgs, ... }:
 let
-  cat-girls = pkgs.fetchFromGitHub {
-    owner = "miathetrain";
-    repo = "transparent-catgirls";
-    rev = "5b8ccf1cb44965af1595d311f45d1a853c6e80fe";
-    sha256 = "sha256-6OX/PKgTWjbwaTBlAFe2fAsbh9l3Y0JCYE2fKbzD/8I=";
-  };
-
-  system24 = pkgs.fetchFromGitHub {
-    owner = "refact0r";
-    repo = "system24";
-    rev = "67b5f7d283fa843c7f310b068fcf8cb100b3de5c";
-    sha256 = "sha256-kHkySfpJaRQWEWcc4Lo5SFRiCslwt5fGB+iqYIY4FL0=";
+  catppuccin-discord = pkgs.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "discord";
+    rev = "70acffa079429bc4a0290d6699b66471c3ec4fd3";
+    sha256 = "sha256-oyVZxdr4UacRMOCDdjSl2B/X5ySYTOD5iCOq0MLSxD4=";
   };
 
   krisp-patcher =
@@ -42,27 +35,27 @@ in
   ];
 
   xdg.configFile = {
-    "Vencord/themes/cat-girls.theme.css".source = "${cat-girls}/cat-girls.theme.css";
-    "Vencord/themes/system24.theme.css".source = "${system24}/theme/flavors/catppuccin-mocha.theme.css";
+    "Vencord/themes/latte.theme.css".source = "${catppuccin-discord}/themes/latte.theme.css";
+    "Vencord/themes/macchiato.theme.css".source = "${catppuccin-discord}/themes/macchiato.theme.css";
   };
 
   home.packages = [ krisp-patcher ];
 
   programs.nixcord = {
     enable = true; # enable Nixcord. Also installs discord package
-    # vesktop.enable = true; # Vesktop
+    vesktop.enable = true; # Vesktop
     # dorion.enable = true; # Dorion
     # discord.package = pkgs.discord-canary;
     # 
     config = {
-      themeLinks = [
-        "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
-        # "https://raw.githubusercontent.com/refact0r/system24/refs/heads/main/theme/flavors/catppuccin-macchiato.theme.css"
-      ];
-      enabledThemes = [
-        "cat-girls.theme.css"
-        "catppuccin-mocha.theme.css"
-      ];
+      # themeLinks = [
+      #   "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
+      #   # "https://raw.githubusercontent.com/refact0r/system24/refs/heads/main/theme/flavors/catppuccin-macchiato.theme.css"
+      # ];
+      # enabledThemes = [
+      #   "cat-girls.theme.css"
+      #   "catppuccin-mocha.theme.css"
+      # ];
       plugins = {
         alwaysAnimate.enable = true;
         betterSessions.enable = true;
@@ -85,10 +78,10 @@ in
     #   betterActivities = "github:D3SOX/vc-betterActivities/044b504666b8b753ab45d82c0cd0d316b1ea7e60";
     # };
 
-    extraConfig = {
-      plugins = {
-        betterActivities.enable = true;
-      };
-    };
+    # extraConfig = {
+    #   plugins = {
+    #     betterActivities.enable = true;
+    #   };
+    # };
   };
 }

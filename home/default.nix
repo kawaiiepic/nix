@@ -10,7 +10,7 @@
     ./shell
     ./theme
     ./games
-    ./desktop/niri.nix
+    ./desktop/niri
     ./services/pfp
     ./services/hyprlock.nix
   ];

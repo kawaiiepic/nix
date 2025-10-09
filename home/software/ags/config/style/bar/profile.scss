@@ -141,6 +141,16 @@
                 background-position: center;
                 background-repeat: no-repeat;
             }
+            
+            .image-huge {
+                border: none;
+                border-radius: 9px;
+                min-width: 64px;
+                min-height: 150px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
         }
     }
 }
@@ -168,7 +178,7 @@
             }
 
             .image {
-                border: 1px solid util.gtkalpha(theme-get("crust"), 1);
+                border: none;
             }
         }
     }

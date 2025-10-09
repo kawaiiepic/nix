@@ -27,8 +27,8 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
   // Handle new notifications
   notifd.connect("notified", (_, id) => {
     const n = notifd.get_notification(id);
-    
-    if(!window.visible){
+
+    if (!window.visible) {
       window.show();
     }
     if (!n) return;
@@ -91,24 +91,17 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
 
   const dontDisturb = createBinding(notifd, "dontDisturb");
 
-  const window = new Astal.Window({layer: Astal.Layer.OVERLAY, exclusivity: Astal.Exclusivity.IGNORE, cssClasses: ["NotificationPopups"], marginTop: 30, marginRight: 5, anchor: TOP | RIGHT, visible: !dontDisturb.get() });
+  const window = new Astal.Window({
+    layer: Astal.Layer.OVERLAY,
+    exclusivity: Astal.Exclusivity.IGNORE,
+    cssClasses: ["NotificationPopups"],
+    marginTop: 15,
+    marginRight: 5,
+    anchor: TOP | RIGHT,
+    visible: !dontDisturb.get(),
+  });
 
   window.set_child(box);
 
   return window;
-
-  // return (
-  //   <window
-  //     layer={Astal.Layer.OVERLAY}
-  //     visible={dontDisturb((disturb) => !disturb)}
-  //     cssClasses={["NotificationPopups"]}
-  //     gdkmonitor={gdkmonitor}
-  //     exclusivity={Astal.Exclusivity.IGNORE}
-  //     marginTop={30}
-  //     marginRight={5}
-  //     anchor={TOP | RIGHT}
-  //   >
-  //     {box}
-  //   </window>
-  // );
 }

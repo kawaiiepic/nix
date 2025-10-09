@@ -15,6 +15,7 @@
     brightnessctl
     jq
     glib
+    gtk3
   ];
 
   programs.ags = {

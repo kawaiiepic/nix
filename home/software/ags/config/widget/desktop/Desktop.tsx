@@ -1161,7 +1161,7 @@ export default function Desktop(gdkmonitor: Gdk.Monitor) {
     layer: Astal.Layer.BOTTOM,
     visible: true,
     cssClasses: ["desktop"],
-    exclusivity: Astal.Exclusivity.EXCLUSIVE,
+    exclusivity: Astal.Exclusivity.IGNORE,
     gdkmonitor: gdkmonitor,
     anchor:
       Astal.WindowAnchor.TOP |

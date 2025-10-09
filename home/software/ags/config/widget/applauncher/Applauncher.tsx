@@ -1,11 +1,18 @@
 import AstalApps from "gi://AstalApps";
 import GLib from "gi://GLib";
 
-import { setup_theme } from "../theme";
+import { gtkTheme, setup_theme } from "../theme";
 import { Astal, Gdk, Gtk } from "ags/gtk4";
 import app from "ags/gtk4/app";
+import { execAsync } from "ags/process";
 
 const MAX_ITEMS = 8;
+
+export function launchApp(app: AstalApps.Application) {
+  response("Launching Application");
+  console.log("Launching application...");
+  execAsync(["bash", "-c", `env GTK_THEME=${GLib.getenv("GTK_THEME")} ${app.executable.replaceAll("%U", "")}`]);
+}
 
 function hide() {
   app.get_window("launcher")!.hide();

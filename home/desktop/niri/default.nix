@@ -38,6 +38,68 @@ let
       rosewater = "#f5e0dc";
     };
 
+    frappe = {
+      # Medium-dark theme: Catppuccin Frappé
+      base = "#303446";
+      mantle = "#292c3c";
+      crust = "#232634";
+      surface0 = "#414559";
+      surface1 = "#51576d";
+      surface2 = "#626880";
+      overlay0 = "#737994";
+      overlay1 = "#838ba7";
+      overlay2 = "#949cbb";
+      subtext0 = "#a5adce";
+      subtext1 = "#b5bfe2";
+      text = "#c6d0f5";
+
+      lavender = "#babbf1";
+      blue = "#8caaee";
+      sapphire = "#85c1dc";
+      sky = "#99d1db";
+      teal = "#81c8be";
+      green = "#a6d189";
+      yellow = "#e5c890";
+      peach = "#ef9f76";
+      maroon = "#ea999c";
+      red = "#e78284";
+      mauve = "#ca9ee6";
+      pink = "#f4b8e4";
+      flamingo = "#eebebe";
+      rosewater = "#f2d5cf";
+    };
+
+    macchiato = {
+      # Dark-mid theme: Catppuccin Macchiato
+      base = "#24273a";
+      mantle = "#1e2030";
+      crust = "#181926";
+      surface0 = "#363a4f";
+      surface1 = "#494d64";
+      surface2 = "#5b6078";
+      overlay0 = "#6e738d";
+      overlay1 = "#8087a2";
+      overlay2 = "#939ab7";
+      subtext0 = "#a5adcb";
+      subtext1 = "#b8c0e0";
+      text = "#cad3f5";
+
+      lavender = "#b7bdf8";
+      blue = "#8aadf4";
+      sapphire = "#7dc4e4";
+      sky = "#91d7e3";
+      teal = "#8bd5ca";
+      green = "#a6da95";
+      yellow = "#eed49f";
+      peach = "#f5a97f";
+      maroon = "#ee99a0";
+      red = "#ed8796";
+      mauve = "#c6a0f6";
+      pink = "#f5bde6";
+      flamingo = "#f0c6c6";
+      rosewater = "#f4dbd6";
+    };
+
     mocha = {
       # Dark theme: Catppuccin Mocha
       base = "#1e1e2e";
@@ -101,62 +163,22 @@ let
   };
 in
 {
-  home.packages = with pkgs; [
 
-    (pkgs.writeShellScriptBin "change-firefox-theme" ''
+  imports = [ ./scripts/screenshot.nix ];
 
-    '')
-  ];
-
-  # #000001 Base
-  # #000002 Mantle
-
-  # home.file.".config/niri/config-light.kdl".text =
-  #   builtins.replaceStrings [ palette.base "#ffffff" ] [ "GAY" "#000000" ]
-  #     (config.programs.niri.finalConfig);
-
-  # home.file.".config/niri/config-dark.kdl".text =
-  #   builtins.replaceStrings [ "#000000" "#ffffff" ] [ "#ffffff" "#000000" ]
-  #     (config.programs.niri.finalConfig);
-  #
   home.file.".config/niri/config-latte.kdl".text =
-    builtins.replaceStrings (builtins.attrValues palette.default) # from default skeleton
-      (builtins.attrValues palette.latte) # to Latte
+    builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.latte)
       config.programs.niri.finalConfig;
 
-  home.file.".local/bin/change-niri-theme".text = ''
-    #!/usr/bin/env bash
-    set -e
-
-    theme=$1
-    if [ -z "$theme" ]; then
-      echo "Usage: change-niri-theme <latte|mocha|default>"
-      exit 1
-    fi
-
-    CONFIG_DIR="$HOME/.config/niri"
-    TARGET="$CONFIG_DIR/a-config.kdl"
-
-    case "$theme" in
-      latte|mocha|default)
-        ln -sf "$CONFIG_DIR/config-$theme.kdl" "$TARGET"
-        ;;
-      *)
-        echo "Unknown theme: $theme"
-        exit 1
-        ;;
-    esac
-
-    echo "Switched Niri theme to $theme"
-  '';
-  home.file.".local/bin/change-niri-theme".executable = true;
+  home.file.".config/niri/config-frappe.kdl".text =
+    builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.frappe)
+      config.programs.niri.finalConfig;
 
   xdg.enable = true;
 
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
-    "inode/directory" = "org.gnome.Nautilus.desktop"; # or thunar.desktop, dolphin.desktop
-    #"x-special/gnome-trash" = "org.gnome.Nautilus.desktop";
+    "inode/directory" = "org.gnome.Nautilus.desktop";
   };
 
   xdg.portal = {
@@ -206,6 +228,7 @@ in
     overview.backdrop-color = palette.default.base;
     hotkey-overlay.skip-at-startup = true;
     cursor.theme = "GoogleDot-Blue";
+    screenshot-path = null;
 
     input = {
       focus-follows-mouse.enable = true;
@@ -387,8 +410,14 @@ in
           "Mod+Q".action = close-window;
           "Mod+T".action = toggle-window-floating;
 
-          "Mod+P".action = screenshot-window { write-to-disk = false; };
-          "Mod+Shift+P".action = screenshot;
+          "Mod+W".action = spawn [
+            "tessen"
+            "-p"
+            "gopass"
+          ];
+
+          "Mod+P".action = spawn "screenshot";
+          "Mod+Shift+P".action = spawn "screenshot";
 
           "Mod+Return".action = spawn "kitty";
 

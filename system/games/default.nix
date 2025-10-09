@@ -33,6 +33,7 @@
     prismlauncher
     ryubing
     xivlauncher
+
     # shadps4
     # (pkgs.callPackage ./vita3k.nix { })
     (pkgs.steamtinkerlaunch.overrideAttrs {

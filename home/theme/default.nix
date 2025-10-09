@@ -4,6 +4,10 @@
 }:
 {
 
+  home.packages = with pkgs; [
+    (pkgs.callPackage ./gtk/colloid-theme.nix { })
+  ];
+
   gtk = {
     enable = true;
 
@@ -18,10 +22,10 @@
       package = pkgs.google-cursor;
     };
 
-    theme = {
-      name = "Colloid";
-      package = (pkgs.callPackage ./gtk/colloid-theme.nix { });
-    };
+    # theme = {
+    #   name = "Colloid-Dark";
+    #   package = (pkgs.callPackage ./gtk/colloid-theme.nix { });
+    # };
 
     iconTheme = {
       name = "Papirus";

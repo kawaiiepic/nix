@@ -1,4 +1,7 @@
 { pkgs, ... }:
 {
-  # boot.kernelPackages = pkgs.linuxPackages_cachyos;
+  boot.kernelModules = [
+    "ntsync"
+  ];
+  boot.kernelPackages = pkgs.linuxPackages_cachyos;
 }

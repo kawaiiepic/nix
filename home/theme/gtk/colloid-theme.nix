@@ -26,15 +26,22 @@ stdenv.mkDerivation {
     sed -i "/\@import/s/color-palette-default/color-palette-catppuccin/" "src/sass/_tweaks-temp.scss"
     sed -i "/\$colorscheme:/s/default/catppuccin/" "src/sass/_tweaks-temp.scss"
 
+    sassc $SASSC_OPT src/main/gtk-3.0/gtk-Light.{scss,css}
     sassc $SASSC_OPT src/main/gtk-3.0/gtk-Dark.{scss,css}
     echo "==> Generating the 3.0 gtk-Dark.css..."
+    sassc $SASSC_OPT src/main/gtk-4.0/gtk-Light.{scss,css}
     sassc $SASSC_OPT src/main/gtk-4.0/gtk-Dark.{scss,css}
     echo "==> Generating the 4.0 gtk-Dark.css..."
-    mkdir -p $out/share/themes/Colloid/gtk-3.0
-    mkdir -p $out/share/themes/Colloid/gtk-4.0
+    mkdir -p $out/share/themes/Colloid-Light/gtk-3.0
+    mkdir -p $out/share/themes/Colloid-Light/gtk-4.0
+    mkdir -p $out/share/themes/Colloid-Dark/gtk-3.0
+    mkdir -p $out/share/themes/Colloid-Dark/gtk-4.0
 
-    cp -r src/main/gtk-3.0/gtk-Dark.css $out/share/themes/Colloid/gtk-3.0/gtk.css
-    cp -r src/main/gtk-4.0/gtk-Dark.css $out/share/themes/Colloid/gtk-4.0/gtk.css
+    cp -r src/main/gtk-3.0/gtk-Light.css $out/share/themes/Colloid-Light/gtk-3.0/gtk.css
+    cp -r src/main/gtk-4.0/gtk-Light.css $out/share/themes/Colloid-Light/gtk-4.0/gtk.css
+    
+    cp -r src/main/gtk-3.0/gtk-Dark.css $out/share/themes/Colloid-Dark/gtk-3.0/gtk.css
+    cp -r src/main/gtk-4.0/gtk-Dark.css $out/share/themes/Colloid-Dark/gtk-4.0/gtk.css
 
     runHook postInstall
   '';

@@ -8,11 +8,12 @@
     ./discord
     # ./obs
     ./spotify
-    # ./vscode
+    ./vscode
     ./helix
     ./nautilus
     # ./nextcloud.nix
     ./gopass.nix
+    ./wofi
   ];
 
   home.packages = with pkgs; [

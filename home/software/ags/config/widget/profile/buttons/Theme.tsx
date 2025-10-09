@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4";
 import { execAsync } from "ags/process";
-import { setTheme } from "../../theme";
+import { setTheme, themes } from "../../theme";
 
 export default () => {
   const box = new Gtk.Box({
@@ -39,18 +39,15 @@ export default () => {
 
   popover.child = themesBox;
 
-  const themes = [
-    { id: "latte", description: "Latte", scheme: "light" },
-    { id: "frappe", description: "Frappe", scheme: "dark" },
-  ];
+
 
   themes.forEach((theme) => {
     const click1 = new Gtk.GestureClick();
     click1.connect("pressed", () => {
       popover.popdown();
       console.log(`Switching theme to ${theme.id}`);
-      execAsync(`themeswitch ${theme.scheme}`);
-      setTheme(theme.id);
+      // execAsync(`themeswitch ${theme.scheme}`);
+      setTheme(theme);
     });
     const label = new Gtk.Label({
       label: `${theme.description} (${theme.scheme})`,
