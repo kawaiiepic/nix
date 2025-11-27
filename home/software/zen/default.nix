@@ -10,7 +10,7 @@
     pkgs.zen-theme-switch
     pkgs.passff-host
   ];
-
+  home.file.".mozilla/native-messaging-hosts/themeswitch.json".force = true;
   home.file.".mozilla/native-messaging-hosts/themeswitch.json".source =
     pkgs.zen-theme-switch + "/lib/mozilla/native-messaging-hosts/themeswitch.json";
 

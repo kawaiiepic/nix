@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, options, ... }:
 {
 
   programs.git = {
@@ -19,7 +19,7 @@
     "freeimage-unstable-2021-11-01"
     "qtwebengine-5.15.19"
   ];
-  
+
   nixpkgs.overlays = [
     (import ../packages/overlay.nix)
   ];
@@ -31,6 +31,15 @@
       enable = true;
       extraArgs = "--keep-since 4d --keep 3";
     };
+  };
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = options.programs.nix-ld.libraries.default ++ (
+      with pkgs; [
+        glib # libglib-2.0.so.0, libgthread-2.0.so.0
+      ]
+    );
   };
 
   nix.settings = {
@@ -45,7 +54,7 @@
       "https://fufexan.cachix.org"
       "https://helix.cachix.org"
       "https://hyprland.cachix.org"
-      "https://nix-community.cachix.org"
+   #   "https://nix-community.cachix.org"
       "https://ezkea.cachix.org"
       "https://t2linux.cachix.org"
       "https://miathetrain.cachix.org"
@@ -54,12 +63,14 @@
       "https://tsutsumi.cachix.org"
     ];
 
+    trusted-users = ["root" "mia"];
+
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "fufexan.cachix.org-1:LwCDjCJNJQf5XD2BV+yamQIMZfcKWR9ISIFy5curUsY="
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      #"nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
       "t2linux.cachix.org-1:P733c5Gt1qTcxsm+Bae0renWnT8OLs0u9+yfaK2Bejw="
       "miathetrain.cachix.org-1:YnISmBIljKxDFkswh1GbvQFx3gN+7jfGFcgEPz635W8="

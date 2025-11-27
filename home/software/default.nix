@@ -6,8 +6,8 @@
     ./kitty
     # ./vesktop
     ./discord
-    # ./obs
-    ./spotify
+    ./obs
+    # ./spotify
     ./vscode
     ./helix
     ./nautilus
@@ -23,6 +23,9 @@
     # stremio
     godot
     wvkbd
+    lmstudio
+    libreoffice-qt6-fresh
+    mission-center
     # gammastep
   ];
 

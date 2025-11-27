@@ -166,6 +166,11 @@ in
 
   imports = [ ./scripts/screenshot.nix ];
 
+  home.packages = with pkgs; [
+     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    gthumb
+  ];
+
   home.file.".config/niri/config-latte.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.latte)
       config.programs.niri.finalConfig;
@@ -202,6 +207,7 @@ in
   };
 
   programs.niri.settings = {
+
     spawn-at-startup = [
       {
         argv = [
@@ -226,12 +232,13 @@ in
     ];
 
     overview.backdrop-color = palette.default.base;
+    prefer-no-csd = true;
     hotkey-overlay.skip-at-startup = true;
     cursor.theme = "GoogleDot-Blue";
     screenshot-path = null;
 
     input = {
-      focus-follows-mouse.enable = true;
+      focus-follows-mouse.enable = false;
     };
 
     outputs = {
@@ -325,6 +332,14 @@ in
         open-floating = true;
         border.enable = false;
         opacity = 0.5;
+      }
+
+      {
+        matches = [{
+          title = "";
+        }];
+
+        variable-refresh-rate = true;
       }
     ];
 

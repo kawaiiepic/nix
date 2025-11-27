@@ -7,6 +7,7 @@
     wget
     unrar
     file
+    devenv
     # (pkgs.efibootmgr.overrideAttrs {
     #   version = "git";
     #   src = fetchFromGitHub {

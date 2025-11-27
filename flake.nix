@@ -35,7 +35,7 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
@@ -54,6 +54,11 @@
 
     niri = {
       url = "github:sodiboo/niri-flake";
+    };
+
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -83,15 +88,6 @@
 
       packages.${system}.zen-theme-switch = pkgs.zen-theme-switch;
 
-      homeConfigurations = {
-        mia = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          modules = [ ./home ];
-          # optional: extra arguments
-          extraSpecialArgs = { inherit inputs pkgs; };
-        };
-      };
-      
       nixosConfigurations = {
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";

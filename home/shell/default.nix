@@ -6,12 +6,25 @@
 
   home.packages = with pkgs; [
     eza
+    crush
+    gum
+    mods
+    wishlist
+    glow
     # fzf
     # fd
     # bat
     btop
     nushell
   ];
+
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    host = "0.0.0.0";
+    # environmentVariables = { OLLAMA_ORIGINS = [ "https://mira.blossomvale.dev" ];
+    # };
+  };
 
   programs = {
     direnv = {
@@ -132,7 +145,7 @@
         nano = "hx";
       };
     };
-    
+
     carapace.enable = true;
     carapace.enableNushellIntegration = true;
 

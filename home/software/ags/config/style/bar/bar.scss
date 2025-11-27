@@ -26,11 +26,11 @@ window.bar {
         }
     }
 
-    label {
-        &:hover {
-            transform: translateY(-1px);
-        }
-    }
+    // label {
+    //     &:hover {
+    //         transform: translateY(-1px);
+    //     }
+    // }
 
     .surface {
         padding-left: 10px;

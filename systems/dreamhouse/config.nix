@@ -14,7 +14,8 @@
     ./storage.nix
     ../../system/desktop/greetd.nix
     ../../system/desktop/niri.nix
-    
+    ../../system/core/graphics.nix
+
     ../../modules/gpu-screen-recorder-ui.nix
 
     inputs.nixos-hardware.nixosModules.common-pc-ssd
@@ -22,7 +23,7 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
     inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
   ];
-  
+
   programs.gsr.enable = true;
 
   networking.hostName = "dreamhouse";

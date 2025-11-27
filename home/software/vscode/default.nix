@@ -4,11 +4,16 @@
   ...
 }:
 let
-  java = pkgs.temurin-jre-bin-24;
+  java = pkgs.temurin-bin-25;
   gradle = pkgs.gradle;
 in
 {
-  home.packages = with pkgs; [ nil gradle ];
+  home.packages = with pkgs; [ nil gradle flutter postman];
+  
+  home.sessionVariables = {
+      JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
+      CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
+    };
 
   programs.vscode = {
     enable = true;
@@ -57,7 +62,7 @@ in
         "editor.pasteAs.enabled" = false;
         "editor.bracketPairColorization.independentColorPoolPerBracketType" = true;
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        "editor.rulers" = 120;
+        "editor.rulers" = [120];
 
         "terminal.integrated.cursorBlinking" = true;
 
@@ -95,8 +100,8 @@ in
         "dart.devToolsBrowser" = "default";
         "dart.lineLength" = 160;
 
-        "java.jdt.ls.java.home" = "${java}/bin/";
-        "kotlin.java.home" = "${java}/bin/";
+        "java.jdt.ls.java.home" = "${java}";
+        "kotlin.java.home" = "${java}";
 
         "redhat.telemetry.enabled" = true;
       };

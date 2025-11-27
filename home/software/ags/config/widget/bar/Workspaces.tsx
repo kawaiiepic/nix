@@ -9,10 +9,18 @@ const box = new Gtk.Box({
 
 function updateWorkspaces(i: number, label: Gtk.Label) {
   workspaces.get().forEach((workspace) => {
-    if (workspace.name === `${i}` && workspace.is_focused) {
-      label.add_css_class("focused");
-    } else if (workspace.name === `${i}`) {
-      label.remove_css_class("focused");
+    if (workspace.id === i) {
+      if (workspace.is_focused) {
+        label.add_css_class("focused");
+      } else {
+        label.remove_css_class("focused");
+      }
+
+      if (workspace.active_window_id != null) {
+        label.add_css_class("occupied");
+      } else {
+        label.remove_css_class("occupied");
+      }
     }
   });
 }
@@ -87,13 +95,13 @@ Array.from({ length: 5 }, (_, i) => i + 1).forEach((i) => {
     valign: Gtk.Align.CENTER,
     tooltipText: `Workspace ${i}`,
   });
-  
+
   updateWorkspaces(i, label);
 
   workspaces.subscribe(() => {
     updateWorkspaces(i, label);
   });
-  
+
   updateTooltip();
 
   innerBox.append(label);

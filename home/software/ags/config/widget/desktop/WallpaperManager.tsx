@@ -31,7 +31,7 @@ export async function update_wallpaper() {
         "bash",
         "-c",
         `find ${SRC}/widget/desktop/wallpapers/ -mindepth 1 -maxdepth 1 -type f | shuf -n 1`,
-      ]),
+      ])
     );
 
     app.apply_css(`
@@ -44,7 +44,7 @@ export async function update_wallpaper() {
 
     send_notification(
       "Wallpaper",
-      `Wallpaper set to picture: ${backgroundImage.get()}`,
+      `Wallpaper set to picture: ${backgroundImage.get()}`
     );
   } else {
     var screenRoot = "";
@@ -57,45 +57,49 @@ export async function update_wallpaper() {
     tryWallpaper();
 
     async function tryWallpaper() {
+      wallpaperFailed = false;
       var wallpaperPath = exec([
         "nu",
         "-c",
         `ls ${SRC}/widget/desktop/wallpaper-engine/ | where type == dir | shuffle | first 1 | get name | grid -c`,
       ]);
 
+      console.log(`Attempting Wallpaper(${wallpaperPath})`);
+
       var process = subprocess(
-        `linux-wallpaperengine --silent --no-fullscreen-pause ${screenRoot} ${wallpaperPath} > /dev/null 2>&1`, (output) => {
-          if(output.includes("Cannot setup image")) {
-            wallpaperFailed = true;
-            tryWallpaper();
-          }
-          // console.log(`Wallpaper(${wallpaperPath}) output: ${output}`);
-        }
+        `linux-wallpaperengine --silent --no-fullscreen-pause ${screenRoot} ${wallpaperPath} >/dev/null 2>&1`
       );
 
       var exit = process.connect("exit", (code, signal) => {
-        wallpaperFailed = true;
-        tryWallpaper();
+        if (signal == 1) {
+          wallpaperFailed = true;
+
+          process.kill();
+        }
+
         console.log(
-          `Wallpaper(${backgroundImage.get()}) process exited with code ${code} and signal ${signal}`,
+          `Wallpaper(${wallpaperPath}) process exited with code ${code} and signal ${signal}`
         );
       });
 
       timeout(3000, () => {
+        process.disconnect(exit);
         if (!wallpaperFailed) {
           print(`Wallpaper(${wallpaperPath}) set successfully`);
           previousProcess = process;
           setBackgroundImage(wallpaperPath);
           send_notification(
             "Wallpaper",
-            `Wallpaper set to video: ${backgroundImage.get()}`,
+            `Wallpaper set to video: ${backgroundImage.get()}`
           );
+        } else {
+          tryWallpaper();
         }
-        process.disconnect(exit);
       });
     }
   }
 }
+
 export function shutdown() {
   if (previousProcess != null) {
     previousProcess.kill();

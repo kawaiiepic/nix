@@ -25,18 +25,17 @@ Theme();
 // Initialize notification utilities and log keybind information
 NotificationUtils.registerKeybinds();
 
-GLib20.setenv("GTK_THEME", "Colloid-Light", true);
-print(GLib20.getenv("GTK_THEME"));
+const mainMonitor = app.get_monitors()[1];
 
 app.start({
   // icons: `./icons`,
   css: style,
   main() {
-    Applauncher(app.get_monitors()[1]);
-    NotificationPopups(app.get_monitors()[1]);
-    Logout(app.get_monitors()[1]);
+    Applauncher(mainMonitor);
+    NotificationPopups(mainMonitor);
+    Logout(mainMonitor);
 
-    Bar(app.get_monitors()[1]);
+    Bar(mainMonitor);
     app.get_monitors().map(Desktop);
     app.get_monitors().map(OSD);
   },

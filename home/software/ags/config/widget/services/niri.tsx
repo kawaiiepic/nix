@@ -6,6 +6,7 @@ export type Workspace = {
   name: string;
   is_focused: boolean;
   output?: string;
+  active_window_id?: number;
 };
 
 export type Window = {
@@ -64,7 +65,7 @@ export function focusedWindow(): Window | null {
 
 export function Niri() {
   console.log("Starting Niri service");
-  
+
   initWorkspaces();
   initWindows();
 
@@ -75,7 +76,7 @@ export function Niri() {
     if (ev.WorkspaceActivated) {
       initWorkspaces();
     }
-    
+
     else if(ev.WindowFocusChanged || ev.WindowLayoutsChanged){
       initWindows();
     }

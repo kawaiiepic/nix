@@ -25,6 +25,7 @@ import app from "ags/gtk4/app";
 import Pango from "gi://Pango?version=1.0";
 import AstalNotifd from "gi://AstalNotifd?version=0.1";
 import { interval } from "ags/time";
+import Apps from "gi://AstalApps";
 
 const mpris = Mpris.get_default();
 const notifd = Notifd.get_default();
@@ -259,7 +260,18 @@ function mprisRebuild(mprisBox: Gtk.Box) {
     }
 
     function updatePlayerIcon() {
-      playerIcon.iconName = player.entry;
+      print(player.entry);
+
+      const apps = new Apps.Apps({
+        nameMultiplier: 2,
+        entryMultiplier: 0,
+        executableMultiplier: 2,
+      });
+
+      for (const app of apps.fuzzy_query(player.entry)) {
+        playerIcon.iconName = app.iconName;
+        return;
+      }
     }
 
     function updateCoverArt() {
@@ -373,13 +385,13 @@ function notificationList() {
     });
 
     const header = new Gtk.Box({ cssClasses: ["header"], spacing: 12 });
-    
-    if((
+
+    if (
       notification.image &&
-      Gtk.IconTheme.get_for_display(app.get_monitors()[1].display).has_icon(
+      Gtk.IconTheme.get_for_display(app.get_monitors()[0].display).has_icon(
         notification.image,
       )
-    )) {
+    ) {
       header.append(
         new Gtk.Image({
           cssClasses: ["app-icon"],
@@ -387,16 +399,16 @@ function notificationList() {
         }),
       );
     } else {
-    header.append(
-      new Gtk.Image({
-        cssClasses: ["app-icon"],
-        iconName:
-        notification.appIcon ||
-          notification.desktopEntry ||
-          "dialog-information",
-      }),
-    );
-  }
+      header.append(
+        new Gtk.Image({
+          cssClasses: ["app-icon"],
+          iconName:
+            notification.appIcon ||
+            notification.desktopEntry ||
+            "dialog-information",
+        }),
+      );
+    }
 
     header.append(
       new Gtk.Label({
@@ -520,7 +532,11 @@ function notificationList() {
             `);
 
       innerContent.append(
-        new Gtk.Box({ cssClasses: ["image-huge", `image-${notification.id}`], halign: Gtk.Align.FILL, hexpand: true, }),
+        new Gtk.Box({
+          cssClasses: ["image-huge", `image-${notification.id}`],
+          halign: Gtk.Align.FILL,
+          hexpand: true,
+        }),
       );
     }
 
