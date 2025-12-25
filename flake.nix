@@ -43,10 +43,10 @@
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     zen-browser = {
-       url = "github:0xc000022070/zen-browser-flake";
-       inputs.nixpkgs.follows = "nixpkgs";
-       inputs.home-manager.follows = "home-manager";
-     };
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
 
     nixcord = {
       url = "github:kaylorben/nixcord";
@@ -58,6 +58,16 @@
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    helium-browser = {
+      url = "github:ominit/helium-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -19,7 +19,7 @@
   ];
 
   services.ollama = {
-    enable = true;
+    enable = false;
     acceleration = "rocm";
     host = "0.0.0.0";
     # environmentVariables = { OLLAMA_ORIGINS = [ "https://mira.blossomvale.dev" ];

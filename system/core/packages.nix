@@ -8,6 +8,8 @@
     unrar
     file
     devenv
+    zip
+    unzip
     # (pkgs.efibootmgr.overrideAttrs {
     #   version = "git";
     #   src = fetchFromGitHub {

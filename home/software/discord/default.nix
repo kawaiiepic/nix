@@ -46,7 +46,7 @@ in
     # vesktop.enable = true; # Vesktop
     # dorion.enable = true; # Dorion
     # discord.package = pkgs.discord-canary;
-    # 
+    #
     config = {
       # themeLinks = [
       #   "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
@@ -59,7 +59,7 @@ in
       plugins = {
         alwaysAnimate.enable = true;
         betterSessions.enable = true;
-        blurNSFW.enable = true;
+        blurNsfw.enable = true;
         customIdle.enable = true;
         mentionAvatars.enable = true;
         messageLinkEmbeds.enable = true;

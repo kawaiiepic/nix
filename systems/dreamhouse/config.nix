@@ -24,7 +24,7 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
   ];
 
-  programs.gsr.enable = true;
+  programs.gpu-screen-recorder-ui.enable = true;
 
   networking.hostName = "dreamhouse";
 

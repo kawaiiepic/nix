@@ -12,9 +12,10 @@
     ../system/core/packages.nix
     ../system/core/shell.nix
     ../system/core/users.nix
-    
+
     ../system/core/extra/keyboard.nix
 
+    ../system/desktop/theme
     # ../system/desktop/gdm.nix
     # # ../system/desktop/plasma.nix
     # # ../system/desktop/gnome.nix

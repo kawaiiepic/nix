@@ -167,8 +167,9 @@ in
   imports = [ ./scripts/screenshot.nix ];
 
   home.packages = with pkgs; [
-     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     gthumb
+    inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   home.file.".config/niri/config-latte.kdl".text =
@@ -265,7 +266,7 @@ in
     };
 
     layout = {
-      focus-ring.enable = false;
+      focus-ring.enable = true;
       border = {
         enable = true;
         width = 2;
@@ -310,7 +311,7 @@ in
 
     window-rules = [
       {
-        draw-border-with-background = false;
+        draw-border-with-background = true;
         geometry-corner-radius =
           let
             r = 8.0;
@@ -326,20 +327,33 @@ in
       {
         matches = [
           {
-            title = "gsr ui";
+            app-id = "gsr-ui$";
           }
         ];
         open-floating = true;
+
         border.enable = false;
-        opacity = 0.5;
+        # opacity = 0.5;
       }
 
       {
-        matches = [{
-          title = "";
-        }];
+        matches = [
+          {
+            title = "";
+          }
+        ];
 
         variable-refresh-rate = true;
+      }
+
+      {
+        matches = [
+          {
+            is-floating = true;
+          }
+        ];
+
+        baba-is-float = true;
       }
     ];
 
@@ -389,6 +403,21 @@ in
       in
       lib.attrsets.mergeAttrsList [
         {
+
+          "XF86AudioPlay" = {
+            allow-when-locked = true;
+            action = spawn "playerctl" "play-pause";
+          };
+
+          "XF86AudioNext" = {
+            allow-when-locked = true;
+            action = spawn "playerctl" "next";
+          };
+
+          "XF86AudioPrev" = {
+            allow-when-locked = true;
+            action = spawn "playerctl" "previous";
+          };
 
           "XF86AudioRaiseVolume" = {
             allow-when-locked = true;
@@ -453,11 +482,6 @@ in
             "ags"
             "toggle"
             "launcher"
-          ];
-
-          "Alt+Z".action = spawn [
-            "gsr-ui"
-            "launch-daemon"
           ];
 
           "Mod+G".action = spawn "nautilus";

@@ -14,28 +14,13 @@
     ./services/pfp
     ./services/hyprlock.nix
   ];
-  
+
   home.username = "mia";
   home.homeDirectory = "/home/mia";
-  
+
    programs.home-manager.enable = true;
-  
+
   home.packages = [
-    
-    # (pkgs.rustPlatform.buildRustPackage rec {
-    #   pname = "discord-presence-lsp";
-    #   version = "b5c89758c0564814fd70fc704f5347e5feaa20a3";
-    #   cargoHash = "sha256-H6elDMyS2b4aRpEkVLwCCsagIEtbPIv+h3tqun4+Eo8=";
-    
-    #   src = pkgs.fetchFromGitHub {
-    #     owner = "xhyrom";
-    #     repo = "zed-discord-presence";
-    #     rev = version;
-    #     hash = "sha256-auPTrBWmNW3EKQ51O8WXmpBt5Taaijo9c+hT++MuCMs=";
-    #   };
-    
-    #   cargoBuildFlags = "--package discord-presence-lsp";
-    # })
     inputs.tsutsumi.packages.${pkgs.system}.wakatime-ls
   ];
 

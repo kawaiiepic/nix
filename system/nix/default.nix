@@ -59,7 +59,7 @@
       "https://t2linux.cachix.org"
       "https://miathetrain.cachix.org"
       "https://cache.soopy.moe"
-      "https://cache.lix.systems"
+      # "https://cache.lix.systems"
       "https://tsutsumi.cachix.org"
     ];
 
@@ -75,7 +75,7 @@
       "t2linux.cachix.org-1:P733c5Gt1qTcxsm+Bae0renWnT8OLs0u9+yfaK2Bejw="
       "miathetrain.cachix.org-1:YnISmBIljKxDFkswh1GbvQFx3gN+7jfGFcgEPz635W8="
       "cache.soopy.moe-1:0RZVsQeR+GOh0VQI9rvnHz55nVXkFardDqfm4+afjPo="
-      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "tsutsumi.cachix.org-1:MojIlGI60CT5EoyuTgjB4VRVgf/uUvakZVWoYJThQNk="
     ];
   };

@@ -17,12 +17,12 @@
 
 stdenv.mkDerivation rec {
   pname = "gpu-screen-recorder-notification";
-  version = "1.0.7";
+  version = "1.1.0";
 
   src = fetchgit {
-    url = "https://repo.dec05eba.com/${pname}";
+    url = "https://repo.dec05eba.com/gpu-screen-recorder-notification";
     tag = version;
-    hash = "sha256-hdsbQewnqSJvWEW9HaFuVf6vDAY5CDCGxVFsxZJ4Yh8=";
+    hash = "sha256-ODifZ046DEBNiGT3+S6pQyF8ekrb6LIHWton8nv1MBo=";
   };
 
   postPatch = ''
@@ -52,7 +52,7 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Notification in the style of ShadowPlay";
-    homepage = "https://git.dec05eba.com/${pname}/about/";
+    homepage = "https://git.dec05eba.com/gpu-screen-recorder-notification/about/";
     license = lib.licenses.gpl3Only;
     mainProgram = "gsr-notify";
     maintainers = with lib.maintainers; [ js6pak ];
