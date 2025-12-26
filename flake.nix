@@ -117,6 +117,26 @@
           specialArgs = { inherit inputs; };
         };
 
+        macbook = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            inputs.chaotic.nixosModules.default
+            inputs.nixos-hardware.nixosModules.apple-t2
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+
+              home-manager.users.mia = import ./home/profiles/macbook;
+            }
+            ./systems/macbook/config.nix
+          ];
+          specialArgs = { inherit inputs; };
+        };
+
+
+
         binarybarbie = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
