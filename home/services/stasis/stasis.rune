@@ -1,0 +1,76 @@
+@author "Mia Salem"
+@description "Lightweight feature packed idle manager for Wayland"
+
+# Everything related to your configuration goes under this block
+# stasis:
+# ...
+# end
+stasis:
+  # Specify a command to run before suspending
+  # Perhaps ensure the session is locked
+  #pre_suspend_command "swaylock"
+
+  monitor_media true
+  ignore_remote_media true # Ignore remote players such as Spotify, KDE Connect, etc.
+  # Stasis allows you to define a list of media players that you want
+  # to ignore when inhibiting Stasis based on media playback
+  #media_blacklist ["spotify"]
+  respect_idle_inhibitors true
+
+  # Lock detection method: "process" (default) or "logind"
+  # Use "logind" if your locker uses loginctl (e.g., quickshell)
+  #lock_detection_type "process"
+
+  # debounce: default is 0s; can be customized if needed
+  #debounce-seconds 4
+
+  # enable notifications when Stasis unpauses from
+  # `stasis pause for <DURATION>`
+  #  or
+  #  `stasis pause until <TIME>`
+  # run stasis pause help for more information
+  notify_on_unpause true
+
+  # notifications before actions are run [DEFAULT: false]
+  # You must also set `notification` in the block you want it in
+  # e.g.
+  #   lock-screen:
+  #   ...
+  #   notification: "Locking session in 10s"
+  #   end
+  #
+  notify-before-command true
+
+  # number of seconds before a command this should notify [DEFAULT: 0]
+  # specify the number of seconds this will trigger a
+  # notification before running your desired blocks.
+  #
+  # NOTE: This is also ontop of any configured debounce
+  # so if you have 10s timeout + 5s debounce + notify 10s before
+  # it would -> 10s timeout -> 5s debounce -> notify then wait 10s -> run your action block!
+  # super complex stuff here reaching desktop level complexity for Wayland!
+  notify-seconds-before 10
+
+  inhibit_apps [
+    "vlc"
+    "mpv"
+    r"steam_app_.*"
+  ]
+
+  lock_screen:
+    notification: "Locking session in 10s"
+    timeout 300 # 5 minute(s)
+    command "hyprlock"
+  end
+
+  dpms:
+    timeout 60 # 1 minute(s) after lock
+    command "niri msg action power-off-monitors"
+    resume-command "niri msg action power-on-monitors"
+  end
+
+  suspend:
+    timeout 1800 # 30 minute(s) after dpms
+    command "systemctl suspend"
+  end
+end

@@ -70,6 +70,8 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stasis.url = "github:saltnpepper97/stasis";
   };
 
   outputs =

@@ -12,11 +12,11 @@ let
 
       # Copy to clipboard
       wl-copy < "$tmpfile"
-      
+
       echo "$tmpfile"
 
       # Show notification with screenshot
-      notify-send -a "Screenshot" "📸 Screenshot copied" "Monitor: $output" -i camera-symbolic -h string:image-size:huge -h string:image-path:"$tmpfile"
+      notify-send -a "Screenshot" "📸 Screenshot copied" "Monitor: $output" -i camera -h string:preview:true -h string:image-path:"$tmpfile"
   '';
 in
 {

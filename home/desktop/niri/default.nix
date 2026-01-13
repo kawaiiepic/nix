@@ -169,6 +169,7 @@ in
   home.packages = with pkgs; [
     #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     gthumb
+    libcanberra-gtk3
     #inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
@@ -233,7 +234,7 @@ in
     ];
 
     overview.backdrop-color = palette.default.base;
-    prefer-no-csd = true;
+    prefer-no-csd = false;
     hotkey-overlay.skip-at-startup = true;
     cursor.theme = "GoogleDot-Blue";
     screenshot-path = null;
@@ -266,14 +267,21 @@ in
     };
 
     layout = {
-      focus-ring.enable = true;
+      focus-ring = {
+        enable = false;
+        width = 2;
+        active = {
+          color = palette.default.pink;
+        };
+      };
+
       border = {
         enable = true;
         width = 2;
         active.gradient = {
           relative-to = "workspace-view";
           from = palette.default.crust;
-          to = palette.default.mantle;
+          to = palette.default.pink;
         };
         inactive.gradient = {
           relative-to = "workspace-view";
@@ -289,7 +297,9 @@ in
 
       shadow = {
         enable = true;
-        draw-behind-window = true;
+        draw-behind-window = false;
+        color = palette.default.crust;
+        spread = 8;
       };
     };
 
@@ -311,7 +321,6 @@ in
 
     window-rules = [
       {
-        draw-border-with-background = true;
         geometry-corner-radius =
           let
             r = 8.0;
@@ -344,6 +353,8 @@ in
         ];
 
         variable-refresh-rate = true;
+        draw-border-with-background = false;
+        opacity = 0.98;
       }
 
       {

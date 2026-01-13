@@ -6,7 +6,7 @@
 
   services.scx = {
     enable = true;
-    scheduler = "scx_rustland";
+    scheduler = "scx_bpfland";
   };
 
   time.timeZone = "America/Chicago";
@@ -14,7 +14,7 @@
   zramSwap.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
-  
+
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;

@@ -13,12 +13,14 @@
     ./desktop/niri
     ./services/pfp
     ./services/hyprlock.nix
+    ./services/wlogout.nix
+    ./services/stasis
   ];
 
   home.username = "mia";
   home.homeDirectory = "/home/mia";
 
-   programs.home-manager.enable = true;
+  programs.home-manager.enable = true;
 
   home.packages = [
     inputs.tsutsumi.packages.${pkgs.system}.wakatime-ls
