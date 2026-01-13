@@ -33,5 +33,6 @@
   ];
 
   programs.yazi.enable = true;
+  
 
 }

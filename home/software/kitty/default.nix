@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   ...
 }:
 {
@@ -35,10 +34,9 @@
       strip_trailing_spaces = "smart";
       confirm_os_window_close = 0;
       cursor_shape = "underline";
-      background_opacity = "0.85";
-      # background_opacity = lib.mkForce "0.50";
-      # background_blur = 10;
-      # background_tint = "0.5";
+      background_opacity = lib.mkForce "1";
+      background_blur = 10;
+      background_tint = "0.5";
       tab_bar_min_tabs = 2;
       tab_bar_edge = "bottom";
       tab_bar_style = "powerline";
