@@ -168,8 +168,6 @@ in
         zlib
       ]
     );
-<<<<<<< Updated upstream
-=======
 
     extensions = with inputs.nix-vscode-extensions.extensions.x86_64-linux; [
       ## Language Support
@@ -200,7 +198,5 @@ in
       open-vsx.wakatime.vscode-wakatime # https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime
       #open-vsx.bmalehorn.vscode-fish # https://open-vsx.org/extension/bmalehorn/vscode-fish
     ];
-
->>>>>>> Stashed changes
   };
 }
