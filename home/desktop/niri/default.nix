@@ -167,10 +167,10 @@ in
   imports = [ ./scripts/screenshot.nix ];
 
   home.packages = with pkgs; [
-    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     gthumb
     libcanberra-gtk3
-    inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
+    #inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   home.file.".config/niri/config-latte.kdl".text =
@@ -211,14 +211,14 @@ in
   programs.niri.settings = {
 
     spawn-at-startup = [
-      {
-        argv = [
-          "ags"
-          "run"
-          "--gtk"
-          "4"
-        ];
-      }
+      #{
+      #  argv = [
+      #    "ags"
+      #    "run"
+      #    "--gtk"
+      #    "4"
+      #  ];
+      #}
       {
         argv = [
           "gsr-ui"
@@ -261,9 +261,9 @@ in
         mode.refresh = 74.986;
       };
 
-      "eDP-1" = {
-        transform.rotation = 270;
-      };
+      #"eDP-1" = {
+      #  transform.rotation = 270;
+      #};
     };
 
     layout = {

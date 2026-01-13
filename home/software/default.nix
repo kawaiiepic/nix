@@ -2,7 +2,6 @@
 {
   imports = [
     ./zen
-    ./ags
     ./kitty
     # ./vesktop
     ./discord
@@ -20,7 +19,7 @@
     # (callPackage ./wvkbd.nix { })
     # (callPackage ./vicinae.nix { })
     # (callPackage ./nyaashows { })
-    stremio
+    #stremio
     kodi
 
     inputs.helium-browser.packages."${pkgs.system}".helium
