@@ -4,7 +4,7 @@
   ...
 }:
 let
-  java = pkgs.temurin-bin-25;
+  java = pkgs.temurin-bin-21;
   gradle = pkgs.gradle;
 in
 {
@@ -12,7 +12,7 @@ in
     nil
     gradle
     flutter
-    postman
+    java
   ];
 
   home.sessionVariables = {
