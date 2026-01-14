@@ -72,6 +72,8 @@ in
         open-vsx.wakatime.vscode-wakatime # https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime
         open-vsx.bmalehorn.vscode-fish # https://open-vsx.org/extension/bmalehorn/vscode-fish
 
+        open-vsx.Delgan.qml-format
+
         (inputs.catppuccin-vsc.packages.x86_64-linux.default.override {
           accent = "mauve";
           boldKeywords = true;
