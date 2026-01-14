@@ -59,7 +59,7 @@ in
       plugins = {
         alwaysAnimate.enable = true;
         betterSessions.enable = true;
-        blurNsfw.enable = true;
+#        blurNSFW.enable = true;
         customIdle.enable = true;
         mentionAvatars.enable = true;
         messageLinkEmbeds.enable = true;
