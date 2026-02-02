@@ -13,6 +13,7 @@ in
     gradle
     flutter
     java
+    libsForQt5.qt5.qtdeclarative
   ];
 
   home.sessionVariables = {
@@ -73,6 +74,8 @@ in
         open-vsx.bmalehorn.vscode-fish # https://open-vsx.org/extension/bmalehorn/vscode-fish
 
         open-vsx.delgan.qml-format
+        open-vsx.theqtcompany.qt-qml
+        open-vsx.theqtcompany.qt-core
 
         (inputs.catppuccin-vsc.packages.x86_64-linux.default.override {
           accent = "mauve";

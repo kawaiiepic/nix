@@ -2,17 +2,19 @@
   pkgs,
   ...
 }:
+let
+  colloid = pkgs.callPackage ./gtk/colloid-theme.nix { };
+in
 {
 
   home.packages = with pkgs; [
-    (pkgs.callPackage ./gtk/colloid-theme.nix { })
+    colloid
     (catppuccin-kvantum.override {
       accent = "blue";
       variant = "macchiato";
     })
     pkgs.utterly-nord-plasma
   ];
-
 
   qt = {
     enable = true;
@@ -69,6 +71,11 @@
     #   name = "Colloid-Dark";
     #   package = (pkgs.callPackage ./gtk/colloid-theme.nix { });
     # };
+
+    theme = {
+      name = "Colloid-Dark";
+      package = colloid;
+    };
 
     iconTheme = {
       name = "Papirus";

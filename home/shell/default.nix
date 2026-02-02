@@ -11,20 +11,9 @@
     mods
     wishlist
     glow
-    # fzf
-    # fd
-    # bat
     btop
     nushell
   ];
-
-  services.ollama = {
-    enable = false;
-    acceleration = "rocm";
-    host = "0.0.0.0";
-    # environmentVariables = { OLLAMA_ORIGINS = [ "https://mira.blossomvale.dev" ];
-    # };
-  };
 
   programs = {
     direnv = {
@@ -33,13 +22,16 @@
     };
   };
 
-  # home.file.".config/fastfetch".source = ./42willow.gif;
+  # home.file.".config/fastfetch/image.gif".source = ./42willow.gif;
 
   programs.fastfetch = {
     enable = true;
     settings = {
       logo = {
-        source = "nixos_small";
+        source = ./42willow.gif;
+        type = "kitty";
+        width = 18;
+        height = 8;
         padding = {
           right = 2;
           top = 1;
@@ -139,25 +131,18 @@
   programs = {
     nushell = {
       enable = true;
+      extraConfig = ''
+        def ff [] { clear | kitten icat -n --place 50x50@0x0 --align left ${toString ./42willow.gif} | fastfetch --logo-width 50 --raw -}
+      '';
       shellAliases = {
         vi = "hx";
         vim = "hx";
         nano = "hx";
+        fastfetch_logo = "ff";
       };
     };
 
     carapace.enable = true;
     carapace.enableNushellIntegration = true;
-
-    starship = {
-      enable = true;
-      settings = {
-        add_newline = true;
-        character = {
-          success_symbol = "[➜](bold green)";
-          error_symbol = "[➜](bold red)";
-        };
-      };
-    };
   };
 }

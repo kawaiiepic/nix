@@ -7,6 +7,7 @@
   boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 
   services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
 
   # services.scx = {
   #   enable = true;

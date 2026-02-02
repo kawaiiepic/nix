@@ -11,7 +11,6 @@
     # ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
-    ./storage.nix
     ../../system/desktop/greetd.nix
     ../../system/desktop/niri.nix
     ../../system/core/graphics.nix
@@ -21,16 +20,11 @@
     ../../system/games
 
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    inputs.nixos-hardware.nixosModules.common-gpu-amd
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
   ];
 
   programs.gpu-screen-recorder-ui.enable = true;
 
-  networking.hostName = "dreamhouse";
-
-  hardware.opentabletdriver.enable = true;
+  networking.hostName = "lain";
 
   environment.systemPackages = with pkgs; [
 
@@ -45,3 +39,4 @@
 
   system.stateVersion = "23.11"; # Did you read the comment?
 }
+  
