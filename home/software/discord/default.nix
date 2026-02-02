@@ -42,11 +42,9 @@ in
   home.packages = [ krisp-patcher ];
 
   programs.nixcord = {
-    enable = true; # enable Nixcord. Also installs discord package
-    # vesktop.enable = true; # Vesktop
-    # dorion.enable = true; # Dorion
-    # discord.package = pkgs.discord-canary;
-    #
+    enable = true;
+    # discord.equicord.enable = true;
+
     config = {
       # themeLinks = [
       #   "https://raw.githubusercontent.com/kawaiiepic/transparent-catgirls/refs/heads/main/cat-girls.theme.css"
@@ -75,7 +73,7 @@ in
     };
 
     # userPlugins = {
-    #   betterActivities = "github:D3SOX/vc-betterActivities/044b504666b8b753ab45d82c0cd0d316b1ea7e60";
+    #   vc-orbolay-bridge = "github:SpikeHD/vc-orbolay-bridge/8dd34336feea23ccf796fa26074313e713965332";
     # };
 
     # extraConfig = {

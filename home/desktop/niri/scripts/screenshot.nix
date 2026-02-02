@@ -23,5 +23,7 @@ in
   home.packages = with pkgs; [
     grim
     screenshot
+    jq
+    libnotify
   ];
 }

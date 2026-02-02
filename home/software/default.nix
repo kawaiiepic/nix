@@ -22,16 +22,17 @@
     #stremio
     kodi
 
-    inputs.helium-browser.packages."${pkgs.system}".helium
+    # inputs.helium-browser.packages."${pkgs.system}".helium
     godot
     wvkbd
     lmstudio
     libreoffice-qt6-fresh
     mission-center
+    jetbrains.idea
     # gammastep
   ];
 
   programs.yazi.enable = true;
-  
+
 
 }

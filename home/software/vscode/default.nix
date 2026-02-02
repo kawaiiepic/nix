@@ -147,6 +147,10 @@ in
           "editor.defaultFormatter" = "Delgan.qml-format";
         };
 
+        "[kotlin]" = {
+          "editor.defaultFormatter" = "fwcd.kotlin";
+        };
+
         "workbench.colorTheme" = "Catppuccin Mocha";
         "explorer.confirmDelete" = false;
 

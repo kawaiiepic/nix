@@ -4,10 +4,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  services.scx = {
-    enable = true;
-    scheduler = "scx_bpfland";
-  };
+  # services.scx = {
+  #   enable = true;
+  #   scheduler = "scx_bpfland";
+  # };
 
   time.timeZone = "America/Chicago";
 

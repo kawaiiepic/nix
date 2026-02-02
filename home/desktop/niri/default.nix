@@ -6,6 +6,13 @@
   ...
 }:
 let
+  custom_quickshell = inputs.quickshell.packages.${pkgs.system}.default.withModules [
+          pkgs.kdePackages.qt5compat
+          pkgs.kdePackages.qtimageformats
+          pkgs.kdePackages.qtmultimedia
+          inputs.qml-niri.packages.${pkgs.system}.default
+        ];
+
   palette = {
     latte = {
       # Light theme: Catppuccin Latte
@@ -170,6 +177,8 @@ in
     #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     gthumb
     libcanberra-gtk3
+    custom_quickshell
+    cava
     #inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
@@ -208,6 +217,8 @@ in
     };
   };
 
+
+
   programs.niri.settings = {
 
     spawn-at-startup = [
@@ -232,6 +243,11 @@ in
         ];
       }
     ];
+
+    xwayland-satellite = {
+    enable = true;
+    path = lib.getExe pkgs.xwayland-satellite-unstable;
+  };
 
     overview.backdrop-color = palette.default.base;
     prefer-no-csd = false;

@@ -1,4 +1,9 @@
-{ pkgs, options, ... }:
+{
+  pkgs,
+  options,
+  inputs,
+  ...
+}:
 {
 
   programs.git = {
@@ -21,6 +26,7 @@
   ];
 
   nixpkgs.overlays = [
+    inputs.nix-cachyos-kernel.overlays.pinned
     (import ../packages/overlay.nix)
   ];
 
@@ -35,11 +41,11 @@
 
   programs.nix-ld = {
     enable = true;
-    libraries = options.programs.nix-ld.libraries.default ++ (
-      with pkgs; [
+    libraries =
+      options.programs.nix-ld.libraries.default
+      ++ (with pkgs; [
         glib # libglib-2.0.so.0, libgthread-2.0.so.0
-      ]
-    );
+      ]);
   };
 
   nix.settings = {
@@ -54,16 +60,20 @@
       "https://fufexan.cachix.org"
       "https://helix.cachix.org"
       "https://hyprland.cachix.org"
-   #   "https://nix-community.cachix.org"
+      #   "https://nix-community.cachix.org"
       "https://ezkea.cachix.org"
       "https://t2linux.cachix.org"
       "https://miathetrain.cachix.org"
       "https://cache.soopy.moe"
       # "https://cache.lix.systems"
       "https://tsutsumi.cachix.org"
+      "https://attic.xuyh0120.win/lantian"
     ];
 
-    trusted-users = ["root" "mia"];
+    trusted-users = [
+      "root"
+      "mia"
+    ];
 
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -77,6 +87,7 @@
       "cache.soopy.moe-1:0RZVsQeR+GOh0VQI9rvnHz55nVXkFardDqfm4+afjPo="
       # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "tsutsumi.cachix.org-1:MojIlGI60CT5EoyuTgjB4VRVgf/uUvakZVWoYJThQNk="
+      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
     ];
   };
 }

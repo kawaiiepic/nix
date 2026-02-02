@@ -4,7 +4,12 @@
     "ntsync"
   ];
 
-  powerManagement.cpuFreqGovernor = "powersave";
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 
-  boot.kernelPackages = pkgs.linuxPackages_cachyos;
+  services.power-profiles-daemon.enable = true;
+
+  # services.scx = {
+  #   enable = true;
+  #   scheduler = "scx_bpfland";
+  # };
 }

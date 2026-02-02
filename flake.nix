@@ -41,7 +41,7 @@
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,11 +49,18 @@
     };
 
     nixcord = {
-      url = "github:kaylorben/nixcord";
+      url = "github:FlameFlag/nixcord";
     };
 
     niri = {
       url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    qml-niri = {
+      url = "github:imiric/qml-niri/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.follows = "quickshell";
     };
 
     noctalia = {
@@ -104,7 +111,6 @@
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            inputs.chaotic.nixosModules.default
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {
@@ -122,7 +128,6 @@
         macbook = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            inputs.chaotic.nixosModules.default
             inputs.nixos-hardware.nixosModules.apple-t2
             inputs.home-manager.nixosModules.home-manager
             {
@@ -142,7 +147,6 @@
         binarybarbie = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            inputs.chaotic.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -161,7 +165,6 @@
           # nixpkgs.config = {allowUnfree=true;};
           system = "x86_64-linux";
           modules = [
-            inputs.chaotic.nixosModules.default
             inputs.jovian-nixos.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
