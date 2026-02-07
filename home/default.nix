@@ -23,14 +23,14 @@
   programs.home-manager.enable = true;
 
   home.packages = [
-    inputs.tsutsumi.packages.${pkgs.system}.wakatime-ls
+    inputs.tsutsumi.packages.${pkgs.stdenv.hostPlatform.system}.wakatime-ls
   ];
 
   programs.zed-editor = {
     enable = true;
     # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
-      nixfmt-rfc-style
+      nixfmt
       nil
     ];
     extensions = [

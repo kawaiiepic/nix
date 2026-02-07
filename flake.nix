@@ -79,6 +79,11 @@
     };
 
     stasis.url = "github:saltnpepper97/stasis";
+
+    millennium = {
+      url = "github:kawaiiepic/Millennium?dir=packages/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

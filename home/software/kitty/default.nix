@@ -37,11 +37,13 @@
       background_opacity = lib.mkForce "1";
       background_blur = 10;
       background_tint = "0.5";
-      tab_bar_min_tabs = 2;
+      tab_bar_min_tabs = 1;
+      tab_bar_background = "#1E1E2E";
       tab_bar_edge = "bottom";
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
-      tab_title_template = "{title}{' :{}:'.format(num_windows) if num_windows > 1 else ''}";
+      # tab_title_template = "{title}{' :{}:'.format(num_windows) if num_windows > 1 else ''}";
+      tab_title_template = " {f'{title[:4]}' if title.rindex(title[-1]) + 1 > 30 else (title.center(6) if (title.rindex(title[-1]) + 1) % 2 == 0 else title.center(5))}";
 
       notify_on_cmd_finish = "invisible";
       "enabled_layouts tall:bias=50;full_size=1;mirrored=false" = "";

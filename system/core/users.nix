@@ -6,7 +6,7 @@
       extraGroups = [
         "wheel"
         "input"
-        "adbusers"
+        "podman"
       ];
     };
   };

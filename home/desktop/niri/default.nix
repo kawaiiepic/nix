@@ -6,11 +6,11 @@
   ...
 }:
 let
-  custom_quickshell = inputs.quickshell.packages.${pkgs.system}.default.withModules [
+  custom_quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules [
           pkgs.kdePackages.qt5compat
           pkgs.kdePackages.qtimageformats
           pkgs.kdePackages.qtmultimedia
-          inputs.qml-niri.packages.${pkgs.system}.default
+          inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
 
   palette = {

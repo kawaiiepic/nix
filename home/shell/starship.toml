@@ -22,18 +22,19 @@ $java\
 $kotlin\
 $haskell\
 $python\
-$nix_shell\
+
 $direnv\
 [](fg:green bg:sapphire)\
 $conda\
 [](fg:sapphire bg:lavender)\
 $time\
 [ ](fg:lavender)\
+$nix_shell\
 $cmd_duration\
 $line_break\
 $character"""
 
-right_format = """$username"""
+right_format = """$all"""
 
 palette = 'catppuccin_mocha'
 
@@ -70,13 +71,16 @@ format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
 
 [git_status]
 style = "bg:yellow"
-
-modified = "!$count"
+modified = "!${count}"
 ahead = '⇡${count}'
 diverged = '⇕⇡${ahead_count}⇣${behind_count}'
 behind = '⇣${count}'
-
 format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+
+[nix_shell]
+format = "$symbol$state( \\($name\\)) "
+style = "bg:lavender"
+symbol = " "
 
 [nodejs]
 symbol = ""

@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 let
-  stasis = inputs.stasis.packages.${pkgs.system}.stasis;
+  stasis = inputs.stasis.packages.${pkgs.stdenv.hostPlatform.system}.stasis;
 in
 {
   home.packages = [ stasis ];
