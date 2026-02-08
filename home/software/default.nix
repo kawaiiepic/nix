@@ -20,6 +20,7 @@
     jetbrains.idea
     winboat
     equibop
+    feishin
   ];
 
   programs.yazi.enable = true;
