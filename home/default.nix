@@ -14,7 +14,7 @@
     ./services/pfp
     ./services/hyprlock.nix
     ./services/wlogout.nix
-    # ./services/stasis
+    ./services/stasis
   ];
 
   home.username = "mia";
@@ -23,7 +23,7 @@
   programs.home-manager.enable = true;
 
   home.packages = [
-    inputs.tsutsumi.packages.${pkgs.stdenv.hostPlatform.system}.wakatime-ls
+
   ];
 
   programs.zed-editor = {

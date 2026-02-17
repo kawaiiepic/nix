@@ -237,6 +237,11 @@ in
       }
       {
         argv = [
+          "stasis"
+        ];
+      }
+      {
+        argv = [
           "gsr-ui"
           "launch-demon"
         ];
