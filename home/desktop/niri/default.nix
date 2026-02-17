@@ -179,6 +179,7 @@ in
     libcanberra-gtk3
     custom_quickshell
     cava
+    brightnessctl
     #inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
@@ -268,13 +269,16 @@ in
         scale = 1.25;
         position.x = 0;
         position.y = 0;
-
       };
 
       "HDMI-A-2" = {
         mode.width = 1920;
         mode.height = 1080;
         mode.refresh = 74.986;
+      };
+
+      "eDP-1" = {
+        scale = 1.25;
       };
 
       #"eDP-1" = {

@@ -14,7 +14,7 @@
     ./services/pfp
     ./services/hyprlock.nix
     ./services/wlogout.nix
-    ./services/stasis
+    # ./services/stasis
   ];
 
   home.username = "mia";
