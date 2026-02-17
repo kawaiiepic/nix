@@ -30,6 +30,7 @@
     #emulationstation-de
     steam-rom-manager
     mangohud
+    protonplus
     # prismlauncher
     # ryubing
     xivlauncher

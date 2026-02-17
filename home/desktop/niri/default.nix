@@ -6,12 +6,14 @@
   ...
 }:
 let
-  custom_quickshell = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules [
-          pkgs.kdePackages.qt5compat
-          pkgs.kdePackages.qtimageformats
-          pkgs.kdePackages.qtmultimedia
-          inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
-        ];
+  custom_quickshell =
+    inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules
+      [
+        pkgs.kdePackages.qt5compat
+        pkgs.kdePackages.qtimageformats
+        pkgs.kdePackages.qtmultimedia
+        inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
 
   palette = {
     latte = {
@@ -218,8 +220,6 @@ in
     };
   };
 
-
-
   programs.niri.settings = {
 
     spawn-at-startup = [
@@ -231,6 +231,16 @@ in
       #    "4"
       #  ];
       #}
+      {
+        argv = [
+          "quickshell"
+        ];
+      }
+      {
+        argv = [
+          "stasis"
+        ];
+      }
       {
         argv = [
           "gsr-ui"
@@ -246,9 +256,9 @@ in
     ];
 
     xwayland-satellite = {
-    enable = true;
-    path = lib.getExe pkgs.xwayland-satellite-unstable;
-  };
+      enable = true;
+      path = lib.getExe pkgs.xwayland-satellite-unstable;
+    };
 
     overview.backdrop-color = palette.default.base;
     prefer-no-csd = false;

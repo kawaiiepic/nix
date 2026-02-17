@@ -23,7 +23,7 @@
   programs.home-manager.enable = true;
 
   home.packages = [
-    inputs.tsutsumi.packages.${pkgs.stdenv.hostPlatform.system}.wakatime-ls
+
   ];
 
   programs.zed-editor = {

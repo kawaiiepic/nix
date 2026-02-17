@@ -29,10 +29,6 @@
     hyprfocus = {
       url = "github:avih7531/hyprfocus";
     };
-    tsutsumi = {
-      url = "github:Fuwn/tsutsumi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
