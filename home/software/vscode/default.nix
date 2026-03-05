@@ -98,6 +98,12 @@ in
         "workbench.sideBar.location" = "right";
         "workbench.editor.tabActionLocation" = "left";
         "workbench.panel.defaultLocation" = "bottom";
+        "workbench.colorTheme" = "Catppuccin Mocha";
+        "workbench.editorAssociations" = {
+          "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" =
+            "default";
+          "*.qrc" = "qt-core.qrcEditor";
+        };
 
         "files.autoSave" = "afterDelay";
         "files.trimTrailingWhitespace" = true;
@@ -154,7 +160,6 @@ in
           "editor.defaultFormatter" = "fwcd.kotlin";
         };
 
-        "workbench.colorTheme" = "Catppuccin Mocha";
         "explorer.confirmDelete" = false;
 
         "dart.devToolsBrowser" = "default";

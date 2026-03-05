@@ -59,6 +59,8 @@
       inputs.quickshell.follows = "quickshell";
     };
 
+    nix-openclaw.url = "github:openclaw/nix-openclaw";
+
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -112,6 +114,7 @@
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
+            inputs.nix-openclaw.homeManagerModules.default
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {
