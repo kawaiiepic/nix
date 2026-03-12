@@ -82,6 +82,11 @@
       url = "github:kawaiiepic/Millennium?dir=packages/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    airi = {
+      url = "github:moeru-ai/airi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -114,7 +119,7 @@
         dreamhouse = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            inputs.nix-openclaw.homeManagerModules.default
+
             inputs.lanzaboote.nixosModules.lanzaboote
             inputs.home-manager.nixosModules.home-manager
             {

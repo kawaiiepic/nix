@@ -1,6 +1,8 @@
 { pkgs, inputs, ... }:
 {
   imports = [
+    inputs.nix-openclaw.homeManagerModules.openclaw
+
     ./zen
     ./kitty
     # ./discord
@@ -22,18 +24,14 @@
     equibop
     feishin
     nodejs
+    #inputs.airi.packages.${pkgs.system}.default
   ];
 
   programs.yazi.enable = true;
 
   programs.openclaw = {
     enable = true;
-    channels.telegram = {
-      tokenFile = "/home/you/.secrets/telegram-bot-token";
-      allowFrom = [ 123456789 ]; # your Telegram chat ID
-    };
-    anthropic.keyFile = "/home/you/.secrets/anthropic-api-key";
-    documentsDir = "/home/mia/code/openclaw-local/documents";
+    package = inputs.nix-openclaw.packages.${pkgs.system}.openclaw-gateway;
   };
 
 }

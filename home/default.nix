@@ -70,6 +70,13 @@
           };
         };
 
+        dart = {
+          binary = {
+            path = "${pkgs.dart}/bin/dart";
+            arguments = ["language-server" "--protocol=lsp"];
+          };
+        };
+
         nix = {
           binary = {
             path_lookup = true;
@@ -99,7 +106,7 @@
 
       ui_font_size = 16;
       buffer_font_size = 16;
-      buffer_font_family = "UbuntuSansMono Nerd Font";
+      buffer_font_family = "SpaceMono Nerd Font Mono";
     };
   };
 

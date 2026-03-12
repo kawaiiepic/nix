@@ -378,6 +378,16 @@ in
       {
         matches = [
           {
+            title = "AIRI";
+          }
+        ];
+
+         border.enable = false;
+      }
+
+      {
+        matches = [
+          {
             title = "";
           }
         ];
@@ -394,7 +404,7 @@ in
           }
         ];
 
-        baba-is-float = true;
+        baba-is-float = false;
       }
     ];
 
