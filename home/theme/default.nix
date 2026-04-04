@@ -57,8 +57,8 @@ in
     enable = true;
 
     font = {
-      name = "Lexend";
-      package = pkgs.lexend;
+      name = "UbuntuSans Nerd Font";
+      package = pkgs.nerd-fonts.ubuntu-sans;
       size = 10;
     };
 

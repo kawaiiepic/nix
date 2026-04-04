@@ -22,16 +22,14 @@
 
   programs.home-manager.enable = true;
 
-  home.packages = [
-
+  home.packages = with pkgs; [
   ];
 
   programs.zed-editor = {
     enable = true;
     # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
-      nixfmt
-      nil
+      alejandra
     ];
     extensions = [
       "nix"
@@ -39,8 +37,9 @@
       "scss"
       "dart"
       "wakatime"
-      # "catppuccin"
+      "catppuccin"
       "lua"
+      "catppuccin-icons"
     ];
     userSettings = {
       autosave = {
@@ -49,23 +48,31 @@
         };
       };
 
-      # theme = {
-      #   mode = "dark";
-      #   light = "One Light";
-      #   dark = "Catppuccin Macchiato";
-      # };
+      icon_theme = "Catppuccin Mocha";
+
+      theme = {
+        mode = "dark";
+        light = "One Light";
+        dark = "Catppuccin Macchiato";
+      };
 
       lsp = {
-        nil = {
-          settings = {
+        nixd = {
+          initialization_options = {
             formatting = {
-              command = [ "nixfmt" ];
+              command = [
+                "alejandra"
+                "--quiet"
+                "--"
+              ];
             };
-            nix = {
-              flake = {
-                autoArchive = true;
-                autoEvalInputs = true;
-              };
+          };
+          binary = {
+            path = "${pkgs.nixd}/bin/nixd";
+          };
+          settings = {
+            diagnostic = {
+              suppress = [ "sema-extra-with" ];
             };
           };
         };
@@ -73,7 +80,10 @@
         dart = {
           binary = {
             path = "${pkgs.dart}/bin/dart";
-            arguments = ["language-server" "--protocol=lsp"];
+            arguments = [
+              "language-server"
+              "--protocol=lsp"
+            ];
           };
         };
 
@@ -98,15 +108,15 @@
       languages = {
         Nix = {
           language_servers = [
-            "!nixd"
-            "nil"
+            "nixd"
+            "!nil"
           ];
         };
       };
 
       ui_font_size = 16;
       buffer_font_size = 16;
-      buffer_font_family = "SpaceMono Nerd Font Mono";
+      buffer_font_family = "UbuntuSansMono Nerd Font Mono";
     };
   };
 
