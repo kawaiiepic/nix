@@ -4,16 +4,15 @@
   lib,
   inputs,
   ...
-}:
-let
+}: let
   custom_quickshell =
     inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules
-      [
-        pkgs.kdePackages.qt5compat
-        pkgs.kdePackages.qtimageformats
-        pkgs.kdePackages.qtmultimedia
-        inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
+    [
+      pkgs.kdePackages.qt5compat
+      pkgs.kdePackages.qtimageformats
+      pkgs.kdePackages.qtmultimedia
+      inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
 
   palette = {
     latte = {
@@ -170,10 +169,8 @@ let
       rosewater = "#00001A";
     };
   };
-in
-{
-
-  imports = [ ./scripts/screenshot.nix ];
+in {
+  imports = [./scripts/screenshot.nix];
 
   home.packages = with pkgs; [
     #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -187,11 +184,11 @@ in
 
   home.file.".config/niri/config-latte.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.latte)
-      config.programs.niri.finalConfig;
+    config.programs.niri.finalConfig;
 
   home.file.".config/niri/config-frappe.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.frappe)
-      config.programs.niri.finalConfig;
+    config.programs.niri.finalConfig;
 
   xdg.enable = true;
 
@@ -213,15 +210,14 @@ in
 
     config = {
       niri = {
-        default = [ "gtk" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        default = ["gtk"];
+        "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+        "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
       };
     };
   };
 
   programs.niri.settings = {
-
     spawn-at-startup = [
       #{
       #  argv = [
@@ -260,7 +256,7 @@ in
       path = lib.getExe pkgs.xwayland-satellite-unstable;
     };
 
-    overview.backdrop-color = palette.default.base;
+    # overview.backdrop-color = palette.default.base;
     prefer-no-csd = false;
     hotkey-overlay.skip-at-startup = true;
     cursor.theme = "GoogleDot-Blue";
@@ -268,6 +264,14 @@ in
 
     input = {
       focus-follows-mouse.enable = false;
+      
+      touchpad = {
+        dwt = true;
+        click-method = "clickfinger";
+        tap-button-map = "left-right-middle";
+        accel-profile = "adaptive";
+        drag-lock = true;
+      };
     };
 
     outputs = {
@@ -307,7 +311,7 @@ in
 
       border = {
         enable = true;
-        width = 2;
+        width = 1;
         active.gradient = {
           relative-to = "workspace-view";
           from = palette.default.crust;
@@ -349,18 +353,28 @@ in
       open-on-output = "DP-2";
     };
 
+    layer-rules = [
+      {
+        matches = [
+          {
+            namespace = "^wallpaper-overview$";
+          }
+        ];
+
+        place-within-backdrop = true;
+      }
+    ];
+
     window-rules = [
       {
-        geometry-corner-radius =
-          let
-            r = 8.0;
-          in
-          {
-            top-left = r;
-            top-right = r;
-            bottom-left = r;
-            bottom-right = r;
-          };
+        geometry-corner-radius = let
+          r = 8.0;
+        in {
+          top-left = r;
+          top-right = r;
+          bottom-left = r;
+          bottom-right = r;
+        };
         clip-to-geometry = true;
       }
       {
@@ -382,7 +396,7 @@ in
           }
         ];
 
-         border.enable = false;
+        border.enable = false;
       }
 
       {
@@ -408,53 +422,43 @@ in
       }
     ];
 
-    binds =
-      with config.lib.niri.actions;
-      let
-        binds =
-          {
-            suffixes,
-            prefixes,
-            substitutions ? { },
-          }:
-          let
-            replacer = lib.replaceStrings (lib.attrNames substitutions) (lib.attrValues substitutions);
-            format =
-              prefix: suffix:
-              let
-                actual-suffix =
-                  if lib.isList suffix.action then
-                    {
-                      action = lib.head suffix.action;
-                      args = lib.tail suffix.action;
-                    }
-                  else
-                    {
-                      inherit (suffix) action;
-                      args = [ ];
-                    };
+    binds = with config.lib.niri.actions; let
+      binds = {
+        suffixes,
+        prefixes,
+        substitutions ? {},
+      }: let
+        replacer = lib.replaceStrings (lib.attrNames substitutions) (lib.attrValues substitutions);
+        format = prefix: suffix: let
+          actual-suffix =
+            if lib.isList suffix.action
+            then {
+              action = lib.head suffix.action;
+              args = lib.tail suffix.action;
+            }
+            else {
+              inherit (suffix) action;
+              args = [];
+            };
 
-                action = replacer "${prefix.action}-${actual-suffix.action}";
-              in
-              {
-                name = "${prefix.key}+${suffix.key}";
-                value.action.${action} = actual-suffix.args;
-              };
-            pairs =
-              attrs: fn:
-              lib.concatMap (
-                key:
-                fn {
-                  inherit key;
-                  action = attrs.${key};
-                }
-              ) (lib.attrNames attrs);
-          in
-          lib.listToAttrs (pairs prefixes (prefix: pairs suffixes (suffix: [ (format prefix suffix) ])));
+          action = replacer "${prefix.action}-${actual-suffix.action}";
+        in {
+          name = "${prefix.key}+${suffix.key}";
+          value.action.${action} = actual-suffix.args;
+        };
+        pairs = attrs: fn:
+          lib.concatMap (
+            key:
+              fn {
+                inherit key;
+                action = attrs.${key};
+              }
+          ) (lib.attrNames attrs);
       in
+        lib.listToAttrs (pairs prefixes (prefix: pairs suffixes (suffix: [(format prefix suffix)])));
+    in
       lib.attrsets.mergeAttrsList [
         {
-
           "XF86AudioPlay" = {
             allow-when-locked = true;
             action = spawn "playerctl" "play-pause";
@@ -553,7 +557,7 @@ in
 
           "Mod+Shift+Escape".action = toggle-keyboard-shortcuts-inhibit;
           "Mod+Shift+E".action = quit;
-          "Mod+Ctrl+Shift+E".action = quit { skip-confirmation = true; };
+          "Mod+Ctrl+Shift+E".action = quit {skip-confirmation = true;};
           "Mod+Alt+P".action = power-off-monitors;
         }
         (binds {
@@ -575,7 +579,7 @@ in
               name = toString n;
               value = [
                 "workspace"
-                ("${toString n}")
+                "${toString n}"
               ]; # workspace 1 is empty; workspace 2 is the logical first.
             }) (lib.range 1 5)
           );

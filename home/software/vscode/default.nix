@@ -170,6 +170,10 @@ in
 
         "redhat.telemetry.enabled" = true;
 
+        "qmlFormat.command" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlformat";
+        "qmlFormat.extraArguments" = ["--verbose"];
+
+
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
         "qt-qml.qmlls.customExePath" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlls";
       };

@@ -30,6 +30,7 @@
     # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
       alejandra
+      nixfmt-rfc-style
     ];
     extensions = [
       "nix"
@@ -107,6 +108,12 @@
 
       languages = {
         Nix = {
+          formatter = {
+            external = {
+              command = "alejandra";
+              arguments = ["--quiet" "--"];
+            };
+          };
           language_servers = [
             "nixd"
             "!nil"

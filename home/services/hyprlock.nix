@@ -4,8 +4,7 @@
   osConfig,
   inputs,
   ...
-}:
-let
+}: let
   variant = config.theme.name;
   font_family = "Lexend";
   music-uptime = pkgs.writeShellScriptBin "music-uptime" ''
@@ -18,14 +17,16 @@ let
         uptime | sed -E 's/^[^,]*up *//; s/, *[[:digit:]]* users?.*//; s/days/giorni/; s/day/giorno/; s/min/min./; s/([[:digit:]]+):0?([[:digit:]]+)/\1 Hours, \2 mins./;'
     fi
   '';
-in
-{
+in {
   home.packages = [
     music-uptime
   ];
 
   programs.hyprlock = {
-    enable = if osConfig.networking.hostName == "steamdeck" then false else true;
+    enable =
+      if osConfig.networking.hostName == "steamdeck"
+      then false
+      else true;
 
     settings = {
       general = {
@@ -33,6 +34,12 @@ in
         hide_cursor = true;
         grace = 15;
         ignore_empty_input = true;
+      };
+
+      auth = {
+        fingerprint = {
+          enabled = true;
+        };
       };
 
       background = [
@@ -51,14 +58,14 @@ in
       ];
 
       input-field = [
-
         {
           monitor = "";
 
           size = "270, 50";
 
-          position = "0, 300";
-          
+          # position = "0, 300";
+          position = "0, -10";
+
           halign = "center";
           valign = "bottom";
 
@@ -102,7 +109,7 @@ in
           halign = "center";
           valign = "center";
         }
-        
+
         {
           monitor = "";
           text = "cmd[update:18000000] echo -e \"<b><big> $(date +\"%A\") </big></b>\"";
@@ -113,7 +120,7 @@ in
           halign = "center";
           valign = "center";
         }
-        
+
         {
           monitor = "";
           text = "cmd[update:18000000] echo -e \"<b> $(date +\"%d %b\") </b>\"";
@@ -138,16 +145,28 @@ in
 
         {
           monitor = "";
-          text = "cmd[update:1000] echo -e \"$(playerctl metadata --format '{{title}}      {{artist}}')\"";
-          # color =  $dark_primary
+          text = "$FPRINTPROMPT";
           shadow_passes = 3;
           shadow_size = 1;
           font_size = 14;
           font_family = "JetBrains Mono Nerd, SF Pro Display Bold";
           position = "-20, 20";
-          halign = "right";
+          halign = "center";
           valign = "bottom";
         }
+
+        # {
+        #   monitor = "";
+        #   text = "cmd[update:1000] echo -e \"$(playerctl metadata --format '{{title}}      {{artist}}')\"";
+        #   # color =  $dark_primary
+        #   shadow_passes = 3;
+        #   shadow_size = 1;
+        #   font_size = 14;
+        #   font_family = "JetBrains Mono Nerd, SF Pro Display Bold";
+        #   position = "-20, 20";
+        #   halign = "right";
+        #   valign = "bottom";
+        # }
       ];
 
       image = [
@@ -159,7 +178,7 @@ in
           rounding = -1;
           border_size = 0;
           shadow_passes = 3;
-          
+
           shadow_size = 3;
           border_color = "rgb(221, 221, 221)";
           rotate = 0; # degrees, counter-clockwise
