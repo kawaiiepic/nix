@@ -172,6 +172,8 @@ in
 
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
         "qt-qml.qmlls.customExePath" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlls";
+        
+        "typescript.tsserver.log" = "verbose";
       };
     };
 

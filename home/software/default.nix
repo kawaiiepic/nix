@@ -24,6 +24,10 @@
     equibop
     feishin
     nodejs
+    mpv
+    vtsls
+    libreoffice
+    android-studio
     #inputs.airi.packages.${pkgs.system}.default
   ];
 

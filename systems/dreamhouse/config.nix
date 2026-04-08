@@ -32,8 +32,16 @@
   hardware.opentabletdriver.enable = true;
 
   environment.systemPackages = with pkgs; [
-
+    claude-code
   ];
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-rocm;
+    environmentVariables = {
+       OLLAMA_HOST="0.0.0.0"; # used to be necessary, but doesn't seem to anymore
+      };
+  };
 
   programs.steam = {
     enable = true;

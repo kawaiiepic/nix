@@ -12,7 +12,12 @@
     unzip
     winboat
     podman-compose
+    
+    androidenv.androidPkgs.platform-tools
+    
   ];
+  
+  programs.nix-ld.enable = true;
 
   virtualisation = {
   containers.enable = true;
