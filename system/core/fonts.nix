@@ -5,8 +5,8 @@
 
     fontconfig = {
       defaultFonts = {
-        sansSerif = [ "SpaceMono Nerd Font" ];
-        monospace = [ "SpaceMono Nerd Font Mono" ];
+        sansSerif = [ "UbuntuSans Nerd Font" ];
+        monospace = [ "UbuntuSansMono Nerd Font Mono" ];
       };
     };
     packages = with pkgs; [
