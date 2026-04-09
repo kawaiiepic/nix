@@ -8,7 +8,7 @@
   imagemagick,
   lib,
   xdg-utils,
-  pname ? "nexusmods-app",
+  pname ? "kawaiimods-app",
 }:
 let
   # From https://nexus-mods.github.io/NexusMods.App/developers/Contributing/#for-package-maintainers
@@ -25,8 +25,8 @@ buildDotnetModule (finalAttrs: {
   version = "0.21.1";
 
   src = fetchFromGitHub {
-    owner = "Nexus-Mods";
-    repo = "NexusMods.App";
+    owner = "kawaiiepic";
+    repo = "KawaiiMods.App";
     tag = "v${finalAttrs.version}";
     hash = "sha256-RTQ3EwfA7hRfnCJoRubWtaqFVHhRdbWfLTBORVc+kss=";
     fetchSubmodules = true;
@@ -230,8 +230,5 @@ buildDotnetModule (finalAttrs: {
           ''
       }
     '';
-    knownVulnerabilities = [
-      "NexusMods.App has been discontinued upstream: https://www.nexusmods.com/news/15424"
-    ];
   };
 })
