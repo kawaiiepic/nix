@@ -31,7 +31,7 @@
     protonplus
     # prismlauncher
     # ryubing
-    xivlauncher
+    # xivlauncher
     steamtinkerlaunch
 
     # shadps4

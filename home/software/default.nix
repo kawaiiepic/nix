@@ -1,8 +1,6 @@
 { pkgs, inputs, ... }:
 {
   imports = [
-    inputs.nix-openclaw.homeManagerModules.openclaw
-
     ./zen
     ./kitty
     # ./discord
@@ -20,7 +18,6 @@
     wvkbd
     mission-center
     jetbrains.idea
-    winboat
     equibop
     feishin
     nodejs
@@ -29,13 +26,9 @@
     libreoffice
     android-studio
     #inputs.airi.packages.${pkgs.system}.default
+    kawaiimods-app
   ];
 
   programs.yazi.enable = true;
-
-  programs.openclaw = {
-    enable = true;
-    package = inputs.nix-openclaw.packages.${pkgs.system}.openclaw-gateway;
-  };
 
 }

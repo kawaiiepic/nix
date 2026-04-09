@@ -10,8 +10,6 @@
     devenv
     zip
     unzip
-    winboat
-    podman-compose
     
     androidenv.androidPkgs.platform-tools
     
