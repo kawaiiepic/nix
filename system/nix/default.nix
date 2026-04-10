@@ -11,7 +11,7 @@
     lfs.enable = true;
   };
 
-  nix.package = pkgs.lixPackageSets.git.lix;
+  nix.package = pkgs.lixPackageSets.stable.lix;
 
   documentation.nixos.enable = false;
 

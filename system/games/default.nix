@@ -21,7 +21,10 @@
   # ];
 
   environment.systemPackages = with pkgs; [
-    protontricks
+    wineWow64Packages.staging
+    winetricks
+    # protontricks
+    # freetype
     # nexusmods-app-unfree
     lutris
     heroic
@@ -33,6 +36,8 @@
     # ryubing
     # xivlauncher
     steamtinkerlaunch
+    
+     inputs.hytale-launcher.packages.${pkgs.system}.default
 
     # shadps4
     # (pkgs.callPackage ./vita3k.nix { })
@@ -45,6 +50,8 @@
     #   };
     # })
   ];
+  
+  programs.steam.protontricks.enable = true;
 
   # programs.gamescope = {
   #     enable = true;

@@ -257,7 +257,7 @@ in {
     };
 
     # overview.backdrop-color = palette.default.base;
-    prefer-no-csd = false;
+    prefer-no-csd = true;
     hotkey-overlay.skip-at-startup = true;
     cursor.theme = "GoogleDot-Blue";
     screenshot-path = null;
@@ -407,8 +407,8 @@ in {
         ];
 
         variable-refresh-rate = true;
-        draw-border-with-background = false;
-        opacity = 0.98;
+        # draw-border-with-background = false;
+        # opacity = 0.98;
       }
 
       {

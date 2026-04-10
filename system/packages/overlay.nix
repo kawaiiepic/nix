@@ -4,7 +4,7 @@
   gpu-screen-recorder-notification = prev.callPackage ./gpu-screen-recorder/notif.nix {};
   gpu-screen-recorder-ui = prev.callPackage ./gpu-screen-recorder/ui.nix {};
   zen-theme-switch = prev.callPackage ./zen-theme-switch/zen-theme-switch.nix {};
-  kawaiimods-app = prev.callPackage ./kawaiimods/default.nix {};
+  kawaiimods-app = (prev.callPackage ./kawaiimods/default.nix {}).override {_7zz = prev._7zz-rar;};
   xdg-desktop-portal-wlr = (
     prev.xdg-desktop-portal-wlr.overrideAttrs {
       version = "git";
@@ -16,12 +16,18 @@
       };
     }
   );
-  # steam = (
-  #   prev.steam.override {
-  #     extraEnv = {
-  #       # LD_PRELOAD = "${prev.pkgs.extest}/lib/libextest.so:${prev.pkgsi686Linux.extest}/lib/libextest.so";
-  #       LD_PRELOAD = "${prev.pkgsi686Linux.callPackage ./extest.nix { }}/lib/libextest.so";
-  #     };
-  #   }
-  # );
+  steam = (
+    prev.steam.override {
+      extraLibraries = p:
+        with p; [
+          # Fixes installing vcrun2022
+          # https://github.com/Matoking/protontricks/issues/461
+          freetype
+        ];
+      # extraEnv = {
+      #   # LD_PRELOAD = "${prev.pkgs.extest}/lib/libextest.so:${prev.pkgsi686Linux.extest}/lib/libextest.so";
+      #   LD_PRELOAD = "${prev.pkgsi686Linux.callPackage ./extest.nix { }}/lib/libextest.so";
+      # };
+    }
+  );
 })
