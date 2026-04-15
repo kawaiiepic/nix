@@ -17,16 +17,20 @@
     godot
     wvkbd
     mission-center
-    jetbrains.idea
+    #jetbrains.idea
     equibop
+    arrpc
     feishin
     nodejs
     mpv
     vtsls
     libreoffice
     android-studio
+    #davinci-resolve
     #inputs.airi.packages.${pkgs.system}.default
     kawaiimods-app
+    distrobox
+    lshw
   ];
 
   programs.yazi.enable = true;

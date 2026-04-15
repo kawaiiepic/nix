@@ -2,8 +2,7 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     # ./hyprland
     ./software
@@ -34,11 +33,12 @@
     ];
     extensions = [
       "nix"
-      "discord-presence"
+      #"discord-presence"
       "scss"
       "dart"
       "wakatime"
       "catppuccin"
+      "kotlin"
       "lua"
       "catppuccin-icons"
     ];
@@ -58,6 +58,25 @@
       };
 
       lsp = {
+        # kotlin-lsp = {
+        #   binary = {
+        #     env = {
+        #       JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
+        #     };
+        #   };
+        #   settings = {
+        #     compiler = {
+        #       jvm = {
+        #         target = "17";
+        #       };
+        #     };
+        #   };
+        # };
+        kotlin-language-server = {
+          binary = {
+            path = "${pkgs.kotlin-language-server}/bin/kotlin-language-server";
+          };
+        };
         nixd = {
           initialization_options = {
             formatting = {
@@ -73,7 +92,7 @@
           };
           settings = {
             diagnostic = {
-              suppress = [ "sema-extra-with" ];
+              suppress = ["sema-extra-with"];
             };
           };
         };
@@ -107,6 +126,9 @@
       };
 
       languages = {
+        Kotlin = {
+          language_servers = ["kotlin-language-server"];
+        };
         Nix = {
           formatter = {
             external = {

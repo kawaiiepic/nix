@@ -8,12 +8,12 @@ in
 {
 
   home.packages = with pkgs; [
-    colloid
+    adw-gtk3
     (catppuccin-kvantum.override {
       accent = "blue";
       variant = "macchiato";
     })
-    pkgs.utterly-nord-plasma
+    # pkgs.utterly-nord-plasma
   ];
 
   qt = {
@@ -36,23 +36,6 @@ in
     }/share/Kvantum/catppuccin-mocha-teal";
   };
 
-  # xdg.configFile = {
-  #   "Kvantum/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue.kvconfig".source =
-  #     "${pkgs.catppuccin-kvantum}/share/Kvantum/Catppuccin-Macchiato-Blue/Cattpuccin-Macchiato-Blue.kvconfig";
-  #   "Kvantum/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue.svg".source =
-  #     "${pkgs.catppuccin-kvantum}/share/Kvantum/Catppuccin-Macchiato-Blue/Cattpuccin-Macchiato-Blue.svg";
-  # };
-
-  # qt.enable = true;
-  # qt.platformTheme = "qtct";
-  # qt.style.name = "kvantum";
-
-  # xdg.configFile."Kvantum/kvantum.kvconfig".source =
-  #   (pkgs.formats.ini { }).generate "kvantum.kvconfig"
-  #     {
-  #       General.theme = "catppuccin-mocha-mauve";
-  #     };
-
   gtk = {
     enable = true;
 
@@ -67,18 +50,13 @@ in
       package = pkgs.google-cursor;
     };
 
-    # theme = {
-    #   name = "Colloid-Dark";
-    #   package = (pkgs.callPackage ./gtk/colloid-theme.nix { });
-    # };
-
     theme = {
-      name = "Colloid-Dark";
-      package = colloid;
+      name = "adw-gtk";
+      package = pkgs.adw-gtk3;
     };
 
     iconTheme = {
-      name = "Papirus";
+      name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
   };

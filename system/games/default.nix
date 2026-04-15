@@ -32,8 +32,8 @@
     steam-rom-manager
     mangohud
     protonplus
-    # prismlauncher
-    # ryubing
+    prismlauncher
+    ryubing
     # xivlauncher
     steamtinkerlaunch
     

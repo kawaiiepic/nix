@@ -196,6 +196,16 @@ in {
   xdg.mimeApps.defaultApplications = {
     "inode/directory" = "org.gnome.Nautilus.desktop";
   };
+  
+  xdg.userDirs.enable = true;
+  
+  gtk.gtk3 = {
+      bookmarks = [
+        "file://${config.xdg.userDirs.documents}"
+        "file://${config.xdg.userDirs.download}"
+        "file:///home/mia/Documents/nix"
+      ];
+    };
 
   xdg.portal = {
     enable = true;

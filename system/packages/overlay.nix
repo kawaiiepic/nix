@@ -5,6 +5,7 @@
   gpu-screen-recorder-ui = prev.callPackage ./gpu-screen-recorder/ui.nix {};
   zen-theme-switch = prev.callPackage ./zen-theme-switch/zen-theme-switch.nix {};
   kawaiimods-app = (prev.callPackage ./kawaiimods/default.nix {}).override {_7zz = prev._7zz-rar;};
+  adw-gtk3 = prev.callPackage ./zen-theme-switch/adw-gtk3.nix {};
   xdg-desktop-portal-wlr = (
     prev.xdg-desktop-portal-wlr.overrideAttrs {
       version = "git";
@@ -16,6 +17,14 @@
       };
     }
   );
+  davinci-resolve = prev.davinci-resolve.override (old: {
+      buildFHSEnv = a: (old.buildFHSEnv (a // {
+        extraBwrapArgs = a.extraBwrapArgs ++ [
+          "--bind /run/opengl-driver/etc/OpenCL /etc/OpenCL"
+        ];
+      }));
+    });
+
   steam = (
     prev.steam.override {
       extraLibraries = p:
