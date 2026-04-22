@@ -10,6 +10,7 @@
     ./theme
     ./games
     ./desktop/niri
+    ./desktop/hyprland
     ./services/pfp
     ./services/hyprlock.nix
     ./services/wlogout.nix

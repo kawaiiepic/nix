@@ -8,7 +8,7 @@ in
 {
 
   home.packages = with pkgs; [
-    adw-gtk3
+    # adw-gtk3
     (catppuccin-kvantum.override {
       accent = "blue";
       variant = "macchiato";
@@ -38,6 +38,8 @@ in
 
   gtk = {
     enable = true;
+    
+    colorScheme = "dark";
 
     font = {
       name = "UbuntuSans Nerd Font";
@@ -51,7 +53,7 @@ in
     };
 
     theme = {
-      name = "adw-gtk";
+      name = "adw-gtk3-dark";
       package = pkgs.adw-gtk3;
     };
 

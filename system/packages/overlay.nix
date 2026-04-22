@@ -5,7 +5,7 @@
   gpu-screen-recorder-ui = prev.callPackage ./gpu-screen-recorder/ui.nix {};
   zen-theme-switch = prev.callPackage ./zen-theme-switch/zen-theme-switch.nix {};
   kawaiimods-app = (prev.callPackage ./kawaiimods/default.nix {}).override {_7zz = prev._7zz-rar;};
-  adw-gtk3 = prev.callPackage ./zen-theme-switch/adw-gtk3.nix {};
+  adw-gtk3 = prev.callPackage ./adw-gtk3.nix {};
   xdg-desktop-portal-wlr = (
     prev.xdg-desktop-portal-wlr.overrideAttrs {
       version = "git";

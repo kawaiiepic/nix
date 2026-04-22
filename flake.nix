@@ -79,28 +79,6 @@
 
     stasis.url = "github:saltnpepper97/stasis";
 
-    millennium = {
-      url = "git+https://github.com/yipfluoric/Millennium?dir=packages/nix";
-
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        millennium-src.url = "github:SteamClientHomebrew/Millennium/1bc62c94a06f25f7e8d7e269f11cd968cf576bff";
-        zlib-src.url = "github:zlib-ng/zlib-ng/2.2.5";
-        luajit-src.url = "github:SteamClientHomebrew/LuaJIT/v2.1";
-        luajson-src.url = "github:SteamClientHomebrew/LuaJSON/0c1fabf07c42f3907287d1e4f729e0620c1fe6fd";
-        minhook-src.url = "github:TsudaKageyu/minhook/v1.3.4";
-        mini-src.url = "github:metayeti/mINI/0.9.18";
-        websocketpp-src.url = "github:zaphoyd/websocketpp/0.8.2";
-        fmt-src.url = "github:fmtlib/fmt/12.0.0";
-        json-src.url = "github:nlohmann/json/v3.12.0";
-        libgit2-src.url = "github:libgit2/libgit2/v1.9.1";
-        minizip-src.url = "github:zlib-ng/minizip-ng/4.0.10";
-        curl-src.url = "github:curl/curl/curl-8_13_0";
-        incbin-src.url = "github:graphitemaster/incbin/22061f51fe9f2f35f061f85c2b217b55dd75310d";
-        asio-src.url = "github:chriskohlhoff/asio/asio-1-30-0";
-      };
-    };
-
     airi = {
       url = "github:moeru-ai/airi";
       inputs.nixpkgs.follows = "nixpkgs";

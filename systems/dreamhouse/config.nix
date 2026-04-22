@@ -2,8 +2,7 @@
   inputs,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     # ../../system/desktop/greetd.nix
     ./hardware.nix
@@ -11,6 +10,7 @@
     ./storage.nix
     ../../system/desktop/greetd.nix
     ../../system/desktop/niri.nix
+    ../../system/desktop/hyprland.nix
     ../../system/core/graphics.nix
 
     ../../modules/gpu-screen-recorder-ui.nix
@@ -23,7 +23,7 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
   ];
 
-  nixpkgs.overlays = [ inputs.millennium.overlays.default ];
+  # nixpkgs.overlays = [ inputs.millennium.overlays.default ];
 
   programs.gpu-screen-recorder-ui.enable = true;
 
@@ -39,8 +39,8 @@
     enable = true;
     package = pkgs.ollama-rocm;
     environmentVariables = {
-       OLLAMA_HOST="0.0.0.0"; # used to be necessary, but doesn't seem to anymore
-      };
+      OLLAMA_HOST = "0.0.0.0"; # used to be necessary, but doesn't seem to anymore
+    };
   };
 
   programs.steam = {
@@ -48,7 +48,7 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    package = pkgs.millennium-steam;
+    # package = pkgs.millennium-steam;
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?
