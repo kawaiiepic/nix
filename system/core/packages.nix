@@ -14,8 +14,6 @@
     androidenv.androidPkgs.platform-tools
     
   ];
-  
-  programs.nix-ld.enable = true;
 
   virtualisation = {
   containers.enable = true;
@@ -25,5 +23,7 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 };
+
+virtualisation.waydroid.enable = true;
 
 }

@@ -6,6 +6,7 @@
   services.greetd = let
     session = {
       command = "niri-session -c /home/mia/.config/niri/a-config.kdl";
+      # command = "start-hyprland";
       user = "mia";
     };
   in {

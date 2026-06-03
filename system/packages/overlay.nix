@@ -6,6 +6,104 @@
   zen-theme-switch = prev.callPackage ./zen-theme-switch/zen-theme-switch.nix {};
   kawaiimods-app = (prev.callPackage ./kawaiimods/default.nix {}).override {_7zz = prev._7zz-rar;};
   adw-gtk3 = prev.callPackage ./adw-gtk3.nix {};
+  miri = prev.callPackage ./miri.nix {};
+  low-latency-layer = prev.callPackage ./low-latency-layer.nix {};
+  sushi = prev.sushi.overrideAttrs {
+    version = "git";
+    src = prev.fetchurl {
+      url = "https://gitlab.gnome.org/GNOME/sushi/-/archive/master/sushi-master.tar.gz";
+      hash = "sha256-bpacmo+krekLVa8miYzfTzgLAJCnRLHuaXSiJhEf5o0=";
+    };
+
+    nativeBuildInputs = with prev; [
+      pkg-config
+      meson
+      ninja
+      gettext
+      gobject-introspection
+      wrapGAppsHook4
+    ];
+
+    buildInputs = with prev; [
+        glib
+        gtk4
+        evince
+        icu
+        harfbuzz
+        gjs
+        gdk-pixbuf
+        librsvg
+        libsoup_3
+        webkitgtk_4_1
+        libepoxy
+        gst_all_1.gstreamer
+        gst_all_1.gst-plugins-base
+        (gst_all_1.gst-plugins-good.override { gtkSupport = true; })
+        gst_all_1.gst-plugins-bad
+        gst_all_1.gst-plugins-ugly
+        papers
+        gtksourceview5
+        webkitgtk_6_0
+        libadwaita
+      ];
+
+      propagatedBuildInputs = with prev; [
+          gtk4
+        ];
+  };
+  papers = prev.papers.overrideAttrs {
+    version = "50.1";
+    src = prev.fetchurl {
+      url = "mirror://gnome/sources/papers/50/papers-50.1.tar.xz";
+      hash = "sha256-95zkuVDPURHcSOi33BcosWUcgPMvDiTc5VNxmTzKsnA=";
+    };
+
+    cargoDeps = prev.rustPlatform.fetchCargoVendor {
+        inherit (final.papers)
+          src
+          pname
+          version
+          ;
+        hash = "sha256-6Fd6V0Ksl8jqoM1znyYI0Mve2QQU+JBf3yn2C2Bcda8=";
+      };
+  };
+  nautilus = prev.nautilus.overrideAttrs {
+    version = "50.1";
+    src = prev.fetchurl {
+      url = "mirror://gnome/sources/nautilus/50/nautilus-50.1.tar.xz";
+      hash = "sha256-1ieTuWWXcbZqa24FK1Iin4aN2+wTiKC2ae7wvSESEu4=";
+    };
+
+    buildInputs = with prev; [
+      gexiv2
+      glib-networking
+      icu
+      gnome-desktop
+      adwaita-icon-theme
+      gsettings-desktop-schemas
+      gnome-user-share
+      gst_all_1.gst-plugins-base
+      gtk4
+      libadwaita
+      libportal-gtk4
+      libexif
+      libnotify
+      libseccomp
+      libselinux
+      gdk-pixbuf
+      libcloudproviders
+      shared-mime-info
+      tinysparql
+      localsearch
+      gnome-autoar
+      libglycin
+      libglycin-gtk4
+      blueprint-compiler
+      gexiv2_0_16
+    ];
+  };
+  niri-sidebar = prev.callPackage ./niri-sidebar.nix {};
+  # petal = prev.callPackage ./petal {};
   xdg-desktop-portal-wlr = (
     prev.xdg-desktop-portal-wlr.overrideAttrs {
       version = "git";
@@ -18,12 +116,24 @@
     }
   );
   davinci-resolve = prev.davinci-resolve.override (old: {
-      buildFHSEnv = a: (old.buildFHSEnv (a // {
-        extraBwrapArgs = a.extraBwrapArgs ++ [
-          "--bind /run/opengl-driver/etc/OpenCL /etc/OpenCL"
-        ];
+    buildFHSEnv = a: (old.buildFHSEnv (a
+      // {
+        extraBwrapArgs =
+          a.extraBwrapArgs
+          ++ [
+            "--bind /run/opengl-driver/etc/OpenCL /etc/OpenCL"
+          ];
       }));
-    });
+  });
+
+  gamescope-session = prev.gamescope-session.overrideAttrs (old: {
+    postPatch =
+      (old.postPatch or "")
+      + ''
+        ls -al
+        sed -i "s/-O '\*',eDP-1/-O DP-1,DP-2,DP-3,HDMI-A-1/" gamescope-session
+      '';
+  });
 
   steam = (
     prev.steam.override {
@@ -33,10 +143,6 @@
           # https://github.com/Matoking/protontricks/issues/461
           freetype
         ];
-      # extraEnv = {
-      #   # LD_PRELOAD = "${prev.pkgs.extest}/lib/libextest.so:${prev.pkgsi686Linux.extest}/lib/libextest.so";
-      #   LD_PRELOAD = "${prev.pkgsi686Linux.callPackage ./extest.nix { }}/lib/libextest.so";
-      # };
     }
   );
 })

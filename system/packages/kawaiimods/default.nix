@@ -8,7 +8,7 @@
   imagemagick,
   lib,
   xdg-utils,
-  pname ? "kawaiimods-app",
+  pname ? "relicmods",
 }:
 let
   # From https://nexus-mods.github.io/NexusMods.App/developers/Contributing/#for-package-maintainers
@@ -22,11 +22,11 @@ let
 in
 buildDotnetModule (finalAttrs: {
   inherit pname;
-  version = "0.21.1";
+  version = "0.1.0";
 
   src = fetchFromGitHub {
-    owner = "kawaiiepic";
-    repo = "KawaiiMods.App";
+    owner = "BlossmVale";
+    repo = "RelicMods";
     tag = "v${finalAttrs.version}";
     hash = "sha256-RTQ3EwfA7hRfnCJoRubWtaqFVHhRdbWfLTBORVc+kss=";
     fetchSubmodules = true;
@@ -195,8 +195,8 @@ buildDotnetModule (finalAttrs: {
 
   meta = {
     mainProgram = "NexusMods.App";
-    homepage = "https://github.com/Nexus-Mods/NexusMods.App";
-    changelog = "https://github.com/Nexus-Mods/NexusMods.App/releases/tag/${finalAttrs.src.tag}";
+    homepage = "https://github.com/BlossmVale/RelicMods";
+    changelog = "https://github.com/BlossmVale/RelicMods/releases/tag/${finalAttrs.src.tag}";
     license = [ lib.licenses.gpl3Plus ];
     maintainers = with lib.maintainers; [
       l0b0

@@ -11,6 +11,7 @@
       pkgs.kdePackages.qt5compat
       pkgs.kdePackages.qtimageformats
       pkgs.kdePackages.qtmultimedia
+      pkgs.kdePackages.qtwebsockets
       inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
@@ -170,17 +171,44 @@
     };
   };
 in {
-  imports = [./scripts/screenshot.nix];
+  imports = [
+    inputs.nfsm-flake.homeModules.default
+    ./scripts/screenshot.nix
+  ];
 
   home.packages = with pkgs; [
-    #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     gthumb
     libcanberra-gtk3
     custom_quickshell
+    whisper-cpp-vulkan
+    python313Packages.kokoro
+    alsa-utils
+    ffmpeg
     cava
     brightnessctl
-    #inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+    miri
+    niri-sidebar
+
+    inputs.snappy-switcher.packages.${pkgs.system}.default
+    linux-wallpaperengine
   ];
+
+  services.nfsm = {
+    enable = true;
+    package = inputs.nfsm-flake.packages.${pkgs.system}.nfsm; # default
+    enableCli = true; # default
+    cliPackage = pkgs.writeShellScriptBin "nfsm-cli" ''
+      export NFSM_SOCKET="${config.services.nfsm.socketPath}"
+      exec ${inputs.nfsm-flake.packages.${pkgs.system}.nfsm-cli}/bin/nfsm-cli
+    '';
+    socketPath = "/run/user/1002/nfsm.sock"; # default
+  };
+
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
 
   home.file.".config/niri/config-latte.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.latte)
@@ -190,56 +218,152 @@ in {
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.frappe)
     config.programs.niri.finalConfig;
 
+  home.file.".config/niri-sidebar/config.toml".text = ''
+    # niri-sidebar configuration
+
+    [geometry]
+    # Width of the sidebar in pixels
+    width = 400
+    # Height of the sidebar windows
+    height = 335
+    # Gap between windows in the stack
+    gap = 10
+
+    [margins]
+    # Margins are default to 0 if left out
+    # Space from the top of the screen
+    top = 50
+    # Space from the right edge of the screen
+    right = 10
+    # Space from the left edge of the screen
+    left = 10
+    # Space from the bottom of the screen
+    bottom = 10
+
+    [interaction]
+    # Where to put the sidebar, can be "left", "right", "top" or "bottom"
+    # Defaults to "right"
+    position = "right"
+    # Width of windows when sidebar is hidden in pixels
+    peek = 10
+    # Width of window when sidebar is hidden but window is focused in pixels
+    # set this equal to peek to disable this feature
+    # set this equal to sidebar_width + offset_right to make focused windows "unhide"
+    # Optional and defaults to peek if ommitted
+    focus_peek = 410
+    # Whether the sidebar should follow if you switch workspaces
+    sticky = true
+
+    # Example window rule
+    # all fields are optional if not given a default from other configs will be used
+    [[window_rule]]
+    app_id = "firefox"  # regex, if not set will match all app_id's
+    title = "^Picture-in-Picture$"  # regex, if not set will match no matter the title
+    width = 700
+    height = 400
+    focus_peek = 710
+    peek = 10
+    auto_add = true  # defaults to false
+  '';
+
+  xdg.configFile.niri-config.source = let
+    inherit (inputs.niri.lib.internal) validated-config-for;
+    inherit (config.programs.niri) finalConfig package;
+  in
+    lib.mkForce (
+      validated-config-for pkgs package ''
+        ${finalConfig}
+
+        blur {
+            passes 3
+            offset 3
+            noise 0.02
+            saturation 1.1
+        }
+        
+        window-rule {
+            match app-id="^kitty$"
+            background-effect {
+                blur true
+            }
+        }
+
+        layer-rule {
+            match namespace="^quickshell-blur-test$"
+            background-effect {
+                blur true
+                // Sample windows directly behind fuzzel; default (xray)
+                // samples the desktop backdrop and looks broken.
+                xray false
+            }
+        }
+      ''
+    );
+
   xdg.enable = true;
 
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
     "inode/directory" = "org.gnome.Nautilus.desktop";
   };
-  
+
   xdg.userDirs.enable = true;
-  
+
   gtk.gtk3 = {
-      bookmarks = [
-        "file://${config.xdg.userDirs.documents}"
-        "file://${config.xdg.userDirs.download}"
-        "file:///home/mia/Documents/nix"
-      ];
-    };
+    bookmarks = [
+      "file://${config.xdg.userDirs.documents}"
+      "file://${config.xdg.userDirs.download}"
+      "file:///home/mia/Documents/nix"
+    ];
+  };
 
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
 
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gnome
+      # (xdg-desktop-portal-gtk.overrideAttrs {
+      #   buildInputs = [
+      #     glib
+      #     gtk3
+      #     xdg-desktop-portal
+      #     gsettings-desktop-schemas # settings exposed by settings portal
+      #     gnome-desktop
+      #     # schemas needed for settings api (mostly useless now that fonts were moved to g-d-s, just mouse and xsettings)
+      #     (runCommand "gnome-settings-daemon-${gnome-settings-daemon.version}-gsettings-schemas" {} ''
+      #       mkdir -p $out/share
+      #       cp -r ${gnome-settings-daemon}/share/gsettings-schemas/ $out/share/
+      #       ls $out/share/gsettings-schemas/
+      #       exit 1
+      #     '')
+      #   ];
+      # })
+      # xdg-desktop-portal-wlr
     ];
 
-    config.common.default = "wlr";
+    config.common.default = "gnome";
 
     config = {
       niri = {
-        default = ["gtk"];
-        "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-        "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+        default = ["gnome"];
+        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
+        "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
       };
     };
   };
 
   programs.niri.settings = {
     spawn-at-startup = [
-      #{
-      #  argv = [
-      #    "ags"
-      #    "run"
-      #    "--gtk"
-      #    "4"
-      #  ];
-      #}
       {
         argv = [
           "quickshell"
+        ];
+      }
+      {
+        argv = [
+          "snappy-switcher"
+          "--daemon"
         ];
       }
       {
@@ -255,8 +379,8 @@ in {
       }
       {
         argv = [
-          "wvkbd-mobintl"
-          "--hidden"
+          "niri-sidebar"
+          "listen"
         ];
       }
     ];
@@ -274,7 +398,7 @@ in {
 
     input = {
       focus-follows-mouse.enable = false;
-      
+
       touchpad = {
         dwt = true;
         click-method = "clickfinger";
@@ -304,10 +428,6 @@ in {
       "eDP-1" = {
         scale = 1.25;
       };
-
-      #"eDP-1" = {
-      #  transform.rotation = 270;
-      #};
     };
 
     layout = {
@@ -417,8 +537,6 @@ in {
         ];
 
         variable-refresh-rate = true;
-        # draw-border-with-background = false;
-        # opacity = 0.98;
       }
 
       {
@@ -428,7 +546,38 @@ in {
           }
         ];
 
+        min-width = 100;
+        min-height = 100;
+
         baba-is-float = false;
+      }
+      {
+        open-floating = true;
+
+        matches = [
+          {app-id = "^file_progress$";}
+          {app-id = "^confirm$";}
+          {app-id = "^dialog$";}
+          {app-id = "^download$";}
+          {app-id = "^notification$";}
+          {app-id = "^error$";}
+          {app-id = "^confirmreset$";}
+
+          {title = "^Open File$";}
+          {title = "^branchdialog$";}
+          {title = "^Confirm to replace files$";}
+          {title = "^File Operation Progress$";}
+
+          {app-id = "^org.gnome.Nautilus$";}
+          {app-id = "^yad$";}
+          {app-id = "^kitty-float$";}
+          {app-id = "^org.gnome.gThumb$";}
+          {app-id = "^xdg-desktop-portal-gtk$";}
+          {app-id = "^mpv$";}
+          {app-id = "^org.gnome.NautilusPreviewer$";}
+          {app-id = "^pavucontrol$";}
+          {app-id = "^org.gnome.TextEditor$";}
+        ];
       }
     ];
 
@@ -510,20 +659,8 @@ in {
           "Mod+Shift+Insert".action = set-dynamic-cast-monitor;
           "Mod+Delete".action = clear-dynamic-cast-target;
 
-          "Mod+I".action = spawn [
-            "pkill"
-            "-RTMIN"
-            "wvkbd"
-          ];
-
           "Mod+Q".action = close-window;
           "Mod+T".action = toggle-window-floating;
-
-          "Mod+W".action = spawn [
-            "tessen"
-            "-p"
-            "gopass"
-          ];
 
           "Mod+P".action = spawn "screenshot";
           "Mod+Shift+P".action = spawn "screenshot";
@@ -536,17 +673,12 @@ in {
           "Mod+Shift+Tab".action = focus-window-up-or-column-left;
 
           "Mod+L".action = spawn "hyprlock";
-
-          "Mod+Escape".action = spawn [
-            "ags"
-            "toggle"
-            "logout"
-          ];
-
-          "Mod+E".action = spawn [
-            "ags"
-            "toggle"
-            "launcher"
+          "Mod+Y".action = spawn [
+            "tessen"
+            "-p"
+            "gopass"
+            "-d"
+            "wofi"
           ];
 
           "Mod+G".action = spawn "nautilus";
@@ -557,7 +689,7 @@ in {
 
           "Mod+R".action = switch-preset-column-width;
           "Mod+F".action = maximize-column;
-          "Mod+Shift+F".action = fullscreen-window;
+          "Mod+Shift+F".action = spawn "nfsm-cli";
           "Mod+C".action = center-column;
 
           "Mod+Minus".action = set-column-width "-10%";
@@ -567,8 +699,25 @@ in {
 
           "Mod+Shift+Escape".action = toggle-keyboard-shortcuts-inhibit;
           "Mod+Shift+E".action = quit;
-          "Mod+Ctrl+Shift+E".action = quit {skip-confirmation = true;};
           "Mod+Alt+P".action = power-off-monitors;
+
+          "Mod+S".action = spawn [
+            "niri-sidebar"
+            "toggle-window"
+          ];
+          "Mod+Shift+S".action = spawn [
+            "niri-sidebar"
+            "toggle-visibility"
+          ];
+
+          "Alt+Tab".action = spawn [
+            "snappy-switcher"
+            "next"
+          ];
+          "Alt+Shift+Tab".action = spawn [
+            "snappy-switcher"
+            "prev"
+          ];
         }
         (binds {
           suffixes."Left" = "column-left";

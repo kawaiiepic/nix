@@ -1,45 +1,50 @@
 {
   pkgs,
+  config,
+  lib,
   ...
-}:
-let
-  colloid = pkgs.callPackage ./gtk/colloid-theme.nix { };
-in
-{
-
+}: let
+  colloid = pkgs.callPackage ./gtk/colloid-theme.nix {};
+in {
   home.packages = with pkgs; [
-    # adw-gtk3
-    (catppuccin-kvantum.override {
-      accent = "blue";
-      variant = "macchiato";
-    })
-    # pkgs.utterly-nord-plasma
+    # config.gtk.theme.package
+    # (catppuccin-kvantum.override {
+    #   accent = "blue";
+    #   variant = "macchiato";
+    # })
   ];
 
-  qt = {
-    enable = true;
-    platformTheme.name = "qtct";
-    style.name = "kvantum";
+  # qt = {
+  #   enable = true;
+  #   platformTheme.name = "qt6ct";
+  #   style.name = "kvantum";
+  # };
 
-  };
-  xdg.configFile = {
-    "Kvantum/kvantum.kvconfig".text = ''
-      [General]
-      theme=catppuccin-mocha-teal
-    '';
+  # home.file = {
+  #   ".local/share/icons/GoogleDot-Violet" = {
+  #     source = ./files/GoogleDot-Violet;
+  #   };
+  # };
 
-    "Kvantum/catppuccin-mocha-teal".source = "${
-      pkgs.catppuccin-kvantum.override {
-        accent = "teal";
-        variant = "mocha";
-      }
-    }/share/Kvantum/catppuccin-mocha-teal";
-  };
+  # xdg.configFile = {
+  #   "Kvantum/kvantum.kvconfig".text = ''
+  #     [General]
+  #     theme=catppuccin-mocha-teal
+  #   '';
+
+  #   "Kvantum/catppuccin-mocha-teal".source = "${
+  #     pkgs.catppuccin-kvantum.override {
+  #       accent = "teal";
+  #       variant = "mocha";
+  #     }
+  #   }/share/Kvantum/catppuccin-mocha-teal";
+  # };
+
+  # dconf.settings."org/gnome/desktop/interface".gtk-theme = lib.mkForce config.gtk.theme.name;
+  dconf.settings."org/gnome/desktop/interface".color-scheme = lib.mkForce "prefer-dark";
 
   gtk = {
     enable = true;
-    
-    colorScheme = "dark";
 
     font = {
       name = "UbuntuSans Nerd Font";
@@ -52,14 +57,28 @@ in
       package = pkgs.google-cursor;
     };
 
-    theme = {
-      name = "adw-gtk3-dark";
-      package = pkgs.adw-gtk3;
-    };
+    # theme = {
+    #   name = "adw-gtk3";
+    #   package = pkgs.adw-gtk3;
+    # };
+    #
 
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme-legacy;
+    };
+    # iconTheme = {
+    #   name = "Papirus-Dark";
+    #   package = pkgs.papirus-icon-theme;
+    # };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "Adwaita-dark";
+    style = {
+      name = "Adwaita-dark";
+      package = pkgs.adwaita-qt;
     };
   };
 }

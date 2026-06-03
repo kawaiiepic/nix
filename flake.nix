@@ -8,6 +8,10 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     jovian-nixos = {
       url = "github:Jovian-Experiments/Jovian-NixOS";
     };
@@ -19,26 +23,35 @@
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ags = {
-      url = "github:Aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
     };
-    hyprfocus = {
-      url = "github:avih7531/hyprfocus";
+
+    nfsm-flake = {
+      url = "github:gvolpe/nfsm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nirinit = {
+      url = "github:amaanq/nirinit";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     catppuccin-vsc.url = "https://flakehub.com/f/catppuccin/vscode/*.tar.gz";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     hytale-launcher.url = "github:JPyke3/hytale-launcher-nix";
+    snappy-switcher.url = "github:OpalAayan/snappy-switcher";
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,22 +67,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    airi = {
+      url = "github:moeru-ai/airi";
+    };
+
     qml-niri = {
       url = "github:imiric/qml-niri/main";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.quickshell.follows = "quickshell";
-    };
-
-    nix-openclaw.url = "github:openclaw/nix-openclaw";
-
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    helium-browser = {
-      url = "github:ominit/helium-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     quickshell = {
@@ -79,10 +84,7 @@
 
     stasis.url = "github:saltnpepper97/stasis";
 
-    airi = {
-      url = "github:moeru-ai/airi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
   };
 
   outputs = inputs: let
@@ -109,6 +111,7 @@
       dreamhouse = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          # inputs.jovian-nixos.nixosModules.default
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.home-manager.nixosModules.home-manager
           {

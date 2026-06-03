@@ -1,7 +1,7 @@
 { fetchurl }:
 let
-  release = "vc2e27b8bf8632dca";
-  owner = "Nexus-Mods";
+  release = "vc6954c5a158acfcf";
+  owner = "BlossmVale";
   repo = "game-hashes";
   repoURL = "https://github.com/${owner}/${repo}";
 

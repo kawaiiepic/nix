@@ -4,17 +4,16 @@
   ...
 }: {
   imports = [
-    # ./hyprland
     ./software
     ./shell
     ./theme
     ./games
     ./desktop/niri
-    ./desktop/hyprland
+    # ./desktop/hyprland
     ./services/pfp
     ./services/hyprlock.nix
     ./services/wlogout.nix
-    # ./services/stasis
+    ./services/stasis
   ];
 
   home.username = "mia";
@@ -30,7 +29,7 @@
     # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
       alejandra
-      nixfmt-rfc-style
+      nixfmt
     ];
     extensions = [
       "nix"
@@ -42,6 +41,7 @@
       "kotlin"
       "lua"
       "catppuccin-icons"
+      "qml"
     ];
     userSettings = {
       autosave = {
@@ -49,6 +49,8 @@
           milliseconds = 1000;
         };
       };
+
+      load_direnv = "direct";
 
       icon_theme = "Catppuccin Mocha";
 
@@ -78,6 +80,13 @@
             path = "${pkgs.kotlin-language-server}/bin/kotlin-language-server";
           };
         };
+        
+        rust-analyzer = {
+          binary = {
+            path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+          };
+        };
+        
         nixd = {
           initialization_options = {
             formatting = {
@@ -152,5 +161,5 @@
 
   # The state version is required and should stay at the version you
   # originally installed.
-  home.stateVersion = "24.05";
+  home.stateVersion = "26.05";
 }
