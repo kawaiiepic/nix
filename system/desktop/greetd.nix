@@ -1,12 +1,11 @@
-{
-  lib,
-  ...
-}: {
+{lib, ...}: {
   # greetd display manager
+  #
+  environment.variables.NIRI_CONFIG = "/home/mia/.config/niri/current.kdl";
+
   services.greetd = let
     session = {
-      command = "niri-session -c /home/mia/.config/niri/a-config.kdl";
-      # command = "start-hyprland";
+      command = "niri-session";
       user = "mia";
     };
   in {

@@ -218,6 +218,20 @@ in {
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.frappe)
     config.programs.niri.finalConfig;
 
+  home.activation = {
+    createMyFile = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      TARGET_FILE="$HOME/.config/niri/current.kdl"
+
+      # Check if the file already exists
+      if [ ! -f "$TARGET_FILE" ]; then
+        # Ensure the parent directory exists
+        $DRY_RUN_CMD mkdir -p "$(dirname "$TARGET_FILE")"
+
+        $DRY_RUN_CMD ln -sf "$HOME/.config/niri/config-frappe.kdl" "$TARGET_FILE"
+      fi
+    '';
+  };
+
   home.file.".config/niri-sidebar/config.toml".text = ''
     # niri-sidebar configuration
 
@@ -275,16 +289,19 @@ in {
         ${finalConfig}
 
         blur {
-            passes 3
+            passes 2
             offset 3
             noise 0.02
             saturation 1.1
         }
-        
+
         window-rule {
             match app-id="^kitty$"
+            match app-id="^org.gnome.Nautilus$"
+            match app-id="^zen-beta$"
             background-effect {
                 blur true
+                xray false
             }
         }
 
@@ -323,23 +340,6 @@ in {
 
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
-      # (xdg-desktop-portal-gtk.overrideAttrs {
-      #   buildInputs = [
-      #     glib
-      #     gtk3
-      #     xdg-desktop-portal
-      #     gsettings-desktop-schemas # settings exposed by settings portal
-      #     gnome-desktop
-      #     # schemas needed for settings api (mostly useless now that fonts were moved to g-d-s, just mouse and xsettings)
-      #     (runCommand "gnome-settings-daemon-${gnome-settings-daemon.version}-gsettings-schemas" {} ''
-      #       mkdir -p $out/share
-      #       cp -r ${gnome-settings-daemon}/share/gsettings-schemas/ $out/share/
-      #       ls $out/share/gsettings-schemas/
-      #       exit 1
-      #     '')
-      #   ];
-      # })
-      # xdg-desktop-portal-wlr
     ];
 
     config.common.default = "gnome";
@@ -360,12 +360,12 @@ in {
           "quickshell"
         ];
       }
-      {
-        argv = [
-          "snappy-switcher"
-          "--daemon"
-        ];
-      }
+      # {
+      #   argv = [
+      #     "snappy-switcher"
+      #     "--daemon"
+      #   ];
+      # }
       {
         argv = [
           "stasis"
@@ -397,7 +397,10 @@ in {
     screenshot-path = null;
 
     input = {
-      focus-follows-mouse.enable = false;
+      focus-follows-mouse = {
+        enable = true;
+        # max-scroll-amount = 200;
+      };
 
       touchpad = {
         dwt = true;
@@ -431,6 +434,28 @@ in {
     };
 
     layout = {
+      tab-indicator = {
+        width = 8;
+        gap = 8;
+        position = "left";
+        length.total-proportion = 0.3;
+        place-within-column = true;
+
+        active.color = palette.default.pink;
+        inactive.color = palette.default.pink;
+      };
+
+      insert-hint = {
+        display.color = palette.default.pink;
+      };
+
+      struts = {
+        left = 20;
+        right = 20;
+        top = 5;
+        bottom = 5;
+      };
+
       focus-ring = {
         enable = false;
         width = 2;
@@ -498,7 +523,7 @@ in {
     window-rules = [
       {
         geometry-corner-radius = let
-          r = 8.0;
+          r = 12.0;
         in {
           top-left = r;
           top-right = r;
@@ -510,7 +535,7 @@ in {
       {
         matches = [
           {
-            app-id = "gsr-ui$";
+            app-id = "^gsr-ui$";
           }
         ];
         open-floating = true;
@@ -537,6 +562,7 @@ in {
         ];
 
         variable-refresh-rate = true;
+        draw-border-with-background = false;
       }
 
       {
@@ -662,6 +688,7 @@ in {
           "Mod+Q".action = close-window;
           "Mod+T".action = toggle-window-floating;
 
+          "Mod+Alt+P".action.screenshot = [];
           "Mod+P".action = spawn "screenshot";
           "Mod+Shift+P".action = spawn "screenshot";
 
@@ -673,6 +700,7 @@ in {
           "Mod+Shift+Tab".action = focus-window-up-or-column-left;
 
           "Mod+L".action = spawn "hyprlock";
+          "Mod+K".action = do-screen-transition;
           "Mod+Y".action = spawn [
             "tessen"
             "-p"
@@ -683,6 +711,12 @@ in {
 
           "Mod+G".action = spawn "nautilus";
           "Mod+H".action = show-hotkey-overlay;
+
+          "Mod+W".action = toggle-column-tabbed-display;
+          "Mod+E".action = consume-window-into-column;
+          "Mod+S".action = expel-window-from-column;
+          "Mod+Shift+A".action = consume-or-expel-window-left;
+          "Mod+Shift+D".action = consume-or-expel-window-right;
 
           "Mod+WheelScrollUp".action = focus-window-up;
           "Mod+WheelScrollDown".action = focus-window-down;
@@ -699,9 +733,9 @@ in {
 
           "Mod+Shift+Escape".action = toggle-keyboard-shortcuts-inhibit;
           "Mod+Shift+E".action = quit;
-          "Mod+Alt+P".action = power-off-monitors;
+          "Mod+Alt+O".action = power-off-monitors;
 
-          "Mod+S".action = spawn [
+          "Mod+V".action = spawn [
             "niri-sidebar"
             "toggle-window"
           ];

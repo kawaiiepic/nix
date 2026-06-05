@@ -14,12 +14,6 @@ in {
     # })
   ];
 
-  # qt = {
-  #   enable = true;
-  #   platformTheme.name = "qt6ct";
-  #   style.name = "kvantum";
-  # };
-
   # home.file = {
   #   ".local/share/icons/GoogleDot-Violet" = {
   #     source = ./files/GoogleDot-Violet;
@@ -40,7 +34,7 @@ in {
   #   }/share/Kvantum/catppuccin-mocha-teal";
   # };
 
-  # dconf.settings."org/gnome/desktop/interface".gtk-theme = lib.mkForce config.gtk.theme.name;
+  dconf.settings."org/gnome/desktop/interface".gtk-theme = lib.mkForce config.gtk.theme.name;
   dconf.settings."org/gnome/desktop/interface".color-scheme = lib.mkForce "prefer-dark";
 
   gtk = {
@@ -57,20 +51,25 @@ in {
       package = pkgs.google-cursor;
     };
 
-    # theme = {
-    #   name = "adw-gtk3";
-    #   package = pkgs.adw-gtk3;
-    # };
-    #
-
-    iconTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme-legacy;
+    theme = {
+      name = "adw-gtk3";
+      package = (pkgs.adw-gtk3.overrideAttrs {
+        src = pkgs.fetchFromGitHub {
+          owner = "kawaiiepic";
+          repo = "adw-gtk3";
+          rev = "f7da7b7ca105725efbe6c2299a6ec7eaa014d5b8";
+          sha256 = "sha256-guVpZCbGtb/462N5j0AbMwU8VmQkABjihJi5wBoPgNI=";
+        };
+      });
     };
-    # iconTheme = {
-    #   name = "Papirus-Dark";
-    #   package = pkgs.papirus-icon-theme;
-    # };
+
+    gtk4.theme = config.gtk.theme;
+
+    
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 
   qt = {
