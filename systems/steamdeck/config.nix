@@ -7,19 +7,19 @@
 }:
 {
   imports = [
-    inputs.nixos-hardware.nixosModules.common-pc-ssd
-    inputs.nixos-hardware.nixosModules.common-gpu-amd
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
+#    inputs.nixos-hardware.nixosModules.common-pc-ssd
+#    inputs.nixos-hardware.nixosModules.common-gpu-amd
+#    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
+#    inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
 
     ./hardware.nix
     # ../default.nix
 
     ../../system/core/boot/plymouth.nix
 
-    ../../system/core/audio.nix
+ #   ../../system/core/audio.nix
     ../../system/core/boot.nix
-    ../../system/core/fonts.nix
+ #   ../../system/core/fonts.nix
     #../../system/core/graphics.nix
     ../../system/core/network.nix
     ../../system/core/packages.nix
@@ -30,7 +30,7 @@
     # ../../system/desktop/hyprland.nix
     # ../../system/desktop/gnome.nix
 
-    ../../system/desktop/niri.nix
+ #   ../../system/desktop/niri.nix
 
     # ../../modules/gpu-screen-recorder-ui.nix
 
@@ -44,12 +44,21 @@
   # programs.gsr.enable = true;
 
   jovian = {
-    hardware.has.amd.gpu = true;
-    steam.enable = true;
-    steam.user = "mia";
+   # hardware.has.amd.gpu = true;
+   steam = {
+    enable = true;
+    user = "mia";
+    updater.splash = "jovian";
+   };
 
-    decky-loader.enable = true;
-    decky-loader.user = "mia";
+    decky-loader = {
+      enable = true;
+      extraPackages = with pkgs; [python3 systemd];
+      extraPythonPackages = ps: [];
+      package = pkgs.decky-loader-prerelease;
+
+
+    };
 
     devices.steamdeck = {
       enable = true;
@@ -59,8 +68,7 @@
 
   services = {
     desktopManager.plasma6.enable = true;
-
-    # displayManager.sddm.enable = true;
+    displayManager.sddm.enable = true;
 
     # displayManager.sddm.wayland.enable = true;
   };

@@ -83,10 +83,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    airi = {
-      url = "github:moeru-ai/airi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #airi = {
+    #  url = "github:moeru-ai/airi";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
   };
 
   outputs =
@@ -198,7 +198,7 @@
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit inputs; };
 
-              home-manager.users.mia = import ./home;
+              home-manager.users.mia = import ./home/profiles/steamdeck;
             }
             ./systems/steamdeck/config.nix
           ];

@@ -23,19 +23,19 @@
   environment.systemPackages = with pkgs; [
     protontricks
     # nexusmods-app-unfree
-    lutris
-    heroic
+    #lutris
+    #heroic
     #emulationstation-de
     steam-rom-manager
-    mangohud
-    protonplus
-    # prismlauncher
-    # ryubing
-    xivlauncher
-    steamtinkerlaunch
+    #mangohud
+    #protonplus
+    prismlauncher
+    ryubing
+#    xivlauncher
+#    steamtinkerlaunch
 
-    # shadps4
-    # (pkgs.callPackage ./vita3k.nix { })
+     shadps4
+     (pkgs.callPackage ./vita3k.nix { })
     # (pkgs.steamtinkerlaunch.overrideAttrs {
     #   src = fetchFromGitHub {
     #     owner = "sonic2kk";
