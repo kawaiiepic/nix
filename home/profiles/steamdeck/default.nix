@@ -1,9 +1,8 @@
 {
   imports = [
-  ../../software/zen
-  ];
+    ../../default.nix
 
-  home = {
-    stateVersion = "26.05";
-  };
+    # Software
+    ../../software/zen
+  ];
 }
