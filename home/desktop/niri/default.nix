@@ -207,7 +207,6 @@
     '');
 in {
   imports = [
-    inputs.nfsm-flake.homeModules.default
     ./scripts/screenshot.nix
   ];
 
@@ -227,17 +226,6 @@ in {
     inputs.niri-float-sticky.packages.${pkgs.system}.default
     linux-wallpaperengine
   ];
-
-  services.nfsm = {
-    enable = true;
-    package = inputs.nfsm-flake.packages.${pkgs.system}.nfsm; # default
-    enableCli = true; # default
-    cliPackage = pkgs.writeShellScriptBin "nfsm-cli" ''
-      export NFSM_SOCKET="${config.services.nfsm.socketPath}"
-      exec ${inputs.nfsm-flake.packages.${pkgs.system}.nfsm-cli}/bin/nfsm-cli
-    '';
-    socketPath = "/run/user/1002/nfsm.sock"; # default
-  };
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -757,7 +745,7 @@ in {
 
           "Mod+R".action = switch-preset-column-width;
           "Mod+F".action = maximize-column;
-          "Mod+Shift+F".action = spawn "nfsm-cli";
+          "Mod+Shift+F".action = fullscreen-window;
           "Mod+C".action = center-column;
 
           "Mod+Minus".action = set-column-width "-10%";

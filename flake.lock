@@ -678,6 +678,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1781159322,
+        "narHash": "sha256-PUoW0lN+DABYRZQpqlVvzzLl/S7d1xHiySFgqM/4kEo=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "315a58c7aa3985328b4a13549fdf145962a3b961",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-nixcord": {
       "locked": {
         "lastModified": 1780453794,
@@ -1002,6 +1018,7 @@
         "nixcord": "nixcord",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_9",
+        "nixpkgs-master": "nixpkgs-master",
         "nur": "nur",
         "qml-niri": "qml-niri",
         "quickshell": "quickshell",

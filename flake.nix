@@ -8,6 +8,11 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
+
+    nixpkgs-master = {
+      url = "github:nixos/nixpkgs/master";
+    };
+    
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -81,6 +86,11 @@
       overlays = overlays;
     };
 
+    pkgs-master = import inputs.nixpkgs-master {
+      system = "x86_64-linux";
+      overlays = overlays;
+    };
+
     ignoreme = {
       config,
       lib,
@@ -110,7 +120,7 @@
           }
           ./systems/dreamhouse/config.nix
         ];
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs pkgs-master;};
       };
 
       lain = inputs.nixpkgs.lib.nixosSystem {
