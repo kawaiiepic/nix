@@ -8,11 +8,13 @@
   adw-gtk3 = prev.callPackage ./adw-gtk3.nix {};
   miri = prev.callPackage ./miri.nix {};
   low-latency-layer = prev.callPackage ./low-latency-layer.nix {};
+  ryubing = prev.callPackage ./ryubing {};
+  ryubing-appimage = prev.callPackage ./ryubing/appImage.nix {};
   sushi = prev.sushi.overrideAttrs {
     version = "git";
     src = prev.fetchurl {
-      url = "https://gitlab.gnome.org/GNOME/sushi/-/archive/master/sushi-master.tar.gz";
-      hash = "sha256-bpacmo+krekLVa8miYzfTzgLAJCnRLHuaXSiJhEf5o0=";
+      url = "https://gitlab.gnome.org/GNOME/sushi/-/archive/main/sushi-master.tar.gz";
+      hash = "sha256-TeNNxOsPGSTVFp6P/7pKFu0bEr1HZt169BRoJF9Tuxw=";
     };
 
     nativeBuildInputs = with prev; [
@@ -25,31 +27,34 @@
     ];
 
     buildInputs = with prev; [
-        glib
-        gtk4
-        evince
-        icu
-        harfbuzz
-        gjs
-        gdk-pixbuf
-        librsvg
-        libsoup_3
-        webkitgtk_4_1
-        libepoxy
-        gst_all_1.gstreamer
-        gst_all_1.gst-plugins-base
-        (gst_all_1.gst-plugins-good.override { gtkSupport = true; })
-        gst_all_1.gst-plugins-bad
-        gst_all_1.gst-plugins-ugly
-        papers
-        gtksourceview5
-        webkitgtk_6_0
-        libadwaita
-      ];
+      glib
+      gtk4
+      evince
+      icu
+      harfbuzz
+      gjs
+      gdk-pixbuf
+      librsvg
+      libsoup_3
+      webkitgtk_4_1
+      libglycin
+      libglycin-gtk4
+      blueprint-compiler
+      libepoxy
+      gst_all_1.gstreamer
+      gst_all_1.gst-plugins-base
+      (gst_all_1.gst-plugins-good.override {gtkSupport = true;})
+      gst_all_1.gst-plugins-bad
+      gst_all_1.gst-plugins-ugly
+      papers
+      gtksourceview5
+      webkitgtk_6_0
+      libadwaita
+    ];
 
-      propagatedBuildInputs = with prev; [
-          gtk4
-        ];
+    propagatedBuildInputs = with prev; [
+      gtk4
+    ];
   };
   papers = prev.papers.overrideAttrs {
     version = "50.1";
@@ -59,13 +64,14 @@
     };
 
     cargoDeps = prev.rustPlatform.fetchCargoVendor {
-        inherit (final.papers)
-          src
-          pname
-          version
-          ;
-        hash = "sha256-6Fd6V0Ksl8jqoM1znyYI0Mve2QQU+JBf3yn2C2Bcda8=";
-      };
+      inherit
+        (final.papers)
+        src
+        pname
+        version
+        ;
+      hash = "sha256-6Fd6V0Ksl8jqoM1znyYI0Mve2QQU+JBf3yn2C2Bcda8=";
+    };
   };
   nautilus = prev.nautilus.overrideAttrs {
     version = "50.1";

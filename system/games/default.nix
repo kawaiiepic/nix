@@ -13,7 +13,8 @@
     # mangohud
     protonplus
     prismlauncher
-    ryubing
+    ryubing-appimage
+    ludusavi
     #lutris
     # xivlauncher
     steamtinkerlaunch

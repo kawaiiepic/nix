@@ -170,6 +170,41 @@
       rosewater = "#00001A";
     };
   };
+
+  newFinalNiri = let
+    inherit (inputs.niri.lib.internal) validated-config-for;
+    inherit (config.programs.niri) finalConfig package;
+  in
+    lib.readFile (validated-config-for pkgs package ''
+      ${finalConfig}
+
+      blur {
+          passes 2
+          offset 3
+          noise 0.02
+          saturation 1.1
+      }
+
+      window-rule {
+          match app-id="^kitty$"
+          match app-id="^org.gnome.Nautilus$"
+          match app-id="^zen-beta$"
+          background-effect {
+              blur true
+              xray false
+          }
+      }
+
+      layer-rule {
+          match namespace="^quickshell-blur-test$"
+          background-effect {
+              blur true
+              // Sample windows directly behind fuzzel; default (xray)
+              // samples the desktop backdrop and looks broken.
+              xray false
+          }
+      }
+    '');
 in {
   imports = [
     inputs.nfsm-flake.homeModules.default
@@ -180,8 +215,6 @@ in {
     gthumb
     libcanberra-gtk3
     custom_quickshell
-    whisper-cpp-vulkan
-    python313Packages.kokoro
     alsa-utils
     ffmpeg
     cava
@@ -191,6 +224,7 @@ in {
     niri-sidebar
 
     inputs.snappy-switcher.packages.${pkgs.system}.default
+    inputs.niri-float-sticky.packages.${pkgs.system}.default
     linux-wallpaperengine
   ];
 
@@ -212,11 +246,11 @@ in {
 
   home.file.".config/niri/config-latte.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.latte)
-    config.programs.niri.finalConfig;
+    newFinalNiri;
 
   home.file.".config/niri/config-frappe.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.frappe)
-    config.programs.niri.finalConfig;
+    newFinalNiri;
 
   home.activation = {
     createMyFile = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -280,48 +314,39 @@ in {
     auto_add = true  # defaults to false
   '';
 
-  xdg.configFile.niri-config.source = let
-    inherit (inputs.niri.lib.internal) validated-config-for;
-    inherit (config.programs.niri) finalConfig package;
-  in
-    lib.mkForce (
-      validated-config-for pkgs package ''
-        ${finalConfig}
-
-        blur {
-            passes 2
-            offset 3
-            noise 0.02
-            saturation 1.1
-        }
-
-        window-rule {
-            match app-id="^kitty$"
-            match app-id="^org.gnome.Nautilus$"
-            match app-id="^zen-beta$"
-            background-effect {
-                blur true
-                xray false
-            }
-        }
-
-        layer-rule {
-            match namespace="^quickshell-blur-test$"
-            background-effect {
-                blur true
-                // Sample windows directly behind fuzzel; default (xray)
-                // samples the desktop backdrop and looks broken.
-                xray false
-            }
-        }
-      ''
-    );
-
   xdg.enable = true;
 
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
+    # Folders
     "inode/directory" = "org.gnome.Nautilus.desktop";
+
+    # Web
+    "text/html" = "zen-beta.desktop";
+    "x-scheme-handler/http" = "zen-beta.desktop";
+    "x-scheme-handler/https" = "zen-beta.desktop";
+
+    # PDFs
+    "application/pdf" = "org.gnome.Papers.desktop";
+
+    # Images
+    "image/png" = "org.gnome.gThumb.desktop";
+    "image/jpeg" = "org.gnome.gThumb.desktop";
+    "image/webp" = "org.gnome.gThumb.desktop";
+
+    # Text
+    "text/plain" = "codium.desktop";
+
+    # Video
+    "video/mp4" = "mpv.desktop";
+    "video/x-matroska" = "mpv.desktop";
+
+    # Audio
+    "audio/mpeg" = "mpv.desktop";
+    "audio/flac" = "mpv.desktop";
+
+    # Python
+    "text/x-python" = "codium.desktop";
   };
 
   xdg.userDirs.enable = true;
@@ -383,6 +408,13 @@ in {
           "listen"
         ];
       }
+      {
+        argv = [
+          "niri-float-sticky"
+          "-title"
+          "^Picture-in-Picture$"
+        ];
+      }
     ];
 
     xwayland-satellite = {
@@ -398,8 +430,8 @@ in {
 
     input = {
       focus-follows-mouse = {
-        enable = true;
-        # max-scroll-amount = 200;
+        enable = false;
+        max-scroll-amount = "5%";
       };
 
       touchpad = {
@@ -593,8 +625,10 @@ in {
           {title = "^branchdialog$";}
           {title = "^Confirm to replace files$";}
           {title = "^File Operation Progress$";}
+          {title = "^Picture-in-Picture$";}
 
           {app-id = "^org.gnome.Nautilus$";}
+          {app-id = "^org.gnome.Papers$";}
           {app-id = "^yad$";}
           {app-id = "^kitty-float$";}
           {app-id = "^org.gnome.gThumb$";}

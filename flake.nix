@@ -32,6 +32,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri-float-sticky.url = "github:probeldev/niri-float-sticky";
+
     nirinit = {
       url = "github:amaanq/nirinit";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,11 +48,6 @@
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     hytale-launcher.url = "github:JPyke3/hytale-launcher-nix";
     snappy-switcher.url = "github:OpalAayan/snappy-switcher";
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -105,7 +102,8 @@
         system.nixos.versionSuffix = mkForce "pre-git";
       };
   in {
-    packages.${system}.zen-theme-switch = pkgs.zen-theme-switch;
+    # packages.${system}.zen-theme-switch = pkgs.zen-theme-switch;
+    packages.${system}.ryubing = pkgs.ryubing;
 
     nixosConfigurations = {
       dreamhouse = inputs.nixpkgs.lib.nixosSystem {

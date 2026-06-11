@@ -32,7 +32,7 @@
   systemd.services."user@".serviceConfig.Delegate = "memory pids cpu cpuset";
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
 
   programs.gnupg.agent.enable = true;
 }

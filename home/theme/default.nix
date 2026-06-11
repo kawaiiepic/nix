@@ -57,8 +57,8 @@ in {
         src = pkgs.fetchFromGitHub {
           owner = "kawaiiepic";
           repo = "adw-gtk3";
-          rev = "f7da7b7ca105725efbe6c2299a6ec7eaa014d5b8";
-          sha256 = "sha256-guVpZCbGtb/462N5j0AbMwU8VmQkABjihJi5wBoPgNI=";
+          rev = "e7e3c08c2997fe38eb8649981d6608da2b5cc439";
+          sha256 = "sha256-1seLWScVMUWZh53LdbKKy9VPog85CQDN4XLXeZvSQpI=";
         };
       });
     };

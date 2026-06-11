@@ -3,13 +3,20 @@
   fonts = {
     enableDefaultPackages = true;
 
+    fontDir.enable = true;
+
     fontconfig = {
-      defaultFonts = {
-        sansSerif = [ "UbuntuSans Nerd Font" ];
-        monospace = [ "UbuntuSansMono Nerd Font Mono" ];
-      };
+      enable = true;
+      # defaultFonts = {
+      #   sansSerif = [ "UbuntuSans Nerd Font" ];
+      #   monospace = [ "UbuntuSansMono Nerd Font Mono" ];
+      # };
     };
     packages = with pkgs; [
+      # Fix apps
+      dejavu_fonts
+      corefonts
+      vista-fonts
       # icon fonts
       material-symbols
       # normal fonts
