@@ -4,16 +4,16 @@
   lib,
   inputs,
   ...
-}:
-let
+}: let
   custom_quickshell =
     inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules
-      [
-        pkgs.kdePackages.qt5compat
-        pkgs.kdePackages.qtimageformats
-        pkgs.kdePackages.qtmultimedia
-        inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
+    [
+      pkgs.kdePackages.qt5compat
+      pkgs.kdePackages.qtimageformats
+      pkgs.kdePackages.qtmultimedia
+      pkgs.kdePackages.qtwebsockets
+      inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
 
   palette = {
     latte = {
@@ -170,34 +170,193 @@ let
       rosewater = "#00001A";
     };
   };
-in
-{
 
-  imports = [ ./scripts/screenshot.nix ];
+  newFinalNiri = let
+    inherit (inputs.niri.lib.internal) validated-config-for;
+    inherit (config.programs.niri) finalConfig package;
+  in
+    lib.readFile (validated-config-for pkgs package ''
+      ${finalConfig}
+
+      blur {
+          passes 2
+          offset 3
+          noise 0.02
+          saturation 1.1
+      }
+
+      window-rule {
+          match app-id="^kitty$"
+          match app-id="^org.gnome.Nautilus$"
+          match app-id="^zen-beta$"
+          background-effect {
+              blur true
+              xray false
+          }
+      }
+
+      layer-rule {
+          match namespace="^quickshell-blur-test$"
+          background-effect {
+              blur true
+              // Sample windows directly behind fuzzel; default (xray)
+              // samples the desktop backdrop and looks broken.
+              xray false
+          }
+      }
+    '');
+in {
+  imports = [
+    inputs.nfsm-flake.homeModules.default
+    ./scripts/screenshot.nix
+  ];
 
   home.packages = with pkgs; [
-    #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     gthumb
     libcanberra-gtk3
     custom_quickshell
+    alsa-utils
+    ffmpeg
     cava
     brightnessctl
-    #inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+    miri
+    niri-sidebar
+
+    inputs.snappy-switcher.packages.${pkgs.system}.default
+    inputs.niri-float-sticky.packages.${pkgs.system}.default
+    linux-wallpaperengine
   ];
+
+  services.nfsm = {
+    enable = true;
+    package = inputs.nfsm-flake.packages.${pkgs.system}.nfsm; # default
+    enableCli = true; # default
+    cliPackage = pkgs.writeShellScriptBin "nfsm-cli" ''
+      export NFSM_SOCKET="${config.services.nfsm.socketPath}"
+      exec ${inputs.nfsm-flake.packages.${pkgs.system}.nfsm-cli}/bin/nfsm-cli
+    '';
+    socketPath = "/run/user/1002/nfsm.sock"; # default
+  };
+
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
 
   home.file.".config/niri/config-latte.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.latte)
-      config.programs.niri.finalConfig;
+    newFinalNiri;
 
   home.file.".config/niri/config-frappe.kdl".text =
     builtins.replaceStrings (builtins.attrValues palette.default) (builtins.attrValues palette.frappe)
-      config.programs.niri.finalConfig;
+    newFinalNiri;
+
+  home.activation = {
+    createMyFile = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      TARGET_FILE="$HOME/.config/niri/current.kdl"
+
+      # Check if the file already exists
+      if [ ! -f "$TARGET_FILE" ]; then
+        # Ensure the parent directory exists
+        $DRY_RUN_CMD mkdir -p "$(dirname "$TARGET_FILE")"
+
+        $DRY_RUN_CMD ln -sf "$HOME/.config/niri/config-frappe.kdl" "$TARGET_FILE"
+      fi
+    '';
+  };
+
+  home.file.".config/niri-sidebar/config.toml".text = ''
+    # niri-sidebar configuration
+
+    [geometry]
+    # Width of the sidebar in pixels
+    width = 400
+    # Height of the sidebar windows
+    height = 335
+    # Gap between windows in the stack
+    gap = 10
+
+    [margins]
+    # Margins are default to 0 if left out
+    # Space from the top of the screen
+    top = 50
+    # Space from the right edge of the screen
+    right = 10
+    # Space from the left edge of the screen
+    left = 10
+    # Space from the bottom of the screen
+    bottom = 10
+
+    [interaction]
+    # Where to put the sidebar, can be "left", "right", "top" or "bottom"
+    # Defaults to "right"
+    position = "right"
+    # Width of windows when sidebar is hidden in pixels
+    peek = 10
+    # Width of window when sidebar is hidden but window is focused in pixels
+    # set this equal to peek to disable this feature
+    # set this equal to sidebar_width + offset_right to make focused windows "unhide"
+    # Optional and defaults to peek if ommitted
+    focus_peek = 410
+    # Whether the sidebar should follow if you switch workspaces
+    sticky = true
+
+    # Example window rule
+    # all fields are optional if not given a default from other configs will be used
+    [[window_rule]]
+    app_id = "firefox"  # regex, if not set will match all app_id's
+    title = "^Picture-in-Picture$"  # regex, if not set will match no matter the title
+    width = 700
+    height = 400
+    focus_peek = 710
+    peek = 10
+    auto_add = true  # defaults to false
+  '';
 
   xdg.enable = true;
 
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
+    # Folders
     "inode/directory" = "org.gnome.Nautilus.desktop";
+
+    # Web
+    "text/html" = "zen-beta.desktop";
+    "x-scheme-handler/http" = "zen-beta.desktop";
+    "x-scheme-handler/https" = "zen-beta.desktop";
+
+    # PDFs
+    "application/pdf" = "org.gnome.Papers.desktop";
+
+    # Images
+    "image/png" = "org.gnome.gThumb.desktop";
+    "image/jpeg" = "org.gnome.gThumb.desktop";
+    "image/webp" = "org.gnome.gThumb.desktop";
+
+    # Text
+    "text/plain" = "codium.desktop";
+
+    # Video
+    "video/mp4" = "mpv.desktop";
+    "video/x-matroska" = "mpv.desktop";
+
+    # Audio
+    "audio/mpeg" = "mpv.desktop";
+    "audio/flac" = "mpv.desktop";
+
+    # Python
+    "text/x-python" = "codium.desktop";
+  };
+
+  xdg.userDirs.enable = true;
+
+  gtk.gtk3 = {
+    bookmarks = [
+      "file://${config.xdg.userDirs.documents}"
+      "file://${config.xdg.userDirs.download}"
+      "file:///home/mia/Documents/nix"
+    ];
   };
 
   xdg.portal = {
@@ -205,37 +364,33 @@ in
     xdgOpenUsePortal = true;
 
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gnome
     ];
 
-    config.common.default = "wlr";
+    config.common.default = "gnome";
 
     config = {
       niri = {
-        default = [ "gtk" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        default = ["gnome"];
+        "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
+        "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
       };
     };
   };
 
   programs.niri.settings = {
-
     spawn-at-startup = [
-      #{
-      #  argv = [
-      #    "ags"
-      #    "run"
-      #    "--gtk"
-      #    "4"
-      #  ];
-      #}
       {
         argv = [
           "quickshell"
         ];
       }
+      # {
+      #   argv = [
+      #     "snappy-switcher"
+      #     "--daemon"
+      #   ];
+      # }
       {
         argv = [
           "stasis"
@@ -249,8 +404,15 @@ in
       }
       {
         argv = [
-          "wvkbd-mobintl"
-          "--hidden"
+          "niri-sidebar"
+          "listen"
+        ];
+      }
+      {
+        argv = [
+          "niri-float-sticky"
+          "-title"
+          "^Picture-in-Picture$"
         ];
       }
     ];
@@ -260,14 +422,25 @@ in
       path = lib.getExe pkgs.xwayland-satellite-unstable;
     };
 
-    overview.backdrop-color = palette.default.base;
-    prefer-no-csd = false;
+    # overview.backdrop-color = palette.default.base;
+    prefer-no-csd = true;
     hotkey-overlay.skip-at-startup = true;
     cursor.theme = "GoogleDot-Blue";
     screenshot-path = null;
 
     input = {
-      focus-follows-mouse.enable = false;
+      focus-follows-mouse = {
+        enable = false;
+        max-scroll-amount = "5%";
+      };
+
+      touchpad = {
+        dwt = true;
+        click-method = "clickfinger";
+        tap-button-map = "left-right-middle";
+        accel-profile = "adaptive";
+        drag-lock = true;
+      };
     };
 
     outputs = {
@@ -290,13 +463,31 @@ in
       "eDP-1" = {
         scale = 1.25;
       };
-
-      #"eDP-1" = {
-      #  transform.rotation = 270;
-      #};
     };
 
     layout = {
+      tab-indicator = {
+        width = 8;
+        gap = 8;
+        position = "left";
+        length.total-proportion = 0.3;
+        place-within-column = true;
+
+        active.color = palette.default.pink;
+        inactive.color = palette.default.pink;
+      };
+
+      insert-hint = {
+        display.color = palette.default.pink;
+      };
+
+      struts = {
+        left = 20;
+        right = 20;
+        top = 5;
+        bottom = 5;
+      };
+
       focus-ring = {
         enable = false;
         width = 2;
@@ -307,7 +498,7 @@ in
 
       border = {
         enable = true;
-        width = 2;
+        width = 1;
         active.gradient = {
           relative-to = "workspace-view";
           from = palette.default.crust;
@@ -349,24 +540,34 @@ in
       open-on-output = "DP-2";
     };
 
+    layer-rules = [
+      {
+        matches = [
+          {
+            namespace = "^wallpaper-overview$";
+          }
+        ];
+
+        place-within-backdrop = true;
+      }
+    ];
+
     window-rules = [
       {
-        geometry-corner-radius =
-          let
-            r = 8.0;
-          in
-          {
-            top-left = r;
-            top-right = r;
-            bottom-left = r;
-            bottom-right = r;
-          };
+        geometry-corner-radius = let
+          r = 12.0;
+        in {
+          top-left = r;
+          top-right = r;
+          bottom-left = r;
+          bottom-right = r;
+        };
         clip-to-geometry = true;
       }
       {
         matches = [
           {
-            app-id = "gsr-ui$";
+            app-id = "^gsr-ui$";
           }
         ];
         open-floating = true;
@@ -382,7 +583,7 @@ in
           }
         ];
 
-         border.enable = false;
+        border.enable = false;
       }
 
       {
@@ -394,7 +595,6 @@ in
 
         variable-refresh-rate = true;
         draw-border-with-background = false;
-        opacity = 0.98;
       }
 
       {
@@ -404,57 +604,80 @@ in
           }
         ];
 
+        min-width = 100;
+        min-height = 100;
+
         baba-is-float = false;
+      }
+      {
+        open-floating = true;
+
+        matches = [
+          {app-id = "^file_progress$";}
+          {app-id = "^confirm$";}
+          {app-id = "^dialog$";}
+          {app-id = "^download$";}
+          {app-id = "^notification$";}
+          {app-id = "^error$";}
+          {app-id = "^confirmreset$";}
+
+          {title = "^Open File$";}
+          {title = "^branchdialog$";}
+          {title = "^Confirm to replace files$";}
+          {title = "^File Operation Progress$";}
+          {title = "^Picture-in-Picture$";}
+
+          {app-id = "^org.gnome.Nautilus$";}
+          {app-id = "^org.gnome.Papers$";}
+          {app-id = "^yad$";}
+          {app-id = "^kitty-float$";}
+          {app-id = "^org.gnome.gThumb$";}
+          {app-id = "^xdg-desktop-portal-gtk$";}
+          {app-id = "^mpv$";}
+          {app-id = "^org.gnome.NautilusPreviewer$";}
+          {app-id = "^pavucontrol$";}
+          {app-id = "^org.gnome.TextEditor$";}
+        ];
       }
     ];
 
-    binds =
-      with config.lib.niri.actions;
-      let
-        binds =
-          {
-            suffixes,
-            prefixes,
-            substitutions ? { },
-          }:
-          let
-            replacer = lib.replaceStrings (lib.attrNames substitutions) (lib.attrValues substitutions);
-            format =
-              prefix: suffix:
-              let
-                actual-suffix =
-                  if lib.isList suffix.action then
-                    {
-                      action = lib.head suffix.action;
-                      args = lib.tail suffix.action;
-                    }
-                  else
-                    {
-                      inherit (suffix) action;
-                      args = [ ];
-                    };
+    binds = with config.lib.niri.actions; let
+      binds = {
+        suffixes,
+        prefixes,
+        substitutions ? {},
+      }: let
+        replacer = lib.replaceStrings (lib.attrNames substitutions) (lib.attrValues substitutions);
+        format = prefix: suffix: let
+          actual-suffix =
+            if lib.isList suffix.action
+            then {
+              action = lib.head suffix.action;
+              args = lib.tail suffix.action;
+            }
+            else {
+              inherit (suffix) action;
+              args = [];
+            };
 
-                action = replacer "${prefix.action}-${actual-suffix.action}";
-              in
-              {
-                name = "${prefix.key}+${suffix.key}";
-                value.action.${action} = actual-suffix.args;
-              };
-            pairs =
-              attrs: fn:
-              lib.concatMap (
-                key:
-                fn {
-                  inherit key;
-                  action = attrs.${key};
-                }
-              ) (lib.attrNames attrs);
-          in
-          lib.listToAttrs (pairs prefixes (prefix: pairs suffixes (suffix: [ (format prefix suffix) ])));
+          action = replacer "${prefix.action}-${actual-suffix.action}";
+        in {
+          name = "${prefix.key}+${suffix.key}";
+          value.action.${action} = actual-suffix.args;
+        };
+        pairs = attrs: fn:
+          lib.concatMap (
+            key:
+              fn {
+                inherit key;
+                action = attrs.${key};
+              }
+          ) (lib.attrNames attrs);
       in
+        lib.listToAttrs (pairs prefixes (prefix: pairs suffixes (suffix: [(format prefix suffix)])));
+    in
       lib.attrsets.mergeAttrsList [
         {
-
           "XF86AudioPlay" = {
             allow-when-locked = true;
             action = spawn "playerctl" "play-pause";
@@ -496,21 +719,10 @@ in
           "Mod+Shift+Insert".action = set-dynamic-cast-monitor;
           "Mod+Delete".action = clear-dynamic-cast-target;
 
-          "Mod+I".action = spawn [
-            "pkill"
-            "-RTMIN"
-            "wvkbd"
-          ];
-
           "Mod+Q".action = close-window;
           "Mod+T".action = toggle-window-floating;
 
-          "Mod+W".action = spawn [
-            "tessen"
-            "-p"
-            "gopass"
-          ];
-
+          "Mod+Alt+P".action.screenshot = [];
           "Mod+P".action = spawn "screenshot";
           "Mod+Shift+P".action = spawn "screenshot";
 
@@ -522,28 +734,30 @@ in
           "Mod+Shift+Tab".action = focus-window-up-or-column-left;
 
           "Mod+L".action = spawn "hyprlock";
-
-          "Mod+Escape".action = spawn [
-            "ags"
-            "toggle"
-            "logout"
-          ];
-
-          "Mod+E".action = spawn [
-            "ags"
-            "toggle"
-            "launcher"
+          "Mod+K".action = do-screen-transition;
+          "Mod+Y".action = spawn [
+            "tessen"
+            "-p"
+            "gopass"
+            "-d"
+            "wofi"
           ];
 
           "Mod+G".action = spawn "nautilus";
           "Mod+H".action = show-hotkey-overlay;
+
+          "Mod+W".action = toggle-column-tabbed-display;
+          "Mod+E".action = consume-window-into-column;
+          "Mod+S".action = expel-window-from-column;
+          "Mod+Shift+A".action = consume-or-expel-window-left;
+          "Mod+Shift+D".action = consume-or-expel-window-right;
 
           "Mod+WheelScrollUp".action = focus-window-up;
           "Mod+WheelScrollDown".action = focus-window-down;
 
           "Mod+R".action = switch-preset-column-width;
           "Mod+F".action = maximize-column;
-          "Mod+Shift+F".action = fullscreen-window;
+          "Mod+Shift+F".action = spawn "nfsm-cli";
           "Mod+C".action = center-column;
 
           "Mod+Minus".action = set-column-width "-10%";
@@ -553,8 +767,25 @@ in
 
           "Mod+Shift+Escape".action = toggle-keyboard-shortcuts-inhibit;
           "Mod+Shift+E".action = quit;
-          "Mod+Ctrl+Shift+E".action = quit { skip-confirmation = true; };
-          "Mod+Alt+P".action = power-off-monitors;
+          "Mod+Alt+O".action = power-off-monitors;
+
+          "Mod+V".action = spawn [
+            "niri-sidebar"
+            "toggle-window"
+          ];
+          "Mod+Shift+S".action = spawn [
+            "niri-sidebar"
+            "toggle-visibility"
+          ];
+
+          "Alt+Tab".action = spawn [
+            "snappy-switcher"
+            "next"
+          ];
+          "Alt+Shift+Tab".action = spawn [
+            "snappy-switcher"
+            "prev"
+          ];
         }
         (binds {
           suffixes."Left" = "column-left";
@@ -575,7 +806,7 @@ in
               name = toString n;
               value = [
                 "workspace"
-                ("${toString n}")
+                "${toString n}"
               ]; # workspace 1 is empty; workspace 2 is the logical first.
             }) (lib.range 1 5)
           );

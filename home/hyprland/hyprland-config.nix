@@ -378,7 +378,7 @@
       # hyprlandPlugins.hyprtrails
       # hyprlandPlugins.hyprexpo
       # hyprlandPlugins.hyprfocus
-      # inputs.hyprfocus.packages.${system}.default
+      # inputs.hyprfocus.packages.${pkgs.stdenv.hostPlatform.system}.default
       # hyprlandPlugins.hyprspace
     ];
   };

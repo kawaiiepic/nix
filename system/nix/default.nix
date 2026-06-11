@@ -2,30 +2,73 @@
   pkgs,
   options,
   inputs,
+  lib,
   ...
-}:
-{
-
+}: {
   programs.git = {
     enable = true;
     lfs.enable = true;
   };
 
-  nix.package = pkgs.lixPackageSets.git.lix;
+  # nix.package = pkgs.lixPackageSets.stable.lix;
 
   documentation.nixos.enable = false;
 
   # Remove xterm
-  services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.xserver.excludePackages = with pkgs; [xterm];
 
   nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.rocmSupport = true;
+  nixpkgs.config.rocmSupport = true;
   nixpkgs.config.permittedInsecurePackages = [
     "freeimage-unstable-2021-11-01"
     "qtwebengine-5.15.19"
   ];
 
   nixpkgs.overlays = [
+    (
+      self: super: rec {
+        # https://github.com/NixOS/nixpkgs/blob/c339c066b893e5683830ba870b1ccd3bbea88ece/nixos/modules/programs/nix-ld.nix#L44
+        # > We currently take all libraries from systemd and nix as the default.
+        pythonldlibpath = lib.makeLibraryPath (with super; [
+          zlib
+          zstd
+          stdenv.cc.cc
+          curl
+          openssl
+          attr
+          libssh
+          bzip2
+          libxml2
+          acl
+          libsodium
+          util-linux
+          xz
+          systemd
+        ]);
+        # here we are overriding python program to add LD_LIBRARY_PATH to it's env
+        python = super.stdenv.mkDerivation {
+          name = "python";
+          buildInputs = [super.makeWrapper];
+          src = super.python311;
+          installPhase = ''
+            mkdir -p $out/bin
+            cp -r $src/* $out/
+            wrapProgram $out/bin/python3 --set LD_LIBRARY_PATH ${pythonldlibpath}
+            wrapProgram $out/bin/python3.11 --set LD_LIBRARY_PATH ${pythonldlibpath}
+          '';
+        };
+        poetry = super.stdenv.mkDerivation {
+          name = "poetry";
+          buildInputs = [super.makeWrapper];
+          src = super.poetry;
+          installPhase = ''
+            mkdir -p $out/bin
+            cp -r $src/* $out/
+            wrapProgram $out/bin/poetry --set LD_LIBRARY_PATH ${pythonldlibpath}
+          '';
+        };
+      }
+    )
     inputs.nix-cachyos-kernel.overlays.pinned
     (import ../packages/overlay.nix)
   ];
@@ -37,15 +80,6 @@
       enable = true;
       extraArgs = "--keep-since 4d --keep 3";
     };
-  };
-
-  programs.nix-ld = {
-    enable = true;
-    libraries =
-      options.programs.nix-ld.libraries.default
-      ++ (with pkgs; [
-        glib # libglib-2.0.so.0, libgthread-2.0.so.0
-      ]);
   };
 
   nix.settings = {
@@ -64,7 +98,6 @@
       "https://ezkea.cachix.org"
       "https://t2linux.cachix.org"
       "https://miathetrain.cachix.org"
-      "https://cache.soopy.moe"
       # "https://cache.lix.systems"
       "https://tsutsumi.cachix.org"
       "https://attic.xuyh0120.win/lantian"
@@ -84,7 +117,6 @@
       "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
       "t2linux.cachix.org-1:P733c5Gt1qTcxsm+Bae0renWnT8OLs0u9+yfaK2Bejw="
       "miathetrain.cachix.org-1:YnISmBIljKxDFkswh1GbvQFx3gN+7jfGFcgEPz635W8="
-      "cache.soopy.moe-1:0RZVsQeR+GOh0VQI9rvnHz55nVXkFardDqfm4+afjPo="
       # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "tsutsumi.cachix.org-1:MojIlGI60CT5EoyuTgjB4VRVgf/uUvakZVWoYJThQNk="
       "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="

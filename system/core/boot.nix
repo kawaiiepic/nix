@@ -1,13 +1,11 @@
-{ pkgs, inputs, ... }:
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # services.scx = {
-  #   enable = true;
-  #   scheduler = "scx_bpfland";
-  # };
 
   time.timeZone = "America/Chicago";
 
@@ -31,8 +29,10 @@
     rulesProvider = pkgs.ananicy-rules-cachyos;
   };
 
+  systemd.services."user@".serviceConfig.Delegate = "memory pids cpu cpuset";
+
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
 
   programs.gnupg.agent.enable = true;
 }

@@ -168,9 +168,9 @@ in {
   '';
   home.file.".local/share/add-steam-shortcuts.py".executable = true;
 
-  home.activation.addSteamShortcuts =
-    lib.hm.dag.entryAfter [ "reloadSystemd" ] ''
-      echo "🔁 Scanning for XDG desktop entries..."
-      ~/.local/bin/add-steam-shortcuts || true
-    '';
+  # home.activation.addSteamShortcuts =
+  #   lib.hm.dag.entryAfter [ "reloadSystemd" ] ''
+  #     echo "🔁 Scanning for XDG desktop entries..."
+  #     ~/.local/bin/add-steam-shortcuts || true
+  #   '';
 }

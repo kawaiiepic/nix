@@ -2,18 +2,17 @@
   pkgs,
   inputs,
   ...
-}:
-let
-  java = pkgs.temurin-bin-21;
+}: let
+  java = pkgs.jdk21;
   gradle = pkgs.gradle;
-in
-{
+in {
   home.packages = with pkgs; [
     nil
     gradle
     flutter
     java
     libsForQt5.qt5.qtdeclarative
+    dotnetCorePackages.sdk_9_0
   ];
 
   home.sessionVariables = {
@@ -21,7 +20,14 @@ in
     CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
   };
 
+  programs.npm.enable = true;
+
   programs.vscode = {
+    enable = true;
+    
+  };
+
+  programs.vscodium = {
     enable = true;
     mutableExtensionsDir = true;
 
@@ -54,14 +60,15 @@ in
         open-vsx.redhat.java # https://marketplace.visualstudio.com/items?itemName=redhat.java
         open-vsx.vscjava.vscode-gradle # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle
         open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
-        open-vsx.arrterian.nix-env-selector
+        #open-vsx.arrterian.nix-env-selector
         vscode-marketplace.visualstudioexptteam.vscodeintellicode # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
         vscode-marketplace.dart-code.flutter # https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
         vscode-marketplace.dart-code.dart-code
+        open-vsx.muhammad-sammy.csharp
 
         ## Pretty
         open-vsx.kamadorueda.alejandra # https://marketplace.visualstudio.com/items?itemName=kamadorueda.alejandra
-        vscode-marketplace.esbenp.prettier-vscode
+        #vscode-marketplace.esbenp.prettier-vscode
 
         ## Misc
         open-vsx.naumovs.color-highlight # https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
@@ -85,8 +92,8 @@ in
           extraBordersEnabled = false;
           workbenchMode = "default";
           bracketMode = "rainbow";
-          colorOverrides = { };
-          customUIColors = { };
+          colorOverrides = {};
+          customUIColors = {};
         })
       ];
 
@@ -100,8 +107,7 @@ in
         "workbench.panel.defaultLocation" = "bottom";
         "workbench.colorTheme" = "Catppuccin Mocha";
         "workbench.editorAssociations" = {
-          "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" =
-            "default";
+          "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" = "default";
           "*.qrc" = "qt-core.qrcEditor";
         };
 
@@ -119,8 +125,8 @@ in
         "editor.cursorStyle" = "line-thin";
         "editor.pasteAs.enabled" = false;
         "editor.bracketPairColorization.independentColorPoolPerBracketType" = true;
-        "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        "editor.rulers" = [ 120 ];
+        #"editor.defaultFormatter" = "esbenp.prettier-vscode";
+        "editor.rulers" = [120];
 
         "terminal.integrated.cursorBlinking" = true;
 
@@ -170,17 +176,37 @@ in
 
         "redhat.telemetry.enabled" = true;
 
+        "qmlFormat.command" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlformat";
+        "qmlFormat.extraArguments" = ["--verbose"];
+
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
         "qt-qml.qmlls.customExePath" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlls";
+
+        "qt-core.additionalQtPaths" = [
+          {
+            "name" = "kde-qtbase";
+            "path" = "${pkgs.kdePackages.qtbase}/bin/qtpaths";
+          }
+        ];
+
+        "typescript.tsserver.log" = "verbose";
+
+        "dotnet.server.path" = "${pkgs.roslyn-ls}/bin/Microsoft.CodeAnalysis.LanguageServer";
+        "dotnet.server.useOmnisharp" = false;
+        "omnisharp.enableLspDriver" = true;
+
+        rust-analyzer.server.path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+        rust-analyzer.runnables.command = "${pkgs.cargo}/bin/cargo";
       };
     };
 
     package = pkgs.vscodium.fhsWithPackages (
-      ps: with ps; [
-        nil
-        rustup
-        zlib
-      ]
+      ps:
+        with ps; [
+          nil
+          rustup
+          zlib
+        ]
     );
   };
 }

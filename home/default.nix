@@ -2,19 +2,18 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
-    # ./hyprland
     ./software
     ./shell
     ./theme
     ./games
     ./desktop/niri
+    # ./desktop/hyprland
     ./services/pfp
     ./services/hyprlock.nix
     ./services/wlogout.nix
-    # ./services/stasis
+    ./services/stasis
   ];
 
   home.username = "mia";
@@ -22,25 +21,27 @@
 
   programs.home-manager.enable = true;
 
-  home.packages = [
-
+  home.packages = with pkgs; [
   ];
 
   programs.zed-editor = {
     enable = true;
     # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
+      alejandra
       nixfmt
-      nil
     ];
     extensions = [
       "nix"
-      "discord-presence"
+      #"discord-presence"
       "scss"
       "dart"
       "wakatime"
-      # "catppuccin"
+      "catppuccin"
+      "kotlin"
       "lua"
+      "catppuccin-icons"
+      "qml"
     ];
     userSettings = {
       autosave = {
@@ -49,23 +50,59 @@
         };
       };
 
-      # theme = {
-      #   mode = "dark";
-      #   light = "One Light";
-      #   dark = "Catppuccin Macchiato";
-      # };
+      load_direnv = "direct";
+
+      icon_theme = "Catppuccin Mocha";
+
+      theme = {
+        mode = "dark";
+        light = "One Light";
+        dark = "Catppuccin Macchiato";
+      };
 
       lsp = {
-        nil = {
-          settings = {
+        # kotlin-lsp = {
+        #   binary = {
+        #     env = {
+        #       JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
+        #     };
+        #   };
+        #   settings = {
+        #     compiler = {
+        #       jvm = {
+        #         target = "17";
+        #       };
+        #     };
+        #   };
+        # };
+        kotlin-language-server = {
+          binary = {
+            path = "${pkgs.kotlin-language-server}/bin/kotlin-language-server";
+          };
+        };
+        
+        rust-analyzer = {
+          binary = {
+            path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+          };
+        };
+        
+        nixd = {
+          initialization_options = {
             formatting = {
-              command = [ "nixfmt" ];
+              command = [
+                "alejandra"
+                "--quiet"
+                "--"
+              ];
             };
-            nix = {
-              flake = {
-                autoArchive = true;
-                autoEvalInputs = true;
-              };
+          };
+          binary = {
+            path = "${pkgs.nixd}/bin/nixd";
+          };
+          settings = {
+            diagnostic = {
+              suppress = ["sema-extra-with"];
             };
           };
         };
@@ -73,7 +110,10 @@
         dart = {
           binary = {
             path = "${pkgs.dart}/bin/dart";
-            arguments = ["language-server" "--protocol=lsp"];
+            arguments = [
+              "language-server"
+              "--protocol=lsp"
+            ];
           };
         };
 
@@ -96,21 +136,30 @@
       };
 
       languages = {
+        Kotlin = {
+          language_servers = ["kotlin-language-server"];
+        };
         Nix = {
+          formatter = {
+            external = {
+              command = "alejandra";
+              arguments = ["--quiet" "--"];
+            };
+          };
           language_servers = [
-            "!nixd"
-            "nil"
+            "nixd"
+            "!nil"
           ];
         };
       };
 
       ui_font_size = 16;
       buffer_font_size = 16;
-      buffer_font_family = "SpaceMono Nerd Font Mono";
+      buffer_font_family = "UbuntuSansMono Nerd Font Mono";
     };
   };
 
   # The state version is required and should stay at the version you
   # originally installed.
-  home.stateVersion = "24.05";
+  home.stateVersion = "26.05";
 }

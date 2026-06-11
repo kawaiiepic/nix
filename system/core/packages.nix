@@ -10,8 +10,9 @@
     devenv
     zip
     unzip
-    winboat
-    podman-compose
+    
+    androidenv.androidPkgs.platform-tools
+    
   ];
 
   virtualisation = {
@@ -22,5 +23,7 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 };
+
+virtualisation.waydroid.enable = true;
 
 }

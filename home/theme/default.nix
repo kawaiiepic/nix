@@ -1,64 +1,48 @@
 {
   pkgs,
+  config,
+  lib,
   ...
-}:
-let
-  colloid = pkgs.callPackage ./gtk/colloid-theme.nix { };
-in
-{
-
+}: let
+  colloid = pkgs.callPackage ./gtk/colloid-theme.nix {};
+in {
   home.packages = with pkgs; [
-    colloid
-    (catppuccin-kvantum.override {
-      accent = "blue";
-      variant = "macchiato";
-    })
-    pkgs.utterly-nord-plasma
+    # config.gtk.theme.package
+    # (catppuccin-kvantum.override {
+    #   accent = "blue";
+    #   variant = "macchiato";
+    # })
   ];
 
-  qt = {
-    enable = true;
-    platformTheme.name = "qtct";
-    style.name = "kvantum";
-
-  };
-  xdg.configFile = {
-    "Kvantum/kvantum.kvconfig".text = ''
-      [General]
-      theme=catppuccin-mocha-teal
-    '';
-
-    "Kvantum/catppuccin-mocha-teal".source = "${
-      pkgs.catppuccin-kvantum.override {
-        accent = "teal";
-        variant = "mocha";
-      }
-    }/share/Kvantum/catppuccin-mocha-teal";
-  };
-
-  # xdg.configFile = {
-  #   "Kvantum/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue.kvconfig".source =
-  #     "${pkgs.catppuccin-kvantum}/share/Kvantum/Catppuccin-Macchiato-Blue/Cattpuccin-Macchiato-Blue.kvconfig";
-  #   "Kvantum/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue/Catppuccin-Macchiato-Blue.svg".source =
-  #     "${pkgs.catppuccin-kvantum}/share/Kvantum/Catppuccin-Macchiato-Blue/Cattpuccin-Macchiato-Blue.svg";
+  # home.file = {
+  #   ".local/share/icons/GoogleDot-Violet" = {
+  #     source = ./files/GoogleDot-Violet;
+  #   };
   # };
 
-  # qt.enable = true;
-  # qt.platformTheme = "qtct";
-  # qt.style.name = "kvantum";
+  # xdg.configFile = {
+  #   "Kvantum/kvantum.kvconfig".text = ''
+  #     [General]
+  #     theme=catppuccin-mocha-teal
+  #   '';
 
-  # xdg.configFile."Kvantum/kvantum.kvconfig".source =
-  #   (pkgs.formats.ini { }).generate "kvantum.kvconfig"
-  #     {
-  #       General.theme = "catppuccin-mocha-mauve";
-  #     };
+  #   "Kvantum/catppuccin-mocha-teal".source = "${
+  #     pkgs.catppuccin-kvantum.override {
+  #       accent = "teal";
+  #       variant = "mocha";
+  #     }
+  #   }/share/Kvantum/catppuccin-mocha-teal";
+  # };
+
+  dconf.settings."org/gnome/desktop/interface".gtk-theme = lib.mkForce config.gtk.theme.name;
+  dconf.settings."org/gnome/desktop/interface".color-scheme = lib.mkForce "prefer-dark";
 
   gtk = {
     enable = true;
 
     font = {
-      name = "Lexend";
-      package = pkgs.lexend;
+      name = "UbuntuSans Nerd Font";
+      package = pkgs.nerd-fonts.ubuntu-sans;
       size = 10;
     };
 
@@ -67,19 +51,33 @@ in
       package = pkgs.google-cursor;
     };
 
-    # theme = {
-    #   name = "Colloid-Dark";
-    #   package = (pkgs.callPackage ./gtk/colloid-theme.nix { });
-    # };
-
     theme = {
-      name = "Colloid-Dark";
-      package = colloid;
+      name = "adw-gtk3";
+      package = (pkgs.adw-gtk3.overrideAttrs {
+        src = pkgs.fetchFromGitHub {
+          owner = "kawaiiepic";
+          repo = "adw-gtk3";
+          rev = "e7e3c08c2997fe38eb8649981d6608da2b5cc439";
+          sha256 = "sha256-1seLWScVMUWZh53LdbKKy9VPog85CQDN4XLXeZvSQpI=";
+        };
+      });
     };
 
+    gtk4.theme = config.gtk.theme;
+
+    
     iconTheme = {
-      name = "Papirus";
+      name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "Adwaita-dark";
+    style = {
+      name = "Adwaita-dark";
+      package = pkgs.adwaita-qt;
     };
   };
 }

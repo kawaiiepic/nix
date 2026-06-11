@@ -1,8 +1,4 @@
-{
-  lib,
-  ...
-}:
-{
+{lib, ...}: {
   programs.kitty = {
     enable = true;
 
@@ -28,15 +24,14 @@
 
     settings = {
       window_border_width = "0px";
-      hide_window_decorations = true;
       enable_audio_bell = true;
       window_padding_width = 20;
       strip_trailing_spaces = "smart";
       confirm_os_window_close = 0;
       cursor_shape = "underline";
-      background_opacity = lib.mkForce "1";
-      background_blur = 10;
-      background_tint = "0.5";
+      background_opacity = "0.95";
+      background_blur = 1;
+      background_tint = "0.2";
       tab_bar_min_tabs = 1;
       tab_bar_background = "#1E1E2E";
       tab_bar_edge = "bottom";

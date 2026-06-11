@@ -2,10 +2,8 @@
   inputs,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
-    # ../../system/desktop/greetd.nix
     ./hardware.nix
     ../default.nix
     ./storage.nix
@@ -23,7 +21,7 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
   ];
 
-  nixpkgs.overlays = [ inputs.millennium.overlays.default ];
+  # nixpkgs.overlays = [inputs.millennium.overlays.default];
 
   programs.gpu-screen-recorder-ui.enable = true;
 
@@ -31,9 +29,24 @@
 
   hardware.opentabletdriver.enable = true;
 
-  environment.systemPackages = with pkgs; [
+  services.usbmuxd = {
+    enable = false;
+    # package = pkgs.usbmuxd2;
+  };
 
+  environment.systemPackages = with pkgs; [
+    libimobiledevice
+    usbmuxd2
   ];
+
+  services.ollama = {
+    enable = false;
+    package = pkgs.ollama-rocm;
+    environmentVariables = {
+      OLLAMA_ORIGINS = "*";
+      OLLAMA_HOST = "0.0.0.0"; # used to be necessary, but doesn't seem to anymore
+    };
+  };
 
   programs.steam = {
     enable = true;

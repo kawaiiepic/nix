@@ -38,7 +38,7 @@
 
       wl-clipboard
       (pkgs.writeShellScriptBin "launcher" ''
-        ${inputs.ags.packages.${system}.default}/bin/ags toggle launcher
+        ${inputs.ags.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/ags toggle launcher
       '')
       (pkgs.writeShellScriptBin "hyprexit" ''
         ${hyprland}/bin/hyprctl dispatch exit
