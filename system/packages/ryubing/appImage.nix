@@ -2,7 +2,7 @@
   appimageTools,
   fetchurl,
 }: let
-  pname = "ryubinx";
+  pname = "ryubing";
   version = "1.3.309";
 
   src = fetchurl {

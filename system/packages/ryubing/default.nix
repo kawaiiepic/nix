@@ -131,7 +131,7 @@ buildDotnetModule rec {
       install -D ./app.ryujinx.Ryujinx.desktop  $out/share/applications/app.ryujinx.Ryujinx.desktop
       install -D ./Ryujinx.sh       $out/bin/Ryujinx.sh
       install -D ./mime/Ryujinx.xml $out/share/mime/packages/Ryujinx.xml
-      install -D ./misc/Logo.png   $out/share/icons/hicolor/scalable/apps/Ryujinx.png
+      install -D ../misc/Logo.png   $out/share/icons/hicolor/scalable/apps/Ryujinx.png
 
       popd
     ''}
