@@ -12,7 +12,7 @@
     nixpkgs-master = {
       url = "github:nixos/nixpkgs/master";
     };
-    
+
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -76,7 +76,7 @@
     };
 
     stasis.url = "github:saltnpepper97/stasis";
-    };
+  };
 
   outputs = inputs: let
     system = "x86_64-linux";
@@ -116,7 +116,7 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs;};
 
-            home-manager.users.mia = import ./home;
+            home-manager.users.mia = import ./home/profiles/dreamhouse;
           }
           ./systems/dreamhouse/config.nix
         ];
@@ -137,7 +137,7 @@
           }
           ./systems/lain/config.nix
         ];
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs pkgs-master;};
       };
 
       macbook = inputs.nixpkgs.lib.nixosSystem {
@@ -154,7 +154,7 @@
           }
           ./systems/macbook/config.nix
         ];
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs pkgs-master;};
       };
 
       binarybarbie = inputs.nixpkgs.lib.nixosSystem {
@@ -170,27 +170,27 @@
           }
           ./systems/binarybarbie/config.nix
         ];
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs pkgs-master;};
       };
 
-        steamdeck = inputs.nixpkgs.lib.nixosSystem {
-          # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
-          # nixpkgs.config = {allowUnfree=true;};
-          system = "x86_64-linux";
-          modules = [
-            inputs.jovian-nixos.nixosModules.default
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
+      steamdeck = inputs.nixpkgs.lib.nixosSystem {
+        # pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux ;
+        # nixpkgs.config = {allowUnfree=true;};
+        system = "x86_64-linux";
+        modules = [
+          inputs.jovian-nixos.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {inherit inputs;};
 
-              home-manager.users.mia = import ./home/profiles/steamdeck;
-            }
-            ./systems/steamdeck/config.nix
-          ];
-          specialArgs = { inherit inputs; };
-        };
+            home-manager.users.mia = import ./home/profiles/steamdeck;
+          }
+          ./systems/steamdeck/config.nix
+        ];
+        specialArgs = {inherit inputs pkgs-master;};
       };
     };
-  }
+  };
+}
