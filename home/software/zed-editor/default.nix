@@ -1,10 +1,12 @@
-{
+{pkgs, inputs, ...}:{
+  
   programs.zed-editor = {
     enable = true;
     # package = pkgs.zed-editor.fhsWithPackages (pkgs: [ pkgs.zlib ]);
     extraPackages = with pkgs; [
       alejandra
       nixfmt
+      kdePackages.qt5compat
     ];
     extensions = [
       "nix"
@@ -36,20 +38,12 @@
       };
 
       lsp = {
-        # kotlin-lsp = {
-        #   binary = {
-        #     env = {
-        #       JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
-        #     };
-        #   };
-        #   settings = {
-        #     compiler = {
-        #       jvm = {
-        #         target = "17";
-        #       };
-        #     };
-        #   };
-        # };
+        qml = {
+          binary = {
+            arguments = ["-E"];
+          };
+        };
+        
         kotlin-language-server = {
           binary = {
             path = "${pkgs.kotlin-language-server}/bin/kotlin-language-server";
@@ -58,7 +52,13 @@
 
         rust-analyzer = {
           binary = {
-            path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+            path_lookup = true;
+          };
+        };
+
+        wakatime-ls = {
+          binary = {
+            path_lookup = true;
           };
         };
 

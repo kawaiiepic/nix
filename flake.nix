@@ -40,7 +40,7 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.0.0";
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
@@ -102,7 +102,12 @@
       };
   in {
     # packages.${system}.zen-theme-switch = pkgs.zen-theme-switch;
-    packages.${system}.ryubing = pkgs.ryubing;
+    packages.${system} = {
+      ryubing = pkgs.ryubing;
+      libglycin = pkgs.libglycin;
+      glycin-loaders = pkgs.glycin-loaders;
+      sushi = pkgs.sushi;
+    };
 
     nixosConfigurations = {
       dreamhouse = inputs.nixpkgs.lib.nixosSystem {

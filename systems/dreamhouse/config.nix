@@ -2,7 +2,8 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware.nix
     ../default.nix
@@ -40,7 +41,7 @@
   ];
 
   services.ollama = {
-    enable = false;
+    enable = true;
     package = pkgs.ollama-rocm;
     environmentVariables = {
       OLLAMA_ORIGINS = "*";

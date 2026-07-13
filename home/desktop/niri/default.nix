@@ -175,36 +175,38 @@
     inherit (inputs.niri.lib.internal) validated-config-for;
     inherit (config.programs.niri) finalConfig package;
   in
-    lib.readFile (validated-config-for pkgs package ''
-      ${finalConfig}
+    lib.readFile (
+      validated-config-for pkgs package ''
+        ${finalConfig}
 
-      blur {
-          passes 2
-          offset 3
-          noise 0.02
-          saturation 1.1
-      }
+        blur {
+            passes 2
+            offset 3
+            noise 0.02
+            saturation 1.1
+        }
 
-      window-rule {
-          match app-id="^kitty$"
-          match app-id="^org.gnome.Nautilus$"
-          match app-id="^zen-beta$"
-          background-effect {
-              blur true
-              xray false
-          }
-      }
+        window-rule {
+            match app-id="^kitty$"
+            match app-id="^org.gnome.Nautilus$"
+            match app-id="^zen-beta$"
+            background-effect {
+                blur true
+                xray false
+            }
+        }
 
-      layer-rule {
-          match namespace="^quickshell-blur-test$"
-          background-effect {
-              blur true
-              // Sample windows directly behind fuzzel; default (xray)
-              // samples the desktop backdrop and looks broken.
-              xray false
-          }
-      }
-    '');
+        layer-rule {
+            match namespace="^quickshell-blur-test$"
+            background-effect {
+                blur true
+                // Sample windows directly behind fuzzel; default (xray)
+                // samples the desktop backdrop and looks broken.
+                xray false
+            }
+        }
+      ''
+    );
 in {
   imports = [
     ./scripts/screenshot.nix
@@ -230,6 +232,10 @@ in {
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
+  };
+
+  services.gnome-keyring = {
+    enable = true;
   };
 
   home.file.".config/niri/config-latte.kdl".text =
@@ -317,6 +323,9 @@ in {
     # PDFs
     "application/pdf" = "org.gnome.Papers.desktop";
 
+    # json
+    "application/json" = "org.gnome.TextEditor.desktop";
+
     # Images
     "image/png" = "org.gnome.gThumb.desktop";
     "image/jpeg" = "org.gnome.gThumb.desktop";
@@ -399,8 +408,6 @@ in {
       {
         argv = [
           "niri-float-sticky"
-          "-title"
-          "^Picture-in-Picture$"
         ];
       }
     ];
@@ -418,8 +425,8 @@ in {
 
     input = {
       focus-follows-mouse = {
-        enable = false;
-        max-scroll-amount = "5%";
+        enable = true;
+        max-scroll-amount = "50%";
       };
 
       touchpad = {
@@ -454,6 +461,8 @@ in {
     };
 
     layout = {
+      background-color = "transparent";
+
       tab-indicator = {
         width = 8;
         gap = 8;
@@ -466,7 +475,7 @@ in {
       };
 
       insert-hint = {
-        display.color = palette.default.pink;
+        display.color = palette.default.rosewater;
       };
 
       struts = {
@@ -478,9 +487,9 @@ in {
 
       focus-ring = {
         enable = false;
-        width = 2;
+        width = 1;
         active = {
-          color = palette.default.pink;
+          color = palette.default.crust;
         };
       };
 
@@ -495,7 +504,7 @@ in {
         inactive.gradient = {
           relative-to = "workspace-view";
           from = palette.default.crust;
-          to = palette.default.crust;
+          to = palette.default.mantle;
         };
         urgent.gradient = {
           relative-to = "workspace-view";
@@ -508,7 +517,7 @@ in {
         enable = true;
         draw-behind-window = false;
         color = palette.default.crust;
-        spread = 8;
+        spread = 1;
       };
     };
 
@@ -532,7 +541,17 @@ in {
       {
         matches = [
           {
-            namespace = "^wallpaper-overview$";
+            namespace = "^quickshell-wallpaper$";
+          }
+        ];
+
+        place-within-backdrop = true;
+      }
+
+      {
+        matches = [
+          {
+            namespace = "^linux-wallpaperengine$";
           }
         ];
 
@@ -583,6 +602,17 @@ in {
 
         variable-refresh-rate = true;
         draw-border-with-background = false;
+      }
+
+      {
+        matches = [
+          {
+            app-id = "^org.gnome.NautilusPreviewer$";
+          }
+        ];
+
+        min-width = 500;
+        min-height = 500;
       }
 
       {
@@ -710,6 +740,8 @@ in {
           "Mod+Q".action = close-window;
           "Mod+T".action = toggle-window-floating;
 
+          "Mod+Shift+T".action = spawn ["niri-float-sticky" "-ipc" "toggle_sticky"];
+
           "Mod+Alt+P".action.screenshot = [];
           "Mod+P".action = spawn "screenshot";
           "Mod+Shift+P".action = spawn "screenshot";
@@ -744,8 +776,9 @@ in {
           "Mod+WheelScrollDown".action = focus-window-down;
 
           "Mod+R".action = switch-preset-column-width;
-          "Mod+F".action = maximize-column;
+          "Alt+F".action = maximize-column;
           "Mod+Shift+F".action = fullscreen-window;
+          "Mod+F".action = maximize-window-to-edges;
           "Mod+C".action = center-column;
 
           "Mod+Minus".action = set-column-width "-10%";

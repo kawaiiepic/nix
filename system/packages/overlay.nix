@@ -1,6 +1,4 @@
 (final: prev: {
-  # gpu-screen-recorder = prev.callPackage ./gpu-screen-recorder/gsr.nix { };
-
   gpu-screen-recorder-notification = prev.callPackage ./gpu-screen-recorder/notif.nix {};
   gpu-screen-recorder-ui = prev.callPackage ./gpu-screen-recorder/ui.nix {};
   zen-theme-switch = prev.callPackage ./zen-theme-switch/zen-theme-switch.nix {};
@@ -10,105 +8,95 @@
   low-latency-layer = prev.callPackage ./low-latency-layer.nix {};
   ryubing = prev.callPackage ./ryubing {};
   ryubing-appimage = prev.callPackage ./ryubing/appImage.nix {};
+
   sushi = prev.sushi.overrideAttrs {
     version = "git";
     src = prev.fetchurl {
       url = "https://gitlab.gnome.org/GNOME/sushi/-/archive/main/sushi-master.tar.gz";
-      hash = "sha256-TeNNxOsPGSTVFp6P/7pKFu0bEr1HZt169BRoJF9Tuxw=";
+      hash = "sha256-d1/XpedMHpzJgKJAOXUHBCjr7zAvb2e0AG/PJDnHCrI=";
     };
 
-    nativeBuildInputs = with prev; [
+    nativeBuildInputs = with final; [
       pkg-config
       meson
       ninja
       gettext
-      gobject-introspection
       wrapGAppsHook4
     ];
 
-    buildInputs = with prev; [
-      glib
-      gtk4
-      evince
-      icu
-      harfbuzz
-      gjs
-      gdk-pixbuf
-      librsvg
-      libsoup_3
-      webkitgtk_4_1
+    buildInputs = with final; [
+      papers
+      libadwaita
       libglycin
       libglycin-gtk4
+      glycin-loaders
       blueprint-compiler
-      libepoxy
+      gobject-introspection
+
+      fribidi
+      gjs
+      gtk4
+      gtksourceview5
+      webkitgtk_6_0
       gst_all_1.gstreamer
       gst_all_1.gst-plugins-base
       (gst_all_1.gst-plugins-good.override {gtkSupport = true;})
       gst_all_1.gst-plugins-bad
       gst_all_1.gst-plugins-ugly
-      papers
-      gtksourceview5
-      webkitgtk_6_0
-      libadwaita
-    ];
-
-    propagatedBuildInputs = with prev; [
-      gtk4
     ];
   };
-  papers = prev.papers.overrideAttrs {
-    version = "50.1";
-    src = prev.fetchurl {
-      url = "mirror://gnome/sources/papers/50/papers-50.1.tar.xz";
-      hash = "sha256-95zkuVDPURHcSOi33BcosWUcgPMvDiTc5VNxmTzKsnA=";
-    };
 
-    cargoDeps = prev.rustPlatform.fetchCargoVendor {
-      inherit
-        (final.papers)
-        src
-        pname
-        version
-        ;
-      hash = "sha256-6Fd6V0Ksl8jqoM1znyYI0Mve2QQU+JBf3yn2C2Bcda8=";
-    };
-  };
-  nautilus = prev.nautilus.overrideAttrs {
-    version = "50.1";
-    src = prev.fetchurl {
-      url = "mirror://gnome/sources/nautilus/50/nautilus-50.1.tar.xz";
-      hash = "sha256-1ieTuWWXcbZqa24FK1Iin4aN2+wTiKC2ae7wvSESEu4=";
-    };
+  glycin-loaders = prev.callPackage ./gnome/glycin-loaders.nix {};
+  libglycin = prev.callPackage ./gnome/libglycin.nix {};
+  libglycin-gtk4 = prev.callPackage ./gnome/libglycin-gtk4.nix {};
 
-    buildInputs = with prev; [
-      gexiv2
-      glib-networking
-      icu
-      gnome-desktop
-      adwaita-icon-theme
-      gsettings-desktop-schemas
-      gnome-user-share
-      gst_all_1.gst-plugins-base
-      gtk4
-      libadwaita
-      libportal-gtk4
-      libexif
-      libnotify
-      libseccomp
-      libselinux
-      gdk-pixbuf
-      libcloudproviders
-      shared-mime-info
-      tinysparql
-      localsearch
-      gnome-autoar
-      libglycin
-      libglycin-gtk4
-      blueprint-compiler
-      gexiv2_0_16
-    ];
-  };
   niri-sidebar = prev.callPackage ./niri-sidebar.nix {};
+
+  linux-wallpaperengine = (
+    prev.linux-wallpaperengine.overrideAttrs {
+      version = "git";
+
+      src = prev.fetchFromGitHub {
+        owner = "Almamu";
+        repo = "linux-wallpaperengine";
+        rev = "b016d7d1fdcf4e5fd2f9c9fa420a8aaa07fee02d";
+        fetchSubmodules = true;
+        hash = "sha256-ExWAYdSFW5plPuS3/jxTPMXIly6zVb5GojE3e37imZM=";
+      };
+
+      buildInputs = with prev; [
+        SDL2
+        SDL2_mixer
+        egl-wayland
+        ffmpeg
+        fftw
+        freetype
+        glew
+        glfw
+        glm
+        gmp
+        kissfftFloat
+        libxau
+        libxdmcp
+        libxpm
+        libxrandr
+        libxxf86vm
+        libdecor
+        libffi
+        libglut
+        libpng
+        libpulseaudio
+        lz4
+        mpv
+        wayland
+        wayland-protocols
+        wayland-scanner
+        zlib
+        dbus
+      ];
+    }
+  );
+
   # petal = prev.callPackage ./petal {};
   xdg-desktop-portal-wlr = (
     prev.xdg-desktop-portal-wlr.overrideAttrs {

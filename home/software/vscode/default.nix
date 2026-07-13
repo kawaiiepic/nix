@@ -2,34 +2,31 @@
   pkgs,
   inputs,
   ...
-}: let
-  java = pkgs.jdk21;
-  gradle = pkgs.gradle;
-in {
+}:
+let
+  java = pkgs.temurin-bin-25;
+  gradle = pkgs.gradle_9;
+in
+{
   home.packages = with pkgs; [
     nil
     gradle
     flutter
     java
-    libsForQt5.qt5.qtdeclarative
+    qt5.qtdeclarative
     dotnetCorePackages.sdk_9_0
   ];
 
-  home.sessionVariables = {
-    JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
-    CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
-  };
+  # home.sessionVariables = {
+  #   JAVA_HOME = "${java}/lib/openjdk";
+  #   CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
+  # };
 
   programs.npm.enable = true;
 
-  programs.vscode = {
-    enable = true;
-    
-  };
-
   programs.vscodium = {
     enable = true;
-    mutableExtensionsDir = true;
+    mutableExtensionsDir = false;
 
     profiles.default = {
       enableExtensionUpdateCheck = false;
@@ -73,7 +70,7 @@ in {
         ## Misc
         open-vsx.naumovs.color-highlight # https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
         open-vsx.usernamehw.errorlens # https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens
-        open-vsx.eamodio.gitlens # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
+        # open-vsx.eamodio.gitlens # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
         open-vsx.mohammadbaqer.better-folding # https://marketplace.visualstudio.com/items?itemName=MohammadBaqer.better-folding
         open-vsx.catppuccin.catppuccin-vsc-icons # https://marketplace.visualstudio.com/items?itemName=Catppuccin.catppuccin-vsc-icons
         open-vsx.jasonlhy.hungry-delete # https://marketplace.visualstudio.com/items?itemName=jasonlhy.hungry-delete
@@ -92,8 +89,8 @@ in {
           extraBordersEnabled = false;
           workbenchMode = "default";
           bracketMode = "rainbow";
-          colorOverrides = {};
-          customUIColors = {};
+          colorOverrides = { };
+          customUIColors = { };
         })
       ];
 
@@ -107,7 +104,8 @@ in {
         "workbench.panel.defaultLocation" = "bottom";
         "workbench.colorTheme" = "Catppuccin Mocha";
         "workbench.editorAssociations" = {
-          "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" = "default";
+          "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" =
+            "default";
           "*.qrc" = "qt-core.qrcEditor";
         };
 
@@ -126,7 +124,7 @@ in {
         "editor.pasteAs.enabled" = false;
         "editor.bracketPairColorization.independentColorPoolPerBracketType" = true;
         #"editor.defaultFormatter" = "esbenp.prettier-vscode";
-        "editor.rulers" = [120];
+        "editor.rulers" = [ 120 ];
 
         "terminal.integrated.cursorBlinking" = true;
 
@@ -166,6 +164,9 @@ in {
           "editor.defaultFormatter" = "fwcd.kotlin";
         };
 
+        "java.import.gradle.home" = "${gradle}";
+        "java.import.gradle.java.home" = "${java}";
+
         "explorer.confirmDelete" = false;
 
         "dart.devToolsBrowser" = "default";
@@ -177,7 +178,7 @@ in {
         "redhat.telemetry.enabled" = true;
 
         "qmlFormat.command" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlformat";
-        "qmlFormat.extraArguments" = ["--verbose"];
+        "qmlFormat.extraArguments" = [ "--verbose" ];
 
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
         "qt-qml.qmlls.customExePath" = "${pkgs.kdePackages.qtdeclarative}/bin/qmlls";
@@ -197,16 +198,23 @@ in {
 
         rust-analyzer.server.path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
         rust-analyzer.runnables.command = "${pkgs.cargo}/bin/cargo";
+
+        "terminal.integrated.profiles.linux" = {
+          "xonsh" = {
+            "path" = "/run/current-system/sw/bin/xonsh";
+            "args" = [ "--login" ];
+          };
+        };
+        "terminal.integrated.defaultProfile.linux" = "xonsh";
       };
     };
 
     package = pkgs.vscodium.fhsWithPackages (
-      ps:
-        with ps; [
-          nil
-          rustup
-          zlib
-        ]
+      ps: with ps; [
+        nil
+        rustup
+        zlib
+      ]
     );
   };
 }

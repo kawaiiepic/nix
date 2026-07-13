@@ -21,6 +21,7 @@ in {
   programs.nixcord = {
     enable = true;
     # discord.enable = false;
+    equibop.enable = true;
     discord.equicord.enable = true;
     # discord.equicord.package = pkgs.equicord;
     discord.krisp.enable = true;

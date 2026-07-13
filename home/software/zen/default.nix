@@ -8,8 +8,7 @@
   ];
 
   home.packages = with pkgs; [
-    pkgs.zen-theme-switch
-    pkgs.passff-host
+    zen-theme-switch
   ];
   home.file.".mozilla/native-messaging-hosts/themeswitch.json".force = true;
   home.file.".mozilla/native-messaging-hosts/themeswitch.json".source =
@@ -20,7 +19,6 @@
     setAsDefaultBrowser = true;
     nativeMessagingHosts = [
       pkgs.zen-theme-switch
-      pkgs.passff-host
     ];
 
     policies = let

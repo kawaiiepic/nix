@@ -10,10 +10,13 @@
     ./nautilus
     ./gopass.nix
     ./wofi
+    ./zed-editor
   ];
 
   home.packages = with pkgs; [
     papers
+    logmein-hamachi
+    haguichi
     # petal
     # spotify
     # kodi
