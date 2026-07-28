@@ -12,6 +12,8 @@ in
     nil
     gradle
     flutter
+    virtualglLib
+    android-studio
     java
     qt5.qtdeclarative
     dotnetCorePackages.sdk_9_0
@@ -26,7 +28,7 @@ in
 
   programs.vscodium = {
     enable = true;
-    mutableExtensionsDir = false;
+    mutableExtensionsDir = true;
 
     profiles.default = {
       enableExtensionUpdateCheck = false;
@@ -56,12 +58,15 @@ in
         open-vsx.vscjava.vscode-java-debug # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug
         open-vsx.redhat.java # https://marketplace.visualstudio.com/items?itemName=redhat.java
         open-vsx.vscjava.vscode-gradle # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle
-        open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
+        #open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
         #open-vsx.arrterian.nix-env-selector
+        open-vsx.io-github-oops418.nix-env-picker
         vscode-marketplace.visualstudioexptteam.vscodeintellicode # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
         vscode-marketplace.dart-code.flutter # https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
         vscode-marketplace.dart-code.dart-code
+        vscode-marketplace.jetbrains.kotlin-server
         open-vsx.muhammad-sammy.csharp
+        open-vsx.continue.continue
 
         ## Pretty
         open-vsx.kamadorueda.alejandra # https://marketplace.visualstudio.com/items?itemName=kamadorueda.alejandra
@@ -80,6 +85,8 @@ in
         open-vsx.delgan.qml-format
         open-vsx.theqtcompany.qt-qml
         open-vsx.theqtcompany.qt-core
+
+        open-vsx.io-github-oops418.nix-env-picker
 
         (inputs.catppuccin-vsc.packages.x86_64-linux.default.override {
           accent = "mauve";
@@ -158,10 +165,6 @@ in
 
         "[qml]" = {
           "editor.defaultFormatter" = "Delgan.qml-format";
-        };
-
-        "[kotlin]" = {
-          "editor.defaultFormatter" = "fwcd.kotlin";
         };
 
         "java.import.gradle.home" = "${gradle}";

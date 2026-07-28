@@ -48,6 +48,7 @@
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     hytale-launcher.url = "github:JPyke3/hytale-launcher-nix";
     snappy-switcher.url = "github:OpalAayan/snappy-switcher";
+    icy-shell.url = "github:kawaiiepic/quickshell";
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";

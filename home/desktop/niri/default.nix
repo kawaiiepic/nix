@@ -5,16 +5,6 @@
   inputs,
   ...
 }: let
-  custom_quickshell =
-    inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules
-    [
-      pkgs.kdePackages.qt5compat
-      pkgs.kdePackages.qtimageformats
-      pkgs.kdePackages.qtmultimedia
-      pkgs.kdePackages.qtwebsockets
-      inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
-
   palette = {
     latte = {
       # Light theme: Catppuccin Latte
@@ -215,7 +205,6 @@ in {
   home.packages = with pkgs; [
     gthumb
     libcanberra-gtk3
-    custom_quickshell
     alsa-utils
     ffmpeg
     cava
@@ -226,6 +215,7 @@ in {
 
     inputs.snappy-switcher.packages.${pkgs.system}.default
     inputs.niri-float-sticky.packages.${pkgs.system}.default
+    inputs.icy-shell.packages.${pkgs.system}.default
     linux-wallpaperengine
   ];
 
@@ -379,7 +369,7 @@ in {
     spawn-at-startup = [
       {
         argv = [
-          "quickshell"
+          "icy-shell"
         ];
       }
       # {
@@ -444,7 +434,7 @@ in {
         mode.height = 1440;
         mode.refresh = 143.97200;
         variable-refresh-rate = true;
-        scale = 1.25;
+        scale = 1.2;
         position.x = 0;
         position.y = 0;
       };

@@ -15,8 +15,8 @@
 
   home.packages = with pkgs; [
     papers
-    logmein-hamachi
-    haguichi
+    # logmein-hamachi
+    # haguichi
     # petal
     # spotify
     # kodi
@@ -30,7 +30,7 @@
     mpv
     # vtsls
     # libreoffice
-    android-studio
+    # android-studio
     #davinci-resolve
     # inputs.airi.packages.${pkgs.system}.default
     kawaiimods-app
