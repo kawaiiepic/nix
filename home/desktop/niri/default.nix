@@ -199,6 +199,8 @@
     );
 in {
   imports = [
+    inputs.wayland-pipewire-idle-inhibit.homeModules.default
+    
     ./scripts/screenshot.nix
   ];
 
@@ -216,12 +218,30 @@ in {
     inputs.snappy-switcher.packages.${pkgs.system}.default
     inputs.niri-float-sticky.packages.${pkgs.system}.default
     inputs.icy-shell.packages.${pkgs.system}.default
+    
     linux-wallpaperengine
   ];
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
+  };
+
+  services.wayland-pipewire-idle-inhibit = {
+    enable = true;
+    systemdTarget = "sway-session.target";
+    settings = {
+      verbosity = "INFO";
+      media_minimum_duration = 10;
+      idle_inhibitor = "wayland";
+      sink_whitelist = [
+        { name = "Starship/Matisse HD Audio Controller Analog Stereo"; }
+      ];
+      node_blacklist = [
+        { name = "spotify"; }
+        { app_name = "Music Player Daemon"; }
+      ];
+    };
   };
 
   services.gnome-keyring = {
@@ -300,7 +320,7 @@ in {
 
   xdg.enable = true;
 
-  xdg.mimeApps.enable = true;
+  xdg.mimeApps.enable = false;
   xdg.mimeApps.defaultApplications = {
     # Folders
     "inode/directory" = "org.gnome.Nautilus.desktop";
@@ -395,11 +415,11 @@ in {
           "listen"
         ];
       }
-      {
-        argv = [
-          "niri-float-sticky"
-        ];
-      }
+      # {
+      #   argv = [
+      #     "niri-float-sticky"
+      #   ];
+      # }
     ];
 
     xwayland-satellite = {
@@ -641,15 +661,15 @@ in {
           {app-id = "^kitty-float$";}
           {app-id = "^org.gnome.gThumb$";}
           {app-id = "^xdg-desktop-portal-gtk$";}
-          {app-id = "^mpv$";}
+          # {app-id = "^mpv$";}
           {app-id = "^org.gnome.NautilusPreviewer$";}
           {app-id = "^pavucontrol$";}
-          {app-id = "^org.gnome.TextEditor$";}
+          # {app-id = "^org.gnome.TextEditor$";}
         ];
       }
     ];
 
-    binds = with config.lib.niri.actions; let
+    binds = with inputs.niri.lib.actions; let
       binds = {
         suffixes,
         prefixes,
@@ -766,9 +786,9 @@ in {
           "Mod+WheelScrollDown".action = focus-window-down;
 
           "Mod+R".action = switch-preset-column-width;
-          "Alt+F".action = maximize-column;
+          "Mod+F".action = maximize-column;
           "Mod+Shift+F".action = fullscreen-window;
-          "Mod+F".action = maximize-window-to-edges;
+          "Alt+F".action = maximize-window-to-edges;
           "Mod+C".action = center-column;
 
           "Mod+Minus".action = set-column-width "-10%";

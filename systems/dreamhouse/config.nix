@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  pkgs-millennium,
   ...
 }:
 {
@@ -8,8 +9,9 @@
     ./hardware.nix
     ../default.nix
     ./storage.nix
-    ../../system/desktop/greetd.nix
-    ../../system/desktop/niri.nix
+    # ../../system/desktop/greetd.nix
+    # ../../system/desktop/niri.nix
+    ../../system/desktop/hyprland.nix
     ../../system/core/graphics.nix
 
     ../../modules/gpu-screen-recorder-ui.nix
@@ -54,7 +56,7 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    # package = pkgs.millennium-steam;
+    package = pkgs-millennium.steamWithMillennium;
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?

@@ -17,7 +17,7 @@
       extraPackages = with pkgs; [
         rocmPackages.clr
         mangohud
-        low-latency-layer
+        # low-latency-layer
       ];
     };
   };

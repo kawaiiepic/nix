@@ -11,7 +11,7 @@
   in {
     enable = true;
     spicetifyPackage = pkgs.spicetify-cli;
-    theme = spicePkgs.themes.dribbblishDynamic;
+    # theme = spicePkgs.themes.dribbblishDynamic;
 
     enabledCustomApps = with spicePkgs.apps; [
       historyInSidebar
@@ -33,6 +33,7 @@
         })
       shuffle # shuffle+ (special characters are sanitized out of ext names)
       playlistIcons
+      groupSession
       # lastfm
       adblock
       betterGenres

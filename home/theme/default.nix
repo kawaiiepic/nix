@@ -14,11 +14,11 @@ in {
     # })
   ];
 
-  # home.file = {
-  #   ".local/share/icons/GoogleDot-Violet" = {
-  #     source = ./files/GoogleDot-Violet;
-  #   };
-  # };
+  home.file = {
+    ".local/share/icons/GoogleDot-Violet" = {
+      source = ./files/GoogleDot-Violet;
+    };
+  };
 
   # xdg.configFile = {
   #   "Kvantum/kvantum.kvconfig".text = ''

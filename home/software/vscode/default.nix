@@ -5,6 +5,7 @@
 }:
 let
   java = pkgs.temurin-bin-25;
+  java_old = pkgs.temurin-bin-21;
   gradle = pkgs.gradle_9;
 in
 {
@@ -28,7 +29,8 @@ in
 
   programs.vscodium = {
     enable = true;
-    mutableExtensionsDir = true;
+    mutableExtensionsDir = false;
+    package = pkgs.vscodium-fhs;
 
     profiles.default = {
       enableExtensionUpdateCheck = false;
@@ -58,13 +60,13 @@ in
         open-vsx.vscjava.vscode-java-debug # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug
         open-vsx.redhat.java # https://marketplace.visualstudio.com/items?itemName=redhat.java
         open-vsx.vscjava.vscode-gradle # https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-gradle
-        #open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
+        open-vsx.fwcd.kotlin # https://open-vsx.org/extension/fwcd/kotlin
         #open-vsx.arrterian.nix-env-selector
         open-vsx.io-github-oops418.nix-env-picker
-        vscode-marketplace.visualstudioexptteam.vscodeintellicode # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
+        # vscode-marketplace.visualstudioexptteam.vscodeintellicode # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
         vscode-marketplace.dart-code.flutter # https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
         vscode-marketplace.dart-code.dart-code
-        vscode-marketplace.jetbrains.kotlin-server
+        # vscode-marketplace.jetbrains.kotlin-server
         open-vsx.muhammad-sammy.csharp
         open-vsx.continue.continue
 
@@ -176,7 +178,7 @@ in
         "dart.lineLength" = 160;
 
         "java.jdt.ls.java.home" = "${java}";
-        "kotlin.java.home" = "${java}";
+        "kotlin.java.home" = "${java_old}";
 
         "redhat.telemetry.enabled" = true;
 
@@ -211,13 +213,5 @@ in
         "terminal.integrated.defaultProfile.linux" = "xonsh";
       };
     };
-
-    package = pkgs.vscodium.fhsWithPackages (
-      ps: with ps; [
-        nil
-        rustup
-        zlib
-      ]
-    );
   };
 }

@@ -13,10 +13,22 @@
       url = "github:nixos/nixpkgs/master";
     };
 
+    nixpkgs-millennium = {
+      url = "github:DrymarchonShaun/nixpkgs/millennium-init";
+    };
+
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ro-nur = {
+      url = "github:RoGreat/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    wayland-pipewire-idle-inhibit.url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
+
     jovian-nixos = {
       url = "github:Jovian-Experiments/Jovian-NixOS";
     };
@@ -81,7 +93,9 @@
 
   outputs = inputs: let
     system = "x86_64-linux";
-    overlays = [(import ./system/packages/overlay.nix)];
+    overlays = [
+      (import ./system/packages/overlay.nix)
+    ];
     pkgs = import inputs.nixpkgs {
       system = "x86_64-linux";
       overlays = overlays;
@@ -89,6 +103,12 @@
 
     pkgs-master = import inputs.nixpkgs-master {
       system = "x86_64-linux";
+      overlays = overlays;
+    };
+
+    pkgs-millennium = import inputs.nixpkgs-millennium {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
       overlays = overlays;
     };
 
@@ -104,6 +124,7 @@
   in {
     # packages.${system}.zen-theme-switch = pkgs.zen-theme-switch;
     packages.${system} = {
+      petal = pkgs.petal;
       ryubing = pkgs.ryubing;
       libglycin = pkgs.libglycin;
       glycin-loaders = pkgs.glycin-loaders;
@@ -126,7 +147,7 @@
           }
           ./systems/dreamhouse/config.nix
         ];
-        specialArgs = {inherit inputs pkgs-master;};
+        specialArgs = {inherit inputs pkgs-master pkgs-millennium;};
       };
 
       lain = inputs.nixpkgs.lib.nixosSystem {

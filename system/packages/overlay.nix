@@ -8,43 +8,45 @@
   low-latency-layer = prev.callPackage ./low-latency-layer.nix {};
   ryubing = prev.callPackage ./ryubing {};
   ryubing-appimage = prev.callPackage ./ryubing/appImage.nix {};
+  petal = prev.callPackage ./petal {};
 
-  sushi = prev.sushi.overrideAttrs {
-    version = "git";
-    src = prev.fetchurl {
-      url = "https://gitlab.gnome.org/GNOME/sushi/-/archive/main/sushi-master.tar.gz";
-      hash = "sha256-d1/XpedMHpzJgKJAOXUHBCjr7zAvb2e0AG/PJDnHCrI=";
-    };
+  # sushi = prev.sushi.overrideAttrs {
+  #   version = "git";
+  #   src = prev.fetchurl {
+  #     url = "https://gitlab.gnome.org/GNOME/sushi/-/archive/main/sushi-master.tar.gz";
+  #     hash = "sha256-Z39tieiKNOAR97uTDaUIy3Y9Jd9WwXOYXtyvvumtL5c=";
+  #   };
 
-    nativeBuildInputs = with final; [
-      pkg-config
-      meson
-      ninja
-      gettext
-      wrapGAppsHook4
-    ];
+  #   nativeBuildInputs = with final; [
+  #     pkg-config
+  #     meson
+  #     ninja
+  #     gettext
+  #     wrapGAppsHook4
+  #     blueprint-compiler
+  #   ];
 
-    buildInputs = with final; [
-      papers
-      libadwaita
-      libglycin
-      libglycin-gtk4
-      glycin-loaders
-      blueprint-compiler
-      gobject-introspection
+  #   buildInputs = with final; [
+  #     papers
+  #     libadwaita
+  #     libglycin
+  #     libglycin-gtk4
+  #     glycin-loaders
+      
+  #     gobject-introspection
 
-      fribidi
-      gjs
-      gtk4
-      gtksourceview5
-      webkitgtk_6_0
-      gst_all_1.gstreamer
-      gst_all_1.gst-plugins-base
-      (gst_all_1.gst-plugins-good.override {gtkSupport = true;})
-      gst_all_1.gst-plugins-bad
-      gst_all_1.gst-plugins-ugly
-    ];
-  };
+  #     fribidi
+  #     gjs
+  #     gtk4
+  #     gtksourceview5
+  #     webkitgtk_6_0
+  #     gst_all_1.gstreamer
+  #     gst_all_1.gst-plugins-base
+  #     (gst_all_1.gst-plugins-good.override {gtkSupport = true;})
+  #     gst_all_1.gst-plugins-bad
+  #     gst_all_1.gst-plugins-ugly
+  #   ];
+  # };
 
   glycin-loaders = prev.callPackage ./gnome/glycin-loaders.nix {};
   libglycin = prev.callPackage ./gnome/libglycin.nix {};

@@ -5,10 +5,10 @@
     ../../software
 
     # Desktop
-    ../../desktop/niri
+    ../../desktop/hyprland
     # Services
-    ../../services/hyprlock.nix
-    ../../services/wlogout.nix
-    ../../services/stasis
+    # ../../services/hyprlock.nix
+    # ../../services/wlogout.nix
+    # ../../services/stasis
   ];
 }

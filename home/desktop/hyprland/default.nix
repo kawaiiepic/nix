@@ -5,15 +5,6 @@
   inputs,
   ...
 }: let
-  custom_quickshell =
-    inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules
-    [
-      pkgs.kdePackages.qt5compat
-      pkgs.kdePackages.qtimageformats
-      pkgs.kdePackages.qtmultimedia
-      pkgs.kdePackages.qtwebsockets
-      inputs.qml-niri.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
   cacheDir = config.xdg.cacheHome;
   palette = {
     latte = {
@@ -165,28 +156,50 @@
       rosewater = "rgb(0,0,26)";
     };
   };
+  inherit (lib.generators) mkLuaInline;
+
+  # key: plain string ("XF86AudioMute") or mkLuaInline for concatenation exprs
+  # dispatchExpr: raw Lua source for the hl.dsp.* call
+  mkBind = key: dispatchExpr: {_args = [key (mkLuaInline dispatchExpr)];};
+  mkBindOpts = key: dispatchExpr: opts: {
+    _args = [key (mkLuaInline dispatchExpr) opts];
+  };
+
+  # SUPER + [SHIFT +] 0-9 workspace switch/move (10 maps to key "0")
+  workspaceBinds = lib.concatMap (
+    i: let
+      key =
+        if i == 10
+        then "0"
+        else toString i;
+    in [
+      (mkBind (mkLuaInline ''mainMod .. " + ${key}"'') "hl.dsp.focus({ workspace = ${toString i} })")
+      (mkBind (mkLuaInline ''
+        mainMod .. " + SHIFT + ${key}"
+      '') "hl.dsp.window.move({ workspace = ${toString i} })")
+    ]
+  ) (lib.range 1 10);
 in {
+  imports = [
+    ./scripts/screenshot.nix
+  ];
   home = {
     packages = with pkgs; [
-      
       # Quickshell
       gthumb
-      libcanberra-gtk3
-      custom_quickshell
-      cava
-      brightnessctl
 
       hyprshutdown
+      stasis
+      inputs.icy-shell.packages.${pkgs.system}.default
       inputs.snappy-switcher.packages.${pkgs.system}.default
-      grimblast
-      linux-wallpaperengine
-      (pkgs.writeShellScriptBin "hypr-screenshot" ''
-        grimblast save output - > ${cacheDir}/sc.png && cat ${cacheDir}/sc.png | wl-copy && notify-send -u low -a 'screenshot' "📸 Screenshot copied" 'Copied to clipboard.' -i camera -h "string:preview:true" -h "string:image-path:${cacheDir}/sc.png" && canberra-gtk-play -i screen-capture
-      '')
-      (pkgs.writeShellScriptBin "hypr-screenshot-area" ''
-        grimblast --freeze save area - > ${cacheDir}/sc.png && cat ${cacheDir}/sc.png | wl-copy && notify-send -u low -a 'screenshot' "📸 Screenshot Area copied" 'Copied to clipboard.' -i camera -h "string:preview:true" -h 'string:image-path:${cacheDir}/sc.png' && canberra-gtk-play -i screen-capture
-      '')
+      # (pkgs.writeShellScriptBin "hypr-screenshot" ''
+      #   grimblast save output - > ${cacheDir}/sc.png && cat ${cacheDir}/sc.png | wl-copy && notify-send -u low -a 'screenshot' "📸 Screenshot copied" 'Copied to clipboard.' -i camera -h "string:preview:true" -h "string:image-path:${cacheDir}/sc.png" && canberra-gtk-play -i screen-capture
+      # '')
+      # (pkgs.writeShellScriptBin "hypr-screenshot-area" ''
+      #   grimblast --freeze save area - > ${cacheDir}/sc.png && cat ${cacheDir}/sc.png | wl-copy && notify-send -u low -a 'screenshot' "📸 Screenshot Area copied" 'Copied to clipboard.' -i camera -h "string:preview:true" -h 'string:image-path:${cacheDir}/sc.png' && canberra-gtk-play -i screen-capture
+      # '')
     ];
+
     sessionVariables = {
       HYPRCURSOR_THEME = "GoogleDot-Violet";
       HYPRCURSOR_SIZE = 24;
@@ -197,31 +210,32 @@ in {
     };
   };
 
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
-    ];
-
-    config = {
-      niri = {
-        default = ["gtk"];
-        "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-        "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
-      };
-    };
-  };
-
-  services.xembed-sni-proxy.enable = true;
-
   xdg.configFile."hypr/xdph.conf".text = ''
     screencopy {
         allow_token_by_default = true
     }
   '';
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+    ];
+
+    config.common.default = "hyprland";
+
+    config = {
+      hyprland = {
+        default = ["hyprland"];
+        "org.freedesktop.impl.portal.Screenshot" = ["hyprland"];
+        "org.freedesktop.impl.portal.ScreenCast" = ["hyprland"];
+      };
+    };
+  };
+
+  # xdg.configFile."hypr/hyprland.lua".source = ./hyprland.lua;
 
   services.hyprsunset = {
     enable = true;
@@ -246,296 +260,466 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.variables = ["--all"];
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-    settings = lib.mkMerge [
-      {
-        "$MOD" = "SUPER";
 
-        exec-once = with pkgs; [
-          "${hyprpolkitagent}/bin/hyprpolkitagent"
-          "${hyprsunset}/bin/hyprsunset"
-          "snappy-switcher --daemon"
-          "stasis"
-          "quickshell"
-          "hyprlock --immediate"
+    settings = {
+      monitor = [
+        {
+          output = "DP-2";
+          mode = "highres";
+          position = "auto";
+          scale = "1.25";
+          vrr = 1;
+          bitdepth = 10;
+        }
+        {
+          output = "";
+          mode = "highres";
+          position = "auto";
+          scale = "1.25";
+        }
+      ];
+
+      # MY PROGRAMS
+      terminal = {_var = "kitty";};
+      fileManager = {_var = "nautilus";};
+      menu = {_var = "hyprlauncher";};
+
+      # AUTOSTART
+      on = {
+        _args = with pkgs; [
+          "hyprland.start"
+          (mkLuaInline ''
+            function()
+              hl.exec_cmd("icy-shell")
+              hl.exec_cmd("${hyprpolkitagent}/bin/hyprpolkitagent")
+              hl.exec_cmd("${pkgs.joystickwake}/bin/joystickwake")
+              hl.exec_cmd("${pkgs.hyprsunset}/bin/hyprsunset")
+              hl.exec_cmd("stasis")
+            end
+          '')
         ];
+      };
 
-        # exec-once = [
-        #
-        #   "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIXOS_OZONE_WL"
-        #   "uwsm app -- my-shell"
-        #   #"uwsm app -- hyprlock --immediate"
-        #   "uwsm app -- wvkbd-mobintl --hidden --alpha 50 -L 200"
-        #   "uwsm app -- ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-        #   "uwsm app -- ${pkgs.networkmanagerapplet}/bin/nm-applet"
-        #   "uwsm app -- ${pkgs.joystickwake}/bin/joystickwake"
-        #   "uwsm app -- ${pkgs.hyprsunset}/bin/hyprsunset"
-        #   "uwsm app -- ${pkgs.hyprpolkitagent}/bin/hyprpolkitagent"
-        #   "uwsm app -- ags run"
-        #   "uwsm app -- systemctl start --user hypridle"
-        #   "uwsm app -- vicinae server"
-        #   "sleep 5 && start"
-        # ];
+      # ENVIRONMENT VARIABLES
+      env = [
+        {_args = ["XCURSOR_SIZE" "24"];}
+        {_args = ["HYPRCURSOR_SIZE" "24"];}
+      ];
 
-        master = {
-          mfact = "0.60";
-          orientation = "right";
-        };
+      # PERMISSIONS / LOOK AND FEEL / LAYOUTS / MISC / INPUT
+      # (one list element per original hl.config({...}) call)
+      config = [
+        {
+          ecosystem = {
+            enforce_permissions = true;
+          };
+        }
+        {
+          general = {
+            gaps_in = 4;
+            gaps_out = 15;
+            border_size = 2;
+            float_gaps = 10;
+            col = {
+              active_border = {
+                colors = [palette.mocha.crust palette.mocha.crust];
+                angle = 45;
+              };
+              inactive_border = palette.mocha.crust;
+            };
+            resize_on_border = true;
+            allow_tearing = true;
+            layout = "scrolling";
 
-        general = {
-          gaps_in = 4;
-          gaps_out = 8;
-          border_size = 2;
-          float_gaps = 10;
-          "col.active_border" = palette.mocha.crust;
-          "col.inactive_border" = palette.mocha.crust;
-          layout = "scrolling";
-          resize_on_border = true;
-          allow_tearing = true;
-
-          snap = {
+            snap = {
+              enabled = true;
+              border_overlap = true;
+              respect_gaps = true;
+            };
+          };
+          decoration = {
+            rounding = 12;
+            rounding_power = 2;
+            active_opacity = 1.0;
+            inactive_opacity = 1.0;
+            shadow = {
+              enabled = true;
+              range = 4;
+              render_power = 3;
+              color = "0xee1a1a1a";
+            };
+            blur = {
+              enabled = true;
+              size = 3;
+              passes = 1;
+              vibrancy = 0.1696;
+            };
+          };
+          animations = {
             enabled = true;
-            border_overlap = true;
-            respect_gaps = true;
+          };
+        }
+        {dwindle = {preserve_split = true;};}
+        {master = {new_status = "master";};}
+        {scrolling = {fullscreen_on_one_column = true;};}
+        {xwayland = {force_zero_scaling = true;};}
+        {
+          misc = {
+            force_default_wallpaper = -1;
+            disable_hyprland_logo = false;
+            mouse_move_enables_dpms = true;
+            key_press_enables_dpms = true;
+            focus_on_activate = true;
+            vrr = 3;
           };
 
-          monitor = [
-            "DP-2,2560x1440@143.97Hz,0x0,1.25,vrr,1,bitdepth,10,sdrbrightness, 1.2, sdrsaturation, 0.98"
-            ",preferred,auto,1"
-          ];
-
-          workspace = [
-            "1,monitor:DP-2,persistent:true,default:true"
-            "2,monitor:DP-2,persistent:true"
-            "3,monitor:DP-2,persistent:true"
-            "4,monitor:DP-2,persistent:true"
-            "5,monitor:DP-2,persistent:true"
-            # "6,monitor:HDMI-A-1,gapsin:0,gapsout:0,rounding:false,border:false,default:true"
-          ];
-        };
-
-        decoration = {
-          rounding = 12;
-
-          blur = {
-            size = 1;
-            passes = 3;
+          render = {
+            direct_scanout = 2;
           };
-
-          shadow = {
-            color = palette.mocha.crust;
+        }
+        {
+          input = {
+            kb_layout = "us";
+            kb_variant = "";
+            kb_model = "";
+            kb_options = "";
+            kb_rules = "";
+            follow_mouse = 1;
+            sensitivity = 0;
+            touchpad = {
+              natural_scroll = false;
+            };
           };
-        };
+        }
+      ];
 
-        animation = {
-          bezier = [
-            "fluent_decel, 0, 0.2, 0.4, 1"
-            "easeOutCirc, 0, 0.55, 0.45, 1"
-            "easeOutCubic, 0.33, 1, 0.68, 1"
-            "easeinoutsine, 0.37, 0, 0.63, 1"
-            "easeOutBounce, 0.27, 1.25, 0.64, 1"
+      # CURVES (beziers + spring)
+      curve = [
+        {
+          _args = [
+            "easeOutQuint"
+            {
+              type = "bezier";
+              points = [[0.23 1] [0.32 1]];
+            }
           ];
-
-          animation = [
-            "windowsIn, 1, 1.7, easeOutBounce, slide" # window open
-            "windowsOut, 1, 1.7, easeOutBounce, slide" # window close
-            "windowsMove, 1, 2.5, easeOutBounce, slide" # everything in between, moving, dragging, resizing
-
-            # fading
-            "fadeIn, 1, 3, easeOutCubic" # fade in (open) -> layers and windows
-            "fadeOut, 1, 3, easeOutCubic" # fade out (close) -> layers and windows
-            "fadeSwitch, 1, 5, easeOutCirc" # fade on changing activewindow and its opacity
-            "fadeShadow, 1, 5, easeOutCirc" # fade on changing activewindow for shadows
-            "fadeDim, 1, 6, fluent_decel" # the easing of the dimming of inactive windows
-            "border, 1, 2.7, easeOutCirc" # for animating the border's color switch speed
-            "workspaces, 1, 5, easeOutBounce, slide" # styles: slide, slidevert, fade, slidefade, slidefadevert
-            "specialWorkspace, 1, 3, easeOutBounce, slidevert"
+        }
+        {
+          _args = [
+            "easeInOutCubic"
+            {
+              type = "bezier";
+              points = [[0.65 0.05] [0.36 1]];
+            }
           ];
-        };
+        }
+        {
+          _args = [
+            "linear"
+            {
+              type = "bezier";
+              points = [[0 0] [1 1]];
+            }
+          ];
+        }
+        {
+          _args = [
+            "almostLinear"
+            {
+              type = "bezier";
+              points = [[0.5 0.5] [0.75 1]];
+            }
+          ];
+        }
+        {
+          _args = [
+            "quick"
+            {
+              type = "bezier";
+              points = [[0.15 0] [0.1 1]];
+            }
+          ];
+        }
+        {
+          _args = [
+            "easy"
+            {
+              type = "spring";
+              mass = 1;
+              stiffness = 238.1191;
+              dampening = 24.21279333;
+            }
+          ];
+        }
+      ];
 
-        misc = {
-          vrr = 2;
-          mouse_move_enables_dpms = true;
-          key_press_enables_dpms = true;
-          enable_swallow = false;
-          swallow_regex = "^(kitty)$";
-          focus_on_activate = true;
-        };
+      # ANIMATIONS
+      animation = [
+        {
+          leaf = "global";
+          enabled = true;
+          speed = 10;
+          bezier = "default";
+        }
+        {
+          leaf = "border";
+          enabled = true;
+          speed = 5.39;
+          bezier = "easeOutQuint";
+        }
+        {
+          leaf = "windows";
+          enabled = true;
+          speed = 4.79;
+          spring = "easy";
+        }
+        {
+          leaf = "windowsIn";
+          enabled = true;
+          speed = 4.1;
+          spring = "easy";
+          style = "popin 87%";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 1.49;
+          bezier = "linear";
+          style = "popin 87%";
+        }
+        {
+          leaf = "fadeIn";
+          enabled = true;
+          speed = 1.73;
+          bezier = "almostLinear";
+        }
+        {
+          leaf = "fadeOut";
+          enabled = true;
+          speed = 1.46;
+          bezier = "almostLinear";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 3.03;
+          bezier = "quick";
+        }
+        {
+          leaf = "layers";
+          enabled = true;
+          speed = 3.81;
+          bezier = "easeOutQuint";
+        }
+        {
+          leaf = "layersIn";
+          enabled = true;
+          speed = 4;
+          bezier = "easeOutQuint";
+          style = "fade";
+        }
+        {
+          leaf = "layersOut";
+          enabled = true;
+          speed = 1.5;
+          bezier = "linear";
+          style = "fade";
+        }
+        {
+          leaf = "fadeLayersIn";
+          enabled = true;
+          speed = 1.79;
+          bezier = "almostLinear";
+        }
+        {
+          leaf = "fadeLayersOut";
+          enabled = true;
+          speed = 1.39;
+          bezier = "almostLinear";
+        }
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 1.94;
+          bezier = "almostLinear";
+          style = "fade";
+        }
+        {
+          leaf = "workspacesIn";
+          enabled = true;
+          speed = 1.21;
+          bezier = "almostLinear";
+          style = "fade";
+        }
+        {
+          leaf = "workspacesOut";
+          enabled = true;
+          speed = 1.94;
+          bezier = "almostLinear";
+          style = "fade";
+        }
+        {
+          leaf = "zoomFactor";
+          enabled = true;
+          speed = 7;
+          bezier = "quick";
+        }
+      ];
 
-        xwayland = {
-          force_zero_scaling = true;
-        };
+      # WORKSPACE RULES
+      workspace_rule = [
+        {
+          workspace = "1";
+          monitor = "DP-2";
+          default = true;
+        }
+        {
+          workspace = "2";
+          monitor = "DP-2";
+          default = true;
+        }
+        {
+          workspace = "3";
+          monitor = "DP-2";
+          default = true;
+        }
+        {
+          workspace = "4";
+          monitor = "DP-2";
+          default = true;
+        }
+        {
+          workspace = "5";
+          monitor = "DP-2";
+          default = true;
+        }
+        {
+          workspace = "6";
+          monitor = "HDMI-A-1";
+          gaps_in = 0;
+          gaps_out = 0;
+          no_rounding = true;
+          no_border = true;
+          default = true;
+        }
+      ];
 
-        render = {
-          direct_scanout = 2;
-          cm_auto_hdr = true;
-        };
+      # GESTURES
+      gesture = {
+        fingers = 3;
+        direction = "horizontal";
+        action = "workspace";
+      };
 
-        cursor = {
-          hide_on_key_press = true;
-        };
+      # KEYBINDINGS
+      mainMod = {_var = "SUPER";};
 
-        ecosystem = {
-          enforce_permissions = true;
-        };
+      bind =
+        [
+          (mkBind (mkLuaInline ''mainMod .. " + Return"'') "hl.dsp.exec_cmd(terminal)")
+          (mkBind (mkLuaInline ''mainMod .. " + Q"'') "hl.dsp.window.close()")
+          (
+            mkBind
+            (mkLuaInline ''mainMod .. " + SHIFT + Q"'')
+            ''hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")''
+          )
+          (mkBind (mkLuaInline ''mainMod .. " + L"'') ''hl.dsp.exec_cmd("icy-shell ipc call lockscreen showLockscreen")'')
+          (mkBind (mkLuaInline ''mainMod .. " + E"'') "hl.dsp.exec_cmd(fileManager)")
+          (mkBind (mkLuaInline ''mainMod .. " + T"'') ''hl.dsp.window.float({ action = "toggle" })'')
+          (mkBind (mkLuaInline ''mainMod .. " + R"'') "hl.dsp.exec_cmd(menu)")
+          (mkBind (mkLuaInline ''mainMod .. " + O"'') "hl.dsp.window.pseudo()")
+          (mkBind (mkLuaInline ''mainMod .. " + J"'') ''hl.dsp.layout("togglesplit")'')
+          (mkBind (mkLuaInline ''mainMod .. " + F"'') "hl.dsp.window.fullscreen()")
+          (mkBind (mkLuaInline ''mainMod .. " + P"'') ''hl.dsp.exec_cmd("screenshot")'')
+          (mkBind (mkLuaInline ''mainMod .. " + Y"'') ''hl.dsp.exec_cmd("tessen -p gopass -d wofi")'')
+          (mkBind (mkLuaInline ''mainMod .. " + SHIFT + L"'') ''hl.dsp.exec_cmd("screenshot-area")'')
 
-        bind = [
-          "${builtins.concatStringsSep "\n" (
-            builtins.genList (
-              x: let
-                ws = let
-                  c = (x + 1) / 10;
-                in
-                  builtins.toString (x + 1 - (c * 10));
-              in ''
-                bind = $MOD, ${ws}, workspace, ${toString (x + 1)}
-                bind = $MODSHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
-                bind = $MOD+CTRL, ${ws}, focusworkspaceoncurrentmonitor, ${toString (x + 1)}
-              ''
-            )
-            10
-          )}"
+          (mkBind (mkLuaInline ''mainMod .. " + A"'') ''hl.dsp.focus({ direction = "left" })'')
+          (mkBind (mkLuaInline ''mainMod .. " + D"'') ''hl.dsp.focus({ direction = "right" })'')
+          (mkBind (mkLuaInline ''mainMod .. " + W"'') ''hl.dsp.focus({ direction = "up" })'')
+          (mkBind (mkLuaInline ''mainMod .. " + S"'') ''hl.dsp.focus({ direction = "down" })'')
+        ]
+        ++ workspaceBinds
+        ++ [
+          (mkBind (mkLuaInline ''mainMod .. " + V"'') ''hl.dsp.workspace.toggle_special("magic")'')
+          (
+            mkBind
+            (mkLuaInline ''mainMod .. " + SHIFT + S"'')
+            ''hl.dsp.window.move({ workspace = "special:magic" })''
+          )
 
-          "$MOD, mouse_down, workspace, e-1"
-          "$MOD, mouse_up, workspace, e+1"
+          (mkBind (mkLuaInline ''mainMod .. " + mouse_down"'') ''hl.dsp.focus({ workspace = "e+1" })'')
+          (mkBind (mkLuaInline ''mainMod .. " + mouse_up"'') ''hl.dsp.focus({ workspace = "e-1" })'')
 
-          "ALT, Tab, exec, snappy-switcher next"
-          "ALT SHIFT, Tab, exec, snappy-switcher prev"
+          (mkBindOpts (mkLuaInline ''mainMod .. " + mouse:272"'') "hl.dsp.window.drag()" {mouse = true;})
+          (mkBindOpts (mkLuaInline ''mainMod .. " + mouse:273"'') "hl.dsp.window.resize()" {mouse = true;})
 
-          "$MODSHIFT, Q, exec, hyprshutdown"
-          "$MOD, Q, killactive"
-          # "$MOD, F, fullscreen,2"
-          "$MOD, F, layoutmsg, colresize +conf"
-          "$MODSHIFT, F, fullscreen, 2"
-          "$MOD, L, exec, pidof hyprlock || hyprlock"
-          "$MOD, O, exec, pkill -RTMIN wvkbd"
-          "$MOD, T, togglefloating"
-          # "$MOD, R,  overview:toggle, all"
-          # "$MODSHIFT, R, hyprexpo:expo, toggle"
-          "$MOD, Y, exec, tessen -p gopass -d wofi"
-          "$MOD, P, pin"
-          # "$MOD, S, togglesplit"
+          (mkBindOpts "XF86AudioRaiseVolume" ''hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+")'' {
+            locked = true;
+            repeating = true;
+          })
+          (mkBindOpts "XF86AudioLowerVolume" ''hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")'' {
+            locked = true;
+            repeating = true;
+          })
+          (mkBindOpts "XF86AudioMute" ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")'' {
+            locked = true;
+            repeating = true;
+          })
+          (mkBindOpts "XF86AudioMicMute" ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")'' {
+            locked = true;
+            repeating = true;
+          })
+          (mkBindOpts "XF86MonBrightnessUp" ''hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+")'' {
+            locked = true;
+            repeating = true;
+          })
+          (mkBindOpts "XF86MonBrightnessDown" ''hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-")'' {
+            locked = true;
+            repeating = true;
+          })
 
-          "$MOD, Tab, cyclenext, hist"
-          "$MOD, Tab, bringactivetotop"
-          "$MOD, A, layoutmsg, move -col"
-          "$MOD, D, layoutmsg, move +col"
-          # "$MOD, A, togglespecialworkspace"
-          # "$MODSHIFT, A, movetoworkspace, special"
-          "$MOD, K, movefocus, u"
-          "$MOD, J, movefocus, d"
-          "$MODSHIFT, L, movefocus, r"
-          "$MOD, H, movefocus, l"
-
-          "$MOD, P, exec, hypr-screenshot"
-          "$MODSHIFT, P, exec, hypr-screenshot-area"
-          "$MOD, Return, exec, kitty"
-          "$MODSHIFT, Return, exec, [float] kitty "
-          "$MOD, E, exec, [float] nautilus --new-window"
-          ", XF86AudioPlay, exec, playerctl play-pause"
-          ", XF86AudioNext, exec, playerctl next"
-          ", XF86AudioPrev, exec, playerctl previous"
-
-          "$MOD, G, togglegroup"
-          "$MODSHIFt, G, changegroupactive"
-
-          "CTRL+SHIFT,G,pass,^(com\.obsproject\.Studio)$"
+          (mkBindOpts "XF86AudioNext" ''hl.dsp.exec_cmd("playerctl next")'' {locked = true;})
+          (mkBindOpts "XF86AudioPause" ''hl.dsp.exec_cmd("playerctl play-pause")'' {locked = true;})
+          (mkBindOpts "XF86AudioPlay" ''hl.dsp.exec_cmd("playerctl play-pause")'' {locked = true;})
+          (mkBindOpts "XF86AudioPrev" ''hl.dsp.exec_cmd("playerctl previous")'' {locked = true;})
         ];
 
-        bindel = [
-          ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ", XF86MonBrightnessUp, exec, notify-send Brightness up"
-          ", XF86MonBrightnessDown, exec, notify-send Brightness down"
-        ];
-
-        bindl = [
-          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ];
-
-        bindm = [
-          "$MOD, mouse:272, movewindow"
-          "$MOD, mouse:273, resizewindow"
-        ];
-
-        permission = [
-          "permission = ${(lib.getExe config.programs.hyprlock.package)}, screencopy, allow"
-          "permission = ${pkgs.xdg-desktop-portal-hyprland}/libexec/.xdg-desktop-portal-hyprland-wrapped, screencopy, allow"
-          "permission = ${pkgs.grimblast}/bin/grimblast, screencopy, allow"
-        ];
-
-        layerrule = [
-          "blur on, match:namespace controlcenter"
-          "ignore_alpha 0.5, match:namespace controlcenter"
-        ];
-
-        windowrule = [
-          "match:class steam_app_252950, immediate yes"
-        ];
-
-        # windowrulev2 = [
-        #   "opacity 0.98 0.98,class:^(zen)$"
-        #   "opacity 0.95 0.95,class:^(steam)$"
-        #   "opacity 0.95 0.95,class:^(steamwebhelper)$"
-        #   "opacity 0.95 0.95,title:^(Spotify Premium)$"
-
-        #   "float,class:^(file_progress)$"
-        #   "float,class:^(confirm)$"
-        #   "float,class:^(dialog)$"
-        #   "float,class:^(download)$"
-        #   "float,class:^(notification)$"
-        #   "float,class:^(error)$"
-        #   "float,class:^(confirmreset)$"
-        #   "float,title:^(Open File)$"
-        #   "float,title:^(branchdialog)$"
-        #   "float,title:^(Confirm to replace files)$"
-        #   "float,title:^(File Operation Progress)$"
-
-        #   "float,class:^(org.gnome.Nautilus)$"
-        #   "float,class:^(yad)$"
-        #   "float,class:^(kitty-float)$"
-        #   "float,class:^(gthumb)$"
-        #   "float,class:^(xdg-desktop-portal-gtk)$"
-        #   "float,class:^(mpv)$"
-        #   "float,class:^(com.nextcloud.desktopclient.nextcloud)$"
-        #   "float,class:^(Ryujinx)$"
-        #   "float,class:^(org.gnome.NautilusPreviewer)$"
-        #   "float,class:^(pavucontrol)$"
-        #   "float,class:^(steam)$"
-        #   "float,class:^(nyaa_shows)$"
-        #   "float,class:^(org.gnome.TextEditor)$"
-        #   "float,class:^(electrum-ltc)$"
-
-        #   "tile,class:^(steam)$,title:^(Steam)$"
-        #   "tile,class:^(steam)$,title:^(Steam)$"
-
-        #   "size 1298 797,class:^(mpv)$"
-        #   "size 1298 797,class:^(gthumb)$"
-
-        #   "float, title:^(Picture-in-Picture)$"
-        #   "pin, title:^(Picture-in-Picture)$"
-
-        #   "pin, class:^(Kodi)$,floating:1"
-
-        #   "opacity 1,class:^(kitty)$"
-
-        #   "move 100%-w-20 100%-w-20, class:^(com.nextcloud.desktopclient.nextcloud)$"
-
-        #   "workspace 5 silent,class:(steam)"
-        #   "immediate, class:^(steam_app.*)$"
-        #   "immediate, class:^(rocketleague.exe)$"
-        # ];
-      }
-    ];
-
-    plugins = with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
-      # hyprbars
-      # hyprtrails
-      # hyprexpo
-      # hypr-dynamic-cursors
-      # hyprfocus
-      # hyprspace
-    ];
+      # WINDOWS AND WORKSPACES
+      window_rule = [
+        {
+          name = "floating-windows";
+          match = {class = "^(file_progress)$|^(confirm)$|^(dialog)$|^(download)$|^(notification)$|^(error)$|^(confirmreset)$|^(org.gnome.Nautilus)$|^(gthumb)$|^(org.gnome.TextEditor)$";};
+          float = true;
+        }
+        {
+          name = "suppress-maximize-events";
+          match = {class = ".*";};
+          suppress_event = "maximize";
+        }
+        {
+          name = "fix-xwayland-drags";
+          match = {
+            class = "^$";
+            title = "^$";
+            xwayland = true;
+            float = true;
+            fullscreen = false;
+            pin = false;
+          };
+          no_focus = true;
+        }
+        {
+          name = "move-hyprland-run";
+          match = {class = "hyprland-run";};
+          move = "20 monitor_h-120";
+          float = true;
+        }
+        {
+          match = {class = "steam_app_.*";};
+          immediate = true;
+        }
+      ];
+    };
   };
 }

@@ -14,6 +14,8 @@
   ];
 
   home.packages = with pkgs; [
+    petal
+    musicpresence
     papers
     # logmein-hamachi
     # haguichi
@@ -33,7 +35,7 @@
     # android-studio
     #davinci-resolve
     # inputs.airi.packages.${pkgs.system}.default
-    kawaiimods-app
+    # kawaiimods-app
     distrobox
     lshw
     # lmstudio
