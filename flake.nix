@@ -228,7 +228,7 @@
           }
           ./systems/steamdeck/config.nix
         ];
-        specialArgs = {inherit inputs pkgs-master;};
+        specialArgs = {inherit inputs pkgs-master pkgs-millennium amethyst-nixpkgs;};
       };
     };
   };
