@@ -138,9 +138,9 @@
     packages.${system} = {
       petal = pkgs.petal;
       ryubing = pkgs.ryubing;
-      libglycin = pkgs.libglycin;
-      glycin-loaders = pkgs.glycin-loaders;
-      sushi = pkgs.sushi;
+      # libglycin = pkgs.libglycin;
+      # glycin-loaders = pkgs.glycin-loaders;
+      # sushi = pkgs.sushi;
     };
 
     nixosConfigurations = {
