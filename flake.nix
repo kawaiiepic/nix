@@ -8,13 +8,20 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
-
+    grok-bot = {
+      url = "github:jordangarrison/grok-bot-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs-master = {
       url = "github:nixos/nixpkgs/master";
     };
 
     nixpkgs-millennium = {
       url = "github:DrymarchonShaun/nixpkgs/millennium-init";
+    };
+
+    amethyst-nixpkgs = {
+      url = "github:RoGreat/nixpkgs/amethyst-mod-manager";
     };
 
     nur = {
@@ -112,6 +119,11 @@
       overlays = overlays;
     };
 
+    amethyst-nixpkgs = import inputs.amethyst-nixpkgs {
+      system = "x86_64-linux";
+      overlays = overlays;
+    };
+
     ignoreme = {
       config,
       lib,
@@ -147,7 +159,7 @@
           }
           ./systems/dreamhouse/config.nix
         ];
-        specialArgs = {inherit inputs pkgs-master pkgs-millennium;};
+        specialArgs = {inherit inputs pkgs-master pkgs-millennium amethyst-nixpkgs;};
       };
 
       lain = inputs.nixpkgs.lib.nixosSystem {

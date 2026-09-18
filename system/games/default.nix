@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-master,
+  amethyst-nixpkgs,
   ...
 }: {
   imports = [
@@ -21,12 +22,17 @@
     ludusavi
     heroic
 
-    inputs.ro-nur.packages.${pkgs.system}.amethyst-mod-manager
+    amethyst-nixpkgs.amethyst-mod-manager
 
     # inputs.hytale-launcher.packages.${pkgs.system}.default
   ];
 
   programs.steam.protontricks.enable = true;
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
+  };
 
   services.wivrn.enable = true;
   services.wivrn.highPriority = true;

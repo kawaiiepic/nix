@@ -66,6 +66,7 @@
         hash = "sha256-ExWAYdSFW5plPuS3/jxTPMXIly6zVb5GojE3e37imZM=";
       };
 
+
       buildInputs = with prev; [
         SDL2
         SDL2_mixer

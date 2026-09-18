@@ -183,6 +183,7 @@ in {
   imports = [
     ./scripts/screenshot.nix
   ];
+  
   home = {
     packages = with pkgs; [
       # Quickshell
@@ -215,6 +216,8 @@ in {
         allow_token_by_default = true
     }
   '';
+
+  services.easyeffects.enable = false;
 
   xdg.portal = {
     enable = true;
@@ -361,7 +364,13 @@ in {
         }
         {dwindle = {preserve_split = true;};}
         {master = {new_status = "master";};}
-        {scrolling = {fullscreen_on_one_column = true;};}
+        {
+          scrolling = {
+            fullscreen_on_one_column = true;
+            column_width = 0.5;
+            explicit_column_widths = "0.333, 0.5, 0.667, 1.0";
+          };
+        }
         {xwayland = {force_zero_scaling = true;};}
         {
           misc = {
@@ -629,13 +638,14 @@ in {
           (mkBind (mkLuaInline ''mainMod .. " + R"'') "hl.dsp.exec_cmd(menu)")
           (mkBind (mkLuaInline ''mainMod .. " + O"'') "hl.dsp.window.pseudo()")
           (mkBind (mkLuaInline ''mainMod .. " + J"'') ''hl.dsp.layout("togglesplit")'')
-          (mkBind (mkLuaInline ''mainMod .. " + F"'') "hl.dsp.window.fullscreen()")
+          (mkBind (mkLuaInline ''mainMod .. " + F"'') "hl.dsp.window.fullscreen({ layout_aware = true })")
+          (mkBind (mkLuaInline ''mainMod .. " + SHIFT + F"'') ''hl.dsp.layout("colresize +conf")'')
           (mkBind (mkLuaInline ''mainMod .. " + P"'') ''hl.dsp.exec_cmd("screenshot")'')
           (mkBind (mkLuaInline ''mainMod .. " + Y"'') ''hl.dsp.exec_cmd("tessen -p gopass -d wofi")'')
           (mkBind (mkLuaInline ''mainMod .. " + SHIFT + L"'') ''hl.dsp.exec_cmd("screenshot-area")'')
 
-          (mkBind (mkLuaInline ''mainMod .. " + A"'') ''hl.dsp.focus({ direction = "left" })'')
-          (mkBind (mkLuaInline ''mainMod .. " + D"'') ''hl.dsp.focus({ direction = "right" })'')
+          (mkBind (mkLuaInline ''mainMod .. " + A"'') ''hl.dsp.layout("focus left")'')
+          (mkBind (mkLuaInline ''mainMod .. " + D"'') ''hl.dsp.layout("focus right")'')
           (mkBind (mkLuaInline ''mainMod .. " + W"'') ''hl.dsp.focus({ direction = "up" })'')
           (mkBind (mkLuaInline ''mainMod .. " + S"'') ''hl.dsp.focus({ direction = "down" })'')
         ]
@@ -688,6 +698,14 @@ in {
       # WINDOWS AND WORKSPACES
       window_rule = [
         {
+          name = "game-content";
+          match = {class = "^(steam_app_.*|gamescope|wine|steam_proton)$";};
+          content = "game";
+          immediate = true;
+          scrolling_width = 1.0;
+          fullscreen = true;
+        }
+        {
           name = "floating-windows";
           match = {class = "^(file_progress)$|^(confirm)$|^(dialog)$|^(download)$|^(notification)$|^(error)$|^(confirmreset)$|^(org.gnome.Nautilus)$|^(gthumb)$|^(org.gnome.TextEditor)$";};
           float = true;
@@ -714,10 +732,6 @@ in {
           match = {class = "hyprland-run";};
           move = "20 monitor_h-120";
           float = true;
-        }
-        {
-          match = {class = "steam_app_.*";};
-          immediate = true;
         }
       ];
     };

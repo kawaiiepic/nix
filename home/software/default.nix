@@ -17,6 +17,8 @@
     petal
     musicpresence
     papers
+    inputs.grok-bot.packages.${pkgs.system}.default
+    grok-build
     # logmein-hamachi
     # haguichi
     # petal
