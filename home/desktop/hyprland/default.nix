@@ -192,6 +192,7 @@ in {
       hyprshutdown
       stasis
       inputs.icy-shell.packages.${pkgs.system}.default
+      linux-wallpaperengine
       inputs.snappy-switcher.packages.${pkgs.system}.default
       # (pkgs.writeShellScriptBin "hypr-screenshot" ''
       #   grimblast save output - > ${cacheDir}/sc.png && cat ${cacheDir}/sc.png | wl-copy && notify-send -u low -a 'screenshot' "📸 Screenshot copied" 'Copied to clipboard.' -i camera -h "string:preview:true" -h "string:image-path:${cacheDir}/sc.png" && canberra-gtk-play -i screen-capture

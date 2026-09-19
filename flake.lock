@@ -396,11 +396,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1785880671,
-        "narHash": "sha256-SHMSDeHCNBoXBKFaZ/XWFZZ84EROCXABXVEy2IICZKk=",
+        "lastModified": 1789774576,
+        "narHash": "sha256-tknTw+7nvX/Czaot7AICeb1s9OBkwVDo5G6Wbe7eLjs=",
         "owner": "kawaiiepic",
         "repo": "quickshell",
-        "rev": "16ee983ddf1f6f01b5311c2761081953ca0adf42",
+        "rev": "3042abc2cdfb83c37e151623194dfa678714bca0",
         "type": "github"
       },
       "original": {

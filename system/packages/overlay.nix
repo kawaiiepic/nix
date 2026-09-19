@@ -59,11 +59,11 @@
       version = "git";
 
       src = prev.fetchFromGitHub {
-        owner = "Almamu";
+        owner = "Haberno";
         repo = "linux-wallpaperengine";
-        rev = "b016d7d1fdcf4e5fd2f9c9fa420a8aaa07fee02d";
+        rev = "02f3656879673771c68b28369732f2cafef5142c";
         fetchSubmodules = true;
-        hash = "sha256-ExWAYdSFW5plPuS3/jxTPMXIly6zVb5GojE3e37imZM=";
+        hash = "sha256-VLYtllzokyF6JfI44xONx8s3XtQkiEqK2TesRlK0AeI=";
       };
 
 
@@ -96,6 +96,8 @@
         wayland-scanner
         zlib
         dbus
+        libass
+        fontconfig
       ];
     }
   );
